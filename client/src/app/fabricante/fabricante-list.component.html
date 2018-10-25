@@ -2,6 +2,7 @@
     <a [routerLink]="['/index']" class="back-icon-link float-left">
         <fa-icon [icon]="['fas', 'home']" class=""></fa-icon>
     </a>
+
     <hcal-table tableName="Fabricantes - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
@@ -12,7 +13,8 @@
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let fabricante of fabricanteList | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+            <tr class="trow-content" *ngFor="let fabricante of this.fabricanteList
+            | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
                 <td class="tdata-default">{{ fabricante.id }}</td>
                 <td class="tdata-default">{{ fabricante.nome }}</td>
                 <td class="tdata-default">{{ fabricante.ativo == true ? 'Ativo' : 'Inativo' }}</td>

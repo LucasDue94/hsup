@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Fabricante } from '../core/fabricante/fabricante';
 import { FabricanteService } from '../core/fabricante/fabricante.service';
 import { ActivatedRoute } from "@angular/router";
@@ -9,7 +9,8 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class FabricanteListComponent implements OnInit {
 
-    fabricanteList: Fabricante[] = [];
+    private _fabricanteList: Fabricante[] = [];
+    getAll: Fabricante[] = [];
     count: number;
     private _pageNumber: number;
     private _offset;
@@ -22,16 +23,21 @@ export class FabricanteListComponent implements OnInit {
         this.list(this.pageNumber);
 
         this.fabricanteService.count().subscribe((quantity: number) => {
-            this.count = quantity;
+           this.count = quantity;
         });
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-        
+
         this.fabricanteService.list(this._offset).subscribe((fabricanteList: Fabricante[]) => {
-            this.fabricanteList = fabricanteList;
+            this._fabricanteList = fabricanteList;
+            // console.log(this._fabricanteList.filter(v => v.nome == 'HP'))
         });
+    }
+
+    get fabricanteList(): Fabricante[] {
+        return this._fabricanteList;
     }
 
     changePageData() {

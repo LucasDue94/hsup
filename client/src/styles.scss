@@ -694,7 +694,7 @@ html, body {
 }
 
 .table-container {
-  height: 500px;
+  height: 550px;
 }
 
 .bg-danger{
@@ -1071,7 +1071,7 @@ main .container-floating .floating-button .plus {
         text-align: center;
       }
 
-      &:nth-child(even) {
+      &:nth-child(odd) {
         & {
           background: $blueHoverTransparent;
         }

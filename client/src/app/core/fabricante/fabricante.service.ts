@@ -17,11 +17,11 @@ export class FabricanteService {
     constructor(private http: HttpClient) {
     }
 
-    list(offset: number): Observable<Fabricante[]> {
+    list(offset?: number): Observable<Fabricante[]> {
         let subject = new Subject<Fabricante[]>();
         this.http.get(this.baseUrl + 'fabricante?offset='+offset)
             .map((r: Response) => r)
-            .subscribe((json: any[]) => {
+            .subscribe((json: any) => {
                 subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
             });
         return subject.asObservable();
