@@ -1,0 +1,10 @@
+import br.com.hospitaldocoracaoal.hsup.Fabricante
+
+model {
+    Iterable<Fabricante> fabricanteList
+}
+
+json {
+    fabricante tmpl.fabricante(fabricanteList ?: [])
+    total Fabricante.count
+}

@@ -1,0 +1,7 @@
+import br.com.hospitaldocoracaoal.hsup.Fabricante
+
+model {
+	Fabricante fabricante
+}
+
+json g.render(fabricante, [resolveTemplate: false])
