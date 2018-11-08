@@ -1,0 +1,47 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a class="list" [routerLink]="['/fornecedor', 'list']" class="list">Fornecedor List</a></li>
+        <li><a class="create" [routerLink]="['/fornecedor', 'create']" class="create">New Fornecedor</a></li>
+    </ul>
+</div>
+<div id="show-part" class="content scaffold-show" role="main">
+    <h1>Show Fornecedor</h1>
+    <ol class="property-list fornecedor">
+  <li class="fieldcontain">
+    <span id="fantasia-label" class="property-label">Fantasia</span>
+    <div class="property-value" aria-labelledby="fantasia-label">
+      <span>{{fornecedor.fantasia}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="ativo-label" class="property-label">Ativo</span>
+    <div class="property-value" aria-labelledby="ativo-label">
+      <span>{{fornecedor.ativo}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="telefone-label" class="property-label">Telefone</span>
+    <div class="property-value" aria-labelledby="telefone-label">
+      <span>{{fornecedor.telefone}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="endereco-label" class="property-label">Endereco</span>
+    <div class="property-value" aria-labelledby="endereco-label">
+      <span>{{fornecedor.endereco}}</span>
+    </div>
+  </li>
+  <li class="fieldcontain">
+    <span id="email-label" class="property-label">Email</span>
+    <div class="property-value" aria-labelledby="email-label">
+      <span>{{fornecedor.email}}</span>
+    </div>
+  </li>
+</ol>
+
+    <div class="buttons">
+        <a class="edit" [routerLink]="['/fornecedor', 'edit', fornecedor.id]">Edit</a>
+        <input type="button" class="delete" (click)="destroy()" value="Delete" />
+    </div>
+</div>

@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Fabricante } from '../core/fabricante/fabricante';
 import { FabricanteService } from '../core/fabricante/fabricante.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'fabricante-list',
@@ -9,36 +15,52 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class FabricanteListComponent implements OnInit {
 
-    private _fabricanteList: Fabricante[] = [];
-    getAll: Fabricante[] = [];
-    count: number;
+    fabricanteList: Fabricante[] = [];
     private _pageNumber: number;
     private _offset;
 
-    constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService) {
+    count: number;
+    searchForm: FormGroup;
+    searchControl: FormControl;
+    message;
+
+    constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {
         this._pageNumber = 0;
     }
 
     ngOnInit() {
-        this.list(this.pageNumber);
+        this.searchControl = new FormControl('');
+        this.searchForm = new FormGroup({
+            searchControl: this.searchControl
+        });
 
         this.fabricanteService.count().subscribe((quantity: number) => {
-           this.count = quantity;
+            this.count = quantity;
         });
+
+        this.searchControl.valueChanges
+            .debounceTime(1000)
+            .distinctUntilChanged()
+            .switchMap(searchTerm =>
+                this.fabricanteService.list(this.count, searchTerm))
+            .subscribe((fabricanteList: Fabricante[]) => {this.fabricanteList = fabricanteList});
+
+        if (this.searchControl.value == "") {
+            this.list(this.pageNumber)
+        }
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.fabricanteService.list(this._offset).subscribe((fabricanteList: Fabricante[]) => {
-            this._fabricanteList = fabricanteList;
-            // console.log(this._fabricanteList.filter(v => v.nome == 'HP'))
+        this.fabricanteService.list('', '', this._offset).subscribe((fabricanteList: Fabricante[]) => {
+            this.fabricanteList = fabricanteList
         });
     }
 
-    get fabricanteList(): Fabricante[] {
-        return this._fabricanteList;
-    }
+    /*get fabricanteList(): Fabricante[] {
+        return this._fabricanteList$;
+    }*/
 
     changePageData() {
         this.list(this._pageNumber);

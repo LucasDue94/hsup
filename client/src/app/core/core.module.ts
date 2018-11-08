@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { FabricanteService } from './fabricante/fabricante.service';
+import { FornecedorService } from './fornecedor/fornecedor.service';
 
 @NgModule({
   declarations: [],
@@ -10,7 +11,8 @@ import { FabricanteService } from './fabricante/fabricante.service';
     FormsModule,
   ],
 providers: [
-    FabricanteService
+    FabricanteService,
+    FornecedorService
 ]
 })
 export class CoreModule {}

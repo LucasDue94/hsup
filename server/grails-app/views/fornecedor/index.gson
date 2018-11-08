@@ -1,0 +1,8 @@
+import br.com.hospitaldocoracaoal.hsup.Fornecedor
+
+model {
+	Iterable<Fornecedor> fornecedorList
+}
+
+json tmpl.fornecedor(fornecedorList ?: [])
+

@@ -1,0 +1,50 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/fornecedor','list']" class="list">Fornecedor List</a></li>
+    </ul>
+</div>
+<div id="persist-fornecedor" class="content scaffold-edit" role="main">
+    <h1>{{create ? "Create" : "Edit"}} Fornecedor</h1>
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+
+    <form name="save{className}" (ngSubmit)="save()">
+        <fieldset class="form">
+            <fieldset class="form">
+  <div class="fieldcontain required">
+    <label for="fantasia">Fantasia
+      <span class="required-indicator">*</span>
+    </label>
+    <input required="" name="fantasia" id="fantasia" [(ngModel)]="fornecedor.fantasia" type="text" />
+  </div>
+  <div class="fieldcontain">
+    <label for="ativo">Ativo</label>
+    <input name="ativo" id="ativo" [(ngModel)]="fornecedor.ativo" type="checkbox" />
+  </div>
+  <div class="fieldcontain required">
+    <label for="telefone">Telefone
+      <span class="required-indicator">*</span>
+    </label>
+    <input required="" name="telefone" id="telefone" [(ngModel)]="fornecedor.telefone" type="text" />
+  </div>
+  <div class="fieldcontain required">
+    <label for="endereco">Endereco
+      <span class="required-indicator">*</span>
+    </label>
+    <input required="" name="endereco" id="endereco" [(ngModel)]="fornecedor.endereco" type="text" />
+  </div>
+  <div class="fieldcontain required">
+    <label for="email">Email
+      <span class="required-indicator">*</span>
+    </label>
+    <input required="" name="email" id="email" [(ngModel)]="fornecedor.email" type="text" />
+  </div>
+</fieldset>
+        </fieldset>
+        <fieldset class="buttons">
+            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+        </fieldset>
+    </form>
+</div>

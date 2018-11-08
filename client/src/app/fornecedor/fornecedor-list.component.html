@@ -1,0 +1,43 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/fornecedor','create']" class="create">New Fornecedor</a></li>
+    </ul>
+</div>
+<div id="list-fornecedor" class="content scaffold-list" role="main">
+    <h1>Fornecedor List</h1>
+    <table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Fantasia</th>
+      <th>Ativo</th>
+      <th>Telefone</th>
+      <th>Endereco</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'even': e, 'odd': !e}" *ngFor="let fornecedor of fornecedorList; let e = even;">
+      <td>
+        <a [routerLink]="['/fornecedor','show',fornecedor.id]">{{fornecedor.id}}</a>
+      </td>
+      <td>
+        <span>{{fornecedor.fantasia}}</span>
+      </td>
+      <td>
+        <span>{{fornecedor.ativo}}</span>
+      </td>
+      <td>
+        <span>{{fornecedor.telefone}}</span>
+      </td>
+      <td>
+        <span>{{fornecedor.endereco}}</span>
+      </td>
+      <td>
+        <span>{{fornecedor.email}}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

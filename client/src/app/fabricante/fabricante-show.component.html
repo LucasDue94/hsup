@@ -1,0 +1,46 @@
+<a [routerLink]="['/fabricante', 'list']" class="float-left">
+    <fa-icon [icon]="['fas', 'chevron-left']" class="float-left back-icon-link"></fa-icon>
+    <h4 class="title-back-link">Voltar</h4>
+</a>
+<div class="clearfix"></div>
+<h3 class="title-component">{{ this.constructor.name | slice : 0:-13 }} - Visualização</h3>
+<div class="content col-2 show-container float-left">
+    <div class="width-auto float-left bg-blue show-head">
+        <span class="icon-show-head">
+            <fa-icon [icon]="['fas', 'industry']" class="float-left color-white"></fa-icon>
+        </span>
+    </div>
+    <div class="float-right col-6 show-content">
+        <div class="col-12 float-left">
+            <span class="title-span-show">Código:</span>
+            <span class="content-span-show offset-1">
+            {{ fabricante.id }}
+        </span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">Fantasia:</span>
+            <span class="content-span-show offset-1">
+            {{ fabricante.fantasia }}
+        </span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">Estado:</span>
+            <span class="content-span-show offset-1">
+            {{ fabricante.ativo == true ? 'Ativo' : 'Inativo' }}
+        </span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-12 float-left">
+            <div class="btn-settings-show float-right">
+                <a class="edit" [routerLink]="['/fabricante', 'edit', fabricante.id]">
+                    <fa-icon [icon]="['fas', 'edit']" class="color-green icon-config"></fa-icon>
+                </a>
+                <button class="btn-block edit" (click)="destroy()">
+                    <fa-icon [icon]="['fas', 'trash']" class="color-danger icon-config"></fa-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

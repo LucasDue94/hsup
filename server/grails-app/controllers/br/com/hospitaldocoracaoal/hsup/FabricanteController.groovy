@@ -1,7 +1,8 @@
 package br.com.hospitaldocoracaoal.hsup
 
-import grails.converters.JSON
+
 import grails.validation.ValidationException
+
 import static org.springframework.http.HttpStatus.*
 
 class FabricanteController {
@@ -13,7 +14,10 @@ class FabricanteController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond fabricanteService.list(params), model:[fabricanteCount: fabricanteService.count()]
+        if (params.fantasia == null)
+            respond fabricanteService.list(params), model:[fabricanteCount: fabricanteService.count()]
+        else
+            respond search()
     }
 
     def show(Long id) {
@@ -36,10 +40,19 @@ class FabricanteController {
         request.withFormat {
             form multipartForm {
                 redirect action: 'index', method: 'GET'
-                flash.success = message(code: 'default.created.message', args: [message(code: 'fabricante.create.label', default: 'Fabricante'), fabricante.nome.toUpperCase()])
+                flash.success = message(code: 'default.created.message', args: [message(code: 'fabricante.create.label', default: 'Fabricante'), fabricante.fantasia.toUpperCase()])
             }
             '*' { respond fabricante, [status: CREATED] }
         }
+    }
+
+    def search() {params.nome
+        List<Fabricante> fabricanteList = Fabricante.withCriteria {
+            if (params.containsKey('fantasia') && !params.fantasia.empty)
+                ilike ('fantasia', "%${params.fantasia}%")
+        }
+
+        return fabricanteList
     }
 
     def update(Fabricante fabricante) {

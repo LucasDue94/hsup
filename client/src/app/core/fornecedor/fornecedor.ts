@@ -1,14 +1,15 @@
 
 
-export class Fabricante {
+export class Fornecedor {
   id: number;
 
   fantasia: string;
   ativo: boolean;
+  telefone: string;
+  endereco: string;
+  email: string;
 
   constructor (object?: any) {
-    if (this.ativo == null) this.ativo = false;
-
     if (object) {
       
       for (var prop in object) {
@@ -19,6 +20,6 @@ export class Fabricante {
   }
 
   toString(): string {
-    return 'br.com.hospitaldocoracaoal.hsup.fabricante : ' + (this.id ? this.id : '(unsaved)');
+    return 'br.com.hospitaldocoracaoal.hsup.Fornecedor : ' + (this.id ? this.id : '(unsaved)');
   }
 }

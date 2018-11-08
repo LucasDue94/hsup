@@ -152,6 +152,10 @@ html, body {
   width: 100%;
 }
 
+.width-auto {
+  width: auto;
+}
+
 .full-link .active {
   & {
     background: $greenHover;
@@ -339,6 +343,7 @@ html, body {
     background: transparent !important;
     color: $blue;
     border: none;
+    outline: none;
   }
 
   &:after {
@@ -694,7 +699,15 @@ html, body {
 }
 
 .table-container {
-  height: 550px;
+  height: 600px;
+}
+
+.bg-green {
+  background: $green;
+}
+
+.bg-blue {
+  background: $blue;
 }
 
 .bg-danger{
@@ -767,6 +780,18 @@ html, body {
 
 .color-blue {
   color: $blue;
+}
+
+.color-white{
+  color: $white;
+}
+
+.color-light-danger {
+  color: $lightDanger;
+}
+
+.color-light-blue {
+  color: $blueHover;
 }
 
 .show {
@@ -1111,7 +1136,7 @@ main .container-floating .floating-button .plus {
   padding: 10px;
 }
 
-.back-icon-link {
+.back-icon-link, .back-text-link {
   padding-right: 5px;
 
   & {
@@ -1123,6 +1148,7 @@ main .container-floating .floating-button .plus {
 
 .title-back-link {
   font-family: 'Poppins', serif;
+  margin-bottom: 10px;
 
   & {
     font-size: 1em;
@@ -1139,7 +1165,6 @@ main .container-floating .floating-button .plus {
   padding: 15px;
 
   & {
-    color: $blue;
     cursor: pointer;
     font-size: 1.2em;
   }
@@ -1152,4 +1177,74 @@ main .container-floating .floating-button .plus {
 .title-show {
   font-family: Roboto, serif;
   margin-bottom: 30px;
+}
+
+.filter-control {
+  transition: 0.7s;
+
+  &:focus, &:hover {
+    width: 100%;
+    transition: 0.7s;
+  }
+}
+
+.not-found-error {
+  font-family: Poppins, serif;
+  color: $lightDanger;
+}
+
+.show-container {
+  min-width: 430px;
+  height: auto;
+  padding: 15px;
+
+  .title-span-show, .content-span-show {
+    & {
+      font-family: Roboto, sans-serif;
+      color: $blue;
+      line-height: 2em;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  .title-span-show {
+    width: 5em;
+    float: left;
+
+    & {
+      text-align: right;
+      font-weight: bold;
+    }
+  }
+
+  .content-span-show {
+    text-align: left;
+  }
+
+  .btn-settings-show {
+    margin-top: 30px;
+  }
+
+  .show-head {
+    margin: 0 auto;
+    height: auto;
+    display: block;
+    padding: 10px 20px;
+
+    & {
+      border-radius: 8px;
+    }
+
+    .icon-show-head {
+      font-size: 7em;
+    }
+  }
+
+  .show-content {
+    display: block;
+  }
+}
+
+.display-block {
+  display: block;
 }

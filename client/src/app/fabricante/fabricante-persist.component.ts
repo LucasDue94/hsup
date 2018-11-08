@@ -34,8 +34,8 @@ export class FabricantePersistComponent implements OnInit {
     save() {
         this.fabricanteService.save(this.fabricante).subscribe((fabricante: Fabricante) => {
             this.router.navigate(['/fabricante']);
-        }, (res: Response) => {
-            const json = res.json();
+        }, (res) => {
+            const json = res.error;
             if (json.hasOwnProperty('message')) {
                 this.errors = [json];
             } else {

@@ -14,5 +14,4 @@ interface FabricanteService {
     void delete(Serializable id)
 
     Fabricante save(Fabricante fabricante)
-
 }
