@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {${className}} from '../core/${propertyName}/${propertyName}';
-import {${className}Service} from '../core/${propertyName}/${propertyName}.service';
+import { Component, OnInit} from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ${className} } from '../core/${propertyName}/${propertyName}';
+import { ${className}Service } from '../core/${propertyName}/${propertyName}.service';
 
 @Component({
   selector: '${propertyName}-persist',
@@ -10,6 +10,7 @@ import {${className}Service} from '../core/${propertyName}/${propertyName}.servi
 export class ${className}ShowComponent implements OnInit {
 
   ${propertyName} = new ${className}();
+  message: string;
 
   constructor(private route: ActivatedRoute, private ${propertyName}Service: ${className}Service, private router: Router) {}
 
@@ -22,15 +23,15 @@ export class ${className}ShowComponent implements OnInit {
   }
 
   destroy() {
-    if (confirm("Are you sure?")) {
+    if (confirm(`Deseja excluir o registro: {this.${propertyName}.id}`)) {
       this.${propertyName}Service.destroy(this.${propertyName}).subscribe((success: boolean) => {
         if (success) {
+          this.message = `${className} {this.${propertyName}.id} excluído com sucesso!`;
           this.router.navigate(['/${propertyName}','list']);
         } else {
-          alert("Error occurred during delete");
+          alert("Erro ao excluir");
         }
       });
     }
   }
-
 }

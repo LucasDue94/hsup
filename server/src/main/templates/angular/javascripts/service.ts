@@ -1,54 +1,73 @@
-import {Injectable} from '@angular/core';
-import {Http, Response, RequestOptions, RequestMethod, Request, Headers} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
-import {${className}} from './${propertyName}';
-import {Subject} from 'rxjs/Subject';
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { ${className} } from './${propertyName}';
+import { Subject } from 'rxjs/Subject';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import "rxjs-compat/add/operator/map";
 
 @Injectable()
 export class ${className}Service {
 
-  private baseUrl = 'http://localhost:8080/';
+    private baseUrl = 'http://localhost:8080/';
 
-  constructor(private http: Http) {
-  }
-
-  list(): Observable<${className}[]> {
-    let subject = new Subject<${className}[]>();
-    this.http.get(this.baseUrl + '${uri}')
-      .map((r: Response) => r.json())
-      .subscribe((json: any[]) => {
-        subject.next(json.map((item: any) => new ${className}(item)))
-      });
-    return subject.asObservable();
-  }
-
-  get(id: number): Observable<${className}> {
-    return this.http.get(this.baseUrl + '${uri}/'+id)
-      .map((r: Response) => new ${className}(r.json()));
-  }
-
-  save(${propertyName}: ${className}): Observable<${className}> {
-    const requestOptions = new RequestOptions();
-    if (${propertyName}.id) {
-      requestOptions.method = RequestMethod.Put;
-      requestOptions.url = this.baseUrl + '${uri}/' + ${propertyName}.id;
-    } else {
-      requestOptions.method = RequestMethod.Post;
-      requestOptions.url = this.baseUrl + '${uri}';
+    constructor(private http: HttpClient) {
     }
-    requestOptions.body = JSON.stringify(${propertyName});
-    requestOptions.headers = new Headers({"Content-Type": "application/json"});
 
-    return this.http.request(new Request(requestOptions))
-      .map((r: Response) => new ${className}(r.json()));
-  }
+    list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<${className}[]> {
+        let subject = new Subject<${className}[]>();
+        this.http.get(this.baseUrl + `${propertyName}?offset={offset}&max={max}`, {params: {fieldSearch: searchTerm}})
+            .map((r: Response) => r)
+            .subscribe((json: any) => {
+                subject.next(json['${propertyName}'].map((item: any) => new ${className}(item)))
+            });
+        return subject.asObservable();
+    }
 
-  destroy(${propertyName}: ${className}): Observable<boolean> {
-    return this.http.delete(this.baseUrl + '${uri}/' + ${propertyName}.id).map((res: Response) => res.ok).catch(() => {
-      return Observable.of(false);
-    });
-  }
+    count() {
+        let quantity: number;
+        return this.http.get<${className}[]>(this.baseUrl + '${propertyName}/')
+            .map(
+                data => {
+                    quantity = data['total'];
+                    return quantity;
+                }
+            );
+    }
+
+    get(id: number): Observable<${className}> {
+        let ${propertyName};
+        return this.http.get(this.baseUrl + '${propertyName}/' + id)
+            .map((r: Response) => {
+                ${propertyName} = new ${className}(r);
+                return ${propertyName}
+            });
+    }
+
+    save(${propertyName}: ${className}): Observable<${className}> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json"
+            })
+        };
+
+        let url;
+
+        if (${propertyName}.id) {
+            url = this.baseUrl + '${propertyName}/' + ${propertyName}.id;
+            return this.http.put<${className}>(url, ${propertyName}, {headers: httpOptions.headers, responseType: 'json'});
+        } else {
+            url = this.baseUrl + '${propertyName}';
+            return this.http.post<${className}>(url, ${propertyName}, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    destroy(${propertyName}: ${className}): Observable<boolean> {
+        return this.http.delete(this.baseUrl + '${propertyName}/' + ${propertyName}.id).map((res: Response) => res.ok).catch(() => {
+            return Observable.of(false);
+        });
+    }
 }

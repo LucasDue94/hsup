@@ -1,0 +1,10 @@
+import br.com.hospitaldocoracaoal.hsup.Item
+
+model {
+	Iterable<Item> itemList
+}
+
+json {
+	item tmpl.item(itemList ?: [])
+	total Item.count
+}

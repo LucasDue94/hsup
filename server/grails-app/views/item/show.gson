@@ -1,0 +1,7 @@
+import br.com.hospitaldocoracaoal.hsup.Item
+
+model {
+	Item item
+}
+
+json tmpl.item(item)

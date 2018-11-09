@@ -1,0 +1,46 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a [routerLink]="['/item','list']" class="list">Item List</a></li>
+    </ul>
+</div>
+<div id="persist-item" class="content scaffold-edit" role="main">
+    <h1>{{create ? "Create" : "Edit"}} Item</h1>
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+
+    <form name="save{className}" (ngSubmit)="save()">
+        <fieldset class="form">
+            <fieldset class="form">
+  <div class="fieldcontain required">
+    <label for="descricao">Descricao
+      <span class="required-indicator">*</span>
+    </label>
+    <input required="" name="descricao" id="descricao" [(ngModel)]="item.descricao" type="text" />
+  </div>
+  <div class="fieldcontain required">
+    <label for="unidadeMedida">Unidade Medida
+      <span class="required-indicator">*</span>
+    </label>
+    <input required="" name="unidadeMedida" id="unidadeMedida" [(ngModel)]="item.unidadeMedida" type="text" />
+  </div>
+  <div class="fieldcontain">
+    <label for="fornecedor">Fornecedor</label>
+    <select name="fornecedor" id="fornecedor" [(ngModel)]="item.fornecedor" multiple="">
+      <option *ngFor="let fornecedor of fornecedorList" [value]="fornecedor.id" [selected]="item.fornecedor?.id == fornecedor.id">{{fornecedor.toString()}}</option>
+    </select>
+  </div>
+  <div class="fieldcontain">
+    <label for="fabricante">Fabricante</label>
+    <select name="fabricante" id="fabricante" [(ngModel)]="item.fabricante" multiple="">
+      <option *ngFor="let fabricante of fabricanteList" [value]="fabricante.id" [selected]="item.fabricante?.id == fabricante.id">{{fabricante.toString()}}</option>
+    </select>
+  </div>
+</fieldset>
+        </fieldset>
+        <fieldset class="buttons">
+            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
+        </fieldset>
+    </form>
+</div>

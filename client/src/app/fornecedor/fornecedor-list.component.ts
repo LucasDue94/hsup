@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ${className} } from '../core/${propertyName}/${propertyName}';
-import { ${className}Service } from '../core/${propertyName}/${propertyName}.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { Fornecedor } from "../core/fornecedor/fornecedor";
+import { FornecedorService } from "../core/fornecedor/fornecedor.service";
 
 @Component({
-    selector: '${propertyName}-list',
-    templateUrl: './${propertyName}-list.component.html'
+    selector: 'fornecedor-list',
+    templateUrl: './fornecedor-list.component.html'
 })
-export class ${className}ListComponent implements OnInit {
+export class FornecedorListComponent implements OnInit {
 
-    ${propertyName}List: ${className}[] = [];
+    fornecedorList: Fornecedor[] = [];
 
     private _pageNumber: number;
     private _offset;
@@ -23,7 +23,7 @@ export class ${className}ListComponent implements OnInit {
     searchForm: FormGroup;
     searchControl: FormControl;
 
-    constructor(private route: ActivatedRoute, private ${propertyName}Service: ${className}Service, private router: Router) {
+    constructor(private route: ActivatedRoute, private fornecedorService: FornecedorService, private router: Router) {
         this._pageNumber = 0;
     }
 
@@ -33,7 +33,7 @@ export class ${className}ListComponent implements OnInit {
             searchControl: this.searchControl
         });
 
-        this.${propertyName}Service.count().subscribe((quantity: number) => {
+        this.fornecedorService.count().subscribe((quantity: number) => {
             this.count = quantity;
         });
 
@@ -41,8 +41,8 @@ export class ${className}ListComponent implements OnInit {
             .debounceTime(1000)
             .distinctUntilChanged()
             .switchMap(searchTerm =>
-                this.${propertyName}Service.list(this.count, searchTerm))
-            .subscribe((${propertyName}List: ${className}[]) => {this.${propertyName}List = ${propertyName}List});
+                this.fornecedorService.list(this.count, searchTerm))
+            .subscribe((fornecedorList: Fornecedor[]) => {this.fornecedorList = fornecedorList});
 
 
         if (this.searchControl.value == "" || this.searchControl.value == undefined) {
@@ -53,8 +53,8 @@ export class ${className}ListComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.${propertyName}Service.list('', '', '', this._offset).subscribe((${propertyName}List: ${className}[]) => {
-            this.${propertyName}List = ${propertyName}List
+        this.fornecedorService.list('', '', this._offset).subscribe((fornecedorList: Fornecedor[]) => {
+            this.fornecedorList = fornecedorList
         });
     }
 

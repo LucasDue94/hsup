@@ -16,8 +16,8 @@ export class FabricanteShowComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            this.fabricanteService.get(+params['id']).subscribe((Fabricante: Fabricante) => {
-                this.fabricante = Fabricante;
+            this.fabricanteService.get(+params['id']).subscribe((fabricante: Fabricante) => {
+                this.fabricante = fabricante;
             });
         });
     }

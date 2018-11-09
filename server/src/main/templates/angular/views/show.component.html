@@ -1,16 +1,33 @@
-<div class="nav" role="navigation">
-    <ul>
-        <li><a [routerLink]="['/index']" class="home">Home</a></li>
-        <li><a class="list" [routerLink]="['/${propertyName}', 'list']" class="list">${className} List</a></li>
-        <li><a class="create" [routerLink]="['/${propertyName}', 'create']" class="create">New ${className}</a></li>
-    </ul>
-</div>
-<div id="show-part" class="content scaffold-show" role="main">
-    <h1>Show ${className}</h1>
-    ${template}
-
-    <div class="buttons">
-        <a class="edit" [routerLink]="['/${propertyName}', 'edit', ${propertyName}.id]">Edit</a>
-        <input type="button" class="delete" (click)="destroy()" value="Delete" />
+<a [routerLink]="['/${propertyName}', 'list']" class="float-left">
+    <fa-icon [icon]="['fas', 'chevron-left']" class="float-left back-icon-link"></fa-icon>
+    <h4 class="title-back-link">Voltar</h4>
+</a>
+<div class="clearfix"></div>
+<h3 class="title-component">{{ this.constructor.name | slice : 0:-13 }} - Visualização</h3>
+<div class="content col-2 show-container float-left">
+    <div class="width-auto float-left bg-blue show-head">
+        <span class="icon-show-head">
+            <fa-icon [icon]="['fas', 'industry']" class="float-left color-white"></fa-icon>
+        </span>
+    </div>
+    <div class="float-right col-6 show-content">
+        <% br.com.hospitaldocoracaoal.hsup.HelperScaffolding.getAttributes(className).each { k -> %>
+            <div class="col-12 float-left">
+                <span class="title-span-show">${k}</span>
+                <span class="content-span-show offset-1">
+                {{ ${propertyName}.${k} }}
+            </span>
+        <% } %>
+        <div class="clearfix"></div>
+        <div class="col-12 float-left">
+            <div class="btn-settings-show float-right">
+                <a class="edit" [routerLink]="['/${propertyName}', 'edit', ${propertyName}.id]">
+                    <fa-icon [icon]="['fas', 'edit']" class="color-green icon-config"></fa-icon>
+                </a>
+                <button class="btn-block edit" (click)="destroy()">
+                    <fa-icon [icon]="['fas', 'trash']" class="color-danger icon-config"></fa-icon>
+                </button>
+            </div>
+        </div>
     </div>
 </div>

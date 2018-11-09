@@ -1,9 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Fabricante} from '../core/fabricante/fabricante';
-import {FabricanteService} from '../core/fabricante/fabricante.service';
-import {Response} from "@angular/http";
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Fabricante } from '../core/fabricante/fabricante';
+import { FabricanteService } from '../core/fabricante/fabricante.service';
 
 @Component({
     selector: 'fabricante-persist',

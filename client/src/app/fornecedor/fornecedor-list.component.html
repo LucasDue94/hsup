@@ -7,41 +7,53 @@
             <input type="text"
                    formControlName="searchControl"
                    class="form-control filter-control col-5 float-right"
-                   placeholder="Buscar ${propertyName}..." #field>
+                   placeholder="Buscar fornecedor..." #field>
         </form>
     </div>
-    <hcal-table tableName="${className} - Quantidade {{ this.count }}">
+    <hcal-table tableName="Fornecedor - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let ${propertyName} of this.${propertyName}List
+            <tr class="trow-content" *ngFor="let fornecedor of this.fornecedorList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <% br.com.hospitaldocoracaoal.hsup.HelperScaffolding.getAttributes(className).each { k -> %>
-                    <td class="data-default">{{ ${propertyName}.${k} }}</td>
-                <% } %>
+                
+                    <td class="data-default">{{ fornecedor.telefone }}</td>
+                
+                    <td class="data-default">{{ fornecedor.fantasia }}</td>
+                
+                    <td class="data-default">{{ fornecedor.endereco }}</td>
+                
+                    <td class="data-default">{{ fornecedor.ativo }}</td>
+                
+                    <td class="data-default">{{ fornecedor.email }}</td>
+                
+                    <td class="data-default">{{ fornecedor.id }}</td>
+                
+                    <td class="data-default">{{ fornecedor.version }}</td>
+                
                 <td class="tdata-default">
-                    <a class="edit" [routerLink]="['/${propertyName}', 'edit', ${propertyName}.id]">
+                    <a class="edit" [routerLink]="['/fornecedor', 'edit', fornecedor.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
                     </a>|
-                    <a class="edit" [routerLink]="['/${propertyName}', 'show', ${propertyName}.id]">
+                    <a class="edit" [routerLink]="['/fornecedor', 'show', fornecedor.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.${propertyName}List.length == 0">
+        <div class="not-found" *ngIf="this.fornecedorList.length == 0">
             <h1 class="not-found-error">Nenhum registro encontrado</h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="this.count > 10 && this.${propertyName}List.length > 10" (pageChange)="this.pageNumber = event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="this.count > 10 && this.fornecedorList.length > 10" (pageChange)="this.pageNumber = event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
     <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
-        <a [routerLink]="['/${propertyName}','create']" class="create a-link-page">
+        <a [routerLink]="['/fornecedor','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>
     </div>

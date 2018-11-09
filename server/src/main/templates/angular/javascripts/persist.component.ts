@@ -34,8 +34,8 @@ export class ${className}PersistComponent implements OnInit {
   save() {
     this.${propertyName}Service.save(this.${propertyName}).subscribe((${propertyName}: ${className}) => {
       this.router.navigate(['/${propertyName}', 'show', ${propertyName}.id]);
-    }, (res: Response) => {
-      const json = res.json();
+    }, (res) => {
+      const json = res.error;
       if (json.hasOwnProperty('message')) {
         this.errors = [json];
       } else {
