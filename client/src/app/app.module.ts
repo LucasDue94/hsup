@@ -22,7 +22,6 @@ import { NavComponent } from "./nav/nav.component";
 import { IndexModule } from "./index/index.module";
 import { FabricanteService } from "./core/fabricante/fabricante.service";
 import { HttpModule } from "@angular/http";
-import { FornecedorModule } from './fornecedor/fornecedor.module';
 
 @NgModule({
     declarations: [
@@ -46,8 +45,7 @@ import { FornecedorModule } from './fornecedor/fornecedor.module';
     FormsModule,
     FabricanteModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
-    FornecedorModule
+    NgbModule.forRoot()
 ],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]

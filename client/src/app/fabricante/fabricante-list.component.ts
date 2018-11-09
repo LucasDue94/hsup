@@ -3,7 +3,6 @@ import { Fabricante } from '../core/fabricante/fabricante';
 import { FabricanteService } from '../core/fabricante/fabricante.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, FormGroup } from "@angular/forms";
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
@@ -57,10 +56,6 @@ export class FabricanteListComponent implements OnInit {
             this.fabricanteList = fabricanteList
         });
     }
-
-    /*get fabricanteList(): Fabricante[] {
-        return this._fabricanteList$;
-    }*/
 
     changePageData() {
         this.list(this._pageNumber);

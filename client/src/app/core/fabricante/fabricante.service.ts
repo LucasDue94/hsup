@@ -27,16 +27,6 @@ export class FabricanteService {
         return subject.asObservable();
     }
 
-    /*getAll(max?: number, searchTerm?: string) {
-        let subject = new Subject<fabricante[]>();
-        this.http.get(this.baseUrl + 'fabricante?max='+max+'&fantasia='+searchTerm)
-            .map((r: Response) => r)
-            .subscribe((json: any) => {
-               subject.next(json['fabricante'].map((item: any) => new fabricante(item)))
-            });
-        return subject.asObservable();
-    }*/
-
     count() {
         let quantity: number;
         return this.http.get<Fabricante[]>(this.baseUrl + 'fabricante/')

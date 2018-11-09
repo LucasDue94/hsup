@@ -1,0 +1,16 @@
+<div class="nav" role="navigation">
+    <ul>
+        <li><a [routerLink]="['/index']" class="home">Home</a></li>
+        <li><a class="list" [routerLink]="['/${propertyName}', 'list']" class="list">${className} List</a></li>
+        <li><a class="create" [routerLink]="['/${propertyName}', 'create']" class="create">New ${className}</a></li>
+    </ul>
+</div>
+<div id="show-part" class="content scaffold-show" role="main">
+    <h1>Show ${className}</h1>
+    ${template}
+
+    <div class="buttons">
+        <a class="edit" [routerLink]="['/${propertyName}', 'edit', ${propertyName}.id]">Edit</a>
+        <input type="button" class="delete" (click)="destroy()" value="Delete" />
+    </div>
+</div>

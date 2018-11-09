@@ -4,5 +4,7 @@ model {
 	Iterable<Fornecedor> fornecedorList
 }
 
-json tmpl.fornecedor(fornecedorList ?: [])
-
+json {
+	fornecedor tmpl.fornecedor(fornecedorList ?: [])
+	total Fornecedor.count
+}
