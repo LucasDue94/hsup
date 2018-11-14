@@ -12,6 +12,7 @@ export class FabricantePersistComponent implements OnInit {
     fabricante = new Fabricante();
     create = true;
     errors: any[];
+    message: string;
 
 
     constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {}
@@ -31,7 +32,7 @@ export class FabricantePersistComponent implements OnInit {
 
     save() {
         this.fabricanteService.save(this.fabricante).subscribe((fabricante: Fabricante) => {
-            this.router.navigate(['/fabricante']);
+            this.router.navigate(['/fabricante', 'show', fabricante.id]);
         }, (res) => {
             const json = res.error;
             if (json.hasOwnProperty('message')) {

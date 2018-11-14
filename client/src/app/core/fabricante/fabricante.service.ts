@@ -51,7 +51,7 @@ export class FabricanteService {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json"
-            })
+            }),
         };
 
         let url;

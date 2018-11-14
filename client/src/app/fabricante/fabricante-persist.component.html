@@ -7,7 +7,7 @@
     <ul class="errors" role="alert" *ngIf="errors">
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
-
+    A: {{ message }}
     <h3 class="title-component">{{ this.constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
     <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
         <div class="form-group position-relative col-12">
