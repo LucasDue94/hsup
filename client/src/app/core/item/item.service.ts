@@ -17,9 +17,9 @@ export class ItemService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<Item[]> {
+    list(max?: any, searchTerm?: string, offset?: number): Observable<Item[]> {
         let subject = new Subject<Item[]>();
-        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {params: {fieldSearch: searchTerm}})
+        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {params: {descricao: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))

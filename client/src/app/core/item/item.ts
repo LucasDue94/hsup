@@ -6,10 +6,15 @@ export class Item {
 
     descricao: string;
     unidadeMedida: string;
-    fornecedor: Fornecedor;
-    fabricante: Fabricante;
+    fornecedor: Fornecedor[];
+    fabricante: Fabricante[];
+    ativo: boolean;
 
     constructor (object?: any) {
+        if (this.ativo == null) this.ativo = false;
+        this.fornecedor = [];
+        this.fabricante = [];
+
         if (object) {
 
             if (object.hasOwnProperty('fornecedor')) {

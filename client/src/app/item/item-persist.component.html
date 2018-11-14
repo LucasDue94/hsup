@@ -1,46 +1,54 @@
-<div class="nav" role="navigation">
-    <ul>
-        <li><a [routerLink]="['/index']" class="home">Home</a></li>
-        <li><a [routerLink]="['/item','list']" class="list">Item List</a></li>
-    </ul>
-</div>
-<div id="persist-item" class="content scaffold-edit" role="main">
-    <h1>{{create ? "Create" : "Edit"}} Item</h1>
+<a [routerLink]="['/item']">
+    <fa-icon [icon]="['fas', 'chevron-left']" class="float-left back-icon-link"></fa-icon>
+    <h4 class="title-back-link">Voltar</h4>
+</a>
+<div class="clearfix"></div>
+<main class="col-6 float-left form-container offset-0">
     <ul class="errors" role="alert" *ngIf="errors">
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
 
-    <form name="save{className}" (ngSubmit)="save()">
-        <fieldset class="form">
-            <fieldset class="form">
-  <div class="fieldcontain required">
-    <label for="descricao">Descricao
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="descricao" id="descricao" [(ngModel)]="item.descricao" type="text" />
-  </div>
-  <div class="fieldcontain required">
-    <label for="unidadeMedida">Unidade Medida
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="unidadeMedida" id="unidadeMedida" [(ngModel)]="item.unidadeMedida" type="text" />
-  </div>
-  <div class="fieldcontain">
-    <label for="fornecedor">Fornecedor</label>
-    <select name="fornecedor" id="fornecedor" [(ngModel)]="item.fornecedor" multiple="">
-      <option *ngFor="let fornecedor of fornecedorList" [value]="fornecedor.id" [selected]="item.fornecedor?.id == fornecedor.id">{{fornecedor.toString()}}</option>
-    </select>
-  </div>
-  <div class="fieldcontain">
-    <label for="fabricante">Fabricante</label>
-    <select name="fabricante" id="fabricante" [(ngModel)]="item.fabricante" multiple="">
-      <option *ngFor="let fabricante of fabricanteList" [value]="fabricante.id" [selected]="item.fabricante?.id == fabricante.id">{{fabricante.toString()}}</option>
-    </select>
-  </div>
-</fieldset>
-        </fieldset>
-        <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
-        </fieldset>
+    <h3 class="title-component">{{ this.constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
+    <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
+        <div class="form-group position-relative col-4">
+            <label for="descricao" class="control-label">Descrição</label>
+            <input type="text"
+                   name="descricao"
+                   tooltipHcal="Campo descrição do Item. Ex.: "
+                   [position]="'top'"
+                   [delay]="3000"
+                   required="required"
+                   id="fantasia"
+                   placeholder="Digite a descrição..."
+                   [(ngModel)]="item.descricao"
+                   [class]="'form-control col-12'">
+        </div>
+        <div class="form-group position-relative col-4 offset-1">
+            <label for="unidade_medida" class="control-label">Unidade de Medida</label>
+            <input type="text"
+                   name="unidade_medida"
+                   tooltipHcal="Campo unidade de medida do Item. Ex.: GB (Gigabyte)"
+                   [position]="'top'"
+                   [delay]="3000"
+                   required="required"
+                   id="unidade_medida"
+                   placeholder="Digite a unidade de medida..."
+                   [(ngModel)]="item.unidadeMedida"
+            [class]="'form-control col-12'">
+        </div>
+        <div class="form-group col-2 offset-1">
+            <label class="control-label">Estado</label>
+            <input type="checkbox" [(ngModel)]="item.ativo" class="checkbox-filled" id="estado" name="ativo">
+            <label for="estado" class="checkbox-label">Ativo</label>
+        </div>
+        <div class="form-group position-relative col-5">
+            <label for="fornecedor" class="control-label">Fornecedor</label>
+            <hcal-custom-dual-list id="fornecedor" [key]="'id'" [(fieldDestination)]="this.item.fornecedor" [display]="'fantasia'" [data]="aFornecedores" ></hcal-custom-dual-list>
+        </div>
+        <div class="form-group position-relative col-5 offset-2">
+            <label for="fabricante" class="control-label">Fabricante</label>
+            <hcal-custom-dual-list id="fabricante" [key]="'id'" [(fieldDestination)]="this.item.fabricante" [display]="'fantasia'" [data]="aFabricantes" ></hcal-custom-dual-list>
+        </div>
+        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
     </form>
-</div>
+</main>

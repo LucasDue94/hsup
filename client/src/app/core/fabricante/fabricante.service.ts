@@ -3,11 +3,11 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Fabricante } from './fabricante';
 import { Subject } from 'rxjs/Subject';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class FabricanteService {
@@ -17,7 +17,7 @@ export class FabricanteService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: number): Observable<Fabricante[]> {
+    list(max?: any, searchTerm?: string, offset?: any): Observable<Fabricante[]> {
         let subject = new Subject<Fabricante[]>();
         this.http.get(this.baseUrl + `fabricante?offset=${offset}&max=${max}`, {params: {fantasia: searchTerm}})
             .map((r: Response) => r)

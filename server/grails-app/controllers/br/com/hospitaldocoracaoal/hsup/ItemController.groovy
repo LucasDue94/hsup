@@ -12,7 +12,11 @@ class ItemController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond itemService.list(params), model:[itemCount: itemService.count()]
+        if (params.descricao == null)
+            respond itemService.list(params), model:[itemCount: itemService.count()]
+        else
+            respond search()
+
     }
 
     def show(Long id) {
@@ -33,6 +37,15 @@ class ItemController {
         }
 
         respond item, [status: CREATED, view:"show"]
+    }
+
+    def search() {params.nome
+        List<Item> itemList = Item.withCriteria {
+            if (params.containsKey('descricao') && !params.descricao.empty)
+                ilike ('descricao', "%${params.descricao}%")
+        }
+
+        return itemList
     }
 
     def update(Item item) {

@@ -17,7 +17,7 @@ export class FornecedorService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: number): Observable<Fornecedor[]> {
+    list(max?: any, searchTerm?: string, offset?: any): Observable<Fornecedor[]> {
         let subject = new Subject<Fornecedor[]>();
         this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {params: {fantasia: searchTerm}})
             .map((r: Response) => r)

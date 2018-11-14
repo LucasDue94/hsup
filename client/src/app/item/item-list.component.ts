@@ -41,7 +41,7 @@ export class ItemListComponent implements OnInit {
             .debounceTime(1000)
             .distinctUntilChanged()
             .switchMap(searchTerm =>
-                this.itemService.list(this.count, 'descricao', searchTerm))
+                this.itemService.list(this.count, searchTerm))
             .subscribe((itemList: Item[]) => {this.itemList = itemList});
 
 
@@ -53,7 +53,7 @@ export class ItemListComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.itemService.list('', '', '', this._offset).subscribe((itemList: Item[]) => {
+        this.itemService.list('', '', this._offset).subscribe((itemList: Item[]) => {
             this.itemList = itemList
         });
     }

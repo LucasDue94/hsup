@@ -7,53 +7,46 @@
 <div class="content col-2 show-container float-left">
     <div class="width-auto float-left bg-blue show-head">
         <span class="icon-show-head">
-            <fa-icon [icon]="['fas', 'industry']" class="float-left color-white"></fa-icon>
+            <fa-icon [icon]="['fas', 'briefcase']" class="float-left color-white"></fa-icon>
         </span>
     </div>
-    <div class="float-right col-6 show-content">
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">telefone</span>
-                <span class="content-span-show offset-1">
-                {{ fornecedor.telefone }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">fantasia</span>
-                <span class="content-span-show offset-1">
-                {{ fornecedor.fantasia }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">endereco</span>
-                <span class="content-span-show offset-1">
-                {{ fornecedor.endereco }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">ativo</span>
-                <span class="content-span-show offset-1">
-                {{ fornecedor.ativo }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">email</span>
-                <span class="content-span-show offset-1">
-                {{ fornecedor.email }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">id</span>
-                <span class="content-span-show offset-1">
+    <div class="float-right col-7 show-content">
+        <div class="col-12 float-left">
+            <span class="title-span-show">código</span>
+            <span class="content-span-show offset-1">
                 {{ fornecedor.id }}
             </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">version</span>
-                <span class="content-span-show offset-1">
-                {{ fornecedor.version }}
+        </div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">telefone</span>
+            <span class="content-span-show offset-1">
+                {{ fornecedor.telefone | mask: '(00) 0000-0000' }}
             </span>
-        
+        </div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">fantasia</span>
+            <span class="content-span-show offset-1">
+                {{ fornecedor.fantasia }}
+            </span>
+        </div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">endereço</span>
+            <span class="content-span-show offset-1">
+                {{ fornecedor.endereco }}
+            </span>
+        </div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">ativo</span>
+            <span class="content-span-show offset-1">
+                {{ fornecedor.ativo == true ? 'Ativo' : 'Inativo' }}
+            </span>
+        </div>
+        <div class="col-12 float-left">
+            <span class="title-span-show">email</span>
+            <span class="content-span-show offset-1">
+                {{ fornecedor.email }}
+            </span>
+        </div>
         <div class="clearfix"></div>
         <div class="col-12 float-left">
             <div class="btn-settings-show float-right">

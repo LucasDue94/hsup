@@ -24,6 +24,7 @@ import { FabricanteService } from "./core/fabricante/fabricante.service";
 import { HttpModule } from "@angular/http";
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
+import { NgxMaskModule } from "ngx-mask";
 
 @NgModule({
     declarations: [
@@ -31,26 +32,27 @@ import { ItemModule } from './item/item.module';
         NavComponent
     ],
     imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpModule,
-    HcalSharedModule,
-    IndexModule,
-    AsideBarModule,
-    MainModule,
-    NotificationDropdownModule,
-    TableModule,
-    InputBaseModule,
-    SelectBaseModule,
-    CustomDualListModule,
-    FormsModule,
-    FabricanteModule,
-    AppRoutingModule,
-    NgbModule.forRoot(),
-    FornecedorModule,
-    ItemModule
-],
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        HttpModule,
+        NgxMaskModule.forRoot(),
+        HcalSharedModule,
+        IndexModule,
+        AsideBarModule,
+        MainModule,
+        NotificationDropdownModule,
+        TableModule,
+        InputBaseModule,
+        SelectBaseModule,
+        CustomDualListModule,
+        FormsModule,
+        FabricanteModule,
+        AppRoutingModule,
+        NgbModule.forRoot(),
+        FornecedorModule,
+        ItemModule
+    ],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })

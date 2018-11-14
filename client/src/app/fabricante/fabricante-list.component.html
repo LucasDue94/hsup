@@ -10,11 +10,9 @@
                    placeholder="Buscar fabricante..." #field>
         </form>
     </div>
-    <h1>Message: {{ this.message }}</h1>
     <hcal-table tableName="Fabricantes - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default" thead-content>código</th>
                 <th class="thead-default" thead-content>fantasia</th>
                 <th class="thead-default" thead-content>estado</th>
                 <th class="thead-default" thead-content colspan="2">
@@ -23,7 +21,6 @@
             </tr>
             <tr class="trow-content" *ngFor="let fabricante of this.fabricanteList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <td class="tdata-default">{{ fabricante.id }}</td>
                 <td class="tdata-default">{{ fabricante.fantasia }}</td>
                 <td class="tdata-default">{{ fabricante.ativo == true ? 'Ativo' : 'Inativo' }}</td>
                 <td class="tdata-default">

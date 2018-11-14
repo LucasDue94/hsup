@@ -12,7 +12,10 @@ class FornecedorController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond fornecedorService.list(params), model:[fornecedorCount: fornecedorService.count()]
+        if (params.fantasia == null)
+            respond fornecedorService.list(params), model:[fornecedorCount: fornecedorService.count()]
+        else
+            respond search()
     }
 
     def show(Long id) {
@@ -33,6 +36,15 @@ class FornecedorController {
         }
 
         respond fornecedor, [status: CREATED, view:"show"]
+    }
+
+    def search() {params.nome
+        List<Fornecedor> fornecedorList = Fornecedor.withCriteria {
+            if (params.containsKey('fantasia') && !params.fantasia.empty)
+                ilike ('fantasia', "%${params.fantasia}%")
+        }
+
+        return fornecedorList
     }
 
     def update(Fornecedor fornecedor) {

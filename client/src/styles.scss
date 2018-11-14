@@ -356,13 +356,14 @@ html, body {
 }
 
 .button-bar {
-  margin-left: 14%;
+  width: 100%;
+  width: 100%;
 
   .pull-left, .pull-right {
     padding: 5px;
+    max-width: 60%;
 
     & {
-      max-width: 40%;
       background: $blue;
       color: $white;
       border: none;
@@ -1214,6 +1215,7 @@ main .container-floating .floating-button .plus {
     & {
       text-align: right;
       font-weight: bold;
+      text-transform: capitalize;
     }
   }
 

@@ -13,27 +13,24 @@
     <hcal-table tableName="Fornecedor - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
+                <th class="thead-default" thead-content>id</th>
+                <th class="thead-default" thead-content>fantasia</th>
+                <th class="thead-default" thead-content>telefone</th>
+                <th class="thead-default" thead-content>endereço</th>
+                <th class="thead-default" thead-content>estado</th>
+                <th class="thead-default" thead-content>e-mail</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
             <tr class="trow-content" *ngFor="let fornecedor of this.fornecedorList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                
-                    <td class="data-default">{{ fornecedor.telefone }}</td>
-                
-                    <td class="data-default">{{ fornecedor.fantasia }}</td>
-                
-                    <td class="data-default">{{ fornecedor.endereco }}</td>
-                
-                    <td class="data-default">{{ fornecedor.ativo }}</td>
-                
-                    <td class="data-default">{{ fornecedor.email }}</td>
-                
-                    <td class="data-default">{{ fornecedor.id }}</td>
-                
-                    <td class="data-default">{{ fornecedor.version }}</td>
-                
+                <td class="tdata-default">{{ fornecedor.id }}</td>
+                <td class="tdata-default">{{ fornecedor.fantasia }}</td>
+                <td class="tdata-default">{{ fornecedor.telefone | mask: '(00) 0000-0000' }}</td>
+                <td class="tdata-default">{{ fornecedor.endereco }}</td>
+                <td class="tdata-default">{{ fornecedor.ativo == true ? 'Ativo' : 'Inativo' }}</td>
+                <td class="tdata-default">{{ fornecedor.email }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/fornecedor', 'edit', fornecedor.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>

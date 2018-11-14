@@ -15,6 +15,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 export class FabricanteListComponent implements OnInit {
 
     fabricanteList: Fabricante[] = [];
+
     private _pageNumber: number;
     private _offset;
 

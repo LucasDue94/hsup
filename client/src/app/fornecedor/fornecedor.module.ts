@@ -7,30 +7,30 @@ import { HcalSharedModule, InputBaseModule, TableModule } from 'hcal';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { FornecedorRoutingModule } from './fornecedor-routing.module';
+import { FornecedorShowComponent } from './fornecedor-show.component';
+import { FornecedorListComponent } from './fornecedor-list.component';
+import { FornecedorPersistComponent } from './fornecedor-persist.component';
+import { NgxMaskModule } from "ngx-mask";
 
-    import {FornecedorRoutingModule} from './fornecedor-routing.module';
-    import {FornecedorShowComponent} from './fornecedor-show.component';
-    import {FornecedorListComponent} from './fornecedor-list.component';
-    import {FornecedorPersistComponent} from './fornecedor-persist.component';
-    
 @NgModule({
     declarations: [
-    FornecedorListComponent,
+        FornecedorListComponent,
         FornecedorPersistComponent,
         FornecedorShowComponent
     ],
-imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HcalSharedModule,
-    InputBaseModule,
-    NgxPaginationModule,
-    TooltipModule,
-    TableModule,
-    CoreModule,
-    
-    FornecedorRoutingModule
-]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxMaskModule.forRoot(),
+        HcalSharedModule,
+        InputBaseModule,
+        NgxPaginationModule,
+        TooltipModule,
+        TableModule,
+        CoreModule,
+        FornecedorRoutingModule
+    ]
 })
 export class FornecedorModule {}

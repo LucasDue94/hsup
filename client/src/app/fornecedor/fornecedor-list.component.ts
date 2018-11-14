@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Fornecedor } from "../core/fornecedor/fornecedor";
+import { FornecedorService } from "../core/fornecedor/fornecedor.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Fornecedor } from "../core/fornecedor/fornecedor";
-import { FornecedorService } from "../core/fornecedor/fornecedor.service";
 
 @Component({
     selector: 'fornecedor-list',
@@ -22,6 +22,7 @@ export class FornecedorListComponent implements OnInit {
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
+    message;
 
     constructor(private route: ActivatedRoute, private fornecedorService: FornecedorService, private router: Router) {
         this._pageNumber = 0;
@@ -44,8 +45,7 @@ export class FornecedorListComponent implements OnInit {
                 this.fornecedorService.list(this.count, searchTerm))
             .subscribe((fornecedorList: Fornecedor[]) => {this.fornecedorList = fornecedorList});
 
-
-        if (this.searchControl.value == "" || this.searchControl.value == undefined) {
+        if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
     }

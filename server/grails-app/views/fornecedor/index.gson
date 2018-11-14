@@ -1,10 +1,11 @@
 import br.com.hospitaldocoracaoal.hsup.Fornecedor
 
 model {
-	Iterable<Fornecedor> fornecedorList
+    Iterable<Fornecedor> fornecedorList
 }
 
 json {
-	fornecedor tmpl.fornecedor(fornecedorList ?: [])
-	total Fornecedor.count
+    fornecedor tmpl.fornecedor(fornecedorList ?: [])
+    total Fornecedor.count
 }
+
