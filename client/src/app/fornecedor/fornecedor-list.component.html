@@ -13,7 +13,6 @@
     <hcal-table tableName="Fornecedor - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default" thead-content>id</th>
                 <th class="thead-default" thead-content>fantasia</th>
                 <th class="thead-default" thead-content>telefone</th>
                 <th class="thead-default" thead-content>endereço</th>
@@ -25,7 +24,6 @@
             </tr>
             <tr class="trow-content" *ngFor="let fornecedor of this.fornecedorList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <td class="tdata-default">{{ fornecedor.id }}</td>
                 <td class="tdata-default">{{ fornecedor.fantasia }}</td>
                 <td class="tdata-default">{{ fornecedor.telefone | mask: '(00) 0000-0000' }}</td>
                 <td class="tdata-default">{{ fornecedor.endereco }}</td>
