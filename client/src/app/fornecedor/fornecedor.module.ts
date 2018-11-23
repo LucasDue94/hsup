@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoreModule } from '../core/core.module';
-import { HcalSharedModule, InputBaseModule, TableModule } from 'hcal';
+import { HcalSharedModule, InputBaseModule, ModalModule, TableModule } from 'hcal';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -17,12 +17,13 @@ import { NgxMaskModule } from "ngx-mask";
     declarations: [
         FornecedorListComponent,
         FornecedorPersistComponent,
-        FornecedorShowComponent
+        FornecedorShowComponent,
     ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        ModalModule,
         NgxMaskModule.forRoot(),
         HcalSharedModule,
         InputBaseModule,

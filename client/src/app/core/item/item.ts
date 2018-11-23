@@ -11,7 +11,7 @@ export class Item {
     ativo: boolean;
 
     constructor (object?: any) {
-        if (this.ativo == null) this.ativo = false;
+        if (this.ativo == null) this.ativo = true;
         this.fornecedor = [];
         this.fabricante = [];
 

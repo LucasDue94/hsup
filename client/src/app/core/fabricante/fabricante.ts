@@ -7,7 +7,7 @@ export class Fabricante {
     ativo: boolean;
 
     constructor (object?: any) {
-        if (this.ativo == null) this.ativo = false;
+        if (this.ativo == null) this.ativo = true;
 
         if (object) {
 

@@ -32,7 +32,16 @@ export class FabricantePersistComponent implements OnInit {
 
     save() {
         this.fabricanteService.save(this.fabricante).subscribe((fabricante: Fabricante) => {
-            this.router.navigate(['/fabricante', 'show', fabricante.id]);
+            if (this.fabricante.id != null) {
+                this.message = `Fabricante ${this.fabricante.fantasia} alterado com sucesso!`;
+            } else {
+                this.message = `Fabricante ${this.fabricante.fantasia} cadastrado com sucesso!`;
+            }
+
+            let r = this.router;
+            setTimeout( function () {
+                r.navigate(['/fabricante', 'show', fabricante.id]);
+            }, 3000);
         }, (res) => {
             const json = res.error;
             if (json.hasOwnProperty('message')) {

@@ -33,7 +33,16 @@ export class ${className}PersistComponent implements OnInit {
 
   save() {
     this.${propertyName}Service.save(this.${propertyName}).subscribe((${propertyName}: ${className}) => {
-      this.router.navigate(['/${propertyName}', 'show', ${propertyName}.id]);
+        if (this.${propertyName}.id != null) {
+            this.message = `${className} this.${propertyName}.id alterado com sucesso!`;
+        } else {
+            this.message = "Cadastro realizada com sucesso!";
+        }
+
+        let r = this.router;
+        setTimeout( function () {
+            r.navigate(['/${propertyName}', 'show', ${propertyName}.id]);
+        }, 3000);
     }, (res) => {
       const json = res.error;
       if (json.hasOwnProperty('message')) {

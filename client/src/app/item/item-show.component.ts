@@ -54,10 +54,10 @@ export class ItemShowComponent implements OnInit {
     }
 
     destroy() {
-        if (confirm(`Deseja excluir o registro: ${this.item.id}`)) {
+        if (confirm(`Deseja excluir o item ${this.item.descricao}?`)) {
             this.itemService.destroy(this.item).subscribe((success: boolean) => {
                 if (success) {
-                    this.message = `Item ${this.item.id} excluído com sucesso!`;
+                    this.message = `Item ${this.item.descricao} excluído com sucesso!`;
                     this.router.navigate(['/item','list']);
                 } else {
                     alert("Erro ao excluir");

@@ -23,10 +23,10 @@ export class FornecedorShowComponent implements OnInit {
     }
 
     destroy() {
-        if (confirm(`Deseja excluir o registro: {this.fornecedor.id}`)) {
+        if (confirm(`Deseja excluir o fornecedor ${this.fornecedor.fantasia}?`)) {
             this.fornecedorService.destroy(this.fornecedor).subscribe((success: boolean) => {
                 if (success) {
-                    this.message = `Fornecedor {this.fornecedor.id} excluído com sucesso!`;
+                    this.message = `Fornecedor ${this.fornecedor.fantasia} excluído com sucesso!`;
                     this.router.navigate(['/fornecedor','list']);
                 } else {
                     alert("Erro ao excluir");

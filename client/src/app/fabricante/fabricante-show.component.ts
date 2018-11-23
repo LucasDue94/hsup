@@ -23,7 +23,7 @@ export class FabricanteShowComponent implements OnInit {
     }
 
     destroy() {
-        if (confirm(`Deseja excluir o registro: ${this.fabricante.fantasia}`)) {
+        if (confirm(`Deseja excluir o fabricante ${this.fabricante.fantasia}?`)) {
             this.fabricanteService.destroy(this.fabricante).subscribe((success: boolean) => {
                 if (success) {
                     this.message = `Fabricante ${this.fabricante.fantasia} excluído com sucesso!`;

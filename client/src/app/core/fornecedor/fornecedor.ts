@@ -10,6 +10,8 @@ export class Fornecedor {
     email: string;
 
     constructor (object?: any) {
+        if (this.ativo == null) this.ativo = true;
+
         if (object) {
 
             for (var prop in object) {

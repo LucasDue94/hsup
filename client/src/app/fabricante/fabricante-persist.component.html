@@ -7,6 +7,7 @@
     <ul class="errors" role="alert" *ngIf="errors">
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
+    <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message" [modalType]="'success'"></hcal-modal>
     <h3 class="title-component">{{ this.constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
     <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
         <div class="form-group position-relative col-12">
@@ -22,7 +23,7 @@
                    [(ngModel)]="fabricante.fantasia"
                    [class]="'form-control col-12'">
         </div>
-        <div class="form-group col-12">
+        <div *ngIf="this.create == false" class="form-group col-12">
             <label class="control-label">Estado</label>
             <input type="checkbox" [(ngModel)]="fabricante.ativo" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>

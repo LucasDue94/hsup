@@ -711,6 +711,13 @@ html, body {
   background: $blue;
 }
 
+.button-transparent {
+  & {
+    color: $white;
+    background-color: transparent;
+  }
+}
+
 .bg-danger{
   background-color: $danger;
 

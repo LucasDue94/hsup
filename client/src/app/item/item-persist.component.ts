@@ -18,6 +18,7 @@ export class ItemPersistComponent implements OnInit {
     errors: any[];
     aFornecedores = [];
     aFabricantes = [];
+    message;
 
     constructor(private route: ActivatedRoute, private itemService: ItemService, private router: Router, private fornecedorService: FornecedorService, private fabricanteService: FabricanteService) {
     }
@@ -58,7 +59,16 @@ export class ItemPersistComponent implements OnInit {
 
     save() {
         this.itemService.save(this.item).subscribe((item: Item) => {
-            this.router.navigate(['/item', 'show', item.id]);
+            if (this.item.id != null) {
+                this.message = `Item ${this.item.descricao} alterado com sucesso!`;
+            } else {
+                this.message = `Item ${this.item.descricao} cadastrado com sucesso!`;
+            }
+
+            let r = this.router;
+            setTimeout( function () {
+                r.navigate(['/item', 'show', item.id]);
+            }, 3000);
         }, (res) => {
             const json = res.error;
             if (json.hasOwnProperty('message')) {
