@@ -14,7 +14,15 @@ export class IndexComponent implements OnInit {
     controllers: Array<any>;
     serverUrl: string;
 
-    constructor(private navService: NavService, private router: Router) { }
+    items = [
+        {desc: 'teclado', qnt: '10'},
+        {desc: 'mouse', qnt: '3'},
+        {desc: 'notebook', qnt: '54'},
+        {desc: 'memória', qnt: '36'}
+    ];
+
+    constructor(private navService: NavService, private router: Router) {
+    }
 
     ngOnInit(): void {
         this.serverUrl = environment.serverUrl;

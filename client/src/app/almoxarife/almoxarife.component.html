@@ -1,0 +1,25 @@
+<header class="content-header col-6">
+    <h2>Associação</h2>
+    <h2>Item x Produto WPD</h2>
+    <div class="float-left">
+        <h4>Setor solicitante</h4><h4>Nº da Solicitação</h4>
+    </div>
+    <div class="float-right">
+        <h4>Solicitante</h4><h4>Data:</h4>
+    </div>
+</header>
+
+<section class="content-request col-6">
+    <h2>ITEM SOLICITAÇÃO</h2>
+    <h2>PRODUTO WPD</h2>
+    <div *ngFor="let item of itemsSolicitacao">
+        <input value="{{item.desc}}" type="text">
+        <input value="{{item.qnt}}" type="text">
+        <fa-icon class="btn-icon" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
+        <input type="text">
+        <input type="text">
+        <fa-icon class="btn-icon" [icon]="['fas', 'exclamation-triangle']"></fa-icon>
+    </div>
+    <button>Voltar</button>
+    <button>Finalizar</button>
+</section>

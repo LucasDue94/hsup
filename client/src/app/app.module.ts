@@ -9,7 +9,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
-    CustomDualListModule,
     HcalSharedModule,
     InputBaseModule,
     MainModule,
@@ -25,11 +24,12 @@ import { HttpModule } from "@angular/http";
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
+import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavComponent
+        NavComponent,
     ],
     imports: [
         BrowserModule,
@@ -45,16 +45,17 @@ import { NgxMaskModule } from "ngx-mask";
         TableModule,
         InputBaseModule,
         SelectBaseModule,
-        CustomDualListModule,
         FormsModule,
         FabricanteModule,
         AppRoutingModule,
         NgbModule.forRoot(),
         FornecedorModule,
-        ItemModule
+        ItemModule,
+        AlmoxarifeModule
     ],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
 
