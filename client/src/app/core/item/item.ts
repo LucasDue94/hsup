@@ -3,12 +3,12 @@ import { Fornecedor } from "../fornecedor/fornecedor";
 
 export class Item {
     id: number;
-
     descricao: string;
     unidadeMedida: string;
     fornecedor: Fornecedor[];
     fabricante: Fabricante[];
     ativo: boolean;
+    quantidade: number;
 
     constructor (object?: any) {
         if (this.ativo == null) this.ativo = false;

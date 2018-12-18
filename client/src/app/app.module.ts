@@ -9,7 +9,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
-    CustomDualListModule,
     HcalSharedModule,
     InputBaseModule,
     MainModule,
@@ -45,7 +44,6 @@ import { NgxMaskModule } from "ngx-mask";
         TableModule,
         InputBaseModule,
         SelectBaseModule,
-        CustomDualListModule,
         FormsModule,
         FabricanteModule,
         AppRoutingModule,

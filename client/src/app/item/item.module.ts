@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoreModule } from '../core/core.module';
-import { CustomDualListModule, HcalSharedModule, InputBaseModule, TableModule } from 'hcal';
+import { HcalSharedModule, InputBaseModule, TableModule } from 'hcal';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -26,7 +26,6 @@ import { NgxMaskModule } from "ngx-mask";
         ReactiveFormsModule,
         HcalSharedModule,
         InputBaseModule,
-        CustomDualListModule,
         NgxPaginationModule,
         TooltipModule,
         TableModule,
