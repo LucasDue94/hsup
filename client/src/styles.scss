@@ -357,7 +357,6 @@ html, body {
 
 .button-bar {
   width: 100%;
-  width: 100%;
 
   .pull-left, .pull-right {
     padding: 5px;
@@ -991,7 +990,7 @@ html, body {
   opacity: 1;
 }
 
-main .container-floating {
+.container-floating {
   position: fixed;
   width: 50px;
   height: 50px;
@@ -999,7 +998,7 @@ main .container-floating {
   z-index: 50;
 }
 
-main .container-floating .floating-button {
+.container-floating .floating-button {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -1011,13 +1010,14 @@ main .container-floating .floating-button {
   box-shadow: 0 1px 4px #666;
 }
 
-main .a-link-page {
+.a-link-page {
   font-weight: bold;
   color: #00aba5;
   text-decoration: none;
 }
 
-main .container-floating .floating-button .plus {
+
+.container-floating .floating-button .plus {
   color: white;
   position: absolute;
   top: 0;
