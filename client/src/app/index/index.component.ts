@@ -15,10 +15,20 @@ export class IndexComponent implements OnInit {
     serverUrl: string;
 
     items = [
-        {desc: 'teclado', qnt: '10'},
-        {desc: 'mouse', qnt: '3'},
-        {desc: 'notebook', qnt: '54'},
-        {desc: 'memória', qnt: '36'}
+        {desc: 'Teclado para desktop windows', qnt: 10, stock: 0},
+        {desc: 'Mouse', qnt: 3, stock: 4},
+        {desc: 'Notebook', qnt: 54, stock: 8},
+        {desc: 'Café', qnt: 3, stock: 69},
+        {desc: 'Bolacha', qnt: 2,stock: 10},
+        {desc: 'Água', qnt: 12,stock: 4},
+        {desc: 'Playstation 4', qnt: 1,stock: 4},
+        {desc: 'Liquidificador', qnt: 2,stock: 39},
+        {desc: 'Água', qnt: 12,stock: 4},
+        {desc: 'Playstation 4', qnt: 1,stock: 10},
+        {desc: 'Liquidificador', qnt: 2,stock: 4},
+        {desc: 'Água', qnt: 12,stock: 4},
+        {desc: 'Playstation 4', qnt: 1,stock: 0},
+        {desc: 'Liquidificador', qnt: 2,stock: 0},
     ];
 
     constructor(private navService: NavService, private router: Router) {

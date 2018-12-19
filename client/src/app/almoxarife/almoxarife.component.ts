@@ -7,7 +7,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AlmoxarifeComponent implements OnInit {
 
-    @Input() itemsSolicitacao;
+    @Input() itemsRequest;
+    sector = 'Tecnologia da Informação';
+    requestNumber = '0001';
+    date = '19/12/2018';
+    requestUser = 'Beroaldo da Silva Carneiro';
+    statusStock = 'ok';
   constructor() { }
 
   ngOnInit() {

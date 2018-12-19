@@ -1,9 +1,140 @@
-.content-header{
-  text-align: center;
-  display: block;
-  margin-bottom: 50px;
+@import '../../color.scss';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+.container-header {
+  position: relative;
+  margin: 2em 5em;
+
+  & {
+    color: $brown;
+    font-family: "Poppins SemiBold", sans-serif;
+  }
+
+  .title-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .label {
+    display: inline;
+    font-family: "Poppins ExtraLight", sans-serif;
+    margin-right: 5px;
+  }
+
+  .label-description {
+    display: inline;
+  }
 }
 
-.content-request{
-  display: block;
+.container-request {
+  position: relative;
+  padding: 15px;
+  margin: 0 3em;
+  height: 60%;
+
+  & {
+    color: $brown;
+    font-family: "Poppins Light", sans-serif;
+    background-color: $mediumGrayTransparent;
+    border-radius: 20px;
+  }
+  .title {
+    font-family: "Poppins ExtraBold", sans-serif;
+    text-align: center;
+  }
+
+  .main-content-header {
+    margin-bottom: 15px;
+  }
+
+  .main-content {
+    position: relative;
+    background-color: rgba($lightGray, 0.7);
+    border-radius: 10px;
+    padding: 10px 5px 10px 20px;
+    height: 85%;
+    width: 95%;
+
+  }
+
+  .arrows-icon {
+    display: inline-block;
+    font-size: 1.5em;
+    margin: 0 1.5em;
+  }
+}
+
+.left-aside {
+  position: relative;
+  display: inline-block;
+  left: 0;
+}
+
+.right-aside {
+  position: relative;
+  display: inline-block;
+  right: 0;
+}
+
+.request-form-group {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+
+  .request-label {
+    font-family: "Poppins", sans-serif;
+    font-size: 0.8em;
+    display: block;
+  }
+  .request-input-only-read {
+    width: 100%;
+
+    & {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      font-size: 1.2em;
+      color: $brown;
+    }
+  }
+  .request-input-line-bottom {
+    width: 100%;
+    & {
+      color: $brown;
+      font-family: "Poppins", sans-serif;
+      font-size: 1.2em;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      border-bottom: 1px solid $mediumGray;
+    }
+  }
+
+  .request-search {
+    position: relative;
+    left: 0;
+    border: 1px solid $gray;
+    border-radius: 5px;
+  }
+}
+
+#qnt-container {
+  position: relative;
+  margin-right: 0;
+}
+
+.text-right{
+  text-align: right!important;
+}
+
+.label-right{
+  position: relative !important;
+  text-align: right !important;
+  margin: 0 !important;
+}
+
+.label-left{
+  position: relative !important;
+  text-align: left !important;
+  margin: 0 !important;
 }
