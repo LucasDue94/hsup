@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms';
 import { FabricanteService } from './fabricante/fabricante.service';
 import { FornecedorService } from './fornecedor/fornecedor.service';
 import { ItemService } from './item/item.service';
+import { SetorService } from './setor/setor.service';
+import { PerfilService } from './perfil/perfil.service';
 
 @NgModule({
   declarations: [],
@@ -14,7 +16,9 @@ import { ItemService } from './item/item.service';
 providers: [
     FabricanteService,
     FornecedorService,
-    ItemService
+    ItemService,
+    SetorService,
+    PerfilService
 ]
 })
 export class CoreModule {}

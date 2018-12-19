@@ -1,0 +1,11 @@
+import br.com.hospitaldocoracaoal.hsup.Setor
+
+model {
+	Iterable<Setor> setorList
+}
+
+json {
+	setor tmpl.setor(setorList ?: [])
+	total Setor.count
+}
+

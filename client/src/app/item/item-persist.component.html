@@ -43,11 +43,9 @@
         </div>
         <div class="form-group position-relative col-5">
             <label for="fornecedor" class="control-label">Fornecedor</label>
-            <hcal-custom-dual-list id="fornecedor" [key]="'id'" [(fieldDestination)]="this.item.fornecedor" [display]="'fantasia'" [data]="aFornecedores" [sort]="true"></hcal-custom-dual-list>
         </div>
         <div class="form-group position-relative col-5 offset-2">
             <label for="fabricante" class="control-label">Fabricante</label>
-            <hcal-custom-dual-list id="fabricante" [key]="'id'" [(fieldDestination)]="this.item.fabricante" [display]="'fantasia'" [data]="aFabricantes" [sort]="true"></hcal-custom-dual-list>
         </div>
         <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
     </form>

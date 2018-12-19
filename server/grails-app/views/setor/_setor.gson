@@ -1,0 +1,7 @@
+import br.com.hospitaldocoracaoal.hsup.Setor
+
+model {
+	Setor setor
+}
+
+json g.render(setor, [resolveTemplate: false])

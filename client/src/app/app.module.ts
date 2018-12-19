@@ -9,7 +9,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
-    CustomDualListModule,
     HcalSharedModule,
     InputBaseModule,
     MainModule,
@@ -25,6 +24,8 @@ import { HttpModule } from "@angular/http";
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
+import { SetorModule } from './setor/setor.module';
+import { PerfilModule } from './perfil/perfil.module';
 
 @NgModule({
     declarations: [
@@ -32,27 +33,28 @@ import { NgxMaskModule } from "ngx-mask";
         NavComponent
     ],
     imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        HttpModule,
-        NgxMaskModule.forRoot(),
-        HcalSharedModule,
-        IndexModule,
-        AsideBarModule,
-        MainModule,
-        NotificationDropdownModule,
-        TableModule,
-        InputBaseModule,
-        SelectBaseModule,
-        CustomDualListModule,
-        FormsModule,
-        FabricanteModule,
-        AppRoutingModule,
-        NgbModule.forRoot(),
-        FornecedorModule,
-        ItemModule
-    ],
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    HttpModule,
+    NgxMaskModule.forRoot(),
+    HcalSharedModule,
+    IndexModule,
+    AsideBarModule,
+    MainModule,
+    NotificationDropdownModule,
+    TableModule,
+    InputBaseModule,
+    SelectBaseModule,
+    FormsModule,
+    FabricanteModule,
+    AppRoutingModule,
+    NgbModule.forRoot(),
+    FornecedorModule,
+    ItemModule,
+    SetorModule,
+    PerfilModule
+],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })
