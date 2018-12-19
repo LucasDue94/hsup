@@ -8,7 +8,6 @@ export class Item {
     fornecedor: Fornecedor[];
     fabricante: Fabricante[];
     ativo: boolean;
-    quantidade: number;
 
     constructor (object?: any) {
         if (this.ativo == null) this.ativo = false;

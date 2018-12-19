@@ -24,6 +24,8 @@ import { HttpModule } from "@angular/http";
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
+import {ProdutoService} from "./core/produto/produto.service";
+import { ProdutoModule } from './produto/produto.module';
 
 @NgModule({
     declarations: [
@@ -31,27 +33,28 @@ import { NgxMaskModule } from "ngx-mask";
         NavComponent
     ],
     imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        HttpModule,
-        NgxMaskModule.forRoot(),
-        HcalSharedModule,
-        IndexModule,
-        AsideBarModule,
-        MainModule,
-        NotificationDropdownModule,
-        TableModule,
-        InputBaseModule,
-        SelectBaseModule,
-        FormsModule,
-        FabricanteModule,
-        AppRoutingModule,
-        NgbModule.forRoot(),
-        FornecedorModule,
-        ItemModule
-    ],
-    providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    HttpModule,
+    NgxMaskModule.forRoot(),
+    HcalSharedModule,
+    IndexModule,
+    AsideBarModule,
+    MainModule,
+    NotificationDropdownModule,
+    TableModule,
+    InputBaseModule,
+    SelectBaseModule,
+    FormsModule,
+    FabricanteModule,
+    AppRoutingModule,
+    NgbModule.forRoot(),
+    FornecedorModule,
+    ItemModule,
+    ProdutoModule
+],
+    providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService, ProdutoService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
