@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlmoxarifeComponent } from "./almoxarife.component";
 import { HcalSharedModule } from "hcal";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import {
     PERFECT_SCROLLBAR_CONFIG,
     PerfectScrollbarConfigInterface,
@@ -16,7 +18,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     imports: [
         CommonModule,
         HcalSharedModule,
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         AlmoxarifeComponent

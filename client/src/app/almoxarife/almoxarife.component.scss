@@ -49,12 +49,18 @@
 
   .main-content {
     position: relative;
-    background-color: rgba($lightGray, 0.7);
-    border-radius: 10px;
     padding: 10px 5px 10px 20px;
     height: 85%;
     width: 95%;
+    & {
+      background-color: rgba($lightGray, 0.7);
+      border-radius: 10px;
+    }
 
+    .icon-status{
+      font-size: 1.1em;
+      margin-left: 2em;
+    }
   }
 
   .arrows-icon {
@@ -80,16 +86,21 @@
   position: relative;
   display: inline-block;
   margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
 
   .request-label {
-    font-family: "Poppins", sans-serif;
-    font-size: 0.8em;
+    position: relative;
     display: block;
-  }
-  .request-input-only-read {
-    width: 100%;
-
     & {
+      font-size: 0.8em;
+    }
+  }
+
+  .request-input-only-read {
+    position: relative;
+    width: 100%;
+    & {
+      font-family: inherit;
       background-color: transparent;
       border: none;
       outline: none;
@@ -97,44 +108,34 @@
       color: $brown;
     }
   }
+
   .request-input-line-bottom {
+    position: relative;
+    padding: 0;
     width: 100%;
     & {
-      color: $brown;
-      font-family: "Poppins", sans-serif;
+      text-align: left;
       font-size: 1.2em;
+      font-family: inherit;
+      color: $brown;
       border: none;
       outline: none;
       background-color: transparent;
       border-bottom: 1px solid $mediumGray;
     }
   }
-
-  .request-search {
-    position: relative;
-    left: 0;
-    border: 1px solid $gray;
-    border-radius: 5px;
-  }
 }
 
-#qnt-container {
-  position: relative;
+.text-right {
+  text-align: right;
+}
+
+.label-right {
+  text-align: right;
   margin-right: 0;
 }
 
-.text-right{
-  text-align: right!important;
+.label-left {
+  margin-left: 0;
 }
 
-.label-right{
-  position: relative !important;
-  text-align: right !important;
-  margin: 0 !important;
-}
-
-.label-left{
-  position: relative !important;
-  text-align: left !important;
-  margin: 0 !important;
-}
