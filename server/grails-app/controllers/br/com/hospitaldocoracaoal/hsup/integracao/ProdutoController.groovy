@@ -10,55 +10,20 @@ class ProdutoController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond produtoService.list(params), model:[produtoCount: produtoService.count()]
-    }
+    def index(Integer max, String termo) {
+        max = Math.min max ?: 10, 100
 
-    def show(Long id) {
-        respond produtoService.get(id)
-    }
-
-    def save(Produto produto) {
-        if (produto == null) {
-            render status: NOT_FOUND
-            return
+        def criteria = Produto.createCriteria()
+        List<Produto> produtoList = (List<Produto>) criteria.list([max: max]) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('id', "%${termo}%")
+                    ilike('descricao', "%${termo}%")
+                }
+            }
         }
 
-        try {
-            produtoService.save(produto)
-        } catch (ValidationException e) {
-            respond produto.errors, view:'create'
-            return
-        }
-
-        respond produto, [status: CREATED, view:"show"]
+        return respond(produtoList)
     }
 
-    def update(Produto produto) {
-        if (produto == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        try {
-            produtoService.save(produto)
-        } catch (ValidationException e) {
-            respond produto.errors, view:'edit'
-            return
-        }
-
-        respond produto, [status: OK, view:"show"]
-    }
-
-    def delete(Long id) {
-        if (id == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        produtoService.delete(id)
-
-        render status: NO_CONTENT
-    }
 }

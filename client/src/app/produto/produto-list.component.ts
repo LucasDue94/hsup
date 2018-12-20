@@ -48,6 +48,7 @@ export class ProdutoListComponent implements OnInit {
         if (this.searchControl.value == "" || this.searchControl.value == undefined) {
             this.list(this.pageNumber);
         }
+
     }
 
     list(p: number) {
@@ -70,4 +71,6 @@ export class ProdutoListComponent implements OnInit {
         this._pageNumber = pageNumber;
         this.changePageData();
     }
+
 }
+

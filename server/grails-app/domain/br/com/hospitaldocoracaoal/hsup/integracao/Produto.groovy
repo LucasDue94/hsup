@@ -4,7 +4,7 @@ class Produto {
     String id
     String setor
     String descricao
-    String quantidade
+    String estoque
 
     static mapping = {
         id generator: 'assigned'
