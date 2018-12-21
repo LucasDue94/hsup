@@ -139,3 +139,16 @@
   margin-left: 0;
 }
 
+.list{
+  position: absolute;
+  z-index: 99;
+  .item{
+    padding: 5px;
+    background-color: white;
+    border-bottom: 1px solid $lightGray;
+
+    &:hover{
+      background-color: $mediumGray;
+    }
+  }
+}

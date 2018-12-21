@@ -50,14 +50,16 @@
                 </aside>
                 <fa-icon class="arrows-icon" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
                 <aside class="right-aside col-5">
-                    <div class="request-form-group col-10">
+                    <div class="request-form-group col-10" [formGroup]="this.form" #searchContainer>
                         <label class="request-label label-left col-6">Produto</label>
-                        <input (click)="onClickInput($event)" formControlName="search-{{i}}" class="request-input-line-bottom col-6"
+                        <input (click)="onClickInput($event)" formControlName="searchField{{i}}"
+                               class="request-input-line-bottom col-6"
                                type="text" #search>
                     </div>
                     <div class="request-form-group col-2">
                         <label for="stock" class="request-label label-right col-6">Estoque</label>
                         <input id="stock" class="request-input-only-read text-right col-6"
+                               (click)="onClickInput($event)"
                                value="{{item.stock}}"
                                disabled type="text">
                     </div>

@@ -31,6 +31,13 @@ export class IndexComponent implements OnInit {
         {desc: 'Liquidificador', qnt: 2,stock: 0},
     ];
 
+    products = [
+        {desc: 'Mouse', qnt: 3, stock: 4},
+        {desc: 'Notebook', qnt: 54, stock: 8},
+        {desc: 'Playstation 4', qnt: 1,stock: 0},
+        {desc: 'Liquidificador', qnt: 2,stock: 0},
+    ];
+
     constructor(private navService: NavService, private router: Router) {
     }
 
