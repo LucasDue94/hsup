@@ -1,0 +1,7 @@
+<div class="form-group">
+    <form [formGroup]="form">
+        <input type="text" formControlName="username" class="form-control" name="username" placeholder="Login">
+        <input type="password" formControlName="password" class="form-control" name="password" placeholder="Password">
+        <button class="button button-blue float-right" type="submit" (click)="login()">Entrar</button>
+    </form>
+</div>

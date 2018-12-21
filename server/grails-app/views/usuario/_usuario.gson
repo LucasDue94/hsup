@@ -1,0 +1,7 @@
+import br.com.hospitaldocoracaoal.hsup.Usuario
+
+model {
+	Usuario usuario
+}
+
+json g.render(usuario, [resolveTemplate: false])

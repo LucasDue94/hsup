@@ -1,0 +1,8 @@
+import br.com.hospitaldocoracaoal.hsup.Perfil
+
+model {
+	Iterable<Perfil> perfilList
+}
+
+json tmpl.perfil(perfilList ?: [])
+

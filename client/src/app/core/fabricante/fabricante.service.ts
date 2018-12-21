@@ -8,11 +8,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class FabricanteService {
 
-    private baseUrl = 'http://localhost:8080/';
+    private baseUrl = environment.serverUrl;
 
     constructor(private http: HttpClient) {
     }

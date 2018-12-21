@@ -1,4 +1,4 @@
-package br.com.hospitaldocoracaoal.hsup
+package br.com.hospitaldocoracaoal.hsup.db
 
 import org.hibernate.MappingException
 import org.hibernate.id.enhanced.SequenceStyleGenerator

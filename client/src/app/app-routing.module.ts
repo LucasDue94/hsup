@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { IndexComponent } from "./index/index.component";
+import { SigninComponent } from "./signin/signin.component";
+import { AuthGuard } from "./guards/auth.guard";
 
 const routes: Routes = [
-    {path: '', redirectTo: 'index', pathMatch: 'full'},
-    {path: 'index', component: IndexComponent}
+    {path: '', redirectTo: 'authentication', pathMatch: 'full'},
+    {path: 'authentication', component: SigninComponent},
+    {path: 'index', canActivate: [AuthGuard], component: IndexComponent}
 ];
 
 @NgModule({

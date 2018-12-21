@@ -7,32 +7,36 @@
             <input type="text"
                    formControlName="searchControl"
                    class="form-control filter-control col-5 float-right"
-                   placeholder="Buscar ${propertyName}..." #field>
+                   placeholder="Buscar perfil..." #field>
         </form>
     </div>
-    <hcal-table tableName="${className} - Quantidade {{ this.count }}">
+    <hcal-table tableName="Perfil - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let ${propertyName} of this.${propertyName}List
+            <tr class="trow-content" *ngFor="let perfil of this.perfilList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <% br.com.hospitaldocoracaoal.hsup.HelperScaffolding.getAttributes(className).each { k -> %>
-                    <td class="data-default">{{ ${propertyName}.${k} }}</td>
-                <% } %>
+                
+                    <td class="data-default">{{ perfil.authority }}</td>
+                
+                    <td class="data-default">{{ perfil.id }}</td>
+                
+                    <td class="data-default">{{ perfil.version }}</td>
+                
                 <td class="tdata-default">
-                    <a class="edit" [routerLink]="['/${propertyName}', 'edit', ${propertyName}.id]">
+                    <a class="edit" [routerLink]="['/perfil', 'edit', perfil.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
                     </a>|
-                    <a class="edit" [routerLink]="['/${propertyName}', 'show', ${propertyName}.id]">
+                    <a class="edit" [routerLink]="['/perfil', 'show', perfil.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.${propertyName}List.length == 0">
+        <div class="not-found" *ngIf="this.perfilList.length == 0">
             <h1 class="not-found-error">Nenhum registro encontrado</h1>
         </div>
     </hcal-table>
@@ -41,7 +45,7 @@
 </div>
 <div class="container-floating">
     <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
-        <a [routerLink]="['/${propertyName}','create']" class="create a-link-page">
+        <a [routerLink]="['/perfil','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>
     </div>
