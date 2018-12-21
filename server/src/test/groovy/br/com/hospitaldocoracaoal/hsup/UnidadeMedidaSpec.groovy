@@ -1,10 +1,9 @@
 package br.com.hospitaldocoracaoal.hsup
 
-import br.com.hospitaldocoracaoal.hsup.integracao.Produto
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class ProdutoSpec extends Specification implements DomainUnitTest<Produto> {
+class UnidadeMedidaSpec extends Specification implements DomainUnitTest<UnidadeMedida> {
 
     def setup() {
     }
