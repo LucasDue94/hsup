@@ -3,7 +3,6 @@ import { Fornecedor } from "../fornecedor/fornecedor";
 
 export class Item {
     id: number;
-
     descricao: string;
     unidadeMedida: string;
     fornecedor: Fornecedor[];
@@ -27,7 +26,7 @@ export class Item {
                 delete object['fabricante'];
             }
 
-            for (var prop in object) {
+            for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }

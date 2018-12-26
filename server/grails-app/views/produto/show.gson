@@ -1,0 +1,7 @@
+import br.com.hospitaldocoracaoal.hsup.integracao.Produto
+
+model {
+	Produto produto
+}
+
+json tmpl.produto(produto)

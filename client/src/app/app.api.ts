@@ -1,0 +1,1 @@
+export const PRODUTOS_INTEGRACAO  = "http://localhost:8080";

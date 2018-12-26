@@ -1,0 +1,8 @@
+import br.com.hospitaldocoracaoal.hsup.UnidadeMedida
+
+model {
+	Iterable<UnidadeMedida> unidadeMedidaList
+}
+
+json tmpl.unidadeMedida(unidadeMedidaList ?: [])
+
