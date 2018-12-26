@@ -32,9 +32,15 @@ export class IndexComponent implements OnInit {
     ];
 
     products = [
-        {desc: 'Mouse', qnt: 3, stock: 4},
+        {desc: 'Mouse TIPO B', qnt: 3, stock: 4},
+        {desc: 'Mouse TIPO A', qnt: 3, stock: 4},
+        {desc: 'MousePad', qnt: 3, stock: 4},
+        {desc: 'Mouse Sem Fio', qnt: 3, stock: 4},
         {desc: 'Notebook', qnt: 54, stock: 8},
         {desc: 'Playstation 4', qnt: 1,stock: 0},
+        {desc: 'Playstation 3', qnt: 1,stock: 0},
+        {desc: 'Playstation 2', qnt: 1,stock: 0},
+        {desc: 'Playstation 1', qnt: 1,stock: 0},
         {desc: 'Liquidificador', qnt: 2,stock: 0},
     ];
 

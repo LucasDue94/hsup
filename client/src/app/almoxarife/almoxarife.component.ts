@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
@@ -47,23 +47,62 @@ export class AlmoxarifeComponent implements OnInit {
     }
 
     searchItem(value, input) {
-        const ul = this.render.createElement('ul');
-        this.render.addClass(ul, 'list');
-        this.render.addClass(ul, 'col-10');
-        for (const item of this.wpdProducts) {
-            let text = this.render.createText(item.desc);
-            let li = this.render.createElement('li');
-            li.onClick = f();
-            this.render.addClass(li, 'item');
-            this.render.appendChild(li, text);
-            this.render.appendChild(ul, li);
+        if (this.render.parentNode(input).getElementsByClassName('list').length == 0) {
+            const ul = this.render.createElement('ul');
+            this.render.addClass(ul, 'list');
+            if (value != '') {
+                this.wpdProducts.sort(function (a, b) {
+                    if (a.desc < b.desc) {
+                        return -1
+                    }
+                    if (a.desc > b.desc) {
+                        return 1
+                    }
+                    return 0;
+                });
+                for (let item of this.wpdProducts) {
+                    if (item.desc.toLowerCase().includes(value.toLowerCase()) && value != '') {
+                        let li = this.render.createElement('li');
+                        this.render.addClass(li, 'item');
+                        this.render.appendChild(li, this.render.createText(item.desc));
+                        this.render.appendChild(ul, li);
+                        this.render.listen(li, 'click', () => {
+                            input.value = li.innerHTML;
+                            ul.remove();
+                        });
+                    }
+                    this.render.appendChild(this.render.parentNode(input), ul);
+                    this.render.listen(ul, 'mouseleave', () => {
+                        setTimeout(() => {
+                            this.closeTransition(ul);
+                        }, 1, false);
+                    });
+                    this.render.listen(ul, 'mouseleave', () => {
+                        setTimeout(() => {
+                            ul.remove();
+                        }, 1000, false);
+                    });
+                }
+                setTimeout(() => {
+                    this.showTransition(ul)
+                }, 1, false);
+                console.log(ul);
+            }
+        } else {
+            console.log('entrou aqui');
+            const ul = this.render.parentNode(input).getElementsByClassName('list').item(0);
+            // setTimeout(() => {this.closeTransition(ul)},1,false);
+            // console.log(ul);
+            ul.remove();
+            this.searchItem(value, input);
         }
+    }
 
-        function f(){
-            console.log('deu certo');
-        }
+    showTransition(element) {
+        this.render.setStyle(element, 'opacity', '1');
+    }
 
-        console.log(this.searchContainer.nativeElement);
-        this.render.insertBefore(this.searchContainer.nativeElement, ul, input.nextSibling);
+    closeTransition(element) {
+        this.render.setStyle(element, 'opacity', '0');
     }
 }

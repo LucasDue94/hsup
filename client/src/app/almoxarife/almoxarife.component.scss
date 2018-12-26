@@ -29,7 +29,7 @@
 .container-request {
   position: relative;
   padding: 15px;
-  margin: 0 3em;
+  margin: 0 4em;
   height: 60%;
 
   & {
@@ -140,15 +140,27 @@
 }
 
 .list{
+  opacity: 0;
+  padding:0;
+  display: block;
   position: absolute;
+  width: 100%;
   z-index: 99;
+  transition: 1s opacity;
   .item{
     padding: 5px;
-    background-color: white;
+    background-color: $mediumGrayTransparent;
     border-bottom: 1px solid $lightGray;
 
     &:hover{
       background-color: $mediumGray;
+      cursor: pointer;
     }
   }
 }
+
+.unlist{
+  display: none;
+}
+
+

@@ -25,6 +25,8 @@ import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
 import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 
 @NgModule({
     declarations: [
@@ -51,7 +53,8 @@ import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
         NgbModule.forRoot(),
         FornecedorModule,
         ItemModule,
-        AlmoxarifeModule
+        AlmoxarifeModule,
+        BrowserAnimationsModule,
     ],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]
