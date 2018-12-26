@@ -10,11 +10,10 @@ class ProdutoController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    def index(Integer max, String termo) {
-        max = Math.min max ?: 10, 100
+    def index(String termo) {
 
         def criteria = Produto.createCriteria()
-        List<Produto> produtoList = (List<Produto>) criteria.list([max: max]) {
+        List<Produto> produtoList = (List<Produto>) criteria.list() {
             if (termo != null && !termo.isEmpty()) {
                 or {
                     ilike('id', "%${termo}%")
