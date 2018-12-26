@@ -26,6 +26,7 @@ import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
 import {ProdutoService} from "./core/produto/produto.service";
 import { ProdutoModule } from './produto/produto.module';
+import { UnidadeMedidaModule } from './unidadeMedida/unidadeMedida.module';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { ProdutoModule } from './produto/produto.module';
     NgbModule.forRoot(),
     FornecedorModule,
     ItemModule,
-    ProdutoModule
+    ProdutoModule,
+    UnidadeMedidaModule
 ],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService, ProdutoService],
     bootstrap: [AppComponent]

@@ -6,6 +6,8 @@ import { FornecedorService } from '../core/fornecedor/fornecedor.service';
 import { Fornecedor } from '../core/fornecedor/fornecedor';
 import { FabricanteService } from '../core/fabricante/fabricante.service';
 import { Fabricante } from '../core/fabricante/fabricante';
+import {UnidadeMedida} from "../core/unidadeMedida/unidadeMedida";
+import {UnidadeMedidaService} from "../core/unidadeMedida/unidadeMedida.service";
 
 @Component({
     selector: 'item-persist',
@@ -18,13 +20,15 @@ export class ItemPersistComponent implements OnInit {
     errors: any[];
     aFornecedores = [];
     aFabricantes = [];
+    aUnidadeMedida: UnidadeMedida[] = [];
 
-    constructor(private route: ActivatedRoute, private itemService: ItemService, private router: Router, private fornecedorService: FornecedorService, private fabricanteService: FabricanteService) {
+    constructor(private route: ActivatedRoute, private itemService: ItemService, private unidadeMedidaService: UnidadeMedidaService, private router: Router, private fornecedorService: FornecedorService, private fabricanteService: FabricanteService) {
     }
 
     ngOnInit() {
         this.fornecedorList();
         this.fabricanteList();
+        this.unidadeMedidaList();
 
         this.route.params.subscribe((params: Params) => {
             if (params.hasOwnProperty('id')) {
@@ -56,6 +60,19 @@ export class ItemPersistComponent implements OnInit {
         return this.aFabricantes;
     }
 
+
+   unidadeMedidaList () {
+        this.unidadeMedidaService.list('', '', '').subscribe((unidadeMedidaList: UnidadeMedida[]) => {
+            unidadeMedidaList.forEach(f => {
+                this.aUnidadeMedida.push(f)
+            });
+        });
+
+        return this.aUnidadeMedida;
+    }
+
+
+
     save() {
         this.itemService.save(this.item).subscribe((item: Item) => {
             this.router.navigate(['/item', 'show', item.id]);
@@ -68,4 +85,7 @@ export class ItemPersistComponent implements OnInit {
             }
         });
     }
+
+
 }
+

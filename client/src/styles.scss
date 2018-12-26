@@ -1249,3 +1249,17 @@ main .container-floating .floating-button .plus {
 .display-block {
   display: block;
 }
+
+.opt {
+  padding: 3px;
+  width: 90%;
+  outline: none !important;
+  & {
+    border-bottom: 2px solid #CCCCCC;
+    outline: transparent;
+    font: 1.1em "Poppins Light", sans-serif;
+  }
+  &:hover {
+    background-color: rgba($mediumGray, 0.3);
+  }
+}

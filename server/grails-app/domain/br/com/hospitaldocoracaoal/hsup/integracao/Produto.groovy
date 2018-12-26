@@ -5,6 +5,7 @@ class Produto {
     String setor
     String descricao
     String estoque
+    String bloqueado
 
     static mapping = {
         id generator: 'assigned'
