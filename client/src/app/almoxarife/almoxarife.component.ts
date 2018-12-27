@@ -18,12 +18,39 @@ export class AlmoxarifeComponent implements OnInit {
     @ViewChild('search') search;
     @ViewChild('searchContainer') searchContainer;
     @ViewChild('main') main;
+    @ViewChild('stock') stock;
+
+   /* wpdProducts = [
+        {descricao: 'Mouse TIPO B', qnt: 3, stock: 4},
+        {descricao: 'Mouse TIPO A', qnt: 3, stock: 4},
+        {descricao: 'MousePad', qnt: 3, stock: 4},
+        {descricao: 'Mouse Sem Fio', qnt: 3, stock: 4},
+        {descricao: 'Notebook', qnt: 54, stock: 8},
+        {descricao: 'Playstation 11', qnt: 1, stock: 0},
+        {descricao: 'Playstation 22', qnt: 1, stock: 0},
+        {descricao: 'Playstation 40', qnt: 1, stock: 0},
+        {descricao: 'Playstation 12', qnt: 1, stock: 0},
+        {descricao: 'Playstation 13', qnt: 1, stock: 0},
+        {descricao: 'Playstation 40', qnt: 1, stock: 0},
+        {descricao: 'Playstation 41', qnt: 1, stock: 0},
+        {descricao: 'Playstation 42', qnt: 1, stock: 0},
+        {descricao: 'Playstation 452', qnt: 1, stock: 0},
+        {descricao: 'Playstation 44', qnt: 1, stock: 0},
+        {descricao: 'Playstation 46', qnt: 1, stock: 0},
+        {descricao: 'Playstation 48', qnt: 1, stock: 0},
+        {descricao: 'Playstation 38', qnt: 1, stock: 0},
+        {descricao: 'Playstation 2', qnt: 1, stock: 0},
+        {descricao: 'Playstation 1', qnt: 1, stock: 0},
+        {descricao: 'Liquidificador', qnt: 2, stock: 0},
+    ];*/
+
     wpdProducts:Produto[];
     form;
     sector = 'Tecnologia da Informação';
     requestNumber = '0001';
     date = '19/12/2018';
     requestUser = 'Beroaldo da Silva Carneiro';
+    loadIconStatus: boolean;
 
     constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder, private render: Renderer2, private elementRef: ElementRef) {
         this.form = this.fb.group({
@@ -34,19 +61,6 @@ export class AlmoxarifeComponent implements OnInit {
     ngOnInit() {
         this.createFormControl();
         this.wpdProducts = [];
-        let newdiv = this.render.createElement('div');
-    /*    this.render.appendChild(newdiv, this.render.createText('newText'));
-        this.render.setStyle(newdiv,'background-color','rgba(0,0,0,0.3)');
-        this.render.setStyle(newdiv,'z-index','99 !important');
-        this.render.setStyle(newdiv,'height','100%');
-        this.render.setStyle(newdiv,'position','absolute');
-        this.render.addClass(newdiv,'col-12');*/
-        console.log(document.getElementsByClassName('medium').item(0));
-        console.log(this.main);
-        // this.render.setStyle(this.elementRef.nativeElement,'background-color','rgba(0,0,0,1)!important');
-       /* this.render.insertBefore(this.elementRef.nativeElement, newdiv, this.main.nativeElement);*/
-        console.log(newdiv);
-
     }
 
     createFormControl() {
@@ -59,70 +73,62 @@ export class AlmoxarifeComponent implements OnInit {
         const currentControlName = event.target.getAttribute('ng-reflect-name');
         const currentControl = this.form.get(currentControlName);
 
+        /*const value = this.form.get(currentControlName);
+        value.valueChanges.debounceTime(1000).distinctUntilChanged()
+            .subscribe(inputValue => this.searchItem(inputValue, event.target));*/
+
+
+        console.log(currentControl.valueChanges);
         currentControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
             .switchMap(inputValue => this.almoxarifeService.search(inputValue))
             .subscribe((almoxarife: Produto[]) => {
                 this.wpdProducts = almoxarife;
+                console.log(this.wpdProducts);
             });
 
-        const value = this.form.get(currentControlName);
-        value.valueChanges.debounceTime(1000).distinctUntilChanged()
-            .subscribe(inputValue => this.searchItem(inputValue, event.target));
-
+        if (currentControl.value == '') this.wpdProducts = [];
     }
 
-    searchItem(value, input) {
-        if (this.render.parentNode(input).getElementsByClassName('list').length == 0) {
-            const ul = this.render.createElement('ul');
-            this.render.addClass(ul, 'list');
-            if (value != '') {
-                /*this.wpdProducts.sort(function (a, b) {
-                    if (a.descricao < b.descricao) {
-                        return -1
-                    }
-                    if (a.descricao > b.descricao) {
-                        return 1
-                    }
-                    return 0;
-                });*/
 
-                for (let item of this.wpdProducts) {
-                    // console.log(item.descricao);
-                    if (item.descricao.toLowerCase().includes(value.toLowerCase()) && value != '') {
-                        let li = this.render.createElement('li');
-                        this.render.addClass(li, 'item');
-                        this.render.appendChild(li, this.render.createText(item.descricao));
-                        this.render.appendChild(ul, li);
-                        this.render.listen(li, 'click', () => {
-                            input.value = li.innerHTML;
-                            ul.remove();
-                        });
-                    }
-                    this.render.appendChild(this.render.parentNode(input), ul);
-                    this.render.listen(ul, 'mouseleave', () => {
-                        setTimeout(() => {
-                            this.closeTransition(ul);
-                        }, 1, false);
-                    });
-                    this.render.listen(ul, 'mouseleave', () => {
-                        setTimeout(() => {
-                            ul.remove();
-                        }, 1000, false);
-                    });
-                }
-                setTimeout(() => {
-                    this.showTransition(ul)
-                }, 1, false);
-                console.log(ul);
-            }
-        } else {
-            const ul = this.render.parentNode(input).getElementsByClassName('list').item(0);
-            ul.remove();
-            this.searchItem(value, input);
-        }
-    }
+    // searchItem(value, input) {
+    //     if (value == '') return;
+    //
+    //     if (this.render.parentNode(input).getElementsByTagName('perfect-scrollbar').length == 0) {
+    //         const ps = this.render.createElement('perfect-scrollbar');
+    //         this.render.addClass(ps,'myScroll');
+    //         const listDiv = this.render.createElement('div');
+    //         this.render.addClass(listDiv, 'list');
+    //
+    //         for (let item of this.wpdProducts) {
+    //             const div = this.render.createElement('div');
+    //             this.render.addClass(div, 'item');
+    //
+    //             if (item.descricao.toLowerCase().includes(value.toLowerCase())) {
+    //                 this.render.appendChild(div, this.render.createText(item.descricao));
+    //                 this.render.appendChild(listDiv, div);
+    //                 this.render.listen(div, 'click', () => {
+    //                     input.value = div.innerHTML;
+    //                     this.render.parentNode(div).remove();
+    //                 });
+    //             }
+    //             this.render.appendChild(ps, listDiv);
+    //             this.render.appendChild(this.render.parentNode(input), ps);
+    //             /*this.render.listen(listDiv, 'mouseleave', () => {
+    //                 setTimeout(() => { this.closeTransition(listDiv); }, 1, false);
+    //             });
+    //             this.render.listen(listDiv, 'mouseleave', () => {
+    //                 setTimeout(() => { ps.remove(); }, 1000, false);
+    //             });*/
+    //         }
+    //         setTimeout(() => { this.showTransition(listDiv); }, 1, false);
+    //     } else {
+    //         const ps = this.render.parentNode(input).getElementsByTagName('perfect-scrollbar').item(0);
+    //         ps.remove();
+    //         this.searchItem(value, input);
+    //     }
+    // }
 
     showTransition(element) {
         this.render.setStyle(element, 'opacity', '1');
