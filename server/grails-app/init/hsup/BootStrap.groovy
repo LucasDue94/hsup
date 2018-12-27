@@ -12,7 +12,7 @@ class BootStrap {
         final String ADMIN_NAME = 'Administrador'
         final String ADMIN_PASSWORD = springSecurityService.encodePassword('admin')
 
-        Perfil adminPerfil = Perfil.findOrCreateByAuthority Perfil.ROLE_ADMIN
+        Perfil adminPerfil = Perfil.findOrCreateByName Perfil.ROLE_ADMIN
         adminPerfil.save()
 
         Usuario adminUsuario = Usuario.findOrCreateByUsernameAndPasswordAndName ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME

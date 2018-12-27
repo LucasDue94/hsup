@@ -2,7 +2,6 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.gorm.DetachedCriteria
 import groovy.transform.ToString
-
 import org.codehaus.groovy.util.HashCodeHelper
 import grails.compiler.GrailsCompileStatic
 
@@ -33,7 +32,7 @@ class UsuarioPerfil implements Serializable {
 		}
 		hashCode
 	}
-
+	
 	static UsuarioPerfil get(long usuarioId, long perfilId) {
 		criteriaFor(usuarioId, perfilId).get()
 	}
@@ -55,9 +54,9 @@ class UsuarioPerfil implements Serializable {
 		instance
 	}
 
-	static boolean remove(Usuario u, Perfil r) {
-		if (u != null && r != null) {
-			UsuarioPerfil.where { usuario == u && perfil == r }.deleteAll()
+	static boolean remove(Usuario u, Perfil rg) {
+		if (u != null && rg != null) {
+			UsuarioPerfil.where { usuario == u && perfil == rg }.deleteAll()
 		}
 	}
 
@@ -65,23 +64,23 @@ class UsuarioPerfil implements Serializable {
 		u == null ? 0 : UsuarioPerfil.where { usuario == u }.deleteAll() as int
 	}
 
-	static int removeAll(Perfil r) {
-		r == null ? 0 : UsuarioPerfil.where { perfil == r }.deleteAll() as int
+	static int removeAll(Perfil rg) {
+		rg == null ? 0 : UsuarioPerfil.where { perfil == rg }.deleteAll() as int
 	}
 
 	static constraints = {
-	    usuario nullable: false
-		perfil nullable: false, validator: { Perfil r, UsuarioPerfil ur ->
-			if (ur.usuario?.id) {
-				if (UsuarioPerfil.exists(ur.usuario.id, r.id)) {
-				    return ['userRole.exists']
+	    perfil nullable: false
+		usuario nullable: false, validator: { Usuario u, UsuarioPerfil ug ->
+			if (ug.perfil?.id) {
+				if (UsuarioPerfil.exists(u.id, ug.perfil.id)) {
+					return ['userGroup.exists']
 				}
 			}
 		}
 	}
 
 	static mapping = {
-		id composite: ['usuario', 'perfil']
+		id composite: ['perfil', 'usuario']
 		version false
 	}
 }

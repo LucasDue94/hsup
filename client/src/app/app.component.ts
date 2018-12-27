@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (localStorage.getItem('token') != null) this.isLogged = localStorage.getItem('token');
+        if (sessionStorage.getItem('token') != null) this.isLogged = sessionStorage.getItem('token');
     }
 }

@@ -19,10 +19,6 @@ class UsuarioController {
         respond usuarioService.get(id)
     }
 
-    def create () {
-        respond new Usuario(params)
-    }
-
     def save(Usuario usuario) {
         if (usuario == null) {
             render status: NOT_FOUND

@@ -1,5 +1,3 @@
-import br.com.hospitaldocoracaoal.hsup.Usuario
-
 model {
 	Iterable<Usuario> usuarioList
 }

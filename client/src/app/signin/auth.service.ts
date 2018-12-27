@@ -16,8 +16,6 @@ export class AuthService {
         })
     };
 
-    private message: string;
-
     constructor(private http: HttpClient, private router: Router) {
     }
 
@@ -29,14 +27,7 @@ export class AuthService {
             "password": user.password
         };
 
-        return this.http.post(url, data, {headers: this.httpOptions.headers, responseType: 'json'}).subscribe(resp => {
-                if (resp.hasOwnProperty('access_token')) localStorage.setItem('token', resp['access_token']);
-                this.router.navigateByUrl('/');
-            },
-            err => {
-                this.message = "Não foi possível logar, usuário e/ou senha inválido(s).";
-            }
-        );
+        return this.http.post(url, data, {headers: this.httpOptions.headers, responseType: 'json'});
     }
 
     logout() {
@@ -48,6 +39,7 @@ export class AuthService {
         return this.http.post(url, null, {headers: header, responseType: 'json'}).subscribe(
             resp => {
                 if (resp.hasOwnProperty('access_token')) localStorage.removeItem('token');
+                this.router.navigate(['/login']);
             },
             err => {
                 console.log(err)
