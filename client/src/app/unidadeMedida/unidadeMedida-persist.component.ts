@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {UnidadeMedida} from '../core/unidadeMedida/unidadeMedida';
 import {UnidadeMedidaService} from '../core/unidadeMedida/unidadeMedida.service';
-import {Response} from "@angular/http";
 
 
 @Component({

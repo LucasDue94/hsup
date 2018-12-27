@@ -7,25 +7,25 @@
             <input type="text"
                    formControlName="searchControl"
                    class="form-control filter-control col-5 float-right"
-                   placeholder="Buscar unidadeMedida..." #field>
+                   placeholder="Buscar fabricante..." #field>
         </form>
     </div>
-    <hcal-table tableName="UnidadeMedida - Quantidade {{ this.count }}">
+    <hcal-table tableName="Unidades - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default">Descrição</th>
+                <th class="thead-default" thead-content>Descrição</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let unidadeMedida of this.unidadeMedidaList
+            <tr class="trow-content" *ngFor="let unidade of this.unidadeMedidaList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <td class="data-default">{{ unidadeMedida.descricao }}</td>
+                <td class="tdata-default">{{ unidade.descricao }}</td>
                 <td class="tdata-default">
-                    <a class="edit" [routerLink]="['/unidadeMedida', 'edit', unidadeMedida.id]">
+                    <a class="edit" [routerLink]="['/unidade', 'edit', unidade.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
                     </a>|
-                    <a class="edit" [routerLink]="['/unidadeMedida', 'show', unidadeMedida.id]">
+                    <a class="edit" [routerLink]="['/unidade', 'show', unidade.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
                 </td>
@@ -35,14 +35,12 @@
             <h1 class="not-found-error">Nenhum registro encontrado</h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="this.count > 10"
-                         (pageChange)="this.pageNumber = event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'"
-         [show-delay]="500">
-        <a [routerLink]="['/unidadeMedida','create']" class="create a-link-page">
+    <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
+        <a [routerLink]="['/unidade','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>
     </div>

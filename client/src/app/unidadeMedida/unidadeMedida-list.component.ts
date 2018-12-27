@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { UnidadeMedida } from '../core/unidadeMedida/unidadeMedida';
-import { UnidadeMedidaService } from '../core/unidadeMedida/unidadeMedida.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {UnidadeMedida} from '../core/unidadeMedida/unidadeMedida';
+import {UnidadeMedidaService} from '../core/unidadeMedida/unidadeMedida.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormControl, FormGroup} from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
@@ -29,6 +29,7 @@ export class UnidadeMedidaListComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.searchControl = new FormControl('');
         this.searchForm = new FormGroup({
             searchControl: this.searchControl
@@ -43,18 +44,20 @@ export class UnidadeMedidaListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm =>
                 this.unidadeMedidaService.list(this.count, searchTerm))
-            .subscribe((unidadeMedidaList: UnidadeMedida[]) => {this.unidadeMedidaList = unidadeMedidaList});
+            .subscribe((unidadeMedidaList: UnidadeMedida[]) => {
+                this.unidadeMedidaList = unidadeMedidaList
+            });
 
 
-        if (this.searchControl.value == "" || this.searchControl.value == undefined) {
+        if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
-        }
+    }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.unidadeMedidaService.list('', '', '', this._offset).subscribe((unidadeMedidaList: UnidadeMedida[]) => {
+        this.unidadeMedidaService.list('', '', this._offset).subscribe((unidadeMedidaList: UnidadeMedida[]) => {
             this.unidadeMedidaList = unidadeMedidaList
         });
     }

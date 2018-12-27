@@ -7,9 +7,9 @@ import {UnidadeMedidaShowComponent} from './unidadeMedida-show.component';
 const routes: Routes = [
   {path: 'unidadeMedida', redirectTo: 'unidadeMedida/list', pathMatch: 'full'},
   {path: 'unidadeMedida/list', component: UnidadeMedidaListComponent},
-  {path: 'unidadeMedida/create', component: UnidadeMedidaPersistComponent},
+  {path: 'unidade/create', component: UnidadeMedidaPersistComponent},
   {path: 'unidadeMedida/edit/:id', component: UnidadeMedidaPersistComponent},
-  {path: 'unidadeMedida/show/:id', component: UnidadeMedidaShowComponent},
+  {path: 'unidade/show/:id', component: UnidadeMedidaShowComponent},
 ];
 
 @NgModule({

@@ -17,9 +17,9 @@ export class UnidadeMedidaService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<UnidadeMedida[]> {
+    list(max?: any, searchTerm?: string, offset?: any): Observable<UnidadeMedida[]> {
         let subject = new Subject<UnidadeMedida[]>();
-        this.http.get(this.baseUrl + `unidadeMedida?`, {params: {descricao: searchTerm}})
+        this.http.get(this.baseUrl + `unidadeMedida?offset=${offset}&max=${max}`, {params: {descricao: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['unidadeMedida'].map((item: any) => new UnidadeMedida(item)))

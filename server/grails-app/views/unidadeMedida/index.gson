@@ -4,5 +4,7 @@ model {
 	Iterable<UnidadeMedida> unidadeMedidaList
 }
 
-json tmpl.unidadeMedida(unidadeMedidaList ?: [])
-
+json {
+	unidadeMedida tmpl.unidadeMedida(unidadeMedidaList ?: [])
+	total UnidadeMedida.count
+}

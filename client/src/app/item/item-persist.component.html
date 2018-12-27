@@ -23,11 +23,13 @@
                    [(ngModel)]="item.descricao"
                    [class]="'form-control col-12'">
         </div>
-        <div class="form-group position-relative col-4 offset-1">
+        <div class="form-group position-relative col-8 offset-1">
             <label class="control-label">Unidade de Medida</label>
-            <select class="form-control" name="unidadeMedida" [(ngModel)]="item.unidadeMedida.id">
-                <option class="opt" *ngFor="let unidade of this.aUnidadeMedida" [value]="unidade.id">{{ unidade.descricao }}</option>
-            </select>
+            <hcal-dual-listbox [data]="aUnidadeMedida" [display]="'descricao'"></hcal-dual-listbox>
+        </div>
+        <div class="form-group position-relative col-5 offset-2">
+            <label for="fabricante" class="control-label">Fabricante</label>
+            <hcal-custom-dual-list id="fabricante" [key]="'id'" [(fieldDestination)]="this.item.fabricante" [display]="'fantasia'" [data]="aFabricantes" [sort]="true"></hcal-custom-dual-list>
         </div>
         <div class="form-group col-2 offset-1">
             <label class="control-label">Estado</label>

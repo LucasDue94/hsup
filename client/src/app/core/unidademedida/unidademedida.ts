@@ -6,10 +6,10 @@ export class UnidadeMedida {
 
     constructor (object?: any) {
       if (object) {
-        
-        for (var prop in object) {
-          this[prop] = object[prop];
-        }
+
+          for (const prop of Object.keys(object)) {
+              this[prop] = object[prop];
+          }
       }
 
     }
