@@ -1,39 +1,57 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../environments/environment";
-import { Perfil } from "../core/perfil/perfil";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
 
-    private baseUrl = environment.serverUrl;
+    private baseUrl = environment.serverApiUrl;
+    token: string;
 
-    private logged = new BehaviorSubject<boolean>(false);
+    httpOptions = {
+        headers: new HttpHeaders({
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        })
+    };
 
-    get isLogged() {
-        return this.isLogged.asObservable();
-    }
+    private message: string;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router) {
     }
 
     authentication(user) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            })
-        };
-
         const url = this.baseUrl + 'login';
+
         const data = {
             "username": user.username,
             "password": user.password
         };
 
-        this.http.post(url, data, {headers: httpOptions.headers, responseType: 'json'}).subscribe(
-            data => console.log(data)
+        return this.http.post(url, data, {headers: this.httpOptions.headers, responseType: 'json'}).subscribe(resp => {
+                if (resp.hasOwnProperty('access_token')) localStorage.setItem('token', resp['access_token']);
+                this.router.navigateByUrl('/');
+            },
+            err => {
+                this.message = "Não foi possível logar, usuário e/ou senha inválido(s).";
+            }
         );
+    }
+
+    logout() {
+        const url = this.baseUrl + 'logout';
+        const header = {
+            "X-Auth-Token": this.token
+        };
+
+        return this.http.post(url, null, {headers: header, responseType: 'json'}).subscribe(
+            resp => {
+                if (resp.hasOwnProperty('access_token')) localStorage.removeItem('token');
+            },
+            err => {
+                console.log(err)
+            }
+        )
     }
 }

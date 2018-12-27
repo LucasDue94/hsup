@@ -14,7 +14,8 @@ export class IndexComponent implements OnInit {
     controllers: Array<any>;
     serverUrl: string;
 
-    constructor(private navService: NavService, private router: Router) { }
+    constructor(private navService: NavService, private router: Router) {
+    }
 
     ngOnInit(): void {
         this.serverUrl = environment.serverUrl;
@@ -37,5 +38,9 @@ export class IndexComponent implements OnInit {
                 return true;
             }
         });
+    }
+
+    logout() {
+        sessionStorage.removeItem('token');
     }
 }

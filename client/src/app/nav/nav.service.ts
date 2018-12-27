@@ -16,7 +16,7 @@ export class NavService {
 
   getNavData(): Observable<any> {
     if (!this._navData) {
-      this._navData = this.httpClient.get(environment.serverUrl + 'application')
+      this._navData = this.httpClient.get(environment.serverApiUrl + 'application')
         .publishReplay()
         .refCount();
     }

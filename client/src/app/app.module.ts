@@ -27,6 +27,11 @@ import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
 import { SigninModule } from "./signin/signin.module";
 import { PerfilModule } from './perfil/perfil.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { AuthGuard } from "./guards/auth.guard";
+import { RouterModule } from "@angular/router";
+import { routes } from "./app-routing.module";
+
 
 @NgModule({
     declarations: [
@@ -34,33 +39,39 @@ import { PerfilModule } from './perfil/perfil.module';
         NavComponent
     ],
     imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpModule,
-    NgxMaskModule.forRoot(),
-    HcalSharedModule,
-    IndexModule,
-    LoginModule,
-    AsideBarModule,
-    MainModule,
-    SigninModule,
-    NotificationDropdownModule,
-    TableModule,
-    InputBaseModule,
-    SelectBaseModule,
-    CustomDualListboxModule,
-    FormsModule,
-    LoginModule,
-    FabricanteModule,
-    AppRoutingModule,
-    NgbModule.forRoot(),
-    FornecedorModule,
-    ItemModule,
-    PerfilModule
-],
-    providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        HttpModule,
+        NgxMaskModule.forRoot(),
+        HcalSharedModule,
+        IndexModule,
+        LoginModule,
+        AsideBarModule,
+        MainModule,
+        SigninModule,
+        NotificationDropdownModule,
+        TableModule,
+        InputBaseModule,
+        SelectBaseModule,
+        CustomDualListboxModule,
+        FormsModule,
+        LoginModule,
+        FabricanteModule,
+        AppRoutingModule,
+        NgbModule.forRoot(),
+        RouterModule.forRoot(routes),
+        FornecedorModule,
+        ItemModule,
+        PerfilModule,
+        UsuarioModule
+    ],
+    providers: [AuthGuard, Location, {
+        provide: LocationStrategy,
+        useClass: HashLocationStrategy
+    }, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}
 

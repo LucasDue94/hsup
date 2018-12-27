@@ -4,10 +4,10 @@ import { IndexComponent } from "./index/index.component";
 import { SigninComponent } from "./signin/signin.component";
 import { AuthGuard } from "./guards/auth.guard";
 
-const routes: Routes = [
-    {path: '', redirectTo: 'authentication', pathMatch: 'full'},
-    {path: 'authentication', component: SigninComponent},
-    {path: 'index', canActivate: [AuthGuard], component: IndexComponent}
+export const routes: Routes = [
+    {path: '', redirectTo: 'login', pathMatch: 'full'},
+    {path: 'login', component: SigninComponent},
+    {path: 'index', component: IndexComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

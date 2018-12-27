@@ -1,0 +1,49 @@
+<div class="col-12 float-left" role="main">
+    <a [routerLink]="['/index']" class="back-icon-link float-left">
+        <fa-icon [icon]="['fas', 'home']" class=""></fa-icon>
+    </a>
+    <div class="col-4 form-group float-right">
+        <form [formGroup]="searchForm">
+            <input type="text"
+                   formControlName="searchControl"
+                   class="form-control filter-control col-5 float-right"
+                   placeholder="Buscar usuário..." #field>
+        </form>
+    </div>
+    <hcal-table tableName="Usuários - Quantidade {{ this.count }}">
+        <table class="table-default">
+            <tr class="trow-head">
+                <th class="thead-default" thead-content>Nome</th>
+                <th class="thead-default" thead-content>Estado</th>
+                <th class="thead-default" thead-content colspan="2">
+                    <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+                </th>
+            </tr>
+            <tr class="trow-content" *ngFor="let usuario of this.usuarioList
+            | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+                <td class="tdata-default">{{ usuario.name }}</td>
+                <td class="tdata-default">{{ usuario.enabled == true ? 'Ativo' : 'Inativo' }}</td>
+                <td class="tdata-default">
+                    <a class="edit" [routerLink]="['/usuario', 'edit', usuario.id]">
+                        <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
+                    </a>|
+                    <a class="edit" [routerLink]="['/usuario', 'show', usuario.id]">
+                        <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <div class="not-found" *ngIf="this.usuarioList.length == 0">
+            <h1 class="not-found-error">Nenhum registro encontrado</h1>
+        </div>
+    </hcal-table>
+    <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+                         [directionLinks]="true"></pagination-controls>
+</div>
+<div class="container-floating">
+    <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
+        <a [routerLink]="['/usuario','create']" class="create a-link-page">
+            <p class="plus">+</p>
+        </a>
+    </div>
+</div>

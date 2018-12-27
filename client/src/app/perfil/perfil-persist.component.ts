@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Perfil} from '../core/perfil/perfil';
-import {PerfilService} from '../core/perfil/perfil.service';
-import {Response} from "@angular/http";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Perfil } from '../core/perfil/perfil';
+import { PerfilService } from '../core/perfil/perfil.service';
 
 
 @Component({
@@ -14,6 +13,7 @@ export class PerfilPersistComponent implements OnInit {
   perfil = new Perfil();
   create = true;
   errors: any[];
+  message;
   
 
   constructor(private route: ActivatedRoute, private perfilService: PerfilService, private router: Router) {}
