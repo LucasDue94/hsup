@@ -16,6 +16,7 @@ export class AlmoxarifeService {
     }
 
     search(produtoWpd) {
+        if(produtoWpd == '') return [];
         const url = this.baseUrl + 'produto';
         let subject = new Subject<Produto[]>();
         this.http.get(url, {params: {termo: produtoWpd}}).map((r: Response) => r)

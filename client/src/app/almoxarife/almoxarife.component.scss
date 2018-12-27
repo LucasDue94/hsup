@@ -147,6 +147,7 @@
   width: 100%;
   z-index: 99;
   transition: 1s opacity;
+  max-height: 100px;
   .item{
     padding: 5px;
     background-color: $mediumGrayTransparent;
