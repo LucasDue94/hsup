@@ -3,7 +3,7 @@
 
 .container-header {
   position: relative;
-  margin: 2em 5em;
+  margin: 2em 5em 7em 5em;
 
   & {
     color: $brown;
@@ -57,6 +57,11 @@
       border-radius: 10px;
     }
 
+    .section-line{
+      position: relative;
+      max-height: 60px ;
+    }
+
     .icon-status {
       font-size: 1.1em;
       margin-left: 2em;
@@ -64,9 +69,9 @@
   }
 
   .arrows-icon {
-    display: inline-block;
+    float: left;
     font-size: 1.5em;
-    margin: 0 1.5em;
+    margin: 0.7em 1.5em 0 1.5em;
   }
 }
 
@@ -138,6 +143,8 @@
 }
 
 .item {
+  z-index: 99;
+  position: relative;
   padding: 5px;
   background-color: $mediumGrayTransparent;
   border-bottom: 1px solid $lightGray;
@@ -149,6 +156,8 @@
 }
 
 .scrollProducts {
+  z-index: 99;
+  position: relative;
   max-height: 200px;
 }
 

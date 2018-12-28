@@ -15,12 +15,12 @@ export class IndexComponent implements OnInit {
     serverUrl: string;
 
     items = [
-        {descricao: 'Teclado para desktop windows', qnt: 10, stock: 0},
-        {descricao: 'Mouse', qnt: 3, stock: 4},
-        {descricao: 'Notebook', qnt: 54, stock: 8},
-        {descricao: 'Café', qnt: 3, stock: 69},
-        {descricao: 'Bolacha', qnt: 2,stock: 10},
-        {descricao: 'Água', qnt: 12,stock: 4},
+        {descricao: 'Teclado para desktop windows', qnt: 1, stock: 0},
+        {descricao: 'Mouse', qnt: 0, stock: 4},
+        {descricao: 'Notebook', qnt: 3, stock: 8},
+        {descricao: 'Café', qnt: 1, stock: 69},
+        {descricao: 'Bolacha', qnt: 0,stock: 10},
+        {descricao: 'Água', qnt: 1,stock: 4},
         {descricao: 'Playstation 4', qnt: 1,stock: 4},
         {descricao: 'Liquidificador', qnt: 2,stock: 39},
         {descricao: 'Água', qnt: 12,stock: 4},

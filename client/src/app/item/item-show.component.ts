@@ -58,7 +58,7 @@ export class ItemShowComponent implements OnInit {
             this.itemService.destroy(this.item).subscribe((success: boolean) => {
                 if (success) {
                     this.message = `Item ${this.item.id} excluído com sucesso!`;
-                    this.router.navigate(['/item','list']);
+                    this.router.navigate(['/itemRequest','list']);
                 } else {
                     alert("Erro ao excluir");
                 }

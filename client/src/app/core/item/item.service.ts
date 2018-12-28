@@ -29,7 +29,7 @@ export class ItemService {
 
     count() {
         let quantity: number;
-        return this.http.get<Item[]>(this.baseUrl + 'item/')
+        return this.http.get<Item[]>(this.baseUrl + 'itemRequest/')
             .map(
                 data => {
                     quantity = data['total'];
@@ -40,7 +40,7 @@ export class ItemService {
 
     get(id: number): Observable<Item> {
         let item;
-        return this.http.get(this.baseUrl + 'item/' + id)
+        return this.http.get(this.baseUrl + 'itemRequest/' + id)
             .map((r: Response) => {
                 item = new Item(r);
                 return item
@@ -57,7 +57,7 @@ export class ItemService {
         let url;
 
         if (item.id) {
-            url = this.baseUrl + 'item/' + item.id;
+            url = this.baseUrl + 'itemRequest/' + item.id;
             return this.http.put<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
         } else {
             url = this.baseUrl + 'item';
@@ -66,7 +66,7 @@ export class ItemService {
     }
 
     destroy(item: Item): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'item/' + item.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'itemRequest/' + item.id).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

@@ -58,7 +58,7 @@ export class ItemPersistComponent implements OnInit {
 
     save() {
         this.itemService.save(this.item).subscribe((item: Item) => {
-            this.router.navigate(['/item', 'show', item.id]);
+            this.router.navigate(['/itemRequest', 'show', item.id]);
         }, (res) => {
             const json = res.error;
             if (json.hasOwnProperty('message')) {

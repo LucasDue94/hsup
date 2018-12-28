@@ -4,22 +4,22 @@
         <h2>Item x Produto WPD</h2>
     </section>
 
-    <aside class="left-aside col-6">
+    <aside class="float-left col-6">
         <h4 class="label">Solicitante:</h4>
         <h3 class="label-description">{{requestUser}}</h3>
     </aside>
 
-    <aside class="right-aside text-right col-6">
+    <aside class="float-right text-right col-6">
         <h4 class="label">Nº da Solicitação:</h4>
         <h3 class="label-description"> {{requestNumber}}</h3>
     </aside>
 
-    <aside class="left-aside col-6">
+    <aside class="float-left col-6">
         <h4 class="label">Setor:</h4>
         <h3 class="label-description">{{sector}}</h3>
     </aside>
 
-    <aside class="right-aside text-right col-6">
+    <aside class="float-right text-right col-6">
         <h4 class="label">Data:</h4>
         <h3 class="label-description">{{date}}</h3>
     </aside>
@@ -36,15 +36,16 @@
     </header>
     <section class="main-content col-12">
         <perfect-scrollbar>
-            <section class="col-12" *ngFor="let item of itemsRequest; index as i">
-                <aside class="left-aside col-5">
+            <section class="section-line col-12" *ngFor="let itemRequest of itemsRequest; index as i">
+                <aside class="float-left col-5">
                     <div class="request-form-group col-10">
                         <label for="desc" class="request-label label-left col-6"><I></I>tem</label>
-                        <input id="desc" class="request-input-only-read col-6" value="{{item.descricao}}" disabled>
+                        <input id="desc" class="request-input-only-read col-6" value="{{itemRequest.descricao}}"
+                               disabled>
                     </div>
                     <div class="request-form-group col-2">
                         <label for="qnt" class="request-label label-right col-6">Qnt</label>
-                        <input id="qnt" class="request-input-only-read text-right  col-6" value="{{item.qnt}}"
+                        <input id="qnt" class="request-input-only-read text-right  col-6" value="{{itemRequest.qnt}}"
                                type="text">
                     </div>
                 </aside>
@@ -52,30 +53,25 @@
                 <aside class="right-aside col-5">
                     <div class="request-form-group col-10" [formGroup]="this.form" #searchContainer>
                         <label class="request-label label-left col-6">Produto</label>
-                        <input (click)="onClickInput($event)" (blur)="onClickInput($event)"
-                               formControlName="searchField{{i}}"
-                               class="request-input-line-bottom col-6"
-                               type="text" #search>
-                        <perfect-scrollbar class="scrollProducts" style="max-height: 100px"
-                                           *ngIf="wpdProducts.length > 0 && search.value != ''">
-                                <div class="item" *ngFor="let item of wpdProducts">{{item.descricao}}</div>
+                        <input (focus)="find($event.target)" formControlName="searchField{{i}}"
+                               class="request-input-line-bottom col-6" type="text" #search>
+                        <perfect-scrollbar class="scrollProducts"
+                                           *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
+                            <div (click)="select($event.target, search, itemWpd, i)" class="item"
+                                 *ngFor="let itemWpd of wpdProducts"
+                                 #list>{{itemWpd.descricao}}
+                            </div>
                         </perfect-scrollbar>
-                        <fa-icon class="loadIcon" [icon]="['fas', 'spinner']"></fa-icon>
+                        <!--<fa-icon class="loadIcon" [icon]="['fas', 'spinner']"></fa-icon>-->
                     </div>
-                    <div class="request-form-group col-2">
-                        <label for="stock" class="request-label label-right col-6">Estoque</label>
-                        <input id="stock" class="request-input-only-read text-right col-6"
-                               (click)="onClickInput($event)"
-                               value="{{item.stock}}"
-                               disabled type="text" #stock>
+                    <div class="request-form-group col-1">
+                        <label for="stock{{i}}" class="request-label label-right col-6">Estoque</label>
+                        <input  id="stock{{i}}" class="request-input-only-read text-right col-6" type="text" value="" disabled #stock>
                     </div>
                 </aside>
-                <fa-icon *ngIf="item.stock >= item.qnt" class="color-success icon-status"
-                         [icon]="['fas', 'check']"></fa-icon>
-                <fa-icon *ngIf=" (item.stock < item.qnt && item.stock > 0)" class="color-warning icon-status "
-                         [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                <fa-icon *ngIf="item.stock <= '0' " class="color-danger icon-status"
-                         [icon]="['fas', 'times']"></fa-icon>
+                      <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''" class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
+                      <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''" class="color-warning icon-status" [icon]="['fas', 'exclamation-circle']"></fa-icon>
+                      <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status" [icon]="['fas', 'times']"></fa-icon>
             </section>
         </perfect-scrollbar>
     </section>
@@ -83,13 +79,3 @@
     <!--&lt;!&ndash;<button>Voltar</button>&ndash;&gt;
     &lt;!&ndash;<button>Finalizar</button>&ndash;&gt;-->
 </main>
-<!--
-<perfect-scrollbar style="max-height: 50px">
-    <section class="list">
-  <div class="item">oi</div>
-  <div class="item">oi</div>
-  <div class="item">oi</div>
-  <div class="item">oi</div>
-
-    </section>
-</perfect-scrollbar>-->
