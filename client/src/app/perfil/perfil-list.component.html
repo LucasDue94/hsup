@@ -13,19 +13,14 @@
     <hcal-table tableName="Perfil - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
+                <th class="thead-default">Nome</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
             <tr class="trow-content" *ngFor="let perfil of this.perfilList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                
-                    <td class="data-default">{{ perfil.authority }}</td>
-                
-                    <td class="data-default">{{ perfil.id }}</td>
-                
-                    <td class="data-default">{{ perfil.version }}</td>
-                
+                <td class="tdata-default">{{ perfil.name }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/perfil', 'edit', perfil.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
@@ -44,7 +39,8 @@
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
+    <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'"
+         [show-delay]="500">
         <a [routerLink]="['/perfil','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>

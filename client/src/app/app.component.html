@@ -1,13 +1,14 @@
-<hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged != null">
+<hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged">
     <hcal-link [iconLink]="'home'" [routerLinkName]="'index'" [titleLink]="'Home'" main-menu></hcal-link>
     <hcal-link [iconLink]="'industry'" [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'" main-menu></hcal-link>
     <hcal-link [iconLink]="'briefcase'" [routerLinkName]="'fornecedor'" [titleLink]="'Fornecedores'" main-menu></hcal-link>
     <hcal-link [iconLink]="'box'" [routerLinkName]="'item'" [titleLink]="'Itens'" main-menu></hcal-link>
+    <hcal-link [iconLink]="'user-circle'" [routerLinkName]="'perfil'" [titleLink]="'Perfil'" main-menu></hcal-link>
     <!--<hcal-link [iconLink]="'shopping-bag'" [routerLinkName]="'compras'" [titleLink]="'Compras'" main-menu></hcal-link>-->
     <hcal-link [iconLink]="'users'" [routerLinkName]="'usuario'" [titleLink]="'Usuários'" main-menu></hcal-link>
     <!--<hcal-link [iconLink]="'user-friends'" [routerLinkName]="'setor'" [titleLink]="'Setores'" main-menu></hcal-link>-->
 </hcal-aside-bar>
-<hcal-main [title]="'HSUP'" *ngIf="isLogged != null">
+<hcal-main [title]="'HSUP'" *ngIf="isLogged">
     <hcal-nav [hiddenCog]="false" nav-main>
         <hcal-notification-dropdown class="dropdown"
                                     [titleNotificationDropdown]="'Title'"
@@ -19,4 +20,4 @@
     <router-outlet route></router-outlet>
 </hcal-main>
 
-<router-outlet></router-outlet>
+<router-outlet name="login" *ngIf="!isLogged"></router-outlet>

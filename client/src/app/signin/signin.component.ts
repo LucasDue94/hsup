@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, DoCheck, OnInit } from '@angular/core';
 import { AuthService } from "./auth.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -30,7 +30,7 @@ export class SigninComponent implements OnInit {
         if (this.form.valid) {
             this.authService.authentication(this.form.value).subscribe(resp => {
                     if (resp.hasOwnProperty('access_token')) sessionStorage.setItem('token', resp['access_token']);
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/index']);
                 },
                 err => {
                     this.message = 'Usuário e/ou senha inválido(s).';
@@ -38,9 +38,5 @@ export class SigninComponent implements OnInit {
         } else {
             this.message = "É necessário preencher os campos usuário e senha para entrar no sistema.";
         }
-    }
-
-    logout() {
-        this.authService.logout();
     }
 }

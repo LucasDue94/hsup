@@ -5,8 +5,7 @@ import { SigninComponent } from "./signin/signin.component";
 import { AuthGuard } from "./guards/auth.guard";
 
 export const routes: Routes = [
-    {path: '', redirectTo: 'login', pathMatch: 'full'},
-    {path: 'login', component: SigninComponent},
+    {path: '', component: SigninComponent, outlet: 'login'},
     {path: 'index', component: IndexComponent, canActivate: [AuthGuard]}
 ];
 

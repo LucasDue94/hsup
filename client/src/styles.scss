@@ -202,11 +202,12 @@ html, body {
 }
 
 .form-control {
-  padding: 6px 14px;
+  padding: 8px 14px;
   display: block;
   box-sizing: border-box;
   margin-left: 0;
   outline: none;
+  margin-bottom: 10px;
 
   & {
     border-radius: 20px;

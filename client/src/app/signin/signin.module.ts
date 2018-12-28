@@ -11,7 +11,8 @@ import { ReactiveFormsModule } from "@angular/forms";
         CommonModule,
         LoginModule,
         HcalSharedModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LoginModule
     ],
     providers: [AuthService],
     exports: [SigninComponent]

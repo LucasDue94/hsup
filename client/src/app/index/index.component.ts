@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavService } from '../nav/nav.service';
 import { Route, Router } from '@angular/router';
-
-import { environment } from '../../environments/environment';
+import { AuthService } from "../signin/auth.service";
 
 @Component({
     selector: 'app-index',
@@ -14,7 +13,7 @@ export class IndexComponent implements OnInit {
 
     controllers: Array<any>;
 
-    constructor(private navService: NavService, private router: Router) {
+    constructor(private navService: NavService, private router: Router, private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -29,8 +28,6 @@ export class IndexComponent implements OnInit {
                 }
             });
         });
-
-        console.log(sessionStorage);
     }
 
     hasRoute(controllerName: string): boolean {
@@ -42,6 +39,6 @@ export class IndexComponent implements OnInit {
     }
 
     logout() {
-        sessionStorage.removeItem('token');
+        this.authService.logout(sessionStorage.getItem('token'));
     }
 }

@@ -19,7 +19,7 @@ export class PerfilService {
 
     list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<Perfil[]> {
         let subject = new Subject<Perfil[]>();
-        this.http.get(this.baseUrl + `perfil?offset={offset}&max={max}`, {params: {fieldSearch: searchTerm}})
+        this.http.get(this.baseUrl + `perfil?offset=${offset}&max=${max}`, {params: {fieldSearch: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['perfil'].map((item: any) => new Perfil(item)))

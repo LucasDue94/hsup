@@ -3,12 +3,12 @@
 export class Perfil {
     id: number;
 
-    authority: string;
+    name: string;
 
     constructor (object?: any) {
       if (object) {
         
-        for (var prop in object) {
+        for (const prop of Object.keys(object)) {
           this[prop] = object[prop];
         }
       }

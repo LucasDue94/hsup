@@ -1,6 +1,10 @@
+import br.com.hospitaldocoracaoal.hsup.Perfil
+
 model {
 	Iterable<Perfil> perfilList
 }
 
-json tmpl.perfil(perfilList ?: [])
-
+json {
+	perfil tmpl.perfil(perfilList ?: [])
+	total Perfil.count
+}

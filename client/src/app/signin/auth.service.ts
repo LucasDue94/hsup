@@ -30,19 +30,22 @@ export class AuthService {
         return this.http.post(url, data, {headers: this.httpOptions.headers, responseType: 'json'});
     }
 
-    logout() {
+    logout(auth) {
         const url = this.baseUrl + 'logout';
+        auth != null ? this.token = auth : '';
         const header = {
-            "X-Auth-Token": this.token
+            auth: new HttpHeaders({
+                "X-Auth-Token": this.token
+            })
         };
 
-        return this.http.post(url, null, {headers: header, responseType: 'json'}).subscribe(
+        return this.http.post(url, null, {headers: header.auth, responseType: 'json'}).subscribe(
             resp => {
-                if (resp.hasOwnProperty('access_token')) localStorage.removeItem('token');
-                this.router.navigate(['/login']);
+                sessionStorage.removeItem('token');
+                this.router.navigate(['/']);
             },
             err => {
-                console.log(err)
+                console.log(err);
             }
         )
     }

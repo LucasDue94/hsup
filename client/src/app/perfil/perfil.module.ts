@@ -3,34 +3,35 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoreModule } from '../core/core.module';
-import { HcalSharedModule, InputBaseModule, TableModule } from 'hcal';
+import { HcalSharedModule, InputBaseModule, ModalModule, TableModule } from 'hcal';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 
-    import {PerfilRoutingModule} from './perfil-routing.module';
-    import {PerfilShowComponent} from './perfil-show.component';
-    import {PerfilListComponent} from './perfil-list.component';
-    import {PerfilPersistComponent} from './perfil-persist.component';
-    
+import { PerfilRoutingModule } from './perfil-routing.module';
+import { PerfilShowComponent } from './perfil-show.component';
+import { PerfilListComponent } from './perfil-list.component';
+import { PerfilPersistComponent } from './perfil-persist.component';
+
 @NgModule({
     declarations: [
-    PerfilListComponent,
+        PerfilListComponent,
         PerfilPersistComponent,
         PerfilShowComponent
     ],
-imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HcalSharedModule,
-    InputBaseModule,
-    NgxPaginationModule,
-    TooltipModule,
-    TableModule,
-    CoreModule,
-    
-    PerfilRoutingModule
-]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HcalSharedModule,
+        InputBaseModule,
+        NgxPaginationModule,
+        TooltipModule,
+        TableModule,
+        CoreModule,
+        ModalModule,
+        PerfilRoutingModule
+    ]
 })
-export class PerfilModule {}
+export class PerfilModule {
+}

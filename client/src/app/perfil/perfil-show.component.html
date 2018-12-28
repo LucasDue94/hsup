@@ -7,31 +7,19 @@
 <div class="content col-2 show-container float-left">
     <div class="width-auto float-left bg-blue show-head">
         <span class="icon-show-head">
-            <fa-icon [icon]="['fas', 'industry']" class="float-left color-white"></fa-icon>
+            <fa-icon [icon]="['fas', 'user-circle']" class="float-left color-white"></fa-icon>
         </span>
     </div>
     <div class="float-right col-6 show-content">
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">authority</span>
-                <span class="content-span-show offset-1">
-                {{ perfil.authority }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">id</span>
-                <span class="content-span-show offset-1">
-                {{ perfil.id }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">version</span>
-                <span class="content-span-show offset-1">
-                {{ perfil.version }}
-            </span>
-        
         <div class="clearfix"></div>
         <div class="col-12 float-left">
+            <span class="title-span-show">Nome</span>
+            <span class="content-span-show offset-1">
+            {{ perfil.name }}
+        </span>
+        </div>
+        <div class="clearfix"></div>
+        <!--<div class="col-12 float-left">
             <div class="btn-settings-show float-right">
                 <a class="edit" [routerLink]="['/perfil', 'edit', perfil.id]">
                     <fa-icon [icon]="['fas', 'edit']" class="color-green icon-config"></fa-icon>
@@ -40,6 +28,6 @@
                     <fa-icon [icon]="['fas', 'trash']" class="color-danger icon-config"></fa-icon>
                 </button>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
