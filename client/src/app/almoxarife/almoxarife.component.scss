@@ -1,0 +1,187 @@
+@import '../../color.scss';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+.container-header {
+  margin-top: 2em;
+  margin-bottom: 6em;
+  & {
+    color: $brown;
+    font-family: "Poppins SemiBold", sans-serif;
+  }
+
+  .title-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .label {
+    display: inline;
+    font-family: "Poppins ExtraLight", sans-serif;
+    margin-right: 5px;
+  }
+
+  .label-description {
+    display: inline;
+  }
+}
+
+.container-request {
+  //padding: 15px;
+  height: 65%;
+
+  & {
+    color: $brown;
+    font-family: "Poppins Light", sans-serif;
+    background-color: $mediumGrayTransparent;
+    border-radius: 20px;
+  }
+  .title {
+    margin-top: 1em;
+    font-family: "Poppins ExtraBold", sans-serif;
+    text-align: center;
+  }
+
+  .main-content-header {
+    margin-bottom: 15px;
+  }
+
+  .main-content {
+    padding: 10px 5px 10px 20px;
+    height: 80%;
+    width: 95%;
+    & {
+      background-color: rgba($lightGray, 0.7);
+      border-radius: 10px;
+    }
+
+    .section-line{
+      position: relative;
+      max-height: 60px ;
+    }
+
+    .icon-status {
+      font-size: 1.1em;
+      margin-left: 2em;
+    }
+  }
+  .arrows-icon {
+    float: left;
+    font-size: 1.5em;
+    margin: 0.7em 1.5em 0 1.5em;
+  }
+}
+
+.left-aside {
+  display: inline-block;
+}
+
+.right-aside {
+  position: relative;
+  display: inline-block;
+  right: 0;
+}
+
+.request-form-group {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
+
+  .request-label {
+    position: relative;
+    display: block;
+    & {
+      font-size: 0.8em;
+    }
+  }
+
+  .request-item {
+    position: relative;
+    width: 100%;
+    & {
+      font-family: inherit;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      font-size: 1.2em;
+      color: $brown;
+    }
+  }
+
+  .request-input-line-bottom {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    & {
+      text-align: left;
+      font-size: 1.2em;
+      font-family: inherit;
+      color: $brown;
+      border: none;
+      outline: none;
+      background-color: transparent;
+      border-bottom: 1px solid $mediumGray;
+    }
+  }
+}
+
+.text-right {
+  text-align: right;
+}
+
+.label-right {
+  text-align: right;
+  margin-right: 0;
+}
+
+.label-left {
+  margin-left: 0;
+}
+
+.item {
+  z-index: 99;
+  position: relative;
+  padding: 5px;
+  background-color: $mediumGrayTransparent;
+  border-bottom: 1px solid $lightGray;
+
+  &:hover {
+    background-color: $mediumGray;
+    cursor: pointer;
+  }
+}
+
+.scrollProducts {
+  z-index: 99;
+  position: relative;
+  max-height: 200px;
+}
+
+.loadIcon {
+  display: none;
+  position: absolute;
+  animation: spin-animation 1s infinite linear;
+  transform: rotate(0);
+}
+.btn-almoxarife{
+  margin-top: 2em;
+  margin-left: 0.5em ;
+}
+
+@-moz-keyframes spin-animation {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@-webkit-keyframes spin-animation {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes spin-animation {
+  100% {
+    transform: rotate(-360deg);
+  }
+}

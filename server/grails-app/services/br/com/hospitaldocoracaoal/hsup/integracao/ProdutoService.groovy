@@ -7,14 +7,6 @@ abstract class ProdutoService {
 
     abstract Produto get(Serializable id)
 
-    abstract Long count()
-
-    abstract void delete(Serializable id)
-
-    abstract Produto save(Produto produto)
-
-    abstract List<Produto> list(Map args)
-
     List<Produto> list(Map args, String termo) {
         def criteria = Produto.createCriteria()
         List<Produto> produtoList = (List<Produto>) criteria.list(args) {
@@ -28,4 +20,13 @@ abstract class ProdutoService {
 
         return produtoList
     }
+
+    abstract Long count()
+
+    abstract void delete(Serializable id)
+
+    abstract Produto save(Produto produto)
+
+    abstract List<Produto> list(Map args)
+
 }

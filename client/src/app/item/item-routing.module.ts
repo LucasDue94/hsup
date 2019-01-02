@@ -5,11 +5,11 @@ import {ItemPersistComponent} from './item-persist.component';
 import {ItemShowComponent} from './item-show.component';
 
 const routes: Routes = [
-  {path: 'item', redirectTo: 'item/list', pathMatch: 'full'},
-  {path: 'item/list', component: ItemListComponent},
-  {path: 'item/create', component: ItemPersistComponent},
-  {path: 'item/edit/:id', component: ItemPersistComponent},
-  {path: 'item/show/:id', component: ItemShowComponent},
+  {path: 'item', redirectTo: 'itemRequest/list', pathMatch: 'full'},
+  {path: 'itemRequest/list', component: ItemListComponent},
+  {path: 'itemRequest/create', component: ItemPersistComponent},
+  {path: 'itemRequest/edit/:id', component: ItemPersistComponent},
+  {path: 'itemRequest/show/:id', component: ItemShowComponent},
 ];
 
 @NgModule({

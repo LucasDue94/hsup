@@ -1,14 +1,14 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {AppComponent} from './app.component';
-import {NavService} from './nav/nav.service';
-import {AppRoutingModule} from "./app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { AppComponent } from './app.component';
+import { NavService } from './nav/nav.service';
+import { AppRoutingModule } from "./app-routing.module";
+import { HttpClientModule } from "@angular/common/http";
 import {
-    AsideBarModule, CustomDualListboxModule,
+    AsideBarModule,
     HcalSharedModule,
     InputBaseModule,
     MainModule,
@@ -16,17 +16,16 @@ import {
     SelectBaseModule,
     TableModule
 } from "hcal";
-import {FabricanteModule} from "./fabricante/fabricante.module";
-import {NavComponent} from "./nav/nav.component";
-import {IndexModule} from "./index/index.module";
-import {FabricanteService} from "./core/fabricante/fabricante.service";
-import {HttpModule} from "@angular/http";
-import {FornecedorModule} from './fornecedor/fornecedor.module';
-import {ItemModule} from './item/item.module';
-import {NgxMaskModule} from "ngx-mask";
-import {ProdutoService} from "./core/produto/produto.service";
-import {ProdutoModule} from './produto/produto.module';
-import {UnidadeMedidaModule} from './unidadeMedida/unidadeMedida.module';
+import { FabricanteModule } from "./fabricante/fabricante.module";
+import { NavComponent } from "./nav/nav.component";
+import { IndexModule } from "./index/index.module";
+import { FabricanteService } from "./core/fabricante/fabricante.service";
+import { HttpModule } from "@angular/http";
+import { FornecedorModule } from './fornecedor/fornecedor.module';
+import { ItemModule } from './item/item.module';
+import { NgxMaskModule } from "ngx-mask";
+import {AlmoxarifeModule} from "./almoxarife/almoxarife.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
     declarations: [
@@ -40,13 +39,11 @@ import {UnidadeMedidaModule} from './unidadeMedida/unidadeMedida.module';
         HttpModule,
         NgxMaskModule.forRoot(),
         HcalSharedModule,
-        CustomDualListboxModule,
         IndexModule,
         AsideBarModule,
         MainModule,
         NotificationDropdownModule,
         TableModule,
-        CustomDualListboxModule,
         InputBaseModule,
         SelectBaseModule,
         FormsModule,
@@ -55,15 +52,11 @@ import {UnidadeMedidaModule} from './unidadeMedida/unidadeMedida.module';
         NgbModule.forRoot(),
         FornecedorModule,
         ItemModule,
-        ProdutoModule,
-        UnidadeMedidaModule
+        AlmoxarifeModule,
+        BrowserAnimationsModule,
     ],
-    providers: [Location, {
-        provide: LocationStrategy,
-        useClass: HashLocationStrategy
-    }, NavService, FabricanteService, ProdutoService],
+    providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
 
