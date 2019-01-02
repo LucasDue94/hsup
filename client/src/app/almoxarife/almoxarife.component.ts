@@ -62,9 +62,9 @@ export class AlmoxarifeComponent implements OnInit {
         if (currentControl.value == '') this.wpdProducts = [];
     }
 
-    removeEquals(){
-        for(let i = 1; i< this.wpdProducts.length; i++){
-            if(this.wpdProducts[i] == this.wpdProducts[i-1]){
+    removeEquals() {
+        for (let i = 1; i < this.wpdProducts.length; i++) {
+            if (this.wpdProducts[i] == this.wpdProducts[i - 1]) {
 
             }
         }
@@ -73,8 +73,8 @@ export class AlmoxarifeComponent implements OnInit {
     select(event, input, item, index) {
         input.value = event.innerHTML;
         this.wpdProducts = [];
-        const stock = document.getElementById('stock' + index);
-        stock.value = item.estoque;
+        this.stock = document.getElementById('stock' + index);
+        this.stock.value = item.estoque;
         console.log(this.search);
     }
 
