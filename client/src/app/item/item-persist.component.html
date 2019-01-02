@@ -12,7 +12,7 @@
     <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
         <div class="form-group position-relative col-4">
             <label for="descricao" class="control-label">Descrição</label>
-            <input type="text"
+            <input type=""
                    name="descricao"
                    tooltipHcal="Campo descrição do Item. Ex.: "
                    [position]="'top'"
@@ -23,29 +23,20 @@
                    [(ngModel)]="item.descricao"
                    [class]="'form-control col-12'">
         </div>
-        <div class="form-group position-relative col-4 offset-1">
-            <label for="unidade_medida" class="control-label">Unidade de Medida</label>
-            <input type="text"
-                   name="unidade_medida"
-                   tooltipHcal="Campo unidade de medida do Item. Ex.: GB (Gigabyte)"
-                   [position]="'top'"
-                   [delay]="3000"
-                   required="required"
-                   id="unidade_medida"
-                   placeholder="Digite a unidade de medida..."
-                   [(ngModel)]="item.unidadeMedida"
-            [class]="'form-control col-12'">
+        <div class="form-group position-relative col-8 offset-1">
+            <label class="control-label">Unidade de Medida</label>
+            <hcal-dual-listbox [data]="aUnidadeMedida" [display]="'descricao'"></hcal-dual-listbox>
+        </div>
+        <div class="form-group position-relative col-5 offset-2">
+            <label for="unidade" class="control-label">Unidades de Medidas</label>
+<!--
+            <hcal-custom-dual-list id="unidade" [key]="'id'" [(fieldDestination)]="this.item.unidadeMedida" [display]="'Unidade de Medida'" [data]="aUnidadeMedida" [sort]="true"></hcal-custom-dual-list>
+-->
         </div>
         <div class="form-group col-2 offset-1">
             <label class="control-label">Estado</label>
             <input type="checkbox" [(ngModel)]="item.ativo" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>
-        </div>
-        <div class="form-group position-relative col-5">
-            <label for="fornecedor" class="control-label">Fornecedor</label>
-        </div>
-        <div class="form-group position-relative col-5 offset-2">
-            <label for="fabricante" class="control-label">Fabricante</label>
         </div>
         <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
     </form>

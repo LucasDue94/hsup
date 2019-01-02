@@ -4,6 +4,8 @@ class UnidadeMedida {
 
     String descricao
 
+    static belongsTo = Item
+
     static constraints = {
         descricao nullable: false, blank: false, unique: true
     }

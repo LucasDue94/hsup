@@ -3,16 +3,30 @@ package br.com.hospitaldocoracaoal.hsup.integracao
 import grails.gorm.services.Service
 
 @Service(Produto)
-interface ProdutoService {
+abstract class ProdutoService {
 
-    Produto get(Serializable id)
+    abstract Produto get(Serializable id)
 
-    List<Produto> list(Map args)
+    List<Produto> list(Map args, String termo) {
+        def criteria = Produto.createCriteria()
+        List<Produto> produtoList = (List<Produto>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('codigo', "%${termo}%")
+                    ilike('descricao', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return produtoList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Produto save(Produto produto)
+    abstract void delete(Serializable id)
+
+    abstract Produto save(Produto produto)
+
+    abstract List<Produto> list(Map args)
 
 }

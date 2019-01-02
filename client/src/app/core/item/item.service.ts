@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import {Fabricante} from "../fabricante/fabricante";
 
 @Injectable()
 export class ItemService {
@@ -59,7 +60,7 @@ export class ItemService {
         if (item.id) {
             url = this.baseUrl + 'itemRequest/' + item.id;
             return this.http.put<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
-        } else {
+        }else {
             url = this.baseUrl + 'item';
             return this.http.post<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
         }

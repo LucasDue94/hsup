@@ -7,44 +7,51 @@
             <input type="text"
                    formControlName="searchControl"
                    class="form-control filter-control col-5 float-right"
-                   placeholder="Buscar item..." #field>
+                   placeholder="Buscar produto..." #field>
         </form>
     </div>
-    <hcal-table tableName="Itens - Quantidade {{ this.count }}">
+    <hcal-table tableName="Produto - Quantidade {{ this.count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default" thead-content>descrição</th>
-                <th class="thead-default" thead-content>unidade de medida</th>
+                <th class="thead-default">Código</th>
+                <th class="thead-default">Descrição</th>
+                <th class="thead-default">Setor</th>
+                <th class="thead-default">Estoque</th>
+                <th class="thead-default">Bloqueado</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let item of this.itemList
+            <tr class="trow-content" *ngFor="let produto of this.produtoList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <td class="tdata-default">{{ item.descricao }}</td>
+
+                <td class="data-default">{{ produto.codigo }}</td>
+                <td class="data-default">{{ produto.descricao }}</td>
+                <td class="data-default">{{ produto.setor }}</td>
+                <td class="data-default">{{ produto.estoque }}</td>
+                <td class="data-default">{{ produto.bloqueado }}</td>
+
+
                 <td class="tdata-default">
-                    <a class="edit" [routerLink]="['/item', 'edit', item.id]">
+                    <a class="edit" [routerLink]="['/produto', 'edit', produto.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
                     </a>|
-                    <a class="edit" [routerLink]="['/item', 'show', item.id]">
+                    <a class="edit" [routerLink]="['/produto', 'show', produto.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.itemList.length == 0">
+        <div class="not-found" *ngIf="this.produtoList.length == 0">
             <h1 class="not-found-error">Nenhum registro encontrado</h1>
         </div>
     </hcal-table>
-
-
-
-    <pagination-controls *ngIf="this.count > 10 && this.itemList.length > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
     <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
-        <a [routerLink]="['/item','create']" class="create a-link-page">
+        <a [routerLink]="['/produto','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>
     </div>

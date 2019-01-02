@@ -712,10 +712,10 @@ html, body {
   background: $blue;
 }
 
-.bg-danger {
+.bg-danger{
   background-color: $danger;
 
-  &.notification-body {
+  &.notification-body{
     background-color: rgba($danger, 0.5);
   }
 }
@@ -724,10 +724,10 @@ html, body {
   background: $lightDanger;
 }
 
-.bg-success {
+.bg-success{
   background-color: $green;
 
-  &.notification-body {
+  &.notification-body{
     background-color: $lightGreen;
   }
 }
@@ -736,10 +736,10 @@ html, body {
   background: $lightGreen;
 }
 
-.bg-warning {
+.bg-warning{
   background-color: $warning;
 
-  &.notification-body {
+  &.notification-body{
     background-color: rgba($warning, 0.5);
   }
 }
@@ -748,10 +748,10 @@ html, body {
   background: $lightWarning;
 }
 
-.bg-info {
+.bg-info{
   background-color: $blue;
 
-  &.notification-body {
+  &.notification-body{
     background-color: rgba($primary, 0.6);
   }
 }
@@ -760,19 +760,19 @@ html, body {
   background: $lightBlue;
 }
 
-.color-danger {
+.color-danger{
   color: $danger;
 }
 
-.color-success {
+.color-success{
   color: $success;
 }
 
-.color-warning {
+.color-warning{
   color: $warning;
 }
 
-.color-info {
+.color-info{
   color: $blue;
 }
 
@@ -784,7 +784,7 @@ html, body {
   color: $blue;
 }
 
-.color-white {
+.color-white{
   color: $white;
 }
 

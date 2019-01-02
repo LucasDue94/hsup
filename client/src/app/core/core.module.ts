@@ -5,6 +5,7 @@ import { FabricanteService } from './fabricante/fabricante.service';
 import { FornecedorService } from './fornecedor/fornecedor.service';
 import { ItemService } from './item/item.service';
 import { ProdutoService } from './produto/produto.service';
+import { UnidadeMedidaService } from './unidadeMedida/unidadeMedida.service';
 
 @NgModule({
   declarations: [],
@@ -16,7 +17,8 @@ providers: [
     FabricanteService,
     FornecedorService,
     ItemService,
-    ProdutoService
+    ProdutoService,
+    UnidadeMedidaService
 ]
 })
 export class CoreModule {}

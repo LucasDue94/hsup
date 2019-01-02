@@ -24,14 +24,13 @@ import { HttpModule } from "@angular/http";
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
-import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-
+import {AlmoxarifeModule} from "./almoxarife/almoxarife.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavComponent,
+        NavComponent
     ],
     imports: [
         BrowserModule,
@@ -59,6 +58,5 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
 
