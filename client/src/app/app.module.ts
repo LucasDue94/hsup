@@ -46,6 +46,7 @@ import {UnidadeMedidaModule} from './unidadeMedida/unidadeMedida.module';
         MainModule,
         NotificationDropdownModule,
         TableModule,
+        CustomDualListboxModule,
         InputBaseModule,
         SelectBaseModule,
         FormsModule,
