@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
@@ -12,7 +12,7 @@ import { Produto } from "../core/produto/produto";
     templateUrl: './almoxarife.component.html',
     styleUrls: ['./almoxarife.component.scss']
 })
-export class AlmoxarifeComponent implements OnInit {
+export class AlmoxarifeComponent implements OnInit, OnDestroy {
 
     @Input() itemsRequest;
     @ViewChild('search') search;
@@ -21,7 +21,9 @@ export class AlmoxarifeComponent implements OnInit {
     @ViewChild('stock') stock;
     @ViewChild('stateStock') stateStock;
     wpdProducts: Produto[];
+    setTest = new Map();
     form;
+    input;
     sector = 'Tecnologia da Informação';
     requestNumber = '0001';
     date = '19/12/2018';
@@ -53,21 +55,36 @@ export class AlmoxarifeComponent implements OnInit {
         currentControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(inputValue => this.almoxarifeService.search(inputValue))
+            .switchMap(inputValue => this.almoxarifeService.search(inputValue, '', ''))
             .subscribe((almoxarife: Produto[]) => {
-                this.wpdProducts = almoxarife;
-                console.log(this.wpdProducts);
+                let current = '';
+                this.setTest.clear();
+                this.wpdProducts = [];
+                for (const a of almoxarife) {
+                    if (!this.setTest.has(a['codigo'])) {
+                        this.setTest.set(a['codigo'], a);
+                        current = this.setTest.get(a['codigo']);
+                    } else {
+                        current['estoque'] = +current['estoque'] + +a['estoque'];
+                    }
+                }
+                this.setTest.forEach(v => this.wpdProducts.push(v));
             });
 
-        if (currentControl.value == '') this.wpdProducts = [];
+        if (currentControl.value == '') {
+            this.wpdProducts = [];
+            this.stock.value = '';
+        }
     }
 
     removeEquals() {
-        for (let i = 1; i < this.wpdProducts.length; i++) {
-            if (this.wpdProducts[i] == this.wpdProducts[i - 1]) {
+        /* for (let i = 1; i < this.wpdProducts.length; i++) {
+             if (this.wpdProducts[i].id === this.wpdProducts[i - 1].id) {
+                             this.wpdProducts[i - 1].estoque += this.wpdProducts[i].estoque;
+                             this.wpdProducts.splice(i, 1);
+                         }
 
-            }
-        }
+         }*/
     }
 
     select(event, input, item, index) {
@@ -75,14 +92,9 @@ export class AlmoxarifeComponent implements OnInit {
         this.wpdProducts = [];
         this.stock = document.getElementById('stock' + index);
         this.stock.value = item.estoque;
-        console.log(this.search);
+        // console.log(this.search);
     }
 
-    showTransition(element) {
-        this.render.setStyle(element, 'opacity', '1');
-    }
-
-    closeTransition(element) {
-        this.render.setStyle(element, 'opacity', '0');
+    ngOnDestroy(): void {
     }
 }

@@ -53,7 +53,7 @@
                 <aside class="right-aside col-5">
                     <div class="request-form-group col-10" [formGroup]="this.form" #searchContainer>
                         <label class="request-label label-left col-6">Produto</label>
-                        <input title="" (focus)="find($event.target)" formControlName="searchField{{i}}"
+                        <input title="" (keydown)="find($event.target)" (blur)="find($event.target)" (focus)="find($event.target)" formControlName="searchField{{i}}"
                                class="request-input-line-bottom col-6" type="text" #search>
                         <perfect-scrollbar class="scrollProducts"
                                            *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
@@ -76,5 +76,6 @@
     <button class="float-right button button-blue btn-almoxarife col-3">Finalizar</button>
     <button class="float-right button btn-almoxarife col-3">Voltar</button>
 </div>
-
+    <!--<li *ngFor="let s of this.setTest.values()">{{ s.descricao }}</li>-->
 </main>
+
