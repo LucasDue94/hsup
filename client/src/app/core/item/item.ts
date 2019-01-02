@@ -16,7 +16,6 @@ export class Item {
         this.fabricante = [];
 
         if (object) {
-
             if (object.hasOwnProperty('fornecedor')) {
                 this.fornecedor = object['fornecedor'].map((obj: any) => { return new Fornecedor(obj); });
                 delete object['fornecedor'];
@@ -27,7 +26,7 @@ export class Item {
                 delete object['fabricante'];
             }
 
-            for (var prop in object) {
+            for (const prop in Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }

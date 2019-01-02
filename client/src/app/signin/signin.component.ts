@@ -36,7 +36,7 @@ export class SigninComponent implements OnInit {
                     this.message = 'Usuário e/ou senha inválido(s).';
                 });
         } else {
-            this.message = "É necessário preencher os campos usuário e senha para entrar no sistema.";
+            this.message = "É necessário preencher os usuário e senha para entrar no sistema.";
         }
     }
 }

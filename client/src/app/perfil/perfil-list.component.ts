@@ -53,7 +53,7 @@ export class PerfilListComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.perfilService.list('', '', '', this._offset).subscribe((perfilList: Perfil[]) => {
+        this.perfilService.list('', '', this._offset).subscribe((perfilList: Perfil[]) => {
             this.perfilList = perfilList
         });
     }

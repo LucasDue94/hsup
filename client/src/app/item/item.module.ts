@@ -24,6 +24,7 @@ import { NgxMaskModule } from "ngx-mask";
         FormsModule,
         NgxMaskModule.forRoot(),
         ModalModule,
+
         ReactiveFormsModule,
         HcalSharedModule,
         InputBaseModule,

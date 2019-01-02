@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.*
 
 class UsuarioController {
 
+    def springSecurityService
     UsuarioService usuarioService
 
     static responseFormats = ['json', 'xml']
@@ -24,6 +25,8 @@ class UsuarioController {
             render status: NOT_FOUND
             return
         }
+
+        if (usuario.password) usuario.password = springSecurityService.encodePassword(usuario.password)
 
         try {
             usuarioService.save(usuario)

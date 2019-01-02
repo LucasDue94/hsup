@@ -24,7 +24,7 @@
                    [class]="'form-control col-12'">
         </div>
         <div class="form-group position-relative col-5">
-            <label for="username">Nome de usuário</label>
+            <label class="control-label" for="username">Nome de usuário</label>
             <input type="text"
                    name="username"
                    id="username"
@@ -37,7 +37,7 @@
                    [(ngModel)]="usuario.username">
         </div>
         <div class="form-group position-relative col-5 offset-2">
-            <label for="username">Senha do usuário</label>
+            <label class="control-label" for="username">Senha do usuário</label>
             <input type="password"
                    name="password"
                    id="password"
@@ -48,6 +48,12 @@
                    placeholder="Digite a senha do usuário..."
                    [class]="'form-control col-12'"
                    [(ngModel)]="usuario.password">
+        </div>
+        <div class="form-group position-relative col-5">
+            <label for="perfil" class="control-label">Perfil</label>
+            <select name="" id="" class="form-control col-12">
+                <option value="" *ngFor="let perfil of this.aPerfis">{{ perfil.name }}</option>
+            </select>
         </div>
         <div *ngIf="this.create == false" class="form-group col-12">
             <label class="control-label">Estado</label>

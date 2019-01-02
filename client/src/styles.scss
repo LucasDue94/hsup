@@ -428,6 +428,7 @@ html, body {
     font-family: Poppins, sans-serif;
     letter-spacing: 2px;
     font-size: 15px;
+    outline: none;
     border-radius: 5px 0 7px 0;
     border: none;
     cursor: pointer;
@@ -718,10 +719,10 @@ html, body {
   }
 }
 
-.bg-danger{
+.bg-danger {
   background-color: $danger;
 
-  &.notification-body{
+  &.notification-body {
     background-color: rgba($danger, 0.5);
   }
 }
@@ -730,10 +731,10 @@ html, body {
   background: $lightDanger;
 }
 
-.bg-success{
+.bg-success {
   background-color: $green;
 
-  &.notification-body{
+  &.notification-body {
     background-color: $lightGreen;
   }
 }
@@ -742,10 +743,10 @@ html, body {
   background: $lightGreen;
 }
 
-.bg-warning{
+.bg-warning {
   background-color: $warning;
 
-  &.notification-body{
+  &.notification-body {
     background-color: rgba($warning, 0.5);
   }
 }
@@ -754,10 +755,10 @@ html, body {
   background: $lightWarning;
 }
 
-.bg-info{
+.bg-info {
   background-color: $blue;
 
-  &.notification-body{
+  &.notification-body {
     background-color: rgba($primary, 0.6);
   }
 }
@@ -766,19 +767,19 @@ html, body {
   background: $lightBlue;
 }
 
-.color-danger{
+.color-danger {
   color: $danger;
 }
 
-.color-success{
+.color-success {
   color: $success;
 }
 
-.color-warning{
+.color-warning {
   color: $warning;
 }
 
-.color-info{
+.color-info {
   color: $blue;
 }
 
@@ -790,7 +791,7 @@ html, body {
   color: $blue;
 }
 
-.color-white{
+.color-white {
   color: $white;
 }
 
@@ -1016,7 +1017,6 @@ html, body {
   color: #00aba5;
   text-decoration: none;
 }
-
 
 .container-floating .floating-button .plus {
   color: white;
@@ -1256,4 +1256,21 @@ html, body {
 
 .display-block {
   display: block;
+}
+
+.error-message {
+  padding: 10px;
+  top: -60px;
+  position: absolute;
+  text-align: justify;
+
+  & {
+    font-family: Poppins, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: $white;
+    cursor: default;
+    border-radius: 10px;
+    background: $lightDanger;
+  }
 }

@@ -34,7 +34,7 @@ export class PerfilPersistComponent implements OnInit {
   save() {
     this.perfilService.save(this.perfil).subscribe((perfil: Perfil) => {
         if (this.perfil.id != null) {
-            this.message = `Perfil this.perfil.id alterado com sucesso!`;
+            this.message = `Perfil ${this.perfil.id} alterado com sucesso!`;
         } else {
             this.message = "Cadastro realizada com sucesso!";
         }
