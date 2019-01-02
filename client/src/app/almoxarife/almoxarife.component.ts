@@ -60,7 +60,14 @@ export class AlmoxarifeComponent implements OnInit {
             });
 
         if (currentControl.value == '') this.wpdProducts = [];
+    }
 
+    removeEquals(){
+        for(let i = 1; i< this.wpdProducts.length; i++){
+            if(this.wpdProducts[i] == this.wpdProducts[i-1]){
+
+            }
+        }
     }
 
     select(event, input, item, index) {

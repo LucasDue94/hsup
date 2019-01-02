@@ -2,9 +2,8 @@
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 .container-header {
-  position: relative;
-  margin: 2em 5em 7em 5em;
-
+  margin-top: 2em;
+  margin-bottom: 6em;
   & {
     color: $brown;
     font-family: "Poppins SemiBold", sans-serif;
@@ -27,10 +26,8 @@
 }
 
 .container-request {
-  position: relative;
-  padding: 15px;
-  margin: 0 4em;
-  height: 60%;
+  //padding: 15px;
+  height: 65%;
 
   & {
     color: $brown;
@@ -39,6 +36,7 @@
     border-radius: 20px;
   }
   .title {
+    margin-top: 1em;
     font-family: "Poppins ExtraBold", sans-serif;
     text-align: center;
   }
@@ -48,9 +46,8 @@
   }
 
   .main-content {
-    position: relative;
     padding: 10px 5px 10px 20px;
-    height: 85%;
+    height: 80%;
     width: 95%;
     & {
       background-color: rgba($lightGray, 0.7);
@@ -67,7 +64,6 @@
       margin-left: 2em;
     }
   }
-
   .arrows-icon {
     float: left;
     font-size: 1.5em;
@@ -99,7 +95,7 @@
     }
   }
 
-  .request-input-only-read {
+  .request-item {
     position: relative;
     width: 100%;
     & {
@@ -161,15 +157,15 @@
   max-height: 200px;
 }
 
-.unlist {
-  display: none;
-}
-
 .loadIcon {
   display: none;
   position: absolute;
   animation: spin-animation 1s infinite linear;
   transform: rotate(0);
+}
+.btn-almoxarife{
+  margin-top: 2em;
+  margin-left: 0.5em ;
 }
 
 @-moz-keyframes spin-animation {
