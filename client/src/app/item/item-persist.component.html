@@ -28,10 +28,8 @@
             <hcal-dual-listbox [data]="aUnidadeMedida" [display]="'descricao'"></hcal-dual-listbox>
         </div>
         <div class="form-group position-relative col-5 offset-2">
-            <label for="unidade" class="control-label">Unidades de Medidas</label>
-<!--
-            <hcal-custom-dual-list id="unidade" [key]="'id'" [(fieldDestination)]="this.item.unidadeMedida" [display]="'Unidade de Medida'" [data]="aUnidadeMedida" [sort]="true"></hcal-custom-dual-list>
--->
+            <label class="control-label">Unidades de Medidas</label>
+            <hcal-dual-listbox [display]="'Unidade de Medida'" [data]="aUnidadeMedida"></hcal-dual-listbox>
         </div>
         <div class="form-group col-2 offset-1">
             <label class="control-label">Estado</label>

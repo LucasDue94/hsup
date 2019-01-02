@@ -25,7 +25,7 @@
             <tr class="trow-content" *ngFor="let produto of this.produtoList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
 
-                <td class="data-default">{{ produto.id }}</td>
+                <td class="data-default">{{ produto.codigo }}</td>
                 <td class="data-default">{{ produto.descricao }}</td>
                 <td class="data-default">{{ produto.setor }}</td>
                 <td class="data-default">{{ produto.estoque }}</td>
