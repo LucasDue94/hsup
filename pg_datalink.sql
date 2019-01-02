@@ -5,8 +5,8 @@ CREATE USER MAPPING FOR cc SERVER wpd OPTIONS (user 'financeiro', password 'fina
 
 DROP FOREIGN TABLE IF EXISTS produto;
 CREATE FOREIGN TABLE produto (
-  setor VARCHAR(70) NOT NULL,
-  id CHAR(7) OPTIONS (key 'true') NOT NULL,
+  setor VARCHAR(70) OPTIONS (key 'true') NOT NULL,
+  codigo CHAR(7) OPTIONS (key 'true') NOT NULL,
   descricao VARCHAR(70) NOT NULL,
   estoque VARCHAR(70) NOT NULL,
   bloqueado CHAR(1)

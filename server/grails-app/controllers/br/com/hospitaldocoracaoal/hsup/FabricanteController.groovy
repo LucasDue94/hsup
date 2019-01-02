@@ -46,7 +46,7 @@ class FabricanteController {
         }
     }
 
-    def search() {params.nome
+    def search() {
         List<Fabricante> fabricanteList = Fabricante.withCriteria {
             if (params.containsKey('fantasia') && !params.fantasia.empty)
                 ilike ('fantasia', "%${params.fantasia}%")
