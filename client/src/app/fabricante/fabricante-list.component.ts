@@ -46,7 +46,7 @@ export class FabricanteListComponent implements OnInit {
             .subscribe((fabricanteList: Fabricante[]) => {this.fabricanteList = fabricanteList});
 
         if (this.searchControl.value == "") {
-            this.list(this.pageNumber)
+            this.list(this.pageNumber);
         }
     }
 

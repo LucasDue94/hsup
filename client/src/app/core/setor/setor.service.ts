@@ -17,9 +17,9 @@ export class SetorService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<Setor[]> {
+    list(max?: any, searchTerm?: string, offset?: any): Observable<Setor[]> {
         let subject = new Subject<Setor[]>();
-        this.http.get(this.baseUrl + `setor?offset=${offset}&max=${max}`, {params: {fieldSearch: searchTerm}})
+        this.http.get(this.baseUrl + `setor?offset=${offset}&max=${max}`, {params: {nome: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['setor'].map((item: any) => new Setor(item)))

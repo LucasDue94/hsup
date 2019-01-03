@@ -45,7 +45,7 @@ export class SetorListComponent implements OnInit {
             .subscribe((setorList: Setor[]) => {this.setorList = setorList});
 
 
-        if (this.searchControl.value == "" || this.searchControl.value == undefined) {
+        if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
     }
@@ -53,7 +53,7 @@ export class SetorListComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.setorService.list('', '', '', this._offset).subscribe((setorList: Setor[]) => {
+        this.setorService.list('', '', this._offset).subscribe((setorList: Setor[]) => {
             this.setorList = setorList
         });
     }

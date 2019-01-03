@@ -12,7 +12,10 @@ class SetorController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond setorService.list(params), model:[setorCount: setorService.count()]
+        if (params.nome == null)
+            respond setorService.list(params), model:[setorCount: setorService.count()]
+        else
+            respond search()
     }
 
     def show(Long id) {
@@ -60,5 +63,14 @@ class SetorController {
         setorService.delete(id)
 
         render status: NO_CONTENT
+    }
+
+    def search() {params.nome
+        List<Setor> setorList = Setor.withCriteria {
+            if (params.containsKey('nome') && !params.nome.empty)
+                ilike ('nome', "%${params.nome}%")
+        }
+
+        return setorList
     }
 }
