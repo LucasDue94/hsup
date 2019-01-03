@@ -1,0 +1,27 @@
+<a [routerLink]="['/setor']">
+    <fa-icon [icon]="['fas', 'chevron-left']" class="float-left back-icon-link"></fa-icon>
+    <h4 class="title-back-link">Voltar</h4>
+</a>
+<div class="clearfix"></div>
+<main class="col-6 float-left form-container offset-0">
+    <ul class="errors" role="alert" *ngIf="errors">
+        <li *ngFor="let error of errors">{{error.message}}</li>
+    </ul>
+    <h3 class="title-component">{{ this.constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
+    <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
+        <div class="form-group position-relative col-12">
+            <label for="fantasia" class="control-label">Fantasia</label>
+            <input type="text"
+                   name="fantasia"
+                   tooltipHcal="Campo fantasia do Fabricante. Ex.: Dell Inc."
+                   [position]="'top'"
+                   [delay]="3000"
+                   required="required"
+                   id="fantasia"
+                   placeholder="Digite o nome..."
+                   [(ngModel)]="setor.nome"
+                   [class]="'form-control col-12'">
+        </div>
+        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
+    </form>
+</main>

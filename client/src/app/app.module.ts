@@ -31,6 +31,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { AuthGuard } from "./guards/auth.guard";
 import { RouterModule } from "@angular/router";
 import { routes } from "./app-routing.module";
+import { PermissoesModule } from './permissoes/permissoes.module';
 
 
 @NgModule({
@@ -39,33 +40,34 @@ import { routes } from "./app-routing.module";
         NavComponent
     ],
     imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        HttpModule,
-        NgxMaskModule.forRoot(),
-        HcalSharedModule,
-        IndexModule,
-        LoginModule,
-        AsideBarModule,
-        MainModule,
-        SigninModule,
-        NotificationDropdownModule,
-        TableModule,
-        InputBaseModule,
-        SelectBaseModule,
-        CustomDualListboxModule,
-        FormsModule,
-        LoginModule,
-        FabricanteModule,
-        AppRoutingModule,
-        NgbModule.forRoot(),
-        RouterModule.forRoot(routes),
-        FornecedorModule,
-        ItemModule,
-        PerfilModule,
-        UsuarioModule
-    ],
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    HttpModule,
+    NgxMaskModule.forRoot(),
+    HcalSharedModule,
+    IndexModule,
+    LoginModule,
+    AsideBarModule,
+    MainModule,
+    SigninModule,
+    NotificationDropdownModule,
+    TableModule,
+    InputBaseModule,
+    SelectBaseModule,
+    CustomDualListboxModule,
+    FormsModule,
+    LoginModule,
+    FabricanteModule,
+    AppRoutingModule,
+    NgbModule.forRoot(),
+    RouterModule.forRoot(routes),
+    FornecedorModule,
+    ItemModule,
+    PerfilModule,
+    UsuarioModule,
+    PermissoesModule
+],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,
         useClass: HashLocationStrategy

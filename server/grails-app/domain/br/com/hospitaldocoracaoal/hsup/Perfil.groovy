@@ -10,13 +10,11 @@ import grails.compiler.GrailsCompileStatic
 class Perfil implements Serializable {
 
     private static final long serialVersionUID = 1
-    public static final String ROLE_ADMIN = "ADMIN"
+    public static final String ROLE_ADMIN = 'ADMIN'
 
     String name
 
-    Set<Permissoes> getAuthorities() {
-        (PerfilPermissoes.findAllByPerfil(this) as List<PerfilPermissoes>)*.permissoes as Set<Permissoes>
-    }
+    static hasMany = [permissoes: Permissoes]
 
     static constraints = {
         name nullable: false, blank: false, unique: true

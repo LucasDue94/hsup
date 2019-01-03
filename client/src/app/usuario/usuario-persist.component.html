@@ -51,8 +51,18 @@
         </div>
         <div class="form-group position-relative col-5">
             <label for="perfil" class="control-label">Perfil</label>
-            <select id="perfil" name="perfil" class="form-control col-12">
-                <option [(ngModel)]="usuario.perfil" [value]="perfil.id" *ngFor="let perfil of this.aPerfis">{{ perfil.name }}</option>
+            <select id="perfil" name="perfil" class="form-control col-12" [(ngModel)]="usuario.perfil">
+                <option *ngFor="let perfil of perfilList" [value]="perfil.id"
+                        [selected]="usuario.perfil?.id == perfil.id">{{ perfil.name }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group position-relative col-5 offset-2">
+            <label for="authorities" class="control-label">Permissões</label>
+            <select name="authorities" id="authorities" [(ngModel)]="usuario.authorities" multiple="">
+                <option *ngFor="let permissoes of permissoesList" [value]="permissoes.id"
+                        [selected]="usuario.authorities?.id == permissoes.id">{{ permissoes.authority }}
+                </option>
             </select>
         </div>
         <div *ngIf="this.create == false" class="form-group col-12">
@@ -60,6 +70,6 @@
             <input type="checkbox" [(ngModel)]="usuario.enabled" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>
         </div>
-        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
+        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'"/>
     </form>
 </main>

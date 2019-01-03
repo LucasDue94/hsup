@@ -3,55 +3,52 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
-class UsuarioController {
+class PermissoesController {
 
-    UsuarioService usuarioService
-    def springSecurityService
+    PermissoesService permissoesService
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond usuarioService.list(params), model:[usuarioCount: usuarioService.count()]
+        respond permissoesService.list(params), model:[permissoesCount: permissoesService.count()]
     }
 
     def show(Long id) {
-        respond usuarioService.get(id)
+        respond permissoesService.get(id)
     }
 
-    def save(Usuario usuario) {
-        if (usuario == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        if (usuario.password) usuario.password = springSecurityService.encodePassword(usuario.password)
-
-        try {
-            usuarioService.save(usuario)
-        } catch (ValidationException e) {
-            respond usuario.errors, view:'create'
-            return
-        }
-
-        respond usuario, [status: CREATED, view:"show"]
-    }
-
-    def update(Usuario usuario) {
-        if (usuario == null) {
+    def save(Permissoes permissoes) {
+        if (permissoes == null) {
             render status: NOT_FOUND
             return
         }
 
         try {
-            usuarioService.save(usuario)
+            permissoesService.save(permissoes)
         } catch (ValidationException e) {
-            respond usuario.errors, view:'edit'
+            respond permissoes.errors, view:'create'
             return
         }
 
-        respond usuario, [status: OK, view:"show"]
+        respond permissoes, [status: CREATED, view:"show"]
+    }
+
+    def update(Permissoes permissoes) {
+        if (permissoes == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        try {
+            permissoesService.save(permissoes)
+        } catch (ValidationException e) {
+            respond permissoes.errors, view:'edit'
+            return
+        }
+
+        respond permissoes, [status: OK, view:"show"]
     }
 
     def delete(Long id) {
@@ -60,7 +57,7 @@ class UsuarioController {
             return
         }
 
-        usuarioService.delete(id)
+        permissoesService.delete(id)
 
         render status: NO_CONTENT
     }

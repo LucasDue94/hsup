@@ -3,9 +3,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Usuario } from '../core/usuario/usuario';
 import { UsuarioService } from '../core/usuario/usuario.service';
 import { Response } from "@angular/http";
-import { Perfil } from "../core/perfil/perfil";
-import { PerfilService } from "../core/perfil/perfil.service";
-
+import { PerfilService } from '../core/perfil/perfil.service';
+import { Perfil } from '../core/perfil/perfil';
+import { PermissoesService } from '../core/permissoes/permissoes.service';
+import { Permissoes } from '../core/permissoes/permissoes';
 
 @Component({
     selector: 'usuario-persist',
@@ -16,15 +17,20 @@ export class UsuarioPersistComponent implements OnInit {
     usuario = new Usuario();
     create = true;
     errors: any[];
+    perfilList: Perfil[];
+    permissoesList: Permissoes[];
     message;
-    private aPerfis = [];
 
-
-    constructor(private route: ActivatedRoute, private perfilService: PerfilService, private usuarioService: UsuarioService, private router: Router) {
+    constructor(private route: ActivatedRoute, private usuarioService: UsuarioService, private router: Router, private perfilService: PerfilService, private permissoesService: PermissoesService) {
     }
 
     ngOnInit() {
-        this.getPerfil();
+        this.perfilService.list(100, '', '').subscribe((perfilList: Perfil[]) => {
+            this.perfilList = perfilList;
+        });
+        this.permissoesService.list(100, '', '').subscribe((permissoesList: Permissoes[]) => {
+            this.permissoesList = permissoesList;
+        });
         this.usuario.passwordExpired = false;
         this.usuario.accountLocked = false;
         this.usuario.accountExpired = false;
@@ -34,28 +40,21 @@ export class UsuarioPersistComponent implements OnInit {
                 this.usuarioService.get(+params['id']).subscribe((usuario: Usuario) => {
                     this.create = false;
                     this.usuario = usuario;
+
+                    if (usuario.hasOwnProperty('perfil')) {
+                        this.usuario.perfil = usuario['perfil']['id'];
+                    }
                 });
             }
-
         });
-    }
-
-    getPerfil() {
-        this.perfilService.list('', '', '').subscribe((perfilList: Perfil[]) => {
-            perfilList.forEach(p => {
-                this.aPerfis.push(p)
-            })
-        });
-
-        return this.aPerfis;
     }
 
     save() {
         this.usuarioService.save(this.usuario).subscribe((usuario: Usuario) => {
             if (this.usuario.id != null) {
-                this.message = `Usuário ${this.usuario.name} alterado com sucesso!`;
+                this.message = `Usuario ${this.usuario.id} alterado com sucesso!`;
             } else {
-                this.message = "Cadastro realizada com sucesso!";
+                this.message = "Cadastro realizado com sucesso!";
             }
 
             let r = this.router;

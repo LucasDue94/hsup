@@ -36,7 +36,7 @@ export class ${className}PersistComponent implements OnInit {
         if (this.${propertyName}.id != null) {
             this.message = `${className} this.${propertyName}.id alterado com sucesso!`;
         } else {
-            this.message = "Cadastro realizada com sucesso!";
+            this.message = "Cadastro realizado com sucesso!";
         }
 
         let r = this.router;

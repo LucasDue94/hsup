@@ -36,7 +36,7 @@ export class PerfilPersistComponent implements OnInit {
         if (this.perfil.id != null) {
             this.message = `Perfil ${this.perfil.id} alterado com sucesso!`;
         } else {
-            this.message = "Cadastro realizada com sucesso!";
+            this.message = "Cadastro realizado com sucesso!";
         }
 
         let r = this.router;

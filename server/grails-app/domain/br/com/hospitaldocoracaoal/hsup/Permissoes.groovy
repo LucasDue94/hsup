@@ -13,6 +13,8 @@ class Permissoes implements Serializable {
 
 	String authority
 
+	static belongsTo = [Perfil, Usuario]
+
 	static constraints = {
 		authority nullable: false, blank: false, unique: true
 	}

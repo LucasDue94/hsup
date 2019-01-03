@@ -1,3 +1,5 @@
+import br.com.hospitaldocoracaoal.hsup.Usuario
+
 model {
 	Iterable<Usuario> usuarioList
 }
@@ -6,4 +8,3 @@ json {
 	usuario tmpl.usuario(usuarioList ?: [])
 	total Usuario.count
 }
-

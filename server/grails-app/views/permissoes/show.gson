@@ -1,0 +1,5 @@
+model {
+	Permissoes permissoes
+}
+
+json tmpl.permissoes(permissoes)

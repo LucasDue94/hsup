@@ -1,0 +1,10 @@
+import br.com.hospitaldocoracaoal.hsup.Permissoes
+
+model {
+	Iterable<Permissoes> permissoesList
+}
+
+json {
+	permissoes tmpl.permissoes(permissoesList ?: [])
+	total Permissoes.count
+}

@@ -3,65 +3,55 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
-class ItemController {
+class SetorController {
 
-    ItemService itemService
+    SetorService setorService
 
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        if (params.descricao == null)
-            respond itemService.list(params), model:[itemCount: itemService.count()]
+        if (params.nome == null)
+            respond setorService.list(params), model:[setorCount: setorService.count()]
         else
             respond search()
-
     }
 
     def show(Long id) {
-        respond itemService.get(id)
+        respond setorService.get(id)
     }
 
-    def save(Item item) {
-        if (item == null) {
+    def save(Setor setor) {
+        if (setor == null) {
             render status: NOT_FOUND
             return
         }
 
         try {
-            itemService.save(item)
+            setorService.save(setor)
         } catch (ValidationException e) {
-            respond item.errors, view:'create'
+            respond setor.errors, view:'create'
             return
         }
 
-        respond item, [status: CREATED, view:"show"]
+        respond setor, [status: CREATED, view:"show"]
     }
 
-    def search() {params.nome
-        List<Item> itemList = Item.withCriteria {
-            if (params.containsKey('descricao') && !params.descricao.empty)
-                ilike ('descricao', "%${params.descricao}%")
-        }
-
-        return itemList
-    }
-
-    def update(Item item) {
-        if (item == null) {
+    def update(Setor setor) {
+        if (setor == null) {
             render status: NOT_FOUND
             return
         }
 
         try {
-            itemService.save(item)
+            setorService.save(setor)
         } catch (ValidationException e) {
-            respond item.errors, view:'edit'
+            respond setor.errors, view:'edit'
             return
         }
 
-        respond item, [status: OK, view:"show"]
+        respond setor, [status: OK, view:"show"]
     }
 
     def delete(Long id) {
@@ -70,8 +60,17 @@ class ItemController {
             return
         }
 
-        itemService.delete(id)
+        setorService.delete(id)
 
         render status: NO_CONTENT
+    }
+
+    def search() {params.nome
+        List<Setor> setorList = Setor.withCriteria {
+            if (params.containsKey('nome') && !params.nome.empty)
+                ilike ('nome', "%${params.nome}%")
+        }
+
+        return setorList
     }
 }

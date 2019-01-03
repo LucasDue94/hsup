@@ -6,6 +6,7 @@ import { FornecedorService } from './fornecedor/fornecedor.service';
 import { ItemService } from './item/item.service';
 import { PerfilService } from './perfil/perfil.service';
 import { UsuarioService } from './usuario/usuario.service';
+import { PermissoesService } from './permissoes/permissoes.service';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ providers: [
     FornecedorService,
     ItemService,
     PerfilService,
-    UsuarioService
+    UsuarioService,
+    PermissoesService
 ]
 })
 export class CoreModule {}

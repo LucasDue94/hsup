@@ -17,7 +17,7 @@ export class UsuarioService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Usuario[]> {
+    list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<Usuario[]> {
         let subject = new Subject<Usuario[]>();
         this.http.get(this.baseUrl + `usuario?offset=${offset}&max=${max}`, {params: {fieldSearch: searchTerm}})
             .map((r: Response) => r)

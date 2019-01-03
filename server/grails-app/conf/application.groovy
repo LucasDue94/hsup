@@ -4,9 +4,8 @@ grails.gorm.default.mapping = {
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'br.com.hospitaldocoracaoal.hsup.Usuario'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'br.com.hospitaldocoracaoal.hsup.UsuarioPermissoes'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'br.com.hospitaldocoracaoal.hsup.Perfil'
 grails.plugin.springsecurity.authority.className = 'br.com.hospitaldocoracaoal.hsup.Permissoes'
-grails.plugin.springsecurity.authority.className = 'br.com.hospitaldocoracaoal.hsup.Perfil'
 grails.plugin.springsecurity.useRoleGroups = true
 grails.plugin.springsecurity.authority.groupAuthorityNameField = 'authorities'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
@@ -36,3 +35,4 @@ grails.plugin.springsecurity.filterChain.chainMap = [
         [pattern: '/**/favicon.ico', filters: 'none'],
         [pattern: '/api/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter']
 ]
+

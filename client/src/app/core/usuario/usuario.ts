@@ -1,31 +1,39 @@
-import { Perfil } from "../perfil/perfil";
+import { Perfil } from '../perfil/perfil';
+import { Permissoes } from '../permissoes/permissoes';
 
 export class Usuario {
     id: number;
 
-    name: string;
     password: string;
     username: string;
+    name: string;
+    perfil: Perfil;
+    authorities: Permissoes[];
     passwordExpired: boolean;
     accountLocked: boolean;
     accountExpired: boolean;
     enabled: boolean;
-    perfil: Perfil[];
 
     constructor(object?: any) {
-        if (this.enabled == null) this.enabled = true;
-        this.perfil = [];
-
         if (object) {
+
             if (object.hasOwnProperty('perfil')) {
-                this.perfil = object['perfil'].map((obj: any) => { return new Perfil(obj); });
+                this.perfil = new Perfil(object['perfil']);
                 delete object['perfil'];
+            }
+
+            if (object.hasOwnProperty('authorities')) {
+                this.authorities = object['authorities'].map((obj: any) => {
+                    return new Permissoes(obj);
+                });
+                delete object['authorities'];
             }
 
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }
+
     }
 
     toString(): string {

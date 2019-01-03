@@ -11,8 +11,8 @@ class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1
 
-    String name
     String username
+    String name
     String password
     Perfil perfil
     boolean enabled = true
@@ -20,12 +20,13 @@ class Usuario implements Serializable {
     boolean accountLocked
     boolean passwordExpired
 
-    static hasMany = [perfil: Perfil]
+    static hasMany = [authorities: Permissoes]
 
     static constraints = {
-        name nullable: false, blank: false, unique: true
         password nullable: false, blank: false, password: true
         username nullable: false, blank: false, unique: true
+        name nullable: false, blank: false, unique: true
+        perfil nullable: false, blank: false
     }
 
     static mapping = {

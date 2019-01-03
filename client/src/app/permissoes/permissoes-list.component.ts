@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../core/usuario/usuario';
-import { UsuarioService } from '../core/usuario/usuario.service';
+import { Permissoes } from '../core/permissoes/permissoes';
+import { PermissoesService } from '../core/permissoes/permissoes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
@@ -9,12 +9,12 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
-    selector: 'usuario-list',
-    templateUrl: './usuario-list.component.html'
+    selector: 'permissoes-list',
+    templateUrl: './permissoes-list.component.html'
 })
-export class UsuarioListComponent implements OnInit {
+export class PermissoesListComponent implements OnInit {
 
-    usuarioList: Usuario[] = [];
+    permissoesList: Permissoes[] = [];
 
     private _pageNumber: number;
     private _offset;
@@ -23,7 +23,7 @@ export class UsuarioListComponent implements OnInit {
     searchForm: FormGroup;
     searchControl: FormControl;
 
-    constructor(private route: ActivatedRoute, private usuarioService: UsuarioService, private router: Router) {
+    constructor(private route: ActivatedRoute, private permissoesService: PermissoesService, private router: Router) {
         this._pageNumber = 0;
     }
 
@@ -33,7 +33,7 @@ export class UsuarioListComponent implements OnInit {
             searchControl: this.searchControl
         });
 
-        this.usuarioService.count().subscribe((quantity: number) => {
+        this.permissoesService.count().subscribe((quantity: number) => {
             this.count = quantity;
         });
 
@@ -41,8 +41,8 @@ export class UsuarioListComponent implements OnInit {
             .debounceTime(1000)
             .distinctUntilChanged()
             .switchMap(searchTerm =>
-                this.usuarioService.list(this.count, searchTerm))
-            .subscribe((usuarioList: Usuario[]) => {this.usuarioList = usuarioList});
+                this.permissoesService.list(this.count, searchTerm))
+            .subscribe((permissoesList: Permissoes[]) => {this.permissoesList = permissoesList});
 
 
         if (this.searchControl.value == "" || this.searchControl.value == undefined) {
@@ -53,8 +53,8 @@ export class UsuarioListComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.usuarioService.list('', '', '', this._offset).subscribe((usuarioList: Usuario[]) => {
-            this.usuarioList = usuarioList
+        this.permissoesService.list('', '', this._offset).subscribe((permissoesList: Permissoes[]) => {
+            this.permissoesList = permissoesList
         });
     }
 
