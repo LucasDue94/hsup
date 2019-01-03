@@ -1,5 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup
 
+import grails.transaction.Transactional
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -20,6 +21,7 @@ class UsuarioController {
         respond usuarioService.get(id)
     }
 
+    @Transactional
     def save(Usuario usuario) {
         if (usuario == null) {
             render status: NOT_FOUND

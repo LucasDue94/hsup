@@ -1,9 +1,9 @@
 package hsup
 
 import br.com.hospitaldocoracaoal.hsup.Perfil
-import br.com.hospitaldocoracaoal.hsup.PerfilPermissoes
 import br.com.hospitaldocoracaoal.hsup.Permissoes
 import br.com.hospitaldocoracaoal.hsup.Usuario
+
 import grails.core.GrailsApplication
 import org.grails.core.artefact.ControllerArtefactHandler
 
@@ -22,6 +22,9 @@ class BootStrap {
 
         Usuario adminUsuario = Usuario.findOrCreateByUsernameAndPasswordAndName ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME
         adminUsuario.save()
+
+        /*UsuarioPerfil usuarioPerfil = UsuarioPerfil.findOrCreateByUsuarioAndPerfil adminUsuario, adminPerfil
+        usuarioPerfil.save()*/
 
         def controllers = grailsApplication.getArtefacts(ControllerArtefactHandler.TYPE).toList()
 

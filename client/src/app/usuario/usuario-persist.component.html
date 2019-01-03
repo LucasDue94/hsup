@@ -41,7 +41,7 @@
             <input type="password"
                    name="password"
                    id="password"
-                   tooltipHcal="Campo senha do Usuário. Ex.: senha_2018"
+                   tooltipHcal="Campo senha do Usuário. Ex.: senha_2019"
                    [position]="'top'"
                    [delay]="3000"
                    required="required"
@@ -51,8 +51,8 @@
         </div>
         <div class="form-group position-relative col-5">
             <label for="perfil" class="control-label">Perfil</label>
-            <select name="" id="" class="form-control col-12">
-                <option value="" *ngFor="let perfil of this.aPerfis">{{ perfil.name }}</option>
+            <select id="perfil" name="perfil" class="form-control col-12">
+                <option [(ngModel)]="usuario.perfil" [value]="perfil.id" *ngFor="let perfil of this.aPerfis">{{ perfil.name }}</option>
             </select>
         </div>
         <div *ngIf="this.create == false" class="form-group col-12">

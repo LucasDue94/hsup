@@ -22,7 +22,7 @@ export class Usuario {
                 delete object['perfil'];
             }
 
-            for (const prop in object) {
+            for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }

@@ -14,14 +14,13 @@ class Usuario implements Serializable {
     String name
     String username
     String password
+    Perfil perfil
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
 
-    Set<Perfil> getAuthorities() {
-        (UsuarioPerfil.findAllByUsuario(this) as List<UsuarioPerfil>)*.perfil as Set<Perfil>
-    }
+    static hasMany = [perfil: Perfil]
 
     static constraints = {
         name nullable: false, blank: false, unique: true
