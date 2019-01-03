@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
@@ -12,29 +12,23 @@ import { Produto } from "../core/produto/produto";
     templateUrl: './almoxarife.component.html',
     styleUrls: ['./almoxarife.component.scss']
 })
-export class AlmoxarifeComponent implements OnInit, OnDestroy {
+export class AlmoxarifeComponent implements OnInit, AfterContentInit {
 
     @Input() itemsRequest;
-    @ViewChild('search') search;
-    @ViewChild('searchContainer') searchContainer;
-    @ViewChild('main') main;
     @ViewChild('stock') stock;
-    @ViewChild('stateStock') stateStock;
+    @ViewChild('codPro') codPro;
     wpdProducts: Produto[];
-    setTest = new Map();
-    form;
-    input;
+    wpdProductsFiltered = new Map();
+    formControls;
     sector = 'Tecnologia da Informação';
     requestNumber = '0001';
     date = '19/12/2018';
     requestUser = 'Beroaldo da Silva Carneiro';
     currentInput;
-    currentStock;
+    isOverList;
 
-    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder, private render: Renderer2, private elementRef: ElementRef) {
-        this.form = this.fb.group({
-            value: 'myBuilder', disable: false,
-        });
+    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder) {
+        this.formControls = this.fb.group({value: 'myBuilder', disable: false});
     }
 
     ngOnInit() {
@@ -42,59 +36,76 @@ export class AlmoxarifeComponent implements OnInit, OnDestroy {
         this.wpdProducts = [];
     }
 
+    ngAfterContentInit() {
+    }
+
     createFormControl() {
         for (let i = 0; i < this.itemsRequest.length; i++) {
-            this.form.addControl('searchField' + i, new FormControl());
+            this.formControls.addControl('searchField' + i, new FormControl());
         }
     }
 
     find(event) {
         this.currentInput = event;
         const currentControlName = this.currentInput.getAttribute('ng-reflect-name');
-        const currentControl = this.form.get(currentControlName);
+        const currentControl = this.formControls.get(currentControlName);
         currentControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
             .switchMap(inputValue => this.almoxarifeService.search(inputValue, '', ''))
             .subscribe((almoxarife: Produto[]) => {
                 let current = '';
-                this.setTest.clear();
+                this.wpdProductsFiltered.clear();
                 this.wpdProducts = [];
                 for (const a of almoxarife) {
-                    if (!this.setTest.has(a['codigo'])) {
-                        this.setTest.set(a['codigo'], a);
-                        current = this.setTest.get(a['codigo']);
+                    a['codigo'] = a['codigo'].replace(/\s/g, '');
+                    if (!this.wpdProductsFiltered.has(a['codigo'])) {
+                        this.wpdProductsFiltered.set(a['codigo'], a);
+                        current = this.wpdProductsFiltered.get(a['codigo']);
                     } else {
                         current['estoque'] = +current['estoque'] + +a['estoque'];
                     }
                 }
-                this.setTest.forEach(v => this.wpdProducts.push(v));
+                this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
             });
 
+        console.log(this.wpdProducts);
         if (currentControl.value == '') {
+            this.wpdProducts = [];
+            this.codPro.value = '';
+            this.stock.vlaue = '';
+        }
+    }
+
+
+    clearInputs(event, index) {
+        this.codPro = document.getElementById('codPro' + index);
+        this.stock = document.getElementById('stock' + index);
+        console.log(this.codPro.value);
+        console.log(this.stock.value);
+        console.log(event.value);
+        console.log(this.isOverList);
+        // console.log(this.currentMouseOver.class);
+        if (this.codPro.value == '' && event.value != '' && !this.isOverList) {
+            event.value = '';
             this.wpdProducts = [];
             this.stock.value = '';
         }
     }
 
-    removeEquals() {
-        /* for (let i = 1; i < this.wpdProducts.length; i++) {
-             if (this.wpdProducts[i].id === this.wpdProducts[i - 1].id) {
-                             this.wpdProducts[i - 1].estoque += this.wpdProducts[i].estoque;
-                             this.wpdProducts.splice(i, 1);
-                         }
-
-         }*/
-    }
-
     select(event, input, item, index) {
         input.value = event.innerHTML;
-        this.wpdProducts = [];
         this.stock = document.getElementById('stock' + index);
         this.stock.value = item.estoque;
-        // console.log(this.search);
+        this.codPro = document.getElementById('codPro' + index);
+        console.log(this.stock);
+        console.log(this.codPro);
+        this.codPro.value = item.codigo;
+        this.wpdProducts = [];
     }
 
-    ngOnDestroy(): void {
+    verify(status){
+        this.isOverList = status;
+        console.log(this.isOverList);
     }
 }

@@ -8,29 +8,29 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 
-    import {UnidadeMedidaRoutingModule} from './unidadeMedida-routing.module';
-    import {UnidadeMedidaShowComponent} from './unidadeMedida-show.component';
-    import {UnidadeMedidaListComponent} from './unidadeMedida-list.component';
-    import {UnidadeMedidaPersistComponent} from './unidadeMedida-persist.component';
-    
+import { UnidadeMedidaRoutingModule } from './unidadeMedida-routing.module';
+import { UnidadeMedidaShowComponent } from './unidadeMedida-show.component';
+import { UnidadeMedidaListComponent } from './unidadeMedida-list.component';
+import { UnidadeMedidaPersistComponent } from './unidadeMedida-persist.component';
+
 @NgModule({
     declarations: [
-    UnidadeMedidaListComponent,
+        UnidadeMedidaListComponent,
         UnidadeMedidaPersistComponent,
         UnidadeMedidaShowComponent
     ],
-imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HcalSharedModule,
-    InputBaseModule,
-    NgxPaginationModule,
-    TooltipModule,
-    TableModule,
-    CoreModule,
-    
-    UnidadeMedidaRoutingModule
-]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HcalSharedModule,
+        InputBaseModule,
+        NgxPaginationModule,
+        TooltipModule,
+        TableModule,
+        CoreModule,
+        UnidadeMedidaRoutingModule
+    ]
 })
-export class UnidadeMedidaModule {}
+export class UnidadeMedidaModule {
+}

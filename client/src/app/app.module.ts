@@ -53,7 +53,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         FornecedorModule,
         ItemModule,
         AlmoxarifeModule,
-        BrowserAnimationsModule,
+        BrowserAnimationsModule
     ],
     providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}, NavService, FabricanteService],
     bootstrap: [AppComponent]

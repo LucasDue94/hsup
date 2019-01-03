@@ -1,4 +1,4 @@
-<header class="container-header col-8" #header>
+<header class="container-header col-11" #header>
     <section class="title-header col-12">
         <h2>Associação</h2>
         <h2>Item x Produto WPD</h2>
@@ -25,7 +25,7 @@
     </aside>
 </header>
 
-<main class="container-request col-8">
+<main class="container-request col-11">
     <header class="main-content-header col-12">
         <aside class="left-aside col-6">
             <h2 class="title col-12">ITEM SOLICITAÇÃO</h2>
@@ -37,45 +37,61 @@
     <section class="main-content">
         <perfect-scrollbar>
             <section class="section-line col-12" *ngFor="let itemRequest of itemsRequest; index as i">
-                <aside class="float-left col-5">
+                <aside class="float-left col-4">
                     <div class="request-form-group col-10">
                         <label class="request-label label-left col-6"><I></I>Item</label>
                         <input title="Descrição do Item" class="request-item col-6" value="{{itemRequest.descricao}}"
                                disabled>
                     </div>
                     <div class="request-form-group col-2">
-                        <label class="request-label label-right col-6">Qnt</label>
-                        <input title="Quantidade de Itens" class="request-item text-right  col-6" value="{{itemRequest.qnt}}"
+                        <label class="request-label label-right col-12">Qnt</label>
+                        <input title="Quantidade de Itens" class="request-item text-right  col-12"
+                               value="{{itemRequest.qnt}}"
                                type="text">
                     </div>
                 </aside>
-                <fa-icon class="arrows-icon" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
-                <aside class="right-aside col-5">
-                    <div class="request-form-group col-10" [formGroup]="this.form" #searchContainer>
+                <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
+
+                <aside class="right-aside col-7">
+                    <div class="request-form-group col-7" [formGroup]="this.formControls" #searchContainer>
                         <label class="request-label label-left col-6">Produto</label>
-                        <input title="" (keydown)="find($event.target)" (blur)="find($event.target)" (focus)="find($event.target)" formControlName="searchField{{i}}"
-                               class="request-input-line-bottom col-6" type="text" #search>
+                        <input title="" (blur)="clearInputs($event.target ,i)"
+                               (focus)="find($event.target)" formControlName="searchField{{i}}"
+                               class="request-input-line-bottom col-12" type="text" #search>
                         <perfect-scrollbar class="scrollProducts"
                                            *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
-                            <div (click)="select($event.target, search, itemWpd, i)" class="item" *ngFor="let itemWpd of wpdProducts" #list>{{itemWpd.descricao}}</div>
+                            <div class="items">
+                                <div (click)="select($event.target, search, itemWpd, i)" (mouseover)="verify(true)" (mouseout)="verify(false)" class="item"
+                                     *ngFor="let itemWpd of wpdProducts" #list>{{itemWpd.descricao}}
+                                </div>
+                            </div>
                         </perfect-scrollbar>
-                        <!--<fa-icon class="loadIcon" [icon]="['fas', 'spinner']"></fa-icon>-->
                     </div>
-                    <div class="request-form-group col-1">
-                        <label class="request-label label-right col-6">Estoque</label>
-                        <input title="Estoque WPD" id="stock{{i}}" class="request-item text-right col-6" type="text" value="" disabled #stock>
+
+                    <div class="request-form-group col-2">
+                        <label class="request-label label-right col-12">Código</label>
+                        <input title="Código" id="codPro{{i}}" class="request-item text-right col-12" value=""
+                               disabled #codPro>
+                    </div>
+                    <div class="request-form-group col-2">
+                        <label class="request-label label-right col-12">Estoque</label>
+                        <input title="Estoque WPD" id="stock{{i}}" class="request-item text-right col-12" value=""
+                               disabled #stock>
                     </div>
                 </aside>
-                      <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''" class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                      <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''" class="color-warning icon-status" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                      <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status" [icon]="['fas', 'times']"></fa-icon>
+
+                <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
+                         class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
+                         class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
+                <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
+                         [icon]="['fas', 'times']"></fa-icon>
             </section>
         </perfect-scrollbar>
     </section>
-<div class="float-right col-6">
-    <button class="float-right button button-blue btn-almoxarife col-3">Finalizar</button>
-    <button class="float-right button btn-almoxarife col-3">Voltar</button>
-</div>
-    <!--<li *ngFor="let s of this.setTest.values()">{{ s.descricao }}</li>-->
 </main>
+<div class="col-11">
+    <button class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
+    <button class="float-right button btn-almoxarife col-2">Voltar</button>
+</div>
 
