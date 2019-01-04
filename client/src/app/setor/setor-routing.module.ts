@@ -3,13 +3,18 @@ import {RouterModule,Routes} from '@angular/router';
 import {SetorListComponent} from './setor-list.component';
 import {SetorPersistComponent} from './setor-persist.component';
 import {SetorShowComponent} from './setor-show.component';
+import { AuthGuard } from "../guards/auth.guard";
 
 const routes: Routes = [
-  {path: 'setor', redirectTo: 'setor/list', pathMatch: 'full'},
-  {path: 'setor/list', component: SetorListComponent},
-  {path: 'setor/create', component: SetorPersistComponent},
-  {path: 'setor/edit/:id', component: SetorPersistComponent},
-  {path: 'setor/show/:id', component: SetorShowComponent},
+    {
+        path: 'setor', canActivate: [AuthGuard], children: [
+            {path: '', redirectTo: 'list', pathMatch: 'full'},
+            {path: 'list', component: SetorListComponent},
+            {path: 'create', component: SetorPersistComponent},
+            {path: 'edit/:id', component: SetorPersistComponent},
+            {path: 'show/:id', component: SetorShowComponent},
+        ]
+    }
 ];
 
 @NgModule({

@@ -37,7 +37,6 @@ import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
 import { SetorModule } from './setor/setor.module';
-import { PerfilModule } from './perfil/perfil.module';
 
 @NgModule({
     declarations: [
