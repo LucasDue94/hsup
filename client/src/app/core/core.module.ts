@@ -9,6 +9,7 @@ import { UsuarioService } from './usuario/usuario.service';
 import { PermissoesService } from './permissoes/permissoes.service';
 import { ProdutoService } from './produto/produto.service';
 import { UnidadeMedidaService } from './unidadeMedida/unidadeMedida.service';
+import { SetorService } from './setor/setor.service';
 
 @NgModule({
   declarations: [],
@@ -25,7 +26,8 @@ providers: [
     PermissoesService,
     ItemService,
     ProdutoService,
-    UnidadeMedidaService
+    UnidadeMedidaService,
+    SetorService,
 ]
 })
 export class CoreModule {}

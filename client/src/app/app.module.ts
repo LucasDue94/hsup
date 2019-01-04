@@ -36,6 +36,8 @@ import { PermissoesModule } from './permissoes/permissoes.module';
 import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
+import { SetorModule } from './setor/setor.module';
+import { PerfilModule } from './perfil/perfil.module';
 
 @NgModule({
     declarations: [
@@ -73,6 +75,7 @@ import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
         PermissoesModule,
         AlmoxarifeModule,
         BrowserAnimationsModule,
+        SetorModule,
     ],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,
