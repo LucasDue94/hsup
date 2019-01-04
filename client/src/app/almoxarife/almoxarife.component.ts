@@ -69,7 +69,6 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
                 this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
             });
 
-        console.log(this.wpdProducts);
         if (currentControl.value == '') {
             this.wpdProducts = [];
             this.codPro.value = '';
@@ -85,7 +84,6 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
         console.log(this.stock.value);
         console.log(event.value);
         console.log(this.isOverList);
-        // console.log(this.currentMouseOver.class);
         if (this.codPro.value == '' && event.value != '' && !this.isOverList) {
             event.value = '';
             this.wpdProducts = [];
