@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
@@ -12,27 +12,23 @@ import { Produto } from "../core/produto/produto";
     templateUrl: './almoxarife.component.html',
     styleUrls: ['./almoxarife.component.scss']
 })
-export class AlmoxarifeComponent implements OnInit {
+export class AlmoxarifeComponent implements OnInit, AfterContentInit {
 
     @Input() itemsRequest;
-    @ViewChild('search') search;
-    @ViewChild('searchContainer') searchContainer;
-    @ViewChild('main') main;
     @ViewChild('stock') stock;
-    @ViewChild('stateStock') stateStock;
+    @ViewChild('codPro') codPro;
     wpdProducts: Produto[];
-    form;
+    wpdProductsFiltered = new Map();
+    formControls;
     sector = 'Tecnologia da Informação';
     requestNumber = '0001';
     date = '19/12/2018';
     requestUser = 'Beroaldo da Silva Carneiro';
     currentInput;
-    currentStock;
+    isOverList;
 
-    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder, private render: Renderer2, private elementRef: ElementRef) {
-        this.form = this.fb.group({
-            value: 'myBuilder', disable: false,
-        });
+    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder) {
+        this.formControls = this.fb.group({value: 'myBuilder', disable: false});
     }
 
     ngOnInit() {
@@ -40,49 +36,76 @@ export class AlmoxarifeComponent implements OnInit {
         this.wpdProducts = [];
     }
 
+    ngAfterContentInit() {
+    }
+
     createFormControl() {
         for (let i = 0; i < this.itemsRequest.length; i++) {
-            this.form.addControl('searchField' + i, new FormControl());
+            this.formControls.addControl('searchField' + i, new FormControl());
         }
     }
 
     find(event) {
         this.currentInput = event;
         const currentControlName = this.currentInput.getAttribute('ng-reflect-name');
-        const currentControl = this.form.get(currentControlName);
+        const currentControl = this.formControls.get(currentControlName);
         currentControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(inputValue => this.almoxarifeService.search(inputValue))
+            .switchMap(inputValue => this.almoxarifeService.search(inputValue, '', ''))
             .subscribe((almoxarife: Produto[]) => {
-                this.wpdProducts = almoxarife;
-                console.log(this.wpdProducts);
+                let current = '';
+                this.wpdProductsFiltered.clear();
+                this.wpdProducts = [];
+                for (const a of almoxarife) {
+                    a['codigo'] = a['codigo'].replace(/\s/g, '');
+                    if (!this.wpdProductsFiltered.has(a['codigo'])) {
+                        this.wpdProductsFiltered.set(a['codigo'], a);
+                        current = this.wpdProductsFiltered.get(a['codigo']);
+                    } else {
+                        current['estoque'] = +current['estoque'] + +a['estoque'];
+                    }
+                }
+                this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
             });
 
-        if (currentControl.value == '') this.wpdProducts = [];
+        console.log(this.wpdProducts);
+        if (currentControl.value == '') {
+            this.wpdProducts = [];
+            this.codPro.value = '';
+            this.stock.vlaue = '';
+        }
     }
 
-    removeEquals() {
-        for (let i = 1; i < this.wpdProducts.length; i++) {
-            if (this.wpdProducts[i] == this.wpdProducts[i - 1]) {
 
-            }
+    clearInputs(event, index) {
+        this.codPro = document.getElementById('codPro' + index);
+        this.stock = document.getElementById('stock' + index);
+        console.log(this.codPro.value);
+        console.log(this.stock.value);
+        console.log(event.value);
+        console.log(this.isOverList);
+        // console.log(this.currentMouseOver.class);
+        if (this.codPro.value == '' && event.value != '' && !this.isOverList) {
+            event.value = '';
+            this.wpdProducts = [];
+            this.stock.value = '';
         }
     }
 
     select(event, input, item, index) {
         input.value = event.innerHTML;
-        this.wpdProducts = [];
         this.stock = document.getElementById('stock' + index);
         this.stock.value = item.estoque;
-        console.log(this.search);
+        this.codPro = document.getElementById('codPro' + index);
+        console.log(this.stock);
+        console.log(this.codPro);
+        this.codPro.value = item.codigo;
+        this.wpdProducts = [];
     }
 
-    showTransition(element) {
-        this.render.setStyle(element, 'opacity', '1');
-    }
-
-    closeTransition(element) {
-        this.render.setStyle(element, 'opacity', '0');
+    verify(status){
+        this.isOverList = status;
+        console.log(this.isOverList);
     }
 }

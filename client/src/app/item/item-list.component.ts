@@ -48,7 +48,8 @@ export class ItemListComponent implements OnInit {
         if (this.searchControl.value == "" || this.searchControl.value == undefined) {
             this.list(this.pageNumber);
         }
-    }
+
+        }
 
     list(p: number) {
         this._offset = (p - 1) * 10;

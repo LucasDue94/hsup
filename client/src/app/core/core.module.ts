@@ -27,7 +27,7 @@ providers: [
     ItemService,
     ProdutoService,
     UnidadeMedidaService,
-    SetorService,
+    SetorService
 ]
 })
 export class CoreModule {}

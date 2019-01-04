@@ -5,7 +5,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from './app.component';
 import { NavService } from './nav/nav.service';
-import { AppRoutingModule, routes } from "./app-routing.module";
+import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
@@ -74,7 +74,7 @@ import { SetorModule } from './setor/setor.module';
         PermissoesModule,
         AlmoxarifeModule,
         BrowserAnimationsModule,
-        SetorModule,
+        SetorModule
     ],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,
