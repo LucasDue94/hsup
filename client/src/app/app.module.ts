@@ -5,13 +5,14 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from './app.component';
 import { NavService } from './nav/nav.service';
-import { AppRoutingModule } from "./app-routing.module";
+import { AppRoutingModule, routes } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
     CustomDualListboxModule,
     HcalSharedModule,
-    InputBaseModule, LoginModule,
+    InputBaseModule,
+    LoginModule,
     MainModule,
     NotificationDropdownModule,
     SelectBaseModule,
@@ -30,9 +31,11 @@ import { PerfilModule } from './perfil/perfil.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { AuthGuard } from "./guards/auth.guard";
 import { RouterModule } from "@angular/router";
-import { routes } from "./app-routing.module";
 import { PermissoesModule } from './permissoes/permissoes.module';
 
+import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
 
 @NgModule({
     declarations: [
@@ -40,34 +43,37 @@ import { PermissoesModule } from './permissoes/permissoes.module';
         NavComponent
     ],
     imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpModule,
-    NgxMaskModule.forRoot(),
-    HcalSharedModule,
-    IndexModule,
-    LoginModule,
-    AsideBarModule,
-    MainModule,
-    SigninModule,
-    NotificationDropdownModule,
-    TableModule,
-    InputBaseModule,
-    SelectBaseModule,
-    CustomDualListboxModule,
-    FormsModule,
-    LoginModule,
-    FabricanteModule,
-    AppRoutingModule,
-    NgbModule.forRoot(),
-    RouterModule.forRoot(routes),
-    FornecedorModule,
-    ItemModule,
-    PerfilModule,
-    UsuarioModule,
-    PermissoesModule
-],
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        HttpModule,
+        NgxMaskModule.forRoot(),
+        HcalSharedModule,
+        IndexModule,
+        LoginModule,
+        AsideBarModule,
+        MainModule,
+        SigninModule,
+        NotificationDropdownModule,
+        TableModule,
+        InputBaseModule,
+        SelectBaseModule,
+        CustomDualListboxModule,
+        FormsModule,
+        LoginModule,
+        FabricanteModule,
+        AppRoutingModule,
+        NgbModule.forRoot(),
+        RouterModule.forRoot(routes),
+        FornecedorModule,
+        ItemModule,
+        PerfilModule,
+        UsuarioModule,
+        UnidadeMedidaModule,
+        PermissoesModule,
+        AlmoxarifeModule,
+        BrowserAnimationsModule,
+    ],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,
         useClass: HashLocationStrategy

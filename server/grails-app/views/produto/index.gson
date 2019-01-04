@@ -1,0 +1,16 @@
+import br.com.hospitaldocoracaoal.hsup.integracao.Produto
+
+model {
+	Iterable<Produto> produtoList
+}
+
+json {
+	produto tmpl.produto(produtoList ?: [])
+	total Produto.count
+}
+
+
+model {
+	Iterable<Fornecedor> fornecedorList
+}
+

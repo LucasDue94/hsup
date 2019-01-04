@@ -3,10 +3,9 @@ package br.com.hospitaldocoracaoal.hsup
 class Item {
 
     String descricao
-    String unidadeMedida
     Boolean ativo
 
-    static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
+    static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor, unidadeMedida: UnidadeMedida]
 
     static constraints = {
         descricao nullable: false, blank: false

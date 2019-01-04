@@ -6,7 +6,6 @@ import { AuthService } from "../signin/auth.service";
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
-
     styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
@@ -36,9 +35,5 @@ export class IndexComponent implements OnInit {
                 return true;
             }
         });
-    }
-
-    logout() {
-        this.authService.logout(sessionStorage.getItem('token'));
     }
 }

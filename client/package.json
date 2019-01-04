@@ -42,7 +42,7 @@
     "ng4-mask": "^1.0.5",
     "ngx-mask": "^6.5.18",
     "ngx-pagination": "^3.2.0",
-    "ngx-perfect-scrollbar": "^6.3.0",
+    "ngx-perfect-scrollbar": "^6.3.1",
     "ngx-tooltip": "0.0.9",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",

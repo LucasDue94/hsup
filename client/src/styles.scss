@@ -731,10 +731,10 @@ html, body {
   background: $lightDanger;
 }
 
-.bg-success {
+.bg-success{
   background-color: $green;
 
-  &.notification-body {
+  &.notification-body{
     background-color: $lightGreen;
   }
 }
@@ -1273,4 +1273,9 @@ html, body {
     border-radius: 10px;
     background: $lightDanger;
   }
+}
+
+.input-without-line {
+  border: none;
+  background-color: transparent;
 }
