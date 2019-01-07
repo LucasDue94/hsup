@@ -24,5 +24,4 @@ export class AlmoxarifeService {
             });
         return subject.asObservable();
     }
-
 }

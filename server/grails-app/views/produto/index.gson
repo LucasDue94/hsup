@@ -9,8 +9,3 @@ json {
 	total Produto.count
 }
 
-
-model {
-	Iterable<Fornecedor> fornecedorList
-}
-

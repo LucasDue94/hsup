@@ -11,7 +11,8 @@ import { AuthService } from "../signin/auth.service";
 export class IndexComponent implements OnInit {
 
     controllers: Array<any>;
-
+    items = [{descricao:'Memoria 8GB', qnt:'10'},
+        {descricao: 'Mouse', qnt:'1'}];
     constructor(private navService: NavService, private router: Router, private authService: AuthService) {
     }
 
