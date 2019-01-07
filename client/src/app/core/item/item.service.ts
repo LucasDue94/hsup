@@ -14,13 +14,14 @@ import {Fabricante} from "../fabricante/fabricante";
 export class ItemService {
 
     private baseUrl = 'http://localhost:8080/';
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Item[]> {
         let subject = new Subject<Item[]>();
-        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {params: {descricao: searchTerm}})
+        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {headers: this.headers, params: {descricao: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
@@ -30,7 +31,7 @@ export class ItemService {
 
     count() {
         let quantity: number;
-        return this.http.get<Item[]>(this.baseUrl + 'itemRequest/')
+        return this.http.get<Item[]>(this.baseUrl + 'item/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -41,7 +42,7 @@ export class ItemService {
 
     get(id: number): Observable<Item> {
         let item;
-        return this.http.get(this.baseUrl + 'itemRequest/' + id)
+        return this.http.get(this.baseUrl + 'item/' + id, {headers: this.headers})
             .map((r: Response) => {
                 item = new Item(r);
                 return item
@@ -51,14 +52,15 @@ export class ItemService {
     save(item: Item): Observable<Item> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 
         let url;
 
         if (item.id) {
-            url = this.baseUrl + 'itemRequest/' + item.id;
+            url = this.baseUrl + 'item/' + item.id;
             return this.http.put<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
         }else {
             url = this.baseUrl + 'item';
@@ -67,7 +69,7 @@ export class ItemService {
     }
 
     destroy(item: Item): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'itemRequest/' + item.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'item/' + item.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

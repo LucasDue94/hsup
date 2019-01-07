@@ -32,7 +32,7 @@ export class AuthService {
 
     logout(auth) {
         const url = this.baseUrl + 'logout';
-        auth != null ? this.token = auth : '';
+        if (auth != null) this.token = auth;
         const header = {
             auth: new HttpHeaders({
                 "X-Auth-Token": this.token
@@ -41,12 +41,16 @@ export class AuthService {
 
         return this.http.post(url, null, {headers: header.auth, responseType: 'json'}).subscribe(
             resp => {
-                sessionStorage.removeItem('token');
+                localStorage.removeItem('token');
                 this.router.navigate(['/']);
             },
             err => {
                 console.log(err);
             }
         )
+    }
+
+    hasPermission() {
+
     }
 }

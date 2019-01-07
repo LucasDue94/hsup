@@ -51,7 +51,7 @@
         </div>
         <div class="form-group position-relative col-5">
             <label for="perfil" class="control-label">Perfil</label>
-            <select id="perfil" name="perfil" class="form-control col-12" [(ngModel)]="usuario.perfil.id != undefined ? usuario.perfil.id : usuario.perfil">
+            <select id="perfil" name="perfil" class="form-control col-12" [(ngModel)]="usuario.perfil?.id != undefined ? usuario.perfil?.id : usuario.perfil">
                 <option *ngFor="let perfil of aPerfis" [value]="perfil.id"
                         [selected]="usuario.perfil?.id == perfil.id">{{ perfil.name }}
                 </option>

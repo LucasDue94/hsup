@@ -31,7 +31,8 @@ class BootStrap {
 
         controllers.each { c ->
             c.actions.each { a ->
-                Permissoes permissoes = Permissoes.findOrCreateByAuthority c.name.toUpperCase() + '_' + a.toUpperCase()
+                Permissoes permissoes = Permissoes.findOrCreateByAuthority 'ROLE_' + c.name.toUpperCase() + '_' + a.toUpperCase()
+                adminPerfil.addToPermissoes(permissoes).save()
                 permissoes.save()
             }
         }

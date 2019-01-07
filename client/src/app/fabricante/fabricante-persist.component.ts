@@ -18,7 +18,6 @@ export class FabricantePersistComponent implements OnInit {
     constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {}
 
     ngOnInit() {
-
         this.route.params.subscribe((params: Params) => {
             if (params.hasOwnProperty('id')) {
                 this.fabricanteService.get(+params['id']).subscribe((fabricante: Fabricante) => {

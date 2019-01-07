@@ -14,13 +14,14 @@ import { environment } from "../../../environments/environment";
 export class FabricanteService {
 
     private baseUrl = environment.serverUrl;
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Fabricante[]> {
         let subject = new Subject<Fabricante[]>();
-        this.http.get(this.baseUrl + `fabricante?offset=${offset}&max=${max}`, {params: {fantasia: searchTerm}})
+        this.http.get(this.baseUrl + `fabricante?offset=${offset}&max=${max}`, {headers: this.headers, params: {fantasia: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
@@ -30,7 +31,7 @@ export class FabricanteService {
 
     count() {
         let quantity: number;
-        return this.http.get<Fabricante[]>(this.baseUrl + 'fabricante/')
+        return this.http.get<Fabricante[]>(this.baseUrl + 'fabricante/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -41,7 +42,7 @@ export class FabricanteService {
 
     get(id: number): Observable<Fabricante> {
         let fabricante;
-        return this.http.get(this.baseUrl + 'fabricante/' + id)
+        return this.http.get(this.baseUrl + 'fabricante/' + id, {headers: this.headers})
             .map((r: Response) => {
                 fabricante = new Fabricante(r);
                 return fabricante
@@ -51,7 +52,8 @@ export class FabricanteService {
     save(fabricante: Fabricante): Observable<Fabricante> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             }),
         };
 
@@ -68,7 +70,7 @@ export class FabricanteService {
     }
 
     destroy(fabricante: Fabricante): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'fabricante/' + fabricante.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'fabricante/' + fabricante.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

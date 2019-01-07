@@ -8,18 +8,20 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class FornecedorService {
 
-    private baseUrl = 'http://localhost:8080/';
+    private baseUrl = environment.serverUrl;
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Fornecedor[]> {
         let subject = new Subject<Fornecedor[]>();
-        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {params: {fantasia: searchTerm}})
+        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {headers: this.headers, params: {fantasia: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
@@ -29,7 +31,7 @@ export class FornecedorService {
 
     count() {
         let quantity: number;
-        return this.http.get<Fornecedor[]>(this.baseUrl + 'fornecedor/')
+        return this.http.get<Fornecedor[]>(this.baseUrl + 'fornecedor/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -40,7 +42,7 @@ export class FornecedorService {
 
     get(id: number): Observable<Fornecedor> {
         let fornecedor;
-        return this.http.get(this.baseUrl + 'fornecedor/' + id)
+        return this.http.get(this.baseUrl + 'fornecedor/' + id, {headers: this.headers})
             .map((r: Response) => {
                 fornecedor = new Fornecedor(r);
                 return fornecedor
@@ -50,7 +52,8 @@ export class FornecedorService {
     save(fornecedor: Fornecedor): Observable<Fornecedor> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 

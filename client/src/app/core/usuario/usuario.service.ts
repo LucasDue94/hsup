@@ -8,18 +8,20 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class UsuarioService {
 
-    private baseUrl = 'http://localhost:8080/';
+    private baseUrl = environment.serverUrl;
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<Usuario[]> {
+    list(max?: any, searchTerm?: string, offset?: number): Observable<Usuario[]> {
         let subject = new Subject<Usuario[]>();
-        this.http.get(this.baseUrl + `usuario?offset=${offset}&max=${max}`, {params: {fieldSearch: searchTerm}})
+        this.http.get(this.baseUrl + `usuario?offset=${offset}&max=${max}`, {headers: this.headers, params: {name: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['usuario'].map((item: any) => new Usuario(item)))
@@ -29,7 +31,7 @@ export class UsuarioService {
 
     count() {
         let quantity: number;
-        return this.http.get<Usuario[]>(this.baseUrl + 'usuario/')
+        return this.http.get<Usuario[]>(this.baseUrl + 'usuario/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -40,7 +42,7 @@ export class UsuarioService {
 
     get(id: number): Observable<Usuario> {
         let usuario;
-        return this.http.get(this.baseUrl + 'usuario/' + id)
+        return this.http.get(this.baseUrl + 'usuario/' + id, {headers: this.headers})
             .map((r: Response) => {
                 usuario = new Usuario(r);
                 return usuario
@@ -50,7 +52,8 @@ export class UsuarioService {
     save(usuario: Usuario): Observable<Usuario> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 
@@ -66,7 +69,7 @@ export class UsuarioService {
     }
 
     destroy(usuario: Usuario): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'usuario/' + usuario.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'usuario/' + usuario.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

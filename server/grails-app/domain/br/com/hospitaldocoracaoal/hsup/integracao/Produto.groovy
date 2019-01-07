@@ -5,7 +5,6 @@ class Produto implements Serializable {
     String setor
     String descricao
     String estoque
-    String bloqueado
 
     static mapping = {
         id generator: 'assigned', composite: ['codigo', 'setor']

@@ -2,6 +2,7 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
+import grails.plugin.springsecurity.annotation.Secured
 
 class FornecedorController {
 
@@ -10,6 +11,7 @@ class FornecedorController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    @Secured('ROLE_FORNECEDOR_INDEX')
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         if (params.fantasia == null)
@@ -18,10 +20,12 @@ class FornecedorController {
             respond search()
     }
 
+    @Secured('ROLE_FORNECEDOR_SHOW')
     def show(Long id) {
         respond fornecedorService.get(id)
     }
 
+    @Secured('ROLE_FORNECEDOR_SAVE')
     def save(Fornecedor fornecedor) {
         if (fornecedor == null) {
             render status: NOT_FOUND
@@ -38,6 +42,7 @@ class FornecedorController {
         respond fornecedor, [status: CREATED, view:"show"]
     }
 
+    @Secured('ROLE_FORNECEDOR_SEARCH')
     def search() {params.nome
         List<Fornecedor> fornecedorList = Fornecedor.withCriteria {
             if (params.containsKey('fantasia') && !params.fantasia.empty)
@@ -47,6 +52,7 @@ class FornecedorController {
         return fornecedorList
     }
 
+    @Secured('ROLE_FORNECEDOR_UPDATE')
     def update(Fornecedor fornecedor) {
         if (fornecedor == null) {
             render status: NOT_FOUND
@@ -63,6 +69,7 @@ class FornecedorController {
         respond fornecedor, [status: OK, view:"show"]
     }
 
+    @Secured('ROLE_FORNECEDOR_DELETE')
     def delete(Long id) {
         if (id == null) {
             render status: NOT_FOUND
