@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
@@ -12,7 +12,7 @@ import { Produto } from "../core/produto/produto";
     templateUrl: './almoxarife.component.html',
     styleUrls: ['./almoxarife.component.scss']
 })
-export class AlmoxarifeComponent implements OnInit, AfterContentInit {
+export class AlmoxarifeComponent implements OnInit {
 
     @Input() itemsRequest;
     @ViewChild('stock') stock;
@@ -25,7 +25,6 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
     date = '19/12/2018';
     requestUser = 'Beroaldo da Silva Carneiro';
     currentInput;
-    isOverList;
 
     constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder) {
         this.formControls = this.fb.group({value: 'myBuilder', disable: false});
@@ -36,16 +35,12 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
         this.wpdProducts = [];
     }
 
-    ngAfterContentInit() {
-    }
-
     createFormControl() {
-        for (let i = 0; i < this.itemsRequest.length; i++) {
-            this.formControls.addControl('searchField' + i, new FormControl());
-        }
+        for (let i = 0; i < this.itemsRequest.length; i++) this.formControls.addControl('searchField' + i, new FormControl());
     }
 
     find(event) {
+        console.log(event);
         this.currentInput = event;
         const currentControlName = this.currentInput.getAttribute('ng-reflect-name');
         const currentControl = this.formControls.get(currentControlName);
@@ -68,35 +63,29 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
                 }
                 this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
             });
-
-        if (currentControl.value == '') {
-            this.wpdProducts = [];
-            this.codPro.value = '';
-            this.stock.vlaue = '';
-        }
     }
-
 
     clearInputs(event, index) {
         this.codPro = document.getElementById('codPro' + index);
         this.stock = document.getElementById('stock' + index);
-        if (this.codPro.value == '' && event.value != '' && !this.isOverList) {
+        if (event.value == '') {
             event.value = '';
             this.wpdProducts = [];
             this.stock.value = '';
+            this.codPro.value = '';
         }
     }
 
     select(event, input, item, index) {
+        if (item.unidade_estoque == undefined) item.unidade_estoque = '';
+
+        if (event.innerHTML.length > 30) event.innerHTML = event.innerHTML.slice(0, 10) + '...';
+
         input.value = event.innerHTML;
         this.stock = document.getElementById('stock' + index);
-        this.stock.value = item.estoque;
+        this.stock.value = item.estoque + ' ' + item.unidade_estoque;
         this.codPro = document.getElementById('codPro' + index);
         this.codPro.value = item.codigo;
         this.wpdProducts = [];
-    }
-
-    verify(status){
-        this.isOverList = status;
     }
 }

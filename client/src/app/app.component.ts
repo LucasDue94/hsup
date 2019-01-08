@@ -12,6 +12,6 @@ export class AppComponent implements DoCheck {
     }
 
     ngDoCheck(): void {
-        this.isLogged = sessionStorage.getItem('token') != null;
+        this.isLogged = localStorage.getItem('token') != null;
     }
 }

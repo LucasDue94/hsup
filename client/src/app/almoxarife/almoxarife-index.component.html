@@ -1,0 +1,49 @@
+<div class="col-12 float-left" role="main">
+    <div class="col-4 form-group float-right">
+        <form [formGroup]="searchForm">
+            <input type="text"
+                   formControlName="searchControl"
+                   class="form-control filter-control col-5 float-right"
+                   placeholder="Buscar fabricante..." #field>
+        </form>
+    </div>
+    <hcal-table tableName="Solicitações {{ this.count }}">
+        <table class="table-default">
+            <tr class="trow-head">
+                <th class="thead-default" thead-content>Nº da solicitação</th>
+                <th class="thead-default" thead-content>Setor</th>
+                <th class="thead-default" thead-content>Solicitante</th>
+                <th class="thead-default" thead-content >
+                    <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+                </th>
+                <th class="thead-default" thead-content>Associar</th>
+            </tr>
+            <tr class="trow-content"
+                *ngFor="let solicitacao of this.solicitacaoList | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+                <td class="tdata-default">{{ solicitacao.id}}</td>
+                <td class="tdata-default">{{ solicitacao.setor}}</td>
+                <td class="tdata-default">{{ solicitacao.solicitante}}</td>
+                <td class="tdata-default"><a>
+                    <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
+                </a></td>
+                <td class="tdata-default">
+                    <!--<a><fa-icon [icon]="['fas', 'check']" class="color-green icon-config"></fa-icon></a>-->
+                    <!--<a>
+                        <fa-icon [icon]="['fas', 'times']" class="color-danger icon-config"></fa-icon>
+                    </a>-->
+                </td>
+            </tr>
+        </table>
+        <div class="not-found" *ngIf="this.solicitacaoList.length == 0">
+            <h1 class="not-found-error">Nenhum registro encontrado</h1>
+        </div>
+    </hcal-table>
+    <pagination-controls *ngIf="this.count > 10"
+                         (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+                         [directionLinks]="true"></pagination-controls>
+</div>
+<div class="container-floating">
+    <div class="floating-button">
+        <a><p class="plus">+</p></a>
+    </div>
+</div>

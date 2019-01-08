@@ -1,5 +1,8 @@
 package br.com.hospitaldocoracaoal.hsup.integracao
 
+import grails.gorm.transactions.Transactional
+
+@Transactional(readOnly = true)
 class ProdutoController {
 
     ProdutoService produtoService
@@ -11,7 +14,8 @@ class ProdutoController {
         params.max = Math.min(max ?: 10, 100)
 
         List<Produto> produtoList = produtoService.list(params, termo)
+        Long count = Produto.countDistinctProducts()
 
-        return respond(produtoList)
+        respond produtoList, model: [total: count]
     }
 }

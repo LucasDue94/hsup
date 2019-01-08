@@ -9,8 +9,7 @@ import { Subject } from "rxjs";
 })
 export class AlmoxarifeService {
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) {}
 
     private baseUrl = environment.serverUrl;
 

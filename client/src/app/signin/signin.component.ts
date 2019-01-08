@@ -29,7 +29,7 @@ export class SigninComponent implements OnInit {
     login() {
         if (this.form.valid) {
             this.authService.authentication(this.form.value).subscribe(resp => {
-                    if (resp.hasOwnProperty('access_token')) sessionStorage.setItem('token', resp['access_token']);
+                    if (resp.hasOwnProperty('access_token')) localStorage.setItem('token', resp['access_token']);
                     this.router.navigate(['/index']);
                 },
                 err => {

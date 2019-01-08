@@ -38,15 +38,16 @@
         <perfect-scrollbar>
             <section class="section-line col-12" *ngFor="let itemRequest of itemsRequest; index as i">
                 <aside class="float-left col-4">
-                    <div class="request-form-group col-10">
+                    <div class="request-form-group col-9">
                         <label class="request-label label-left col-6"><I></I>Item</label>
                         <input title="Descrição do Item" class="request-item col-6" value="{{itemRequest.descricao}}"
                                disabled>
                     </div>
-                    <div class="request-form-group col-2">
+
+                    <div class="request-form-group col-3">
                         <label class="request-label label-right col-12">Qnt</label>
                         <input title="Quantidade de Itens" class="request-item text-right  col-12"
-                               value="{{itemRequest.qnt}}"
+                               value="{{itemRequest.qnt}} {{itemRequest.unidade}}"
                                type="text">
                     </div>
                 </aside>
@@ -61,7 +62,7 @@
                         <perfect-scrollbar class="scrollProducts"
                                            *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
                             <div class="items">
-                                <div (click)="select($event.target, search, itemWpd, i)" (mouseover)="verify(true)" (mouseout)="verify(false)" class="item"
+                                <div (click)="select($event.target, search, itemWpd, i)" class="item"
                                      *ngFor="let itemWpd of wpdProducts" #list>{{itemWpd.descricao}}
                                 </div>
                             </div>
@@ -73,19 +74,19 @@
                         <input title="Código" id="codPro{{i}}" class="request-item text-right col-12" value=""
                                disabled #codPro>
                     </div>
-                    <div class="request-form-group col-2">
+                    <div class="request-form-group col-3">
                         <label class="request-label label-right col-12">Estoque</label>
                         <input title="Estoque WPD" id="stock{{i}}" class="request-item text-right col-12" value=""
                                disabled #stock>
                     </div>
                 </aside>
 
-                <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
-                         class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
-                         class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                         [icon]="['fas', 'times']"></fa-icon>
+                <!--  <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
+                           class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
+                  <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
+                           class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
+                  <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
+                           [icon]="['fas', 'times']"></fa-icon>-->
             </section>
         </perfect-scrollbar>
     </section>

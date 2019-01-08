@@ -46,7 +46,7 @@
   }
 
   .main-content {
-    padding: 10px 5px 10px 20px;
+    padding: 10px;
     height: 75%;
     min-height: 200px;
     width: 95%;
@@ -99,7 +99,7 @@
   font-family: "Poppins", sans-serif;
 
   .request-label {
-    position: relative;
+    float: left;
     display: block;
     & {
       font-size: 0.8em;
@@ -172,7 +172,6 @@
 
 .scrollProducts {
   width: 100%;
-  opacity: 0;
   display: inline;
   z-index: 99;
   max-height: 200px;
