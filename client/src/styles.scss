@@ -731,10 +731,10 @@ html, body {
   background: $lightDanger;
 }
 
-.bg-success{
+.bg-success {
   background-color: $green;
 
-  &.notification-body{
+  &.notification-body {
     background-color: $lightGreen;
   }
 }
@@ -1283,4 +1283,20 @@ html, body {
 .input-without-line {
   border: none;
   background-color: transparent;
+}
+
+.error-span {
+  font-family: Poppins, sans-serif;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+
+  & {
+    background: $lightDanger;
+    color: $white;
+  }
+
+  .angry-error {
+    font-size: 20px;
+  }
 }

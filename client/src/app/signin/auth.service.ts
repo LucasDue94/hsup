@@ -16,8 +16,7 @@ export class AuthService {
         })
     };
 
-    constructor(private http: HttpClient, private router: Router) {
-    }
+    constructor(private http?: HttpClient, private router?: Router) {}
 
     authentication(user) {
         const url = this.baseUrl + 'login';
@@ -50,7 +49,5 @@ export class AuthService {
         )
     }
 
-    hasPermission() {
-
-    }
+    hasPermission = value => localStorage.getItem('roles').includes(value);
 }

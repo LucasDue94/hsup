@@ -37,11 +37,13 @@ import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
 import { SetorModule } from './setor/setor.module';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavComponent
+        NavComponent,
+        ErrorComponent
     ],
     imports: [
         BrowserModule,

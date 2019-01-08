@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Fabricante } from './fabricante';
-import { Subject } from 'rxjs/Subject';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
@@ -13,8 +12,8 @@ import { environment } from "../../../environments/environment";
 @Injectable()
 export class FabricanteService {
 
-    private baseUrl = environment.serverUrl;
     headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
+    private baseUrl = environment.serverUrl;
 
     constructor(private http: HttpClient) {
     }
