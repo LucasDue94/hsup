@@ -42,7 +42,7 @@ class FornecedorController {
         respond fornecedor, [status: CREATED, view:"show"]
     }
 
-    @Secured('ROLE_FORNECEDOR_SEARCH')
+    @Secured('ROLE_FORNECEDOR_INDEX')
     def search() {params.nome
         List<Fornecedor> fornecedorList = Fornecedor.withCriteria {
             if (params.containsKey('fantasia') && !params.fantasia.empty)

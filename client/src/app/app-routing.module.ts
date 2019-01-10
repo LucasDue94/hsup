@@ -7,8 +7,12 @@ import { ErrorComponent } from "./error/error.component";
 
 export const routes: Routes = [
     {path: '', component: SigninComponent, outlet: 'login'},
-    {path: 'index', component: IndexComponent, canActivate: [AuthGuard]},
-    {path: 'erro', component: ErrorComponent}
+    {
+        path: 'index', canActivate: [AuthGuard], children: [
+            {path: '', component: IndexComponent, data: {permissao: 'ROLE_APPLICATION_INDEX'}},
+        ]
+    },
+    {path: 'erro', component: ErrorComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

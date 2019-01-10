@@ -71,7 +71,7 @@ class SetorController {
         render status: NO_CONTENT
     }
 
-    @Secured('ROLE_SETOR_SEARCH')
+    @Secured('ROLE_SETOR_INDEX')
     def search() {params.nome
         List<Setor> setorList = Setor.withCriteria {
             if (params.containsKey('nome') && !params.nome.empty)

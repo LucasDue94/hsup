@@ -16,7 +16,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**/css/**', access: ['permitAll']],
         [pattern: '/**/images/**', access: ['permitAll']],
         [pattern: '/**/favicon.ico', access: ['permitAll']],
-        [pattern: '/api/logout', access: ['isAuthenticated()']]
+        [pattern: '/api/logout', access: ['isAuthenticated()']],
+        [pattern: '/application', access: ['isAuthenticated()']]
 ]
 
 grails.plugin.springsecurity.rest.token.storage.useGorm = true
@@ -30,6 +31,7 @@ grails.plugin.springsecurity.filterChain.chainMap = [
         [pattern: '/**/css/**', filters: 'none'],
         [pattern: '/**/images/**', filters: 'none'],
         [pattern: '/**/favicon.ico', filters: 'none'],
+        [pattern: '/application', filters: 'none'],
         [pattern: '/api/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'],
         [pattern: '/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter']
 ]

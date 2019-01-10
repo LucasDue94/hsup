@@ -36,7 +36,6 @@ class BootStrap {
                 permissoes.save()
             }
         }
-
     }
     def destroy = {
     }

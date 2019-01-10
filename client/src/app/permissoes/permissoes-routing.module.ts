@@ -9,10 +9,10 @@ const routes: Routes = [
     {
         path: 'permissoes', canActivate: [AuthGuard], children: [
             {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: 'list', component: PermissoesListComponent},
-            {path: 'create', component: PermissoesPersistComponent},
-            {path: 'edit/:id', component: PermissoesPersistComponent},
-            {path: 'show/:id', component: PermissoesShowComponent}
+            {path: 'list', component: PermissoesListComponent, data: {permissao: 'ROLE_PERMISSOES_INDEX'}},
+            {path: 'create', component: PermissoesPersistComponent, data: {permissao: 'ROLE_PERMISSOES_SAVE'}},
+            {path: 'edit/:id', component: PermissoesPersistComponent, data: {permissao: 'ROLE_PERMISSOES_UPDATE'}},
+            {path: 'show/:id', component: PermissoesShowComponent, data: {permissao: 'ROLE_PERMISSOES_SHOW'}}
         ]
     }
 ];

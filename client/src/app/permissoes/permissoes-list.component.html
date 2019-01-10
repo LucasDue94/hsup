@@ -32,14 +32,15 @@
             </tr>
         </table>
         <div class="not-found" *ngIf="this.permissoesList.length == 0">
-            <h1 class="not-found-error">Nenhum registro encontrado</h1>
+            <h1 class="not-found-error" *ngIf="this.searchControl.value == ''">Não há dados cadastrados</h1>
+            <h1 class="not-found-error" *ngIf="this.searchControl.value != ''">Nenhum registro encontrado</h1>
         </div>
     </hcal-table>
     <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Novo {{this.constructor.name | slice : 0:-13}}" [placement]="'top'"
+    <div class="floating-button" tooltip="Cadastrar {{this.constructor.name | slice : 0:-13}}" [placement]="'top'"
          [show-delay]="500">
         <a [routerLink]="['/permissoes','create']" class="create a-link-page">
             <p class="plus">+</p>

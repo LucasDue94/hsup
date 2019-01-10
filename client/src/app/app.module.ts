@@ -38,6 +38,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
 import { SetorModule } from './setor/setor.module';
 import { ErrorComponent } from './error/error.component';
+import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 
 @NgModule({
     declarations: [
@@ -76,7 +77,8 @@ import { ErrorComponent } from './error/error.component';
         PermissoesModule,
         AlmoxarifeModule,
         BrowserAnimationsModule,
-        SetorModule
+        SetorModule,
+        SolicitacaoModule
     ],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,

@@ -35,7 +35,7 @@
     "angular-tooltips": "^1.2.2",
     "angular-wormhole": "^2.0.0",
     "core-js": "^2.5.4",
-    "hcal": "^1.4.1",
+    "hcal": "^1.4.2",
     "highcharts": "^6.1.1",
     "jqwidgets-scripts": "^6.0.6",
     "ng2-tooltip-directive": "^2.1.5",

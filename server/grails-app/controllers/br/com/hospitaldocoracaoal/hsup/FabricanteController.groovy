@@ -49,7 +49,7 @@ class FabricanteController {
         }
     }
 
-    @Secured('ROLE_FABRICANTE_SEARCH')
+    @Secured('ROLE_FABRICANTE_INDEX')
     def search() {
         List<Fabricante> fabricanteList = Fabricante.withCriteria {
             if (params.containsKey('fantasia') && !params.fantasia.empty)
