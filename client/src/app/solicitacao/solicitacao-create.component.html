@@ -5,21 +5,23 @@
         <section class="container-lg scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container">
-                    <div class="form-group col-6">
-                        <label class="request-label color-gray" for="descricao">Descrição</label>
-                        <input type="text" id="descricao" name="item" class="col-12 request-input-line-bottom">
-                    </div>
-                    <div class="form-group col-2 offset-1">
-                        <label class="request-label color-gray" for="unidade_medida">Unid.</label>
-                        <input type="text" id="unidade_medida" name="unidade_medida"
-                               class="col-8 request-input-line-bottom">
-                    </div>
-                    <div class="form-group col-2">
-                        <label class="request-label color-gray" for="quantidade">Qtd.</label>
-                        <input type="text" id="quantidade" name="quantidade"
-                               class="col-6 request-input-line-bottom">
-                    </div>
-                    <button class="float-button-plus bg-green color-white">+</button>
+                    <section class="items">
+                        <div class="form-group col-6">
+                            <label class="request-label color-gray" for="descricao">Descrição</label>
+                            <input type="text" id="descricao" name="item" class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2 offset-1">
+                            <label class="request-label color-gray" for="unidade_medida">Unid.</label>
+                            <input type="text" id="unidade_medida" name="unidade_medida"
+                                   class="col-8 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label class="request-label color-gray" for="quantidade">Qtd.</label>
+                            <input type="text" id="quantidade" name="quantidade"
+                                   class="col-6 request-input-line-bottom">
+                        </div>
+                    </section>
+                    <button (click)="addField($event.target)" class="float-button-plus bg-green color-white">+</button>
                 </div>
             </perfect-scrollbar>
         </section>

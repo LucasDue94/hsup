@@ -29,6 +29,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ],
     imports: [
         CommonModule,
+        StepModule,
         FormsModule,
         ReactiveFormsModule,
         ModalModule,

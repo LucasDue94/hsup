@@ -18,4 +18,8 @@ export class SolicitacaoCreateComponent implements OnInit {
         this.route.navigate(['solicitacao'])
     }
 
+    addField(event) {
+        const parentNode = event.parentNode.childNodes[0].cloneNode(true);
+        event.parentElement.appendChild(parentNode);
+    }
 }

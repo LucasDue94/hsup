@@ -12,14 +12,20 @@
 }
 
 .list-item-container {
-  height: 400px;
+  width: 97%;
+  min-height: 330px;
+  height: auto;
   padding: 10px;
+
+  & {
+    background: $sGrayWizard;
+    border-radius: 8px;
+  }
 }
 
 .scroll-container {
-  height: 400px;
+  height: 330px;
   padding: 7px;
-
 }
 
 .title-step {
@@ -56,10 +62,8 @@
 }
 
 .float-button-plus {
-  top: 10px;
-  float: right;
-  position: relative;
-  right: 45px;
+  top: 73%;
+  position: fixed;
   width: 35px;
   height: 35px;
 
