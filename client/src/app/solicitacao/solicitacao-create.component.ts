@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
 })
 export class SolicitacaoCreateComponent implements OnInit {
 
+    countItemInput = 1;
+
     constructor(private route: Router) {
     }
 
@@ -20,6 +22,14 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     addField(event) {
         const parentNode = event.parentNode.childNodes[0].cloneNode(true);
-        event.parentElement.appendChild(parentNode);
+        this.setContainer(event);
+        if (this.countItemInput < 10) event.parentElement.appendChild(parentNode);
+        if (parentNode.classList.contains('items')) this.countItemInput += 1;
+    }
+
+    setContainer(el) {
+        if (el.parentNode.classList.contains('list-item-container')) {
+            let container = el.parentNode;
+        }
     }
 }

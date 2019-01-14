@@ -1,12 +1,12 @@
 <h1 class="title-solicitacao color-gray">solicitação de compra</h1>
-<hcal-tab>
+<hcal-tab [previousName]="'< Anterior'" [nextName]="'Próximo >'">
     <hcal-step>
         <h2 class="title-step color-gray">seleção de itens</h2>
-        <section class="container-lg scroll-container bg-gray">
+        <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container">
                     <section class="items">
-                        <div class="form-group col-6">
+                        <div class="form-group col-7">
                             <label class="request-label color-gray" for="descricao">Descrição</label>
                             <input type="text" id="descricao" name="item" class="col-12 request-input-line-bottom">
                         </div>

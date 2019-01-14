@@ -14,7 +14,7 @@
 .list-item-container {
   width: 97%;
   min-height: 330px;
-  height: auto;
+  height: 100%;
   padding: 10px;
 
   & {
@@ -62,8 +62,9 @@
 }
 
 .float-button-plus {
-  top: 73%;
+  top: 70%;
   position: fixed;
+  right: 15%;
   width: 35px;
   height: 35px;
 
