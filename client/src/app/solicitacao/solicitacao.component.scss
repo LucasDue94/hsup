@@ -15,7 +15,7 @@
   width: 97%;
   min-height: 330px;
   height: 100%;
-  padding: 10px;
+  padding: 15px;
 
   & {
     background: $sGrayWizard;
@@ -62,9 +62,9 @@
 }
 
 .float-button-plus {
-  top: 70%;
-  position: fixed;
-  right: 15%;
+  right: 3%;
+  bottom: 5%;
+  position: absolute;
   width: 35px;
   height: 35px;
 
@@ -75,6 +75,7 @@
     font-size: 1.1em;
     font-family: Poppins, sans-serif;
     font-weight: bold;
+    text-align: center;
   }
 
   &:hover {

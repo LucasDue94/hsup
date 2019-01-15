@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
@@ -16,20 +16,22 @@ export class SolicitacaoCreateComponent implements OnInit {
     ngOnInit() {
     }
 
-    cancel() {
-        this.route.navigate(['solicitacao'])
-    }
+    cancel = () => this.route.navigate(['solicitacao']);
 
     addField(event) {
         const parentNode = event.parentNode.childNodes[0].cloneNode(true);
-        this.setContainer(event);
+
+        for (let parent of parentNode.childNodes) {
+            for (let child of parent.childNodes) {
+                if (child.nodeName == 'INPUT') child.value = '';
+            }
+        }
+
         if (this.countItemInput < 10) event.parentElement.appendChild(parentNode);
         if (parentNode.classList.contains('items')) this.countItemInput += 1;
     }
 
-    setContainer(el) {
-        if (el.parentNode.classList.contains('list-item-container')) {
-            let container = el.parentNode;
-        }
+    @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+        if (event.key === 'F5' && !confirm('Você tem certeza que deseja atualizar a página? Seus dados serão apagados.')) return false;
     }
 }
