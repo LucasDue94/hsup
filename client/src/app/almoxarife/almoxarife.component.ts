@@ -14,7 +14,10 @@ import { Produto } from "../core/produto/produto";
 })
 export class AlmoxarifeComponent implements OnInit {
 
-    @Input() itemsRequest;
+    @Input() itemsRequest =[{descricao: 'Memoria 8GB', qnt: '10', unidade: 'und'},
+        {descricao: 'Mouse', qnt: '1', unidade: 'KG'},
+        {descricao: 'Pilha', qnt: '1', unidade: 'KG'},
+        {descricao: 'Coco', qnt: '1', unidade: 'KG'}];
     @ViewChild('stock') stock;
     @ViewChild('codPro') codPro;
     wpdProducts: Produto[];

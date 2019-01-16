@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlmoxarifeComponent } from "./almoxarife.component";
 import { HcalSharedModule, TableModule } from "hcal";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AlmoxarifeComponent } from "./almoxarife.component";
 import { AlmoxarifeIndexComponent } from './almoxarife-index.component';
 import { AlmoxarifeRoutingModule } from "./almoxarife-routing.module";
 
