@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, ElementRef, HostListener, OnInit, QueryList } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
@@ -6,7 +6,9 @@ import { Router } from "@angular/router";
     templateUrl: './solicitacao-create.component.html',
     styleUrls: ['./solicitacao.component.scss']
 })
-export class SolicitacaoCreateComponent implements OnInit {
+export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
+
+    @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
 
     countItemInput = 1;
 
@@ -29,6 +31,10 @@ export class SolicitacaoCreateComponent implements OnInit {
 
         if (this.countItemInput < 10) event.parentElement.appendChild(parentNode);
         if (parentNode.classList.contains('items')) this.countItemInput += 1;
+    }
+
+    ngAfterContentInit(): void {
+        console.log(this.content.nativeElement.childNodes[1].childNodes.item(0).childNodes);
     }
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {

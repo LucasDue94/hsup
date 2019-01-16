@@ -1,6 +1,11 @@
 @import '../../color';
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
+input, select {
+  font-size: 12px;
+  font-family: Poppins, sans-serif !important;
+}
+
 .title-solicitacao {
   & {
     text-transform: uppercase;
@@ -44,6 +49,7 @@
   & {
     font-family: Poppins, sans-serif;
     font-size: 1em;
+    font-weight: bold;
     text-align: left;
   }
 }
@@ -81,4 +87,17 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.solicitacao-item-group {
+  display: flex;
+  display: -ms-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+
+}
+
+select {
+  margin-top: 1px;
 }
