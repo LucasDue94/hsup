@@ -6,8 +6,7 @@ import { AlmoxarifeComponent } from "./almoxarife.component";
 const routes: Routes = [
     {
         path: 'almoxarife', canActivate: [AuthGuard], children: [
-            {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: '', component: AlmoxarifeComponent},
+            {path: '', component: AlmoxarifeComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
         ]
     }
 ];
@@ -15,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FornecedorRoutingModule {}
+export class AlmoxarifeRoutingModule {}

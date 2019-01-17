@@ -9,6 +9,7 @@ import {
     PerfectScrollbarConfigInterface,
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
+import { AlmoxarifeRoutingModule } from "./almoxarife-routing.module";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -20,7 +21,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         HcalSharedModule,
         PerfectScrollbarModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        AlmoxarifeRoutingModule
     ],
     declarations: [
         AlmoxarifeComponent

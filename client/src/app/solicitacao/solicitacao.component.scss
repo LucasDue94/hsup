@@ -89,7 +89,7 @@ input, select {
   }
 }
 
-.solicitacao-item-group {
+.solicitacao-group {
   display: flex;
   display: -ms-flex;
   flex-direction: row;
@@ -99,5 +99,28 @@ input, select {
 }
 
 select {
-  margin-top: 1px;
+  margin-top: 2.48px;
+}
+
+.button-cancel {
+  width: 20px;
+  height: 20px;
+  margin-top: 30px;
+  padding-top: 3px;
+
+  & {
+    background: $danger;
+    border-radius: 14px;
+    border: none;
+    color: $white;
+    font-size: 10px;
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }

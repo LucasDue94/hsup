@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
             return false;
         }
 
-        if (!this.authService.hasPermission(route.firstChild.data.permissao)) {
+        if (route.firstChild && !this.authService.hasPermission(route.firstChild.data.permissao)) {
             this.router.navigate(['/erro']);
             return false;
         }

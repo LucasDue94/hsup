@@ -4,7 +4,6 @@ class Fornecedor {
 
     String fantasia
     String telefone
-    String endereco
     String email
     Boolean ativo
 
@@ -14,7 +13,6 @@ class Fornecedor {
         fantasia nullable: false, blank: false
         ativo nullable: false, blank: false
         telefone nullable: false, blank: false
-        endereco nullable: false, blank: false
         email nullable: false, blank: false
     }
 }
