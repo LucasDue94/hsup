@@ -80,10 +80,6 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
     clearInputs(event, index) {
         this.codPro = document.getElementById('codPro' + index);
         this.stock = document.getElementById('stock' + index);
-        console.log(this.codPro.value);
-        console.log(this.stock.value);
-        console.log(event.value);
-        console.log(this.isOverList);
         if (this.codPro.value == '' && event.value != '' && !this.isOverList) {
             event.value = '';
             this.wpdProducts = [];
@@ -96,14 +92,11 @@ export class AlmoxarifeComponent implements OnInit, AfterContentInit {
         this.stock = document.getElementById('stock' + index);
         this.stock.value = item.estoque;
         this.codPro = document.getElementById('codPro' + index);
-        console.log(this.stock);
-        console.log(this.codPro);
         this.codPro.value = item.codigo;
         this.wpdProducts = [];
     }
 
     verify(status){
         this.isOverList = status;
-        console.log(this.isOverList);
     }
 }

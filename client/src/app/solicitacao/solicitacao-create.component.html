@@ -4,15 +4,19 @@
         <h2 class="title-step color-gray">seleção de itens</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
-                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countItemInput > 4 ? '800px' : ''}" #stepItem>
+                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countItemInput > 4 ? '800px' : ''}"
+                     #stepItem>
                     <section class="col-12 solicitacao-group" id="item">
-                        <div class="form-group col-7">
+                        <div class="form-group col-7" [formGroup]="formControl">
                             <label class="request-label color-gray" for="descricao">Descrição</label>
-                            <input type="text" id="descricao" name="item" class="col-12 request-input-line-bottom">
+                            <input type="text" id="descricao"
+                                   formControlName="descricao" name="descricao"
+                                   class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-2">
                             <label class="request-label color-gray" for="unidade_medida">Unid.</label>
-                            <input type="text" id="unidade_medida" name="unidade_medida"
+                            <input type="text" (focus)="findUnidadeMedida($event.target)" id="unidade_medida"
+                                   name="unidade_medida"
                                    class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-2">
@@ -31,7 +35,8 @@
         <h2 class="title-step color-gray">seleção de fabricantes</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
-                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countFabricanteInput > 4 ? '800px' : ''}">
+                <div class="col-12 list-item-container"
+                     [ngStyle]="{'min-height': countFabricanteInput > 4 ? '800px' : ''}">
                     <section class="col-12 solicitacao-group" id="fabricante">
                         <div class="form-group col-8">
                             <label class="request-label color-gray" for="fantasia_fabricante">Fantasia</label>
@@ -65,7 +70,8 @@
         <h2 class="title-step color-gray">seleção de fornecedores</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
-                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countFornecedorInput > 4 ? '800px' : ''}">
+                <div class="col-12 list-item-container"
+                     [ngStyle]="{'min-height': countFornecedorInput > 4 ? '800px' : ''}">
                     <section class="col-12 items solicitacao-group" id="fornecedor">
                         <div class="form-group col-2">
                             <label class="request-label color-gray" for="fantasia_fornecedor">Fantasia</label>
@@ -105,8 +111,10 @@
     </hcal-step>
     <hcal-step></hcal-step>
     <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
-    <button class="button button-blue float-right" *ngIf="items != undefined && items.length > 0" finish-button>Finalizar</button>
+    <button class="button button-blue float-right" *ngIf="items != undefined && items.length > 0" finish-button>
+        Finalizar
+    </button>
     <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
 </hcal-tab>
 
-<li *ngFor="let i of this.items">{{ i }}</li>
+<li *ngFor="let i of this.unidades">{{ i }}</li>

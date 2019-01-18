@@ -55,13 +55,14 @@
                 <aside class="right-aside col-7">
                     <div class="request-form-group col-7" [formGroup]="this.formControls" #searchContainer>
                         <label class="request-label label-left col-6">Produto</label>
-                        <input title="" (blur)="clearInputs($event.target ,i)"
+                        <input title="" (blur)="clearInputs($event.target, i)"
                                (focus)="find($event.target)" formControlName="searchField{{i}}"
                                class="request-input-line-bottom col-12" type="text" #search>
                         <perfect-scrollbar class="scrollProducts"
                                            *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
                             <div class="items">
-                                <div (click)="select($event.target, search, itemWpd, i)" (mouseover)="verify(true)" (mouseout)="verify(false)" class="item"
+                                <div (click)="select($event.target, search, itemWpd, i)" (mouseover)="verify(true)"
+                                     (mouseout)="verify(false)" class="item"
                                      *ngFor="let itemWpd of wpdProducts" #list>{{itemWpd.descricao}}
                                 </div>
                             </div>

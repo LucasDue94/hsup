@@ -11,6 +11,7 @@ import {
 import { Router } from "@angular/router";
 import { Item } from "../core/item/item";
 import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
+import { FormBuilder, FormControl } from "@angular/forms";
 
 @Component({
     selector: 'solicitacao-create',
@@ -27,8 +28,11 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     countFornecedorInput = 1;
     items: Item[] = [];
     unidades: UnidadeMedida[] = [];
+    formControl;
 
-    constructor(private route: Router) {
+    constructor(private route: Router, private fb: FormBuilder) {
+        this.formControl = this.fb.group({value: 'builder', disable: false});
+        this.formControl.addControl('descricao', new FormControl())
     }
 
     ngOnInit() {
@@ -42,8 +46,17 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
             if (e.classList.contains('solicitacao-group')) parentNode = e.cloneNode(true);
         });
 
+        let i = 1;
         for (let parent of parentNode.childNodes) {
-            for (let child of parent.childNodes) if (child.nodeName == 'INPUT') child.value = '';
+            for (let child of parent.childNodes) {
+                if (child.nodeName == 'INPUT') {
+                    i = i + 1;
+                    let controlName = child.getAttribute('formControlName') + 1;
+                    if (typeof controlName == "number") controlName = child.getAttribute('name') + 1;
+                    this.inputBuilder(child, controlName);
+                    this.addFormControl(controlName);
+                }
+            }
         }
 
         if (this.countItemInput < 10 && parentNode.id == 'item') event.parentElement.appendChild(parentNode);
@@ -57,6 +70,19 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         }
     }
 
+    inputBuilder(input, name) {
+        input.setAttribute('formControlName', name);
+        input.setAttribute('ng-reflect-name', name);
+        input.name = name;
+        input.id = name;
+        input.value = '';
+        input.previousElementSibling.setAttribute('for', name);
+    }
+
+    addFormControl(controlName) {
+        this.formControl.addControl(controlName, new FormControl());
+    }
+
     ngAfterContentInit(): void {
     }
 
@@ -65,7 +91,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     }
 
     @HostListener('document:click', ['$event']) removeField(event) {
-        if (event.target.parentNode != null) {
+        if (event.target != null && event.target.parentNode != null && event.target.nodeName == 'BUTTON') {
             const parentElement = event.target.parentNode.parentNode;
             let element = event.target.parentNode;
             if (event.target.name == 'button-cancel' && this.countItemInput > 1) {
@@ -83,6 +109,10 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                 this.countFornecedorInput -= 1;
             }
         }
+
+        let currentInput;
+        currentInput = this.getFormControl(event.target.name);
+        if (currentInput) currentInput.valueChanges.subscribe(e => console.log(e));
     }
 
     add() {
@@ -98,5 +128,10 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                 });
             }
         })
+    }
+
+    getFormControl = (controlName) => this.formControl.get(controlName);
+
+    findUnidadeMedida() {
     }
 }
