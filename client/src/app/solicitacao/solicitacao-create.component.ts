@@ -12,6 +12,7 @@ import { Router } from "@angular/router";
 import { Item } from "../core/item/item";
 import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
 import { FormBuilder, FormControl } from "@angular/forms";
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
     selector: 'solicitacao-create',
@@ -51,15 +52,18 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
             for (let child of parent.childNodes) {
                 if (child.nodeName == 'INPUT') {
                     i = i + 1;
-                    let controlName = child.getAttribute('formControlName') + 1;
-                    if (typeof controlName == "number") controlName = child.getAttribute('name') + 1;
+                    let controlName = child.getAttribute('formControlName') + i;
+                    if (typeof controlName == "number") controlName = child.getAttribute('name') + i;
                     this.inputBuilder(child, controlName);
+                    child.addEventListener("focus", event => this.findItem(event.target));
                     this.addFormControl(controlName);
                 }
             }
         }
 
-        if (this.countItemInput < 10 && parentNode.id == 'item') event.parentElement.appendChild(parentNode);
+        if (this.countItemInput < 10 && parentNode.id == 'item') {
+            event.parentElement.appendChild(parentNode);
+        }
         if (parentNode.id == 'item') this.countItemInput += 1;
         if (parentNode.id == 'fabricante') {
             event.parentElement.appendChild(parentNode);
@@ -77,6 +81,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         input.id = name;
         input.value = '';
         input.previousElementSibling.setAttribute('for', name);
+
     }
 
     addFormControl(controlName) {
@@ -109,10 +114,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                 this.countFornecedorInput -= 1;
             }
         }
-
-        let currentInput;
-        currentInput = this.getFormControl(event.target.name);
-        if (currentInput) currentInput.valueChanges.subscribe(e => console.log(e));
     }
 
     add() {
@@ -128,6 +129,15 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                 });
             }
         })
+    }
+
+    findItem(event) {
+        let currentInput;
+        currentInput = this.getFormControl(event.name);
+        console.log(event);
+        if (currentInput) {
+            currentInput.valueChanges.debounceTime(1000).subscribe(e => this.items.push(e));
+        }
     }
 
     getFormControl = (controlName) => this.formControl.get(controlName);

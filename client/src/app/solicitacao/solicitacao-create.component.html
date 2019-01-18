@@ -9,7 +9,7 @@
                     <section class="col-12 solicitacao-group" id="item">
                         <div class="form-group col-7" [formGroup]="formControl">
                             <label class="request-label color-gray" for="descricao">Descrição</label>
-                            <input type="text" id="descricao"
+                            <input type="text" id="descricao" (focus)="findItem($event.target)"
                                    formControlName="descricao" name="descricao"
                                    class="col-12 request-input-line-bottom">
                         </div>
@@ -117,4 +117,4 @@
     <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
 </hcal-tab>
 
-<li *ngFor="let i of this.unidades">{{ i }}</li>
+<li *ngFor="let i of this.items">{{ i }}</li>
