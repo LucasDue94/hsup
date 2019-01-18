@@ -5,7 +5,7 @@ class Fabricante {
     String fantasia
     Boolean ativo
 
-    static belongsTo = Item
+    static belongsTo = [Item, SolicitacaoItem]
 
     static constraints = {
         fantasia nullable: false, blank: false

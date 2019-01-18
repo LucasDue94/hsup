@@ -74,19 +74,19 @@
                         <input title="Código" id="codPro{{i}}" class="request-item text-right col-12" value=""
                                disabled #codPro>
                     </div>
-                    <div class="request-form-group col-3">
+                    <div class="request-form-group col-2">
                         <label class="request-label label-right col-12">Estoque</label>
                         <input title="Estoque WPD" id="stock{{i}}" class="request-item text-right col-12" value=""
                                disabled #stock>
                     </div>
                 </aside>
 
-                <!--  <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
-                           class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                  <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
-                           class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                  <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                           [icon]="['fas', 'times']"></fa-icon>-->
+                <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
+                         class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
+                <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
+                         class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
+                <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
+                         [icon]="['fas', 'times']"></fa-icon>
             </section>
         </perfect-scrollbar>
     </section>
@@ -95,3 +95,4 @@
     <button class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
     <button class="float-right button btn-almoxarife col-2">Voltar</button>
 </div>
+

@@ -1,28 +1,28 @@
-<div class="nav" role="navigation">
-    <ul>
-        <li><a [routerLink]="['/index']" class="home">Home</a></li>
-        <li><a [routerLink]="['/permissoes','list']" class="list">Permissoes List</a></li>
-    </ul>
-</div>
-<div id="persist-permissoes" class="content scaffold-edit" role="main">
-    <h1>{{create ? "Create" : "Edit"}} Permissoes</h1>
+<a [routerLink]="['/permissoes']">
+    <fa-icon [icon]="['fas', 'chevron-left']" class="float-left back-icon-link"></fa-icon>
+    <h4 class="title-back-link">Voltar</h4>
+</a>
+<div class="clearfix"></div>
+<main class="col-6 float-left form-container offset-0">
     <ul class="errors" role="alert" *ngIf="errors">
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
-
-    <form name="save{className}" (ngSubmit)="save()">
-        <fieldset class="form">
-            <fieldset class="form">
-  <div class="fieldcontain required">
-    <label for="authority">Authority
-      <span class="required-indicator">*</span>
-    </label>
-    <input required="" name="authority" id="authority" [(ngModel)]="permissoes.authority" type="text" />
-  </div>
-</fieldset>
-        </fieldset>
-        <fieldset class="buttons">
-            <input type="submit" class="save" [value]="create ? 'Save' : 'Update'" />
-        </fieldset>
+    <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message" [modalType]="'success'"></hcal-modal>
+    <h3 class="title-component">{{ this.constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
+    <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
+        <div class="form-group position-relative col-12">
+            <label for="authority" class="control-label">Descrição</label>
+            <input type="text"
+                   name="authority"
+                   tooltipHcal="Campo permissão. Ex.: SOLICITACAO_ALTERACAO."
+                   [position]="'top'"
+                   [delay]="3000"
+                   required="required"
+                   id="authority"
+                   placeholder="Digite a descrição..."
+                   [(ngModel)]="permissoes.authority"
+                   [class]="'form-control col-12'">
+        </div>
+        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
     </form>
-</div>
+</main>

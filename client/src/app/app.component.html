@@ -1,12 +1,27 @@
 <hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged">
-    <hcal-link [iconLink]="'home'" [routerLinkName]="'index'" [titleLink]="'Home'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'industry'" [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'briefcase'" [routerLinkName]="'fornecedor'" [titleLink]="'Fornecedores'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'box'" [routerLinkName]="'item'" [titleLink]="'Itens'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'user-circle'" [routerLinkName]="'perfil'" [titleLink]="'Perfil'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'user'" [routerLinkName]="'usuario'" [titleLink]="'Usuários'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'users'" [routerLinkName]="'setor'" [titleLink]="'Setores'" main-menu></hcal-link>
-    <hcal-link [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'" main-menu></hcal-link>
+    <div *ngIf="this.currentRoute != '/solicitacao/create'" main-menu>
+        <hcal-link *ngIf="checkPermission('ROLE_APPLICATION_INDEX')" [iconLink]="'home'" [routerLinkName]="'index'"
+                   [titleLink]="'Home'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_FABRICANTE_INDEX')" [iconLink]="'industry'"
+                   [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'"
+                   main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_FORNECEDOR_INDEX')" [iconLink]="'briefcase'"
+                   [routerLinkName]="'fornecedor'" [titleLink]="'Fornecedores'"
+                   main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_ITEM_INDEX')" [iconLink]="'boxes'" [routerLinkName]="'item'"
+                   [titleLink]="'Itens'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_PERFIL_INDEX')" [iconLink]="'user-circle'" [routerLinkName]="'perfil'"
+                   [titleLink]="'Perfil'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_PERMISSOES_INDEX')" [iconLink]="'key'" [routerLinkName]="'permissoes'"
+                   [titleLink]="'Permissões'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_USUARIO_INDEX')" [iconLink]="'user'" [routerLinkName]="'usuario'"
+                   [titleLink]="'Usuários'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_SETOR_INDEX')" [iconLink]="'users'" [routerLinkName]="'setor'"
+                   [titleLink]="'Setores'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
+                   [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'" main-menu></hcal-link>
+        <hcal-link [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'" main-menu></hcal-link>
+    </div>
 </hcal-aside-bar>
 <hcal-main [title]="'HSUP'" *ngIf="isLogged">
     <hcal-nav [hiddenCog]="false" nav-main>

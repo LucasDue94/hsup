@@ -1,0 +1,84 @@
+@import '../../color';
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+.title-solicitacao {
+  & {
+    text-transform: uppercase;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    font-size: 2em;
+    text-align: center;
+  }
+}
+
+.list-item-container {
+  width: 97%;
+  min-height: 330px;
+  height: 100%;
+  padding: 15px;
+
+  & {
+    background: $sGrayWizard;
+    border-radius: 8px;
+  }
+}
+
+.scroll-container {
+  height: 330px;
+  padding: 7px;
+}
+
+.title-step {
+  & {
+    text-transform: uppercase;
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+  }
+}
+
+.request-label {
+  display: block;
+
+  & {
+    font-family: Poppins, sans-serif;
+    font-size: 1em;
+    text-align: left;
+  }
+}
+
+.request-input-line-bottom {
+  & {
+    text-align: left;
+    font-size: 1.2em;
+    font-family: inherit;
+    color: $brown;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border-bottom: 3px solid $mediumGray;
+  }
+}
+
+.float-button-plus {
+  right: 3%;
+  bottom: 5%;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+
+  & {
+    outline: none;
+    border-radius: 50px;
+    border: none;
+    font-size: 1.1em;
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}

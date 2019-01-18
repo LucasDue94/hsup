@@ -9,10 +9,10 @@ const routes: Routes = [
     {
         path: 'unidadeMedida', canActivate: [AuthGuard], children: [
             {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: 'list', component: UnidadeMedidaListComponent},
-            {path: 'create', component: UnidadeMedidaPersistComponent},
-            {path: 'edit/:id', component: UnidadeMedidaPersistComponent},
-            {path: 'show/:id', component: UnidadeMedidaShowComponent},
+            {path: 'list', component: UnidadeMedidaListComponent, data: {permissao: 'ROLE_UNIDADEMEDIDA_INDEX'}},
+            {path: 'create', component: UnidadeMedidaPersistComponent, data: {permissao: 'ROLE_UNIDADEMEDIDA_SAVE'}},
+            {path: 'edit/:id', component: UnidadeMedidaPersistComponent, data: {permissao: 'ROLE_UNIDADEMEDIDA_UPDATE'}},
+            {path: 'show/:id', component: UnidadeMedidaShowComponent, data: {permissao: 'ROLE_UNIDADEMEDIDA_SHOW'}},
         ]
     }
 ];

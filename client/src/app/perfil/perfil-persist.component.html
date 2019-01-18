@@ -23,6 +23,15 @@
                    [(ngModel)]="perfil.name"
                    [class]="'form-control col-12'">
         </div>
-        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />
+        <div class="form-group position-relative col-5">
+            <label for="authorities" class="control-label">Permissões</label>
+            <select name="authorities" id="authorities" [(ngModel)]="perfil.permissoes" multiple>
+                <option *ngFor="let permissao of aPermissoes" [value]="permissao.id"
+                        [attr.selected]="this.permissoes.includes(permissao.id)">{{ permissao.authority }}
+                </option>
+            </select>
+        </div>
+        <div class="clearfix"></div>
+        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'"/>
     </form>
 </main>

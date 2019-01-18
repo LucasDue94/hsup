@@ -5,6 +5,7 @@ model {
 }
 
 json {
-    produto tmpl.produto(produtoList ?: [])
-    total Produto.countDistinctProducts()
+	produto tmpl.produto(produtoList ?: [])
+	total Produto.count
 }
+

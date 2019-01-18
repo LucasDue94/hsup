@@ -40,4 +40,8 @@ export class IndexComponent implements OnInit {
             }
         });
     }
+
+    logout() {
+        this.authService.logout(localStorage.getItem('token'));
+    }
 }

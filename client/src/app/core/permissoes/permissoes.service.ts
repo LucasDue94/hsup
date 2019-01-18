@@ -13,13 +13,14 @@ import "rxjs-compat/add/operator/map";
 export class PermissoesService {
 
     private baseUrl = 'http://localhost:8080/';
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Permissoes[]> {
         let subject = new Subject<Permissoes[]>();
-        this.http.get(this.baseUrl + `permissoes?offset=${offset}&max=${max}`)
+        this.http.get(this.baseUrl + `permissoes?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['permissoes'].map((item: any) => new Permissoes(item)))
@@ -29,7 +30,7 @@ export class PermissoesService {
 
     count() {
         let quantity: number;
-        return this.http.get<Permissoes[]>(this.baseUrl + 'permissoes/')
+        return this.http.get<Permissoes[]>(this.baseUrl + 'permissoes/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -40,7 +41,7 @@ export class PermissoesService {
 
     get(id: number): Observable<Permissoes> {
         let permissoes;
-        return this.http.get(this.baseUrl + 'permissoes/' + id)
+        return this.http.get(this.baseUrl + 'permissoes/' + id, {headers: this.headers})
             .map((r: Response) => {
                 permissoes = new Permissoes(r);
                 return permissoes
@@ -50,7 +51,8 @@ export class PermissoesService {
     save(permissoes: Permissoes): Observable<Permissoes> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 
@@ -66,7 +68,7 @@ export class PermissoesService {
     }
 
     destroy(permissoes: Permissoes): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'permissoes/' + permissoes.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'permissoes/' + permissoes.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }
