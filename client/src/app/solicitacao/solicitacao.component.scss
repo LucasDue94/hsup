@@ -90,12 +90,11 @@ input, select {
 }
 
 .solicitacao-group {
-  display: flex;
-  display: -ms-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-
+    display: flex;
+    display: -ms-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 select {

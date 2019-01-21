@@ -9,10 +9,10 @@ import {
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
-import { Item } from "../core/item/item";
 import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
-import { FormBuilder, FormControl } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
+import { ItemService } from "../core/item/item.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -24,36 +24,35 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
 
-    countItemInput = 1;
-    countFabricanteInput = 1;
-    countFornecedorInput = 1;
-    items: Item[] = [];
+    controlArray: FormGroup;
+    fields: FormArray;
     unidades: UnidadeMedida[] = [];
-    formControl;
+    controlArray;
 
     constructor(private route: Router, private fb: FormBuilder) {
-        this.formControl = this.fb.group({value: 'builder', disable: false});
-        this.formControl.addControl('descricao', new FormControl())
     }
 
     ngOnInit() {
+        this.controlArray = this.fb.group({
+            items: this.fb.array([this.fb.group({
+                descricao0: '',
+                quantidade0: ''
+            })])
+        });
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
 
-    addField(event) {
+    /*addField(event) {
         let parentNode = null;
         event.parentNode.childNodes.forEach(e => {
             if (e.classList.contains('solicitacao-group')) parentNode = e.cloneNode(true);
         });
 
-        let i = 1;
         for (let parent of parentNode.childNodes) {
             for (let child of parent.childNodes) {
                 if (child.nodeName == 'INPUT') {
-                    i = i + 1;
-                    let controlName = child.getAttribute('formControlName') + i;
-                    if (typeof controlName == "number") controlName = child.getAttribute('name') + i;
+                    let controlName = child.getAttribute('name');
                     this.inputBuilder(child, controlName);
                     child.addEventListener("focus", event => this.findItem(event.target));
                     this.addFormControl(controlName);
@@ -72,7 +71,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
             event.parentElement.appendChild(parentNode);
             this.countFornecedorInput += 1;
         }
-    }
+    }*/
 
     inputBuilder(input, name) {
         input.setAttribute('formControlName', name);
@@ -81,11 +80,27 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         input.id = name;
         input.value = '';
         input.previousElementSibling.setAttribute('for', name);
-
     }
 
-    addFormControl(controlName) {
-        this.formControl.addControl(controlName, new FormControl());
+    createFormControl(type) {
+        if (type == 'items') {
+            return this.fb.group({
+                descricao: ''
+            });
+        } else if (type == 'fabricantes') {
+            return this.fb.group({
+                fantasia: '',
+            });
+        }
+    }
+
+    addField(event, type: string) {
+        this.fields = this.controlArray.get(type) as FormArray;
+        this.fields.push(this.createFormControl(type));
+        console.log(event.parentNode.childNodes.previousSibling);
+    }
+
+    remove(event, type: string) {
     }
 
     ngAfterContentInit(): void {
@@ -96,23 +111,21 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     }
 
     @HostListener('document:click', ['$event']) removeField(event) {
-        if (event.target != null && event.target.parentNode != null && event.target.nodeName == 'BUTTON') {
-            const parentElement = event.target.parentNode.parentNode;
-            let element = event.target.parentNode;
-            if (event.target.name == 'button-cancel' && this.countItemInput > 1) {
-                parentElement.removeChild(element);
-                this.countItemInput -= 1;
-            }
+        if (event.target != null && event.target.parentNode != null && event.target.name == 'button-cancel') {
+            const containerInput = event.target.parentNode.parentNode;
+            let inputs = event.target.parentNode;
+            let previousLength = 0;
+            let nextLength = 0;
+            let nextSibling;
 
-            if (event.target.name == 'button-cancel-2' && this.countFabricanteInput > 1) {
-                parentElement.removeChild(element);
-                this.countFabricanteInput -= 1;
-            }
+            if (event.target.parentNode.previousSibling != null)
+                previousLength = event.target.parentNode.previousSibling.childNodes.length;
 
-            if (event.target.name == 'button-cancel-3' && this.countFornecedorInput > 1) {
-                parentElement.removeChild(element);
-                this.countFornecedorInput -= 1;
-            }
+            if (event.target.parentNode.nextSibling != null) nextSibling = event.target.parentNode.nextSibling.childNodes;
+
+            if (nextSibling != undefined && nextSibling.item(0).childNodes.length > 0) nextLength = nextSibling.length;
+
+            if (previousLength > 0 || nextLength > 0) containerInput.removeChild(inputs);
         }
     }
 
@@ -123,7 +136,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                 e.childNodes.forEach(node => {
                     node.childNodes.forEach(n => {
                         if (n.nodeName == 'INPUT') {
-                            if (n.id == 'unidade_medida') this.unidades.push(n.value);
                         }
                     })
                 });
@@ -133,14 +145,13 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
 
     findItem(event) {
         let currentInput;
-        currentInput = this.getFormControl(event.name);
-        console.log(event);
-        if (currentInput) {
-            currentInput.valueChanges.debounceTime(1000).subscribe(e => this.items.push(e));
+        currentInput = this.getFormControl(event.name).items.controls.controls;
+        if (currentInput != undefined) {
+            currentInput.valueChanges.debounceTime(1000).subscribe(e => console.log(e));
         }
     }
 
-    getFormControl = (controlName) => this.formControl.get(controlName);
+    getFormControl = (controlName) => this.controlArray.controls;
 
     findUnidadeMedida() {
     }
