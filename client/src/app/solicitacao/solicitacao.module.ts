@@ -17,6 +17,7 @@ import {
     PerfectScrollbarConfigInterface,
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
+import { SolicitacaoApprovalComponent } from './solicitacao-approval.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -25,7 +26,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 @NgModule({
     declarations: [
         SolicitacaoComponent,
-        SolicitacaoCreateComponent
+        SolicitacaoCreateComponent,
+        SolicitacaoApprovalComponent
     ],
     imports: [
         CommonModule,

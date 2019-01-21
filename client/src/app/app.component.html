@@ -20,7 +20,8 @@
                    [titleLink]="'Setores'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
                    [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'" main-menu></hcal-link>
-        <hcal-link [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'" main-menu></hcal-link>
+        <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')"
+                [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'" main-menu></hcal-link>
     </div>
 </hcal-aside-bar>
 <hcal-main [title]="'HSUP'" *ngIf="isLogged">
