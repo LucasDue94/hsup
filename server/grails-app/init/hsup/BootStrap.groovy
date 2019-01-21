@@ -4,6 +4,7 @@ import br.com.hospitaldocoracaoal.hsup.Perfil
 import br.com.hospitaldocoracaoal.hsup.Permissoes
 import br.com.hospitaldocoracaoal.hsup.Setor
 import br.com.hospitaldocoracaoal.hsup.Usuario
+import br.com.hospitaldocoracaoal.hsup.mail.StatusMensagem
 import grails.core.GrailsApplication
 import org.grails.core.artefact.ControllerArtefactHandler
 
@@ -36,6 +37,7 @@ class BootStrap {
             }
         }
 
+        StatusMensagem.criarStatusPadroes()
     }
     def destroy = {
     }

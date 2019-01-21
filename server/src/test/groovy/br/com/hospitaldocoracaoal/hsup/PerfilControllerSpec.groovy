@@ -15,7 +15,7 @@ class PerfilControllerSpec extends Specification implements ControllerUnitTest<P
         //params["name"] = 'someValidName'
         assert false, "TODO: Provide a populateValidParams() implementation for this generated test suite"
     }
-''
+
     void "Test the index action returns the correct response"() {
         given:
         controller.perfilService = Mock(PerfilService) {
