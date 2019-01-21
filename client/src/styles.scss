@@ -440,6 +440,12 @@ html, body {
   }
 }
 
+.button-reverse {
+  & {
+    border-radius: 0 5px 0 7px !important;
+  }
+}
+
 .button-blue {
   & {
     color: $white;
