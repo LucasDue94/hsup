@@ -37,11 +37,14 @@ import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UnidadeMedidaModule } from "./unidadeMedida/unidadeMedida.module";
 import { SetorModule } from './setor/setor.module';
+import { ErrorComponent } from './error/error.component';
+import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavComponent
+        NavComponent,
+        ErrorComponent
     ],
     imports: [
         BrowserModule,
@@ -74,7 +77,8 @@ import { SetorModule } from './setor/setor.module';
         PermissoesModule,
         AlmoxarifeModule,
         BrowserAnimationsModule,
-        SetorModule
+        SetorModule,
+        SolicitacaoModule
     ],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,

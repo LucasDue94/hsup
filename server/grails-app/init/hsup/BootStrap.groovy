@@ -4,7 +4,6 @@ import br.com.hospitaldocoracaoal.hsup.Perfil
 import br.com.hospitaldocoracaoal.hsup.Permissoes
 import br.com.hospitaldocoracaoal.hsup.Setor
 import br.com.hospitaldocoracaoal.hsup.Usuario
-import br.com.hospitaldocoracaoal.hsup.mail.StatusMensagem
 import grails.core.GrailsApplication
 import org.grails.core.artefact.ControllerArtefactHandler
 
@@ -32,7 +31,8 @@ class BootStrap {
 
         controllers.each { c ->
             c.actions.each { a ->
-                Permissoes permissoes = Permissoes.findOrCreateByAuthority c.name.toUpperCase() + '_' + a.toUpperCase()
+                Permissoes permissoes = Permissoes.findOrCreateByAuthority 'ROLE_' + c.name.toUpperCase() + '_' + a.toUpperCase()
+                adminPerfil.addToPermissoes(permissoes).save()
                 permissoes.save()
             }
         }

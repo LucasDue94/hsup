@@ -9,10 +9,10 @@ const routes: Routes = [
     {
         path: 'fabricante', canActivate: [AuthGuard], children: [
             {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: 'list', component: FabricanteListComponent},
-            {path: 'create', component: FabricantePersistComponent},
-            {path: 'edit/:id', component: FabricantePersistComponent},
-            {path: 'show/:id', component: FabricanteShowComponent}
+            {path: 'list', component: FabricanteListComponent, data: {permissao: 'ROLE_FABRICANTE_INDEX'}},
+            {path: 'create', component: FabricantePersistComponent, data: {permissao: 'ROLE_FABRICANTE_SAVE'}},
+            {path: 'edit/:id', component: FabricantePersistComponent, data: {permissao: 'ROLE_FABRICANTE_UPDATE'}},
+            {path: 'show/:id', component: FabricanteShowComponent, data: {permissao: 'ROLE_FABRICANTE_SHOW'}}
         ]
     }
 ];

@@ -9,7 +9,7 @@ const routes: Routes = [
     {
         path: '${propertyName}', canActivate: [AuthGuard], children: [
             {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: 'list', component: ${className}ListComponent},
+            {path: 'list', component: ${className}ListComponent, data: {permissao: 'ROLE_${className.toUpperCase()}_INDEX'}},
             {path: 'create', component: ${className}PersistComponent},
             {path: 'edit/:id', component: ${className}PersistComponent},
             {path: 'show/:id', component: ${className}ShowComponent}

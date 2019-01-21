@@ -26,7 +26,7 @@ export class Item {
                 delete object['fabricante'];
             }
 
-            for (const prop in Object.keys(object)) {
+            for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }

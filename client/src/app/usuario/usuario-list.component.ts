@@ -53,7 +53,7 @@ export class UsuarioListComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
 
-        this.usuarioService.list('', '', '', this._offset).subscribe((usuarioList: Usuario[]) => {
+        this.usuarioService.list('', '', this._offset).subscribe((usuarioList: Usuario[]) => {
             this.usuarioList = usuarioList
         });
     }

@@ -1,0 +1,107 @@
+<h1 class="title-solicitacao color-gray">solicitação de compra</h1>
+<hcal-tab [previousName]="'< Anterior'" [nextName]="'Próximo >'">
+    <hcal-step>
+        <h2 class="title-step color-gray">seleção de itens</h2>
+        <section class="container-md scroll-container bg-gray">
+            <perfect-scrollbar>
+                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countItemInput > 4 ? '800px' : ''}">
+                    <section class="col-12 solicitacao-item-group">
+                        <div class="form-group col-7">
+                            <label class="request-label color-gray" for="descricao">Descrição</label>
+                            <input type="text" id="descricao" name="item" class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label class="request-label color-gray" for="unidade_medida">Unid.</label>
+                            <input type="text" id="unidade_medida" name="unidade_medida"
+                                   class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label class="request-label color-gray" for="quantidade">Qtd.</label>
+                            <input type="text" id="quantidade" name="quantidade"
+                                   class="col-12 request-input-line-bottom">
+                        </div>
+                    </section>
+                    <button (click)="addField($event.target)" class="float-button-plus bg-green color-white">+</button>
+                </div>
+            </perfect-scrollbar>
+        </section>
+    </hcal-step>
+    <hcal-step>
+        <h2 class="title-step color-gray">seleção de fabricantes</h2>
+        <section class="container-md scroll-container bg-gray">
+            <perfect-scrollbar>
+                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countItemInput > 4 ? '800px' : ''}">
+                    <section class="col-12 solicitacao-item-group">
+                        <div class="form-group col-8">
+                            <label class="request-label color-gray" for="fantasia_fabricante">Fantasia</label>
+                            <input type="text" id="fantasia_fabricante" name="fantasia_fabricante" class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-3">
+                                <label for="itens_fabricante" class="request-label color-gray">Item</label>
+                                <select name="" id="itens_fabricante" class="request-input-line-bottom col-12">
+                                    <option value="">Escolha um item</option>
+                                    <option value="">Item 1</option>
+                                    <option value="">Item 2</option>
+                                    <option value="">Item 3</option>
+                                    <option value="">Item 4</option>
+                                    <option value="">Item 5</option>
+                                    <option value="">Item 6</option>
+                                    <option value="">Item 7</option>
+                                    <option value="">Item 8</option>
+                                    <option value="">Item 9</option>
+                                    <option value="">Item 10</option>
+                                </select>
+                        </div>
+                    </section>
+                    <button (click)="addField($event.target)" class="float-button-plus bg-green color-white">+</button>
+                </div>
+            </perfect-scrollbar>
+        </section>
+    </hcal-step>
+    <hcal-step>
+        <h2 class="title-step color-gray">seleção de fornecedores</h2>
+        <section class="container-md scroll-container bg-gray">
+            <perfect-scrollbar>
+                <div class="col-12 list-item-container" [ngStyle]="{'min-height': countItemInput > 4 ? '800px' : ''}">
+                    <section class="col-12 items solicitacao-item-group">
+                        <div class="form-group col-2">
+                            <label class="request-label color-gray" for="fantasia_fornecedor">Fantasia</label>
+                            <input type="text" id="fantasia_fornecedor" name="fantasia_fornecedor"
+                                   class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label class="request-label color-gray" for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="endereco" class="request-label color-gray">Endereço</label>
+                            <input type="text" id="endereco" name="endereco" class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="email" class="request-label color-gray">Email</label>
+                            <input type="email" id="email" name="email" class="col-12 request-input-line-bottom">
+                        </div>
+                        <div class="form-group col-2">
+                            <label for="itens_fornecedor" class="request-label color-gray">Item</label>
+                            <select name="" id="itens_fornecedor" class="request-input-line-bottom col-12">
+                                <option value="">Escolha um item</option>
+                                <option value="">Item 1</option>
+                                <option value="">Item 2</option>
+                                <option value="">Item 3</option>
+                                <option value="">Item 4</option>
+                                <option value="">Item 5</option>
+                                <option value="">Item 6</option>
+                                <option value="">Item 7</option>
+                                <option value="">Item 8</option>
+                                <option value="">Item 9</option>
+                                <option value="">Item 10</option>
+                            </select>
+                        </div>
+                    </section>
+                    <button (click)="addField($event.target)" class="float-button-plus bg-green color-white">+</button>
+                </div>
+            </perfect-scrollbar>
+        </section>
+    </hcal-step>
+    <hcal-step></hcal-step>
+</hcal-tab>

@@ -13,13 +13,14 @@ import "rxjs-compat/add/operator/map";
 export class PerfilService {
 
     private baseUrl = 'http://localhost:8080/';
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Perfil[]> {
         let subject = new Subject<Perfil[]>();
-        this.http.get(this.baseUrl + `perfil?offset=${offset}&max=${max}`, {params: {name: searchTerm}})
+        this.http.get(this.baseUrl + `perfil?offset=${offset}&max=${max}`, {headers: this.headers, params: {name: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['perfil'].map((item: any) => new Perfil(item)))
@@ -29,7 +30,7 @@ export class PerfilService {
 
     count() {
         let quantity: number;
-        return this.http.get<Perfil[]>(this.baseUrl + 'perfil/')
+        return this.http.get<Perfil[]>(this.baseUrl + 'perfil/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -40,7 +41,7 @@ export class PerfilService {
 
     get(id: number): Observable<Perfil> {
         let perfil;
-        return this.http.get(this.baseUrl + 'perfil/' + id)
+        return this.http.get(this.baseUrl + 'perfil/' + id, {headers: this.headers})
             .map((r: Response) => {
                 perfil = new Perfil(r);
                 return perfil
@@ -50,7 +51,8 @@ export class PerfilService {
     save(perfil: Perfil): Observable<Perfil> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 
@@ -66,7 +68,7 @@ export class PerfilService {
     }
 
     destroy(perfil: Perfil): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'perfil/' + perfil.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'perfil/' + perfil.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

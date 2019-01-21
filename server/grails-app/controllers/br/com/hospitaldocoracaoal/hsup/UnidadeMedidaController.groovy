@@ -1,5 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -10,15 +11,18 @@ class UnidadeMedidaController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    @Secured('ROLE_UNIDADEMEDIDA_INDEX')
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond unidadeMedidaService.list(params), model:[unidadeMedidaCount: unidadeMedidaService.count()]
     }
 
+    @Secured('ROLE_UNIDADEMEDIDA_SHOW')
     def show(Long id) {
         respond unidadeMedidaService.get(id)
     }
 
+    @Secured('ROLE_UNIDADEMEDIDA_SAVE')
     def save(UnidadeMedida unidadeMedida) {
         if (unidadeMedida == null) {
             render status: NOT_FOUND
@@ -35,6 +39,7 @@ class UnidadeMedidaController {
         respond unidadeMedida, [status: CREATED, view:"show"]
     }
 
+    @Secured('ROLE_UNIDADEMEDIDA_UPDATE')
     def update(UnidadeMedida unidadeMedida) {
         if (unidadeMedida == null) {
             render status: NOT_FOUND
@@ -51,6 +56,7 @@ class UnidadeMedidaController {
         respond unidadeMedida, [status: OK, view:"show"]
     }
 
+    @Secured('ROLE_UNIDADEMEDIDA_DELETE')
     def delete(Long id) {
         if (id == null) {
             render status: NOT_FOUND

@@ -19,7 +19,7 @@ export class ${className}Service {
 
     list(max?: any, fieldSearch?: any, searchTerm?: string, offset?: number): Observable<${className}[]> {
         let subject = new Subject<${className}[]>();
-        this.http.get(this.baseUrl + `${propertyName}?offset={offset}&max={max}`, {params: {fieldSearch: searchTerm}})
+        this.http.get(this.baseUrl + `${propertyName}?offset='$'+{offset}&max='$'+{max}`, {params: {fieldSearch: searchTerm}})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['${propertyName}'].map((item: any) => new ${className}(item)))

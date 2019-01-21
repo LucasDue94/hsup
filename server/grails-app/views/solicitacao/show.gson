@@ -1,0 +1,7 @@
+import br.com.hospitaldocoracaoal.hsup.Solicitacao
+
+model {
+	Solicitacao solicitacao
+}
+
+json tmpl.solicitacao(solicitacao)

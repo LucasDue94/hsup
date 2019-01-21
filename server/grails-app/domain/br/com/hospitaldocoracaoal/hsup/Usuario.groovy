@@ -22,7 +22,13 @@ class Usuario implements Serializable {
     boolean accountLocked
     boolean passwordExpired
 
-    static hasMany = [authorities: Permissoes]
+    static hasMany = [permissoes: Permissoes]
+
+    Set<Permissoes> getAuthorities() {
+        return permissoes + perfil.permissoes
+    }
+
+    static transients = ['authorities']
 
     static constraints = {
         password nullable: false, blank: false, password: true

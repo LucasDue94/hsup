@@ -4,10 +4,7 @@ grails.gorm.default.mapping = {
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'br.com.hospitaldocoracaoal.hsup.Usuario'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'br.com.hospitaldocoracaoal.hsup.Perfil'
 grails.plugin.springsecurity.authority.className = 'br.com.hospitaldocoracaoal.hsup.Permissoes'
-grails.plugin.springsecurity.useRoleGroups = true
-grails.plugin.springsecurity.authority.groupAuthorityNameField = 'authorities'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/', access: ['permitAll']],
         [pattern: '/error', access: ['permitAll']],
@@ -19,7 +16,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         [pattern: '/**/css/**', access: ['permitAll']],
         [pattern: '/**/images/**', access: ['permitAll']],
         [pattern: '/**/favicon.ico', access: ['permitAll']],
-        [pattern: '/api/logout', access: ['isAuthenticated()']]
+        [pattern: '/api/logout', access: ['isAuthenticated()']],
+        [pattern: '/application', access: ['isAuthenticated()']]
 ]
 
 grails.plugin.springsecurity.rest.token.storage.useGorm = true
@@ -33,6 +31,8 @@ grails.plugin.springsecurity.filterChain.chainMap = [
         [pattern: '/**/css/**', filters: 'none'],
         [pattern: '/**/images/**', filters: 'none'],
         [pattern: '/**/favicon.ico', filters: 'none'],
-        [pattern: '/api/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter']
+        [pattern: '/application', filters: 'none'],
+        [pattern: '/api/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'],
+        [pattern: '/**', filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter']
 ]
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Fabricante } from '../core/fabricante/fabricante';
 import { FabricanteService } from '../core/fabricante/fabricante.service';
+import { AuthService } from "../signin/auth.service";
 
 @Component({
     selector: 'fabricante-persist',
@@ -15,10 +16,10 @@ export class FabricantePersistComponent implements OnInit {
     message: string;
 
 
-    constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {}
+    constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {
+    }
 
     ngOnInit() {
-
         this.route.params.subscribe((params: Params) => {
             if (params.hasOwnProperty('id')) {
                 this.fabricanteService.get(+params['id']).subscribe((fabricante: Fabricante) => {
