@@ -62,7 +62,7 @@ class FollowUpService {
         this.transmissor = transmissor
     }
 
-    void enviar(Solicitacao solicitacao) {
+    void enviarFollowUp(Solicitacao solicitacao) {
         if (solicitacao == null || solicitacao.id == null) throw new IllegalArgumentException('Solicitação deve ser não nula')
 
         final String titulo = "Solicitação de compra ${solicitacao.id}"
@@ -76,7 +76,7 @@ class FollowUpService {
         ).save flush: true
     }
 
-    @Scheduled(fixedDelay = 300000L, initialDelay = 5000L)
+    @Scheduled(fixedDelay = 10000L, initialDelay = 5000L)
     void porcessarMensagensAgendadas() {
         List<Mensagem> mensagens = Mensagem.findAllByStatus StatusMensagem.load(StatusMensagem.AGENDADA_ID)
 
@@ -84,7 +84,7 @@ class FollowUpService {
         if (this.transmissor == null) this.carregarConfiguracoes()
 
         mensagens.each { m ->
-            new Thread(new TarefaEmail(this.transmissor, m)).start()
+            new Thread(new TarefaEmail(this.transmissor, m.id)).start()
         }
     }
 }

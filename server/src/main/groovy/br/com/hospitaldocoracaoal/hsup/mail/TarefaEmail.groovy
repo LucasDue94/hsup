@@ -7,22 +7,22 @@ import org.springframework.mail.javamail.JavaMailSender
 class TarefaEmail implements Runnable {
 
     JavaMailSender transmissor
-    Mensagem mensagem
+    Long mensagemId
 
-    TarefaEmail(JavaMailSender transmissor, Mensagem mensagem) {
+    TarefaEmail(JavaMailSender transmissor, Long mensagemId) {
         this.transmissor = transmissor
-        this.mensagem = mensagem
+        this.mensagemId = mensagemId
     }
 
     @Override
     void run() {
         Mensagem.withTransaction {
-            if (!this.mensagem.attached) this.mensagem = this.mensagem.attach()
+            Mensagem mensagem = Mensagem.get this.mensagemId
 
             MailMessage mailMessage = new SimpleMailMessage()
             mailMessage.setTo mensagem.usuarios.email as String[]
-            mailMessage.subject = this.mensagem.titulo
-            mailMessage.text = this.mensagem.conteudo
+            mailMessage.subject = mensagem.titulo
+            mailMessage.text = mensagem.conteudo
 
             StatusMensagem novoStatus = StatusMensagem.load StatusMensagem.ENVIADA_ID
 
@@ -36,9 +36,8 @@ class TarefaEmail implements Runnable {
                 novoStatus = StatusMensagem.load StatusMensagem.FALHA_ENVIAR_ID
             }
 
-            this.mensagem.status = novoStatus
-
-            this.mensagem.save flush: true
+            mensagem.status = novoStatus
+            mensagem.save flush: true
         }
     }
 }

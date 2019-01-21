@@ -46,7 +46,7 @@ class FollowUpServiceTest extends Specification {
         Mensagem mensagem
         Solicitacao.withTransaction {
             final Solicitacao solicitacao = Solicitacao.get this.solicitacaoId
-            followUpService.enviar solicitacao
+            followUpService.enviarFollowUp solicitacao
 
             mensagem = Mensagem.findBySolicitacao solicitacao
         }

@@ -34,7 +34,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     }
 
     ngAfterContentInit(): void {
-        console.log(this.content.nativeElement.childNodes[1].childNodes.item(0).childNodes);
+        // console.log(this.content.nativeElement.childNodes[1].childNodes.item(0).childNodes);
     }
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
