@@ -90,11 +90,14 @@ input, select {
 }
 
 .solicitacao-group {
+  display: flex;
+  .group {
     display: flex;
     display: -ms-flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+  }
 }
 
 select {
@@ -121,5 +124,25 @@ select {
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+
+.scroll-item {
+  height: 300px;
+  max-height: 130px;
+
+  .item {
+    width: 100%;
+    z-index: 99;
+    position: relative;
+    padding: 5px;
+    background-color: $mediumGrayTransparent;
+    border-bottom: 1px solid $lightGray;
+
+    &:hover {
+      background-color: $mediumGray;
+      cursor: pointer;
+    }
   }
 }

@@ -5,7 +5,7 @@ import {
     ElementRef,
     HostListener,
     OnInit,
-    QueryList,
+    QueryList, Renderer2,
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
@@ -13,6 +13,8 @@ import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
+import { Item } from "../core/item/item";
+import { Fabricante } from "../core/fabricante/fabricante";
 
 @Component({
     selector: 'solicitacao-create',
@@ -28,50 +30,19 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     fields: FormArray;
     unidades: UnidadeMedida[] = [];
     controlArray;
+    itemList: Item[] = [];
+    value;
 
-    constructor(private route: Router, private fb: FormBuilder) {
+    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService, private renderer: Renderer2) {
     }
 
     ngOnInit() {
         this.controlArray = this.fb.group({
-            items: this.fb.array([this.fb.group({
-                descricao0: '',
-                quantidade0: ''
-            })])
+            items: this.fb.array([this.createFormControl('items')]),
         });
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
-
-    /*addField(event) {
-        let parentNode = null;
-        event.parentNode.childNodes.forEach(e => {
-            if (e.classList.contains('solicitacao-group')) parentNode = e.cloneNode(true);
-        });
-
-        for (let parent of parentNode.childNodes) {
-            for (let child of parent.childNodes) {
-                if (child.nodeName == 'INPUT') {
-                    let controlName = child.getAttribute('name');
-                    this.inputBuilder(child, controlName);
-                    child.addEventListener("focus", event => this.findItem(event.target));
-                    this.addFormControl(controlName);
-                }
-            }
-        }
-
-        if (this.countItemInput < 10 && parentNode.id == 'item') {
-            event.parentElement.appendChild(parentNode);
-        }
-        if (parentNode.id == 'item') this.countItemInput += 1;
-        if (parentNode.id == 'fabricante') {
-            event.parentElement.appendChild(parentNode);
-            this.countFabricanteInput += 1;
-        } else if (parentNode.id == 'fornecedor') {
-            event.parentElement.appendChild(parentNode);
-            this.countFornecedorInput += 1;
-        }
-    }*/
 
     inputBuilder(input, name) {
         input.setAttribute('formControlName', name);
@@ -85,7 +56,8 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     createFormControl(type) {
         if (type == 'items') {
             return this.fb.group({
-                descricao: ''
+                descricao: '',
+                quantidade: ''
             });
         } else if (type == 'fabricantes') {
             return this.fb.group({
@@ -94,10 +66,13 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         }
     }
 
+    removeFormGroup(type, i) {
+        this.controlArray.get(type).removeAt(i);
+    }
+
     addField(event, type: string) {
         this.fields = this.controlArray.get(type) as FormArray;
         this.fields.push(this.createFormControl(type));
-        console.log(event.parentNode.childNodes.previousSibling);
     }
 
     remove(event, type: string) {
@@ -112,7 +87,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
 
     @HostListener('document:click', ['$event']) removeField(event) {
         if (event.target != null && event.target.parentNode != null && event.target.name == 'button-cancel') {
-            const containerInput = event.target.parentNode.parentNode;
             let inputs = event.target.parentNode;
             let previousLength = 0;
             let nextLength = 0;
@@ -125,7 +99,9 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
 
             if (nextSibling != undefined && nextSibling.item(0).childNodes.length > 0) nextLength = nextSibling.length;
 
-            if (previousLength > 0 || nextLength > 0) containerInput.removeChild(inputs);
+            if (previousLength > 0 || nextLength > 0) {
+                this.removeFormGroup(inputs.getAttribute('ng-reflect-name'), +inputs.id.slice(-1));
+            }
         }
     }
 
@@ -143,16 +119,85 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         })
     }
 
-    findItem(event) {
-        let currentInput;
-        currentInput = this.getFormControl(event.name).items.controls.controls;
-        if (currentInput != undefined) {
-            currentInput.valueChanges.debounceTime(1000).subscribe(e => console.log(e));
+    find(event, type) {
+        const controlName = event.getAttribute('ng-reflect-name');
+        const group = this.getFormGroup(event, type);
+        let currentInput = this.getFormControl(group, controlName) != undefined ? this.getFormControl(group, controlName) : undefined;
+
+        switch (controlName) {
+            case 'descricao':
+                currentInput.valueChanges
+                    .debounceTime(1000)
+                    .distinctUntilChanged()
+                    .switchMap(searchTerm =>
+                        this.itemService.search(searchTerm)
+                    ).subscribe((itemList: Item[]) => {
+                    this.itemList = itemList;
+                    this.resultFind(event);
+                });
+                break;
         }
     }
 
-    getFormControl = (controlName) => this.controlArray.controls;
+    clearList(event) {
+        if (event.value == '') this.itemList = [];
+    }
+
+    setValue(event) {
+        this.value = event;
+        if (this.value.value) this.itemList = [];
+    }
+
+    getFormGroup(event, type) {
+        let index = +event.id.slice(-1);
+        return this.controlArray.get(type).controls[index] as FormGroup;
+    }
+
+    getFormControl(group: FormGroup, controlName) {
+        return group.get(controlName);
+    }
+
 
     findUnidadeMedida() {
+    }
+
+    resultFind(input) {
+        const oldScroll = input.parentNode.childNodes;
+
+        oldScroll.forEach(e => {
+            if (e.nodeName == 'PERFECT-SCROLLBAR') this.renderer.removeChild(input.parentNode, e);
+        });
+
+        let perfectScrollbar = this.renderer.createElement('perfect-scrollbar');
+        this.renderer.addClass(perfectScrollbar, 'col-12');
+        this.renderer.addClass(perfectScrollbar, 'scroll-item');
+
+        let containerItems = this.renderer.createElement('div');
+        this.renderer.addClass(containerItems, 'items');
+
+        const scrollContainer = input.parentNode.appendChild(perfectScrollbar);
+
+        this.itemList.forEach(e => {
+            let contentItem = this.renderer.createElement('div');
+            this.renderer.addClass(contentItem, 'item');
+            contentItem.innerText = e.descricao;
+
+            this.renderer.listen(contentItem, "click", () => {
+                input.value = contentItem.innerText;
+                scrollContainer.remove();
+            });
+
+            containerItems.appendChild(contentItem);
+        });
+
+        scrollContainer.appendChild(containerItems);
+    }
+
+    clearList() {
+
+    }
+
+    selectItem(event, value) {
+        alert('bingo');
     }
 }

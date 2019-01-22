@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Item } from './item';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -21,8 +21,19 @@ export class ItemService {
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Item[]> {
         let subject = new Subject<Item[]>();
-        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {headers: this.headers, params: {descricao: searchTerm}})
+        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {headers: this.headers, params: {termo: searchTerm}})
             .map((r: Response) => r)
+            .subscribe((json: any) => {
+                subject.next(json['item'].map((item: any) => new Item(item)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?, limit?) {
+        if (searchTerm == '') return [];
+        const url = this.baseUrl + 'item';
+        let subject = new Subject<Item[]>();
+        this.http.get(url, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });

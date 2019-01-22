@@ -6,29 +6,34 @@
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray"
                      #stepItem>
-                    <section class="col-12 solicitacao-group" id="item"
+                    <section class="col-12 solicitacao-group" id="item{{i}}"
                              *ngFor="let item of controlArray.get('items').controls; let i = index"
                              formArrayName="items">
-                        <div class="form-group col-7" [formGroupName]="i">
-                            <label class="request-label color-gray">Descrição</label>
-                            <input type="text" (focus)="findItem($event.target)"
-                                   formControlName="descricao{{i}}" name="descricao"
-                                   class="col-12 request-input-line-bottom">
-                        </div>
-                        <div class="form-group col-2">
-                            <label class="request-label color-gray" for="unidade_medida">Unid.</label>
-                            <input type="text" (focus)="findUnidadeMedida($event.target)" id="unidade_medida"
-                                   name="unidade_medida"
-                                   class="col-12 request-input-line-bottom">
-                        </div>
-                        <div class="form-group col-2">
-                            <label class="request-label color-gray" for="quantidade">Qtd.</label>
-                            <input type="text" id="quantidade" name="quantidade"
-                                   class="col-12 request-input-line-bottom">
+                        <div class="group" [formGroupName]="i">
+                            <div class="form-group col-7">
+                                <label class="request-label color-gray" [attr.for]="'descricao'+i">Descrição</label>
+                                <input type="text" [id]="'descricao'+i" (blur)="clearList($event.target)"
+                                       (keydown)="find($event.target, 'items')"
+                                       formControlName="descricao" name="descricao"
+                                       class="col-12 request-input-line-bottom">
+                            </div>
+                            <div class="form-group col-2">
+                                <label class="request-label color-gray" [attr.for]="'unidade_medida'+i">Unid.</label>
+                                <input type="text" (focus)="find($event.target, 'items')" id="unidade_medida"
+                                       name="unidade_medida" [id]="'unidade_medida'+i"
+                                       class="col-12 request-input-line-bottom">
+                            </div>
+                            <div class="form-group col-2">
+                                <label class="request-label color-gray" for="quantidade">Qtd.</label>
+                                <input type="text" id="quantidade" name="quantidade"
+                                       class="col-12 request-input-line-bottom">
+                            </div>
                         </div>
                         <button class="button-cancel" name="button-cancel">X</button>
                     </section>
-                    <button (click)="addField($event.target, 'items')" [name]="'add-button'" class="float-button-plus bg-green color-white">+</button>
+                    <button (click)="addField($event.target, 'items')" [name]="'add-button'"
+                            class="float-button-plus bg-green color-white">+
+                    </button>
                 </div>
             </perfect-scrollbar>
         </section>
@@ -62,7 +67,9 @@
                         </div>
                         <button class="button-cancel" name="button-cancel-2">X</button>
                     </section>
-                    <button (click)="addField($event.target, 'fabricantes')" class="float-button-plus bg-green color-white">+</button>
+                    <button (click)="addField($event.target, 'fabricantes')"
+                            class="float-button-plus bg-green color-white">+
+                    </button>
                 </div>
             </perfect-scrollbar>
         </section>
@@ -110,9 +117,11 @@
         </section>
     </hcal-step>
     <hcal-step></hcal-step>
-    <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
-    <button class="button button-blue float-right" *ngIf="fields != undefined && fields.length > 0" finish-button>
-        Finalizar
-    </button>
-    <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
+    <div class="container-md">
+        <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
+        <button class="button button-blue float-right" *ngIf="fields != undefined && fields.length > 0" finish-button>
+            Finalizar
+        </button>
+        <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
+    </div>
 </hcal-tab>
