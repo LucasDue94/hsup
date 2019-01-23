@@ -5,7 +5,8 @@ import {
     ElementRef,
     HostListener,
     OnInit,
-    QueryList, Renderer2,
+    QueryList,
+    Renderer2,
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
@@ -14,7 +15,6 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
-import { Fabricante } from "../core/fabricante/fabricante";
 
 @Component({
     selector: 'solicitacao-create',
@@ -26,12 +26,10 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
 
-    controlArray: FormGroup;
     fields: FormArray;
     unidades: UnidadeMedida[] = [];
     controlArray;
-    itemList: Item[] = [];
-    value;
+    findList: Item[] = [];
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService, private renderer: Renderer2) {
     }
@@ -67,7 +65,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     }
 
     removeFormGroup(type, i) {
-        this.controlArray.get(type).removeAt(i);
+        this.controlArray.get(type).removeAt(i) as FormGroup;
     }
 
     addField(event, type: string) {
@@ -132,20 +130,18 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                     .switchMap(searchTerm =>
                         this.itemService.search(searchTerm)
                     ).subscribe((itemList: Item[]) => {
-                    this.itemList = itemList;
-                    this.resultFind(event);
+                    this.findList = itemList;
+                    this.rendererResult(event);
                 });
                 break;
         }
     }
 
     clearList(event) {
-        if (event.value == '') this.itemList = [];
-    }
-
-    setValue(event) {
-        this.value = event;
-        if (this.value.value) this.itemList = [];
+        if (event.value == '') {
+            this.findList = [];
+            this.deleteScrollbar(event.parentNode, event.parentNode.childNodes);
+        }
     }
 
     getFormGroup(event, type) {
@@ -157,16 +153,9 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         return group.get(controlName);
     }
 
-
-    findUnidadeMedida() {
-    }
-
-    resultFind(input) {
+    rendererResult(input) {
         const oldScroll = input.parentNode.childNodes;
-
-        oldScroll.forEach(e => {
-            if (e.nodeName == 'PERFECT-SCROLLBAR') this.renderer.removeChild(input.parentNode, e);
-        });
+        this.deleteScrollbar(input.parentNode, oldScroll);
 
         let perfectScrollbar = this.renderer.createElement('perfect-scrollbar');
         this.renderer.addClass(perfectScrollbar, 'col-12');
@@ -175,12 +164,10 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         let containerItems = this.renderer.createElement('div');
         this.renderer.addClass(containerItems, 'items');
 
-        const scrollContainer = input.parentNode.appendChild(perfectScrollbar);
-
-        this.itemList.forEach(e => {
+        this.findList.forEach(e => {
             let contentItem = this.renderer.createElement('div');
-            this.renderer.addClass(contentItem, 'item');
             contentItem.innerText = e.descricao;
+            this.renderer.addClass(contentItem, 'item');
 
             this.renderer.listen(contentItem, "click", () => {
                 input.value = contentItem.innerText;
@@ -190,14 +177,16 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
             containerItems.appendChild(contentItem);
         });
 
+        const scrollContainer = input.parentNode.appendChild(perfectScrollbar);
+
         scrollContainer.appendChild(containerItems);
     }
 
-    clearList() {
 
-    }
 
-    selectItem(event, value) {
-        alert('bingo');
-    }
+    deleteScrollbar = (parentScroll, childElements) => {
+        childElements.forEach(e => {
+            if (e.nodeName == 'PERFECT-SCROLLBAR') this.renderer.removeChild(parentScroll.parentNode, e);
+        });
+    };
 }

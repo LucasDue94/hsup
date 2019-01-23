@@ -127,14 +127,13 @@ select {
   }
 }
 
-
 .scroll-item {
   height: 300px;
   max-height: 130px;
+  position: absolute;
 
   .item {
     width: 100%;
-    z-index: 99;
     position: relative;
     padding: 5px;
     background-color: $mediumGrayTransparent;
