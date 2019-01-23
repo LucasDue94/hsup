@@ -8,7 +8,7 @@ import { SolicitacaoApprovalComponent } from "./solicitacao-approval.component";
 const routes: Routes = [
     {
         path: 'solicitacao', canActivate: [AuthGuard], children: [
-            {path: '', redirectTo: 'approval', pathMatch: 'full'},
+            {path: '', redirectTo: 'index', pathMatch: 'full'},
             {path: 'index', component: SolicitacaoComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
             {path: 'create', component: SolicitacaoCreateComponent, data: {permissao: 'ROLE_SOLICITACAO_SAVE'}},
             {path: 'approval', component: SolicitacaoApprovalComponent, data: {permissao: 'ROLE_SOLICITACAO_SAVE'}}

@@ -5,7 +5,8 @@ import {
     ElementRef,
     HostListener,
     OnInit,
-    QueryList, Renderer2,
+    QueryList,
+    Renderer2,
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
@@ -14,7 +15,6 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
-import { Fabricante } from "../core/fabricante/fabricante";
 
 @Component({
     selector: 'solicitacao-create',
@@ -26,7 +26,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
 
-    controlArray: FormGroup;
     fields: FormArray;
     unidades: UnidadeMedida[] = [];
     controlArray;
@@ -49,6 +48,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         input.setAttribute('ng-reflect-name', name);
         input.name = name;
         input.id = name;
+
         input.value = '';
         input.previousElementSibling.setAttribute('for', name);
     }
@@ -191,13 +191,5 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         });
 
         scrollContainer.appendChild(containerItems);
-    }
-
-    clearList() {
-
-    }
-
-    selectItem(event, value) {
-        alert('bingo');
     }
 }
