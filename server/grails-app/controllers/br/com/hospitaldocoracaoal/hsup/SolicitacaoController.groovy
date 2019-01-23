@@ -16,7 +16,7 @@ class SolicitacaoController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         if (params.id == null)
-            respond solicitacaoService.list(params), model:[solicitacaoCount: solicitacaoService.count()]
+            respond solicitacaoService.list(params), model: [solicitacaoCount: solicitacaoService.count()]
         else
             respond search()
     }
@@ -36,11 +36,11 @@ class SolicitacaoController {
         try {
             solicitacaoService.save(solicitacao)
         } catch (ValidationException e) {
-            respond solicitacao.errors, view:'create'
+            respond solicitacao.errors, view: 'create'
             return
         }
 
-        respond solicitacao, [status: CREATED, view:"show"]
+        respond solicitacao, [status: CREATED, view: "show"]
     }
 
     @Secured('ROLE_SOLICITACAO_UPDATE')
@@ -53,18 +53,18 @@ class SolicitacaoController {
         try {
             solicitacaoService.save(solicitacao)
         } catch (ValidationException e) {
-            respond solicitacao.errors, view:'edit'
+            respond solicitacao.errors, view: 'edit'
             return
         }
 
-        respond solicitacao, [status: OK, view:"show"]
+        respond solicitacao, [status: OK, view: "show"]
     }
 
     @Secured('ROLE_SOLICITACAO_INDEX')
     def search() {
         List<Solicitacao> solicitacaoList = Solicitacao.withCriteria {
             if (params.containsKey('id') && !params.id.empty)
-                ilike ('id', "${params.id}")
+                ilike('id', "${params.id}")
         }
 
         return solicitacaoList

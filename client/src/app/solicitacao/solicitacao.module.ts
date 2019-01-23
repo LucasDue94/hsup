@@ -18,10 +18,12 @@ import {
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
 import { SolicitacaoApprovalComponent } from './solicitacao-approval.component';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
 };
+
 
 @NgModule({
     declarations: [
@@ -45,11 +47,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         TabModule,
         StepModule,
         CoreModule,
-        SolicitacaoRoutingModule
+        SolicitacaoRoutingModule,
+        InfiniteScrollModule
     ],
     providers: [{
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }]
 })
-export class SolicitacaoModule {}
+export class SolicitacaoModule {
+}
+

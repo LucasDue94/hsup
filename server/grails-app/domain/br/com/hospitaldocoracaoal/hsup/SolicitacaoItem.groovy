@@ -6,6 +6,7 @@ class SolicitacaoItem implements Serializable {
     Item item
     UnidadeMedida unidadeMedida
 
+    static belongsTo = [Solicitacao]
     static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
 
     static constraints = {

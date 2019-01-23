@@ -1,8 +1,8 @@
-import { Component, ContentChild, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
-    selector: 'app-solicitacao-approval',
+    selector: 'solicitacao-approval',
     templateUrl: './solicitacao-approval.component.html',
     styleUrls: ['./solicitacao-approval.component.scss']
 })
@@ -17,7 +17,30 @@ export class SolicitacaoApprovalComponent implements OnInit {
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
-    integerArray;
+
+    /*items = [{desc: 'ITEM 1', qnt: 2},
+        {desc: 'ITEM 1', qnt: 1},
+        {desc: 'ITEM 2', qnt: 2},
+        {desc: 'ITEM 3', qnt: 42},
+        {desc: 'ITEM 4', qnt: 23},
+        {desc: 'ITEM 5', qnt: 12},
+        {desc: 'ITEM 6', qnt: 12},
+        {desc: 'ITEM 7', qnt: 12},
+        {desc: 'ITEM 8', qnt: 12},
+        {desc: 'ITEM 9', qnt: 12},
+        {desc: 'ITEM 10', qnt: 12},
+
+    ];
+
+    fruits = [
+        {desc: 'JACA', qnt:1},
+        {desc: 'MANGA', qnt:1},
+        {desc: 'PERA', qnt:1},
+        {desc: 'banana', qnt:1},
+        {desc: 'ABACATE', qnt:1},
+        {desc: 'CAQUI', qnt:1},
+    ];*/
+
     solicitacaoList = [
         {id: '0001', setor: 'TI', solicitante: 'JOAQUIM', aprovacao: true},
         {id: '0002', setor: 'FINANCEIRO', solicitante: 'SOLICITADOR', aprovacao: false},
@@ -71,7 +94,6 @@ export class SolicitacaoApprovalComponent implements OnInit {
     ngOnInit() {
         this.count = this.solicitacaoList.length;
         this.list(this._pageNumber);
-        console.log(this.itemsRequest);
     }
 
     list(p: number) {
@@ -101,9 +123,6 @@ export class SolicitacaoApprovalComponent implements OnInit {
     }
 
     getApprovalStatus(solicitacao) {
-        if (solicitacao.aprovacao) {
-            this.render
-        }
         return solicitacao.aprovacao ? 'Sim' : 'Não';
     }
 
@@ -118,19 +137,15 @@ export class SolicitacaoApprovalComponent implements OnInit {
             this.render.removeClass(this.iconContent, 'enable');
         }
     }
+/*
+    scrollDown() {
+        console.log('Down!');
+        for (let fruit of this.fruits) {
+            this.items.push(fruit);
+            if(fruit.desc == 'BANANA'){
 
-    createIntArray(fabricante, fornecedor) {
-        this.integerArray = [];
-        console.log((typeof fabricante));
-        console.log((typeof fornecedor));
-        let fabricanteLength = (typeof fabricante) === (typeof Object) ? fabricante.length : 0;
-        // let fornecedorLength = (typeof fornecedor) === (typeof Objesc)
-
-        /*let count = lengthB;
-        count = lengthA > lengthB ? lengthA : lengthB;
-        console.log(count);
-        for (let i = 0; i < count; i++) this.integerArray.push(i);
-        console.log(this.integerArray.length);*/
-        return this.integerArray;
-    }
+            }
+        }
+        console.log(this.items);
+    }*/
 }

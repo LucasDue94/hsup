@@ -2,7 +2,7 @@
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import 'solicitacao.component';
 
-.container-header {
+/*.container-header {
   position: relative;
   box-shadow: none;
   & {
@@ -187,4 +187,81 @@
     text-align: right;
     float: right;
   }
+}*/
+
+.checkbox-approval-container {
+  margin: 0;
+
+  .checkbox-filled + .checkbox-label:before {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    margin-left: 2%;
+    top: 4px;
+
+    & {
+      border: 2px solid $blue;
+    }
+  }
+  .checkbox-filled:checked + .checkbox-label:before {
+    & {
+      background: $green;
+      font-size: 25px!important;
+    }
+  }
+  .checkbox-label, .radio-label {
+    & {
+      font-size: 1.1em;
+    }
+  }
 }
+
+.checkbox-approved-container{
+  .approved-label {
+    color: $green;
+  }
+
+  .checkbox-filled + .checkbox-label:before {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    margin-left: 2%;
+    top: 4px;
+    vertical-align: top;
+
+    & {
+      content: "";
+      border: 2px solid $green;
+      border-radius: 2px;
+      font-family: Poppins, sans-serif;
+      font-size: 20px;
+      line-height: 0.35em;
+      font-weight: bold;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+  }
+  .checkbox-filled:checked + .checkbox-label:before {
+    & {
+      content: "\2713";
+      color: $white;
+      background: $green;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+  }
+}
+
+
+/*
+.banana {
+  background-color: yellow;
+}*/

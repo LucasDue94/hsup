@@ -81,9 +81,7 @@ export class AlmoxarifeComponent implements OnInit {
 
     select(event, input, item, index) {
         if (item.unidade_estoque == undefined) item.unidade_estoque = '';
-
         if (event.innerHTML.length > 30) event.innerHTML = event.innerHTML.slice(0, 10) + '...';
-
         input.value = event.innerHTML;
         this.stock = document.getElementById('stock' + index);
         this.stock.value = item.estoque + ' ' + item.unidade_estoque;

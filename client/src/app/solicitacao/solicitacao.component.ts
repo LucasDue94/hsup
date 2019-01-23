@@ -69,4 +69,5 @@ export class SolicitacaoComponent implements OnInit {
         this._pageNumber = pageNumber;
         this.changePageData();
     }
+
 }

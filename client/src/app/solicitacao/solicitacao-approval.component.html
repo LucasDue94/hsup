@@ -27,10 +27,14 @@
                     <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                 </a></td>
                 <td class="tdata-default">
-                        <div class="form-group col-12">
-                            <input class="checkbox-filled" title="Status da aprovação" (click)="changeApprovalStatus(solicitacao)" id="approval{{solicitacao.id}}" [checked]="solicitacao.aprovacao == true" type="checkbox" name="approval">
-                            <label for="approval{{solicitacao.id}}" class="checkbox-label"> {{getApprovalStatus(solicitacao)}}</label>
-                        </div>
+                    <div [ngClass]="{'form-group col-12': true, 'checkbox-approval-container' :true, 'checkbox-approved-container': solicitacao.aprovacao==true}">
+                        <input [ngClass]="{'checkbox-filled':true ,'approved-input': solicitacao.aprovacao == true}"
+                               title="Status da aprovação" (click)="changeApprovalStatus(solicitacao)"
+                               id="approval{{solicitacao.id}}" [checked]="solicitacao.aprovacao == true" type="checkbox"
+                               name="approval">
+                        <label [ngClass]="{'checkbox-label':true, 'approved-label': solicitacao.aprovacao == true}"
+                               for="approval{{solicitacao.id}}"> {{getApprovalStatus(solicitacao)}}</label>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -43,8 +47,8 @@
                          [directionLinks]="true"></pagination-controls>
 </div>
 
-<!--
 
+<!--
 <h1 class="title-solicitacao color-gray">Solicitação de compra</h1>
 <hcal-tab>
     <hcal-step></hcal-step>
@@ -62,10 +66,10 @@
                 <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
             </button>
             <h2 class="item-header">RESUMO DA COMPRA</h2>
-            <h2 id="qnt" class="item-header">QUANTIDADE: {{itemsRequest.length}}</h2>
+            <h2 id="qnt" class="item-header">QUANTIDADE: {{items.length}}</h2>
         </header>
         <perfect-scrollbar class="scroll col-12">
-            <section class="col-12 container-items" *ngFor="let item of itemsRequest; index as i">
+            <section class="col-12 container-items" *ngFor="let item of items; index as i">
                 <section class="labels">
                     <div class="label">Item</div>
                     <div class="label qnt-flex">Qnt</div>
@@ -96,5 +100,9 @@
     <button class="float-right button button-blue col-2">Finalizar</button>
     <button class="float-right button col-2">Voltar</button>
 </div>
-
 -->
+
+
+<!--<div class="container-scroll" infiniteScroll [scrollWindow]="false" (scrolled)="scrollDown()">-->
+<!--<div class="{{item.desc}}" *ngFor="let item of items">{{item.desc}}</div>-->
+<!--</div>-->

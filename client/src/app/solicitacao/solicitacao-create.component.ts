@@ -6,13 +6,16 @@ import {
     HostListener,
     OnInit,
     QueryList,
+    Renderer2,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
 import { Item } from "../core/item/item";
 import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
-import { FormBuilder, FormControl } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
+import { ItemService } from "../core/item/item.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -23,23 +26,35 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
-
+    @ViewChild('iconContainer') iconContainer;
+    @ViewChild('iconContent') iconContent;
+    urgency: boolean = false;
     countItemInput = 1;
     countFabricanteInput = 1;
     countFornecedorInput = 1;
     items: Item[] = [];
     unidades: UnidadeMedida[] = [];
     formControl;
+    message;
+    errors: any[];
+    solicitacaoList = [
+        {id: '0001', setor: 'TI', solicitante: 'JOAQUIM', aprovacao: true},
+        {id: '0002', setor: 'FINANCEIRO', solicitante: 'SOLICITADOR', aprovacao: false},
+        {id: '0003', setor: 'FATURAMENTO', solicitante: 'MARIA', aprovacao: false},
+        {id: '0004', setor: 'SUPRIMENTOS', solicitante: 'LARISSA', aprovacao: true},
+        {id: '0005', setor: 'ALMOXARIFE', solicitante: 'ROBSON CARECA', aprovacao: true}
+    ];
 
-    constructor(private route: Router, private fb: FormBuilder) {
+    constructor(private route: Router, private fb: FormBuilder, private render: Renderer2, private itemService: ItemService, private group: FormGroup) {
         this.formControl = this.fb.group({value: 'builder', disable: false});
-        this.formControl.addControl('descricao', new FormControl())
+        this.formControl.addControl('descricao', new FormControl());
     }
 
     ngOnInit() {
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
+
 
     addField(event) {
         let parentNode = null;
@@ -72,6 +87,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
             event.parentElement.appendChild(parentNode);
             this.countFornecedorInput += 1;
         }
+        console.log(this.formControl);
     }
 
     inputBuilder(input, name) {
@@ -142,6 +158,40 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
 
     getFormControl = (controlName) => this.formControl.get(controlName);
 
-    findUnidadeMedida() {
+
+    setUrgency() {
+        this.iconContent = document.getElementById('iconContent');
+        this.urgency = !this.urgency;
+        if (this.urgency == true) {
+            this.render.addClass(this.iconContainer.nativeElement, 'enable-urgency-container');
+            this.render.addClass(this.iconContent, 'enable');
+        } else if (this.urgency == false) {
+            this.render.removeClass(this.iconContainer.nativeElement, 'enable-urgency-container');
+            this.render.removeClass(this.iconContent, 'enable');
+        }
+    }
+
+    save() {
+        for (let it of this.items) {
+            console.log(it);
+            this.itemService.save(it).subscribe((item: Item) => {
+                if (it.id != null) {
+                    this.message = `Item ${it.descricao} alterado com sucesso!`;
+                } else {
+                    this.message = `Item ${it.descricao} cadastrado com sucesso!`;
+                }
+                let r = this.route;
+                setTimeout(function () {
+                    r.navigate(['/item', 'show', item.id]);
+                }, 3000);
+            }, (res) => {
+                const json = res.error;
+                if (json.hasOwnProperty('message')) {
+                    this.errors = [json];
+                } else {
+                    this.errors = json._embedded.errors;
+                }
+            });
+        }
     }
 }

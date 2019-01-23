@@ -11,7 +11,6 @@ export class UnidadeMedida {
               this[prop] = object[prop];
           }
       }
-
     }
 
     toString(): string {

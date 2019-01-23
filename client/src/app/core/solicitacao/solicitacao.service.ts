@@ -6,7 +6,7 @@ import { Solicitacao } from './solicitacao';
 import { Response } from "@angular/http";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SolicitacaoService {
 
@@ -18,7 +18,10 @@ export class SolicitacaoService {
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Solicitacao[]> {
         let subject = new Subject<Solicitacao[]>();
-        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers, params: {nome: searchTerm}})
+        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {
+            headers: this.headers,
+            params: {nome: searchTerm}
+        })
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['solicitacao'].map((item: any) => new Solicitacao(item)))

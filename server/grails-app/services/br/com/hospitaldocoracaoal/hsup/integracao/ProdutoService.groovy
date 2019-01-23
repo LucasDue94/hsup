@@ -1,7 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup.integracao
 
 import grails.gorm.services.Service
-import org.hibernate.criterion.Projections
 
 @Service(Produto)
 abstract class ProdutoService {

@@ -15,7 +15,7 @@
                         </div>
                         <div class="form-group col-2">
                             <label class="request-label color-gray" for="unidade_medida">Unid.</label>
-                            <input type="text" (focus)="findUnidadeMedida($event.target)" id="unidade_medida"
+                            <input type="text" id="unidade_medida"
                                    name="unidade_medida"
                                    class="col-12 request-input-line-bottom">
                         </div>
@@ -109,12 +109,53 @@
             </perfect-scrollbar>
         </section>
     </hcal-step>
-    <hcal-step></hcal-step>
-    <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
+    <hcal-step>
+        <h2 class="title-step color-gray">resumo da compra</h2>
+        <main class="container-request container-md scroll-container">
+            <section class="main-content col-12">
+                <header class="col-12 header-main-content">
+                    <button (click)="setUrgency()" class="btn-urgency-container" #iconContainer>
+                        <span>URGENTE</span>
+                        <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
+                    </button>
+                    <h2 id="qnt" class="item-header">QUANTIDADE: {{items.length}}</h2>
+                </header>
+                <perfect-scrollbar class="scroll col-12">
+                    <section class="col-12 container-items" *ngFor="let item of items; index as i">
+                        <section class="labels">
+                            <div class="label">Item</div>
+                            <div class="label qnt-flex">Qnt</div>
+                            <div class="label">Fabricante</div>
+                            <div class="label">Fornecedor</div>
+                        </section>
+
+                        <section class="items">
+                            <div class="item">{{i+1}} - {{item.descricao}}</div>
+                            <div class="item qnt-flex">{{item.qnt}}</div>
+                            <div class="item container-list">
+                                <perfect-scrollbar>
+                                    <div class="item" *ngFor="let fa of item.fabricante">{{ fa }}</div>
+                                </perfect-scrollbar>
+                            </div>
+                            <div class="item container-list">
+                                <perfect-scrollbar>
+                                    <div class="item" *ngFor="let fo of item.fornecedor">{{ fo }}</div>
+                                </perfect-scrollbar>
+                            </div>
+                        </section>
+                    </section>
+                </perfect-scrollbar>
+            </section>
+        </main>
+    </hcal-step>
+    <section class="container-md">
+    <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
     <button class="button button-blue float-right" *ngIf="items != undefined && items.length > 0" finish-button>
         Finalizar
     </button>
-    <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
+    <button class="button button-reverse button-blue float-right" previous-button> < Anterior</button>
+    <button class="button button-blue float-right" (click)="save()" finish-button>
+        Solicitar
+    </button>
+    </section>
 </hcal-tab>
-
-<li *ngFor="let i of this.items">{{ i }}</li>
