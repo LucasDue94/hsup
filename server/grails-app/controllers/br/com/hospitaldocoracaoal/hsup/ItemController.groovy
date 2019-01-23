@@ -12,9 +12,10 @@ class ItemController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_ITEM_INDEX')
-    def index(Integer max) {
+    def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        respond itemService.list(params), model:[itemCount: itemService.count()]
+        List<Item> itemList = itemService.list(params, termo)
+        return respond(itemList)
     }
 
     @Secured('ROLE_ITEM_SHOW')
@@ -37,6 +38,16 @@ class ItemController {
         }
 
         respond item, [status: CREATED, view:"show"]
+    }
+
+    @Secured('ROLE_ITEM_INDEX')
+    def search() {
+        List<Item> itemList = Item.withCriteria {
+            if (params.containsKey('descricao') && !params.descricao.empty)
+                ilike ('descricao', "%${params.descricao}%")
+        }
+
+        return itemList
     }
 
     @Secured('ROLE_ITEM_UPDATE')
