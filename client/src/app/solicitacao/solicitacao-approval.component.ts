@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { Solicitacao } from "../core/solicitacao/solicitacao";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'solicitacao-approval',
@@ -19,15 +20,19 @@ export class SolicitacaoApprovalComponent implements OnInit {
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
+    create = true;
     solicitacaoList: Solicitacao[] = [];
+    solicitacao = new Solicitacao();
+    errors: any[];
 
-    constructor(private render: Renderer2, private solicitacaoService: SolicitacaoService) {
+
+    constructor(private route: ActivatedRoute, private render: Renderer2, private solicitacaoService: SolicitacaoService) {
         this._pageNumber = 0;
         this.searchControl = new FormControl('');
         this.searchForm = new FormGroup({
             searchControl: this.searchControl
         });
-    }
+     }
 
     ngOnInit() {
         this.solicitacaoService.count().subscribe((quantity: number) => {
@@ -61,6 +66,23 @@ export class SolicitacaoApprovalComponent implements OnInit {
 
     }
 
+    save() {
+        this.solicitacaoService.save(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+            if (this.solicitacao.id != null) {
+                this.message = `Solicitacao ${this.solicitacao.id} aprovada!`;
+            }
+
+        }, (res) => {
+            const json = res.error;
+            if (json.hasOwnProperty('message')) {
+                this.errors = [json];
+            } else {
+                this.errors = json._embedded.errors;
+            }
+        });
+    }
+
+
     changePageData() {
         this.list(this._pageNumber);
     }
@@ -75,11 +97,14 @@ export class SolicitacaoApprovalComponent implements OnInit {
     }
 
     changeApprovalStatus(solicitacao) {
-        solicitacao.aprovacao = !solicitacao.aprovacao;
+        this.solicitacao = null;
+        solicitacao.aprovada = !solicitacao.aprovada;
+        this.solicitacao = solicitacao;
+        this.save();
     }
 
-    getApprovalStatus(solicitacao) {
-        return solicitacao.aprovacao ? 'Sim' : 'Não';
+    getApprovalLabel(aprovada) {
+        return aprovada ? 'Sim' : 'Não';
     }
 
     setUrgency() {

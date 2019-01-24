@@ -67,7 +67,7 @@
       right: 15px;
       top: 1.2em;
 
-      @media screen and (max-width: 1024px){
+      @media screen and (max-width: 1024px) {
         font-size: 0.9em;
         top: 1.5em;
         right: 25px;
@@ -118,14 +118,14 @@
       color: $brown;
     }
 
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1024px) {
       font-size: 1em;
     }
   }
 
   .request-input-line-bottom {
     position: relative;
-    padding-right: 5px;
+    //padding-right: 5px;
     width: 100%;
     & {
       text-align: left;
@@ -137,7 +137,7 @@
       background-color: transparent;
       border-bottom: 1px solid $mediumGray;
     }
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1024px) {
       font-size: 1em;
     }
   }
@@ -157,7 +157,6 @@
 }
 
 .item {
-  width: 100%;
   z-index: 99;
   position: relative;
   padding: 5px;
@@ -171,13 +170,50 @@
 }
 
 .scrollProducts {
-  width: 100%;
-  display: inline;
+  position: relative;
+  margin: 0;
+  width: 95%;
   z-index: 99;
   max-height: 200px;
+
+}
+
+/* .ps{
+   margin: 0;
+   width: 95%;
+ }
+ .ps--active-y{
+   margin: 0;
+ }*/
+.request-form-group {
+
+  perfect-scrollbar {
+    .ps {
+      width: 100%;
+    }
+    .ps--active-y {
+      border: 1px solid red;
+    }
+    .ps-content {
+      margin: 0;
+      width: 100%;
+    }
+
+  }
+}
+
+.scrollProducts > .ps {
+  width: unset;
 }
 
 .btn-almoxarife {
   margin-top: 10px;
   margin-left: 5px;
+}
+
+.scroll {
+  position: relative;
+  overflow-y: scroll;
+  height: 200px;
+  z-index: 99;
 }

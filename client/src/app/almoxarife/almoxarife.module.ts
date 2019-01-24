@@ -11,6 +11,7 @@ import {
     PerfectScrollbarConfigInterface,
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -24,7 +25,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         FormsModule,
         ReactiveFormsModule,
         AlmoxarifeRoutingModule,
-        TableModule
+        TableModule,
+        InfiniteScrollModule
     ],
     declarations: [
         AlmoxarifeComponent,
@@ -37,3 +39,5 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 })
 export class AlmoxarifeModule {
 }
+
+

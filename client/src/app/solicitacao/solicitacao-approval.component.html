@@ -16,7 +16,7 @@
                 <th class="thead-default" thead-content>
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
 
-                <th class="thead-default" thead-content>Aprovação</th>
+                <th class="thead-default" thead-content>Aprovada</th>
             </tr>
             <tr class="trow-content"
                 *ngFor="let solicitacao of this.solicitacaoList | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count}">
@@ -27,13 +27,13 @@
                     <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                 </a></td>
                 <td class="tdata-default">
-                    <div [ngClass]="{'form-group col-12': true, 'checkbox-approval-container' :true, 'checkbox-approved-container': solicitacao.aprovacao==true}">
-                        <input [ngClass]="{'checkbox-filled':true ,'approved-input': solicitacao.aprovacao == true}"
+                    <div [ngClass]="{'form-group col-12': true, 'checkbox-approval-container' :true, 'checkbox-approved-container': solicitacao.aprovada==true}">
+                        <input [ngClass]="{'checkbox-filled':true ,'approved-input': solicitacao.aprovada == true}"
                                title="Status da aprovação" (click)="changeApprovalStatus(solicitacao)"
-                               id="approval{{solicitacao.id}}" [checked]="solicitacao.aprovacao == true" type="checkbox"
+                               id="approval{{solicitacao.id}}" [checked]="solicitacao.aprovada == true" type="checkbox"
                                name="approval">
-                        <label [ngClass]="{'checkbox-label':true, 'approved-label': solicitacao.aprovacao == true}"
-                               for="approval{{solicitacao.id}}"> {{getApprovalStatus(solicitacao)}}</label>
+                        <label [ngClass]="{'checkbox-label':true, 'approved-label': solicitacao.aprovada == true}"
+                               for="approval{{solicitacao.id}}"> {{getApprovalLabel(solicitacao.aprovada)}}</label>
                     </div>
                 </td>
             </tr>

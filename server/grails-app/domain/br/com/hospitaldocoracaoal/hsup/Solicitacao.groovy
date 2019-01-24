@@ -3,6 +3,7 @@ package br.com.hospitaldocoracaoal.hsup
 class Solicitacao {
 
     Usuario responsavel
+    Boolean aprovada
     Setor setor
     Date data = new Date()
     static hasMany = [itens:SolicitacaoItem]

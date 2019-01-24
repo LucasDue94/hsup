@@ -1,11 +1,16 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl } from "@angular/forms";
+import { Component, HostListener, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { AlmoxarifeService } from "../core/almoxarife/almoxarife.service";
 import { Produto } from "../core/produto/produto";
+import { HttpResponse } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { Fabricante } from "../core/fabricante/fabricante";
+import { forEach } from "@angular/router/src/utils/collection";
+import { logger } from "codelyzer/util/logger";
 
 @Component({
     selector: 'almoxarife',
@@ -14,7 +19,7 @@ import { Produto } from "../core/produto/produto";
 })
 export class AlmoxarifeComponent implements OnInit {
 
-    @Input() itemsRequest =[{descricao: 'Memoria 8GB', qnt: '10', unidade: 'und'},
+    @Input() itemsRequest = [{descricao: 'Memoria 8GB', qnt: '10', unidade: 'und'},
         {descricao: 'Mouse', qnt: '1', unidade: 'KG'},
         {descricao: 'Pilha', qnt: '1', unidade: 'KG'},
         {descricao: 'Coco', qnt: '1', unidade: 'KG'}];
@@ -28,8 +33,12 @@ export class AlmoxarifeComponent implements OnInit {
     date = '19/12/2018';
     requestUser = 'Beroaldo da Silva Carneiro';
     currentInput;
+    offset = 0;
+    scroll = 0;
+    limit = 10;
+    almoxarifeList: Produto[] = [];
 
-    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder) {
+    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder, private renderer: Renderer2) {
         this.formControls = this.fb.group({value: 'myBuilder', disable: false});
     }
 
@@ -43,41 +52,61 @@ export class AlmoxarifeComponent implements OnInit {
     }
 
     find(event) {
-        console.log(event);
-        this.currentInput = event;
+        console.log(typeof event == "object");
+        this.currentInput = typeof event == "object" ? event : document.getElementById(event);
+        console.log(this.currentInput);
         const currentControlName = this.currentInput.getAttribute('ng-reflect-name');
         const currentControl = this.formControls.get(currentControlName);
-        currentControl.valueChanges
-            .debounceTime(1000)
-            .distinctUntilChanged()
-            .switchMap(inputValue => this.almoxarifeService.search(inputValue, '', ''))
-            .subscribe((almoxarife: Produto[]) => {
-                let current = '';
-                this.wpdProductsFiltered.clear();
-                this.wpdProducts = [];
-                for (const a of almoxarife) {
-                    a['codigo'] = a['codigo'].replace(/\s/g, '');
-                    if (!this.wpdProductsFiltered.has(a['codigo'])) {
-                        this.wpdProductsFiltered.set(a['codigo'], a);
-                        current = this.wpdProductsFiltered.get(a['codigo']);
-                    } else {
-                        current['estoque'] = +current['estoque'] + +a['estoque'];
-                    }
+
+        console.log(currentControl);
+        if (this.offset >= 10) {
+            this.almoxarifeService.search(currentControl.value, this.offset, this.limit).subscribe((almoxarifeList: Produto[]) => {
+                this.almoxarifeList = almoxarifeList;
+                if (this.almoxarifeList.length > 0) {
+                    this.almoxarifeList.forEach(item => {
+                        this.wpdProducts.push(item);
+                    })
                 }
-                this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
             });
+        } else {
+            currentControl.valueChanges
+                .debounceTime(1000)
+                .distinctUntilChanged()
+                .switchMap(inputValue => this.almoxarifeService.search(inputValue, this.offset, this.limit))
+                .subscribe((produtos: Produto[]) => {
+                    let current = '';
+                    // this.wpdProductsFiltered.clear();
+                    // this.wpdProducts = [];
+                    for (const a of produtos) {
+                        a['codigo'] = a['codigo'].replace(/\s/g, '');
+                        if (!this.wpdProductsFiltered.has(a['codigo'])) {
+                            this.wpdProductsFiltered.set(a['codigo'], a);
+                            current = this.wpdProductsFiltered.get(a['codigo']);
+                        } else {
+                            current['estoque'] = +current['estoque'] + +a['estoque'];
+                        }
+                    }
+                    this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
+                    console.log(this.wpdProducts);
+                });
+
+        }
+        console.log(this.currentInput.value);
+        this.offset += 10;
+        console.log(this.offset);
     }
 
     clearInputs(event, index) {
-        this.codPro = document.getElementById('codPro' + index);
-        this.stock = document.getElementById('stock' + index);
-        if (event.value == '') {
-            event.value = '';
-            this.wpdProducts = [];
-            this.stock.value = '';
-            this.codPro.value = '';
+        this.offset = 0;
+            this.codPro = document.getElementById('codPro' + index);
+            this.stock = document.getElementById('stock' + index);
+            if (event.value == '') {
+                event.value = '';
+                this.wpdProducts = [];
+                this.stock.value = '';
+                this.codPro.value = '';
+            }
         }
-    }
 
     select(event, input, item, index) {
         if (item.unidade_estoque == undefined) item.unidade_estoque = '';
@@ -88,5 +117,6 @@ export class AlmoxarifeComponent implements OnInit {
         this.codPro = document.getElementById('codPro' + index);
         this.codPro.value = item.codigo;
         this.wpdProducts = [];
+        this.offset = 0;
     }
 }

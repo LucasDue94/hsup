@@ -38,6 +38,7 @@ export class ProdutoService {
             );
     }
 
+
     get(id: number): Observable<Produto> {
         let produto;
         return this.http.get(this.baseUrl + 'produto/' + id)
