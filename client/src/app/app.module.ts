@@ -38,6 +38,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SetorModule } from './setor/setor.module';
 import { ErrorComponent } from './error/error.component';
 import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
         SigninModule,
         NotificationDropdownModule,
         TableModule,
+        InfiniteScrollModule,
         InputBaseModule,
         SelectBaseModule,
         CustomDualListboxModule,

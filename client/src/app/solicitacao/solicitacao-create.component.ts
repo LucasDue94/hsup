@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from "@angular/router";
 import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
@@ -27,7 +27,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
 
     fields: FormArray;
-    unidades: UnidadeMedida[] = [];
     controlArray;
     findList: Item[] = [];
 
@@ -55,6 +54,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         if (type == 'items') {
             return this.fb.group({
                 descricao: '',
+                unidade_medida: '',
                 quantidade: ''
             });
         } else if (type == 'fabricantes') {
@@ -103,20 +103,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         }
     }
 
-    add() {
-        let firstStepNodes = this.stepItem._results[0].nativeElement.childNodes;
-        firstStepNodes.forEach(e => {
-            if (e.id == 'item') {
-                e.childNodes.forEach(node => {
-                    node.childNodes.forEach(n => {
-                        if (n.nodeName == 'INPUT') {
-                        }
-                    })
-                });
-            }
-        })
-    }
-
     find(event, type) {
         const controlName = event.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(event, type);
@@ -131,7 +117,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
                         this.itemService.search(searchTerm)
                     ).subscribe((itemList: Item[]) => {
                     this.findList = itemList;
-                    this.rendererResult(event);
+                    this.rendererResult(event, group, controlName);
                 });
                 break;
         }
@@ -140,7 +126,7 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     clearList(event) {
         if (event.value == '') {
             this.findList = [];
-            this.deleteScrollbar(event.parentNode, event.parentNode.childNodes);
+            this.deleteItensScrollbar(event.parentNode);
         }
     }
 
@@ -153,16 +139,15 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         return group.get(controlName);
     }
 
-    rendererResult(input) {
-        const oldScroll = input.parentNode.childNodes;
-        this.deleteScrollbar(input.parentNode, oldScroll);
+    setFormControl(group, controlName, value) {
+        let control = this.getFormControl(group, controlName);
+        control.setValue(value);
+    }
 
-        let perfectScrollbar = this.renderer.createElement('perfect-scrollbar');
-        this.renderer.addClass(perfectScrollbar, 'col-12');
-        this.renderer.addClass(perfectScrollbar, 'scroll-item');
-
-        let containerItems = this.renderer.createElement('div');
-        this.renderer.addClass(containerItems, 'items');
+    rendererResult(input, group, controlName) {
+        const containerItems = input.nextSibling;
+        const parentScroll = input.parentNode;
+        this.deleteItensScrollbar(parentScroll);
 
         this.findList.forEach(e => {
             let contentItem = this.renderer.createElement('div');
@@ -171,22 +156,37 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
 
             this.renderer.listen(contentItem, "click", () => {
                 input.value = contentItem.innerText;
-                scrollContainer.remove();
+                this.setFormControl(group, controlName, contentItem.innerText);
+                this.deleteItensScrollbar(parentScroll);
+                this.renderer.setStyle(containerItems, 'opacity', 0);
             });
 
             containerItems.appendChild(contentItem);
         });
 
-        const scrollContainer = input.parentNode.appendChild(perfectScrollbar);
-
-        scrollContainer.appendChild(containerItems);
+        this.renderer.setStyle(containerItems, 'opacity', 1);
+        input.parentNode.appendChild(containerItems);
     }
 
-
-
-    deleteScrollbar = (parentScroll, childElements) => {
-        childElements.forEach(e => {
-            if (e.nodeName == 'PERFECT-SCROLLBAR') this.renderer.removeChild(parentScroll.parentNode, e);
+    deleteItensScrollbar = (parentScroll) => {
+        parentScroll.childNodes.forEach(p => {
+            if (p.nodeName == 'DIV' && p.classList.contains('items')) {
+                while (p.hasChildNodes()) p.childNodes.forEach(c => c.remove());
+            }
         });
     };
+
+    add(event) {
+        console.log(this.controlArray.get('items').controls);
+    }
+
+    validatorStepItem() {
+        let controls = this.controlArray.get('items').controls;
+
+        for (let control of controls)
+            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" || control.get('quantidade').value == "")
+                return false;
+
+        return true;
+    }
 }

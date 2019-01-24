@@ -127,13 +127,16 @@ select {
   }
 }
 
-.scroll-item {
-  height: 300px;
+.items {
+  height: 200px;
   max-height: 130px;
   position: absolute;
+  overflow-y: scroll;
+  opacity: 0;
 
   .item {
     width: 100%;
+    z-index: 1;
     position: relative;
     padding: 5px;
     background-color: $mediumGrayTransparent;

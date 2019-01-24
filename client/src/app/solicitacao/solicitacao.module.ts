@@ -17,6 +17,7 @@ import {
     PerfectScrollbarConfigInterface,
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -37,6 +38,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         NgxMaskModule.forRoot(),
         HcalSharedModule,
         InputBaseModule,
+        InfiniteScrollModule,
         NgxPaginationModule,
         TooltipModule,
         TableModule,
