@@ -11,11 +11,15 @@
                         <div class="group" [formGroupName]="i">
                             <div class="form-group col-7">
                                 <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
-                                <input type="text" id="descricao{{i}}" (blur)="clearList($event.target)"
+                                <input type="text" id="descricao{{i}}" (blur)="this.clearList($event.target)"
                                        (focus)="find($event.target, 'items')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
-                                <div class="items col-12" infiniteScroll [scrollWindow]="false"></div>
+                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'items', true)"
+                                     infiniteScroll
+                                     [scrollWindow]="false" #items [ngStyle]="{opacity: this.findList.length > 0 ? 1 : 0}">
+                                    <div class="item" (mousedown)="setInputValue($event.target, 'items')"  *ngFor="let i of this.findList">{{ i.descricao }}</div>
+                                </div>
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="unidade_medida{{i}}">Unid.</label>
@@ -32,7 +36,7 @@
                         </div>
                         <button class="button-cancel" name="button-cancel">X</button>
                     </section>
-                    <button (click)="addField($event.target, 'items')" [name]="'add-button'"
+                    <button (click)="addField('items')" [name]="'add-button'"
                             class="float-button-plus bg-green color-white">+
                     </button>
                 </div>
@@ -118,11 +122,9 @@
         </section>
     </hcal-step>
     <hcal-step></hcal-step>
-    <div class="container-md">
-        <button class="button button-blue float-right" (click)="add($event.target)" next-button>Próximo ></button>
-        <button class="button button-blue float-right" *ngIf="fields != undefined && fields.length > 0" finish-button>
-            Finalizar
-        </button>
-        <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
-    </div>
+    <button class="button button-blue float-right" (click)="this.add()" next-button>Próximo ></button>
+    <button class="button button-blue float-right" *ngIf="this.validatorStepItem()" finish-button>
+        Finalizar
+    </button>
+    <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
 </hcal-tab>

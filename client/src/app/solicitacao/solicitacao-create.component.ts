@@ -1,5 +1,4 @@
 import {
-    AfterContentInit,
     Component,
     ContentChild,
     ElementRef,
@@ -10,8 +9,7 @@ import {
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
-import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
@@ -21,14 +19,16 @@ import { Item } from "../core/item/item";
     templateUrl: './solicitacao-create.component.html',
     styleUrls: ['./solicitacao.component.scss']
 })
-export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
+export class SolicitacaoCreateComponent implements OnInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
+    @ViewChildren('items', {read: ElementRef}) items;
 
     fields: FormArray;
     controlArray;
     findList: Item[] = [];
+    offsetList = 0;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService, private renderer: Renderer2) {
     }
@@ -40,15 +40,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
-
-    inputBuilder(input, name) {
-        input.setAttribute('formControlName', name);
-        input.setAttribute('ng-reflect-name', name);
-        input.name = name;
-        input.id = name;
-        input.value = '';
-        input.previousElementSibling.setAttribute('for', name);
-    }
 
     createFormControl(type) {
         if (type == 'items') {
@@ -68,15 +59,11 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         this.controlArray.get(type).removeAt(i) as FormGroup;
     }
 
-    addField(event, type: string) {
-        this.fields = this.controlArray.get(type) as FormArray;
-        this.fields.push(this.createFormControl(type));
-    }
-
-    remove(event, type: string) {
-    }
-
-    ngAfterContentInit(): void {
+    addField(type: string) {
+        if (this.fields == undefined || this.fields.length < 10) {
+            this.fields = this.controlArray.get(type) as FormArray;
+            this.fields.push(this.createFormControl(type));
+        }
     }
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
@@ -103,31 +90,38 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         }
     }
 
-    find(event, type) {
+    find(event, type, scroll = false) {
         const controlName = event.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(event, type);
-        let currentInput = this.getFormControl(group, controlName) != undefined ? this.getFormControl(group, controlName) : undefined;
+        let currentInput;
+
+        if (!scroll) this.offsetList = 0;
+
+        currentInput = this.getFormControl(group, controlName) != undefined ? this.getFormControl(group, controlName) : undefined;
 
         switch (controlName) {
             case 'descricao':
-                currentInput.valueChanges
-                    .debounceTime(1000)
-                    .distinctUntilChanged()
-                    .switchMap(searchTerm =>
-                        this.itemService.search(searchTerm)
-                    ).subscribe((itemList: Item[]) => {
-                    this.findList = itemList;
-                    this.rendererResult(event, group, controlName);
+                currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
+                    this.itemService.search(c, this.offsetList).subscribe((itemList: Item[]) => {
+                        this.findList = itemList;
+                    })
                 });
                 break;
         }
+
+        if (scroll) {
+            this.offsetList += 10;
+            this.itemService.search(event.value, this.offsetList).subscribe((itemList: Item[]) => {
+                    itemList.forEach(i => {
+                        this.findList.push(i);
+                    });
+                }
+            );
+        }
     }
 
-    clearList(event) {
-        if (event.value == '') {
-            this.findList = [];
-            this.deleteItensScrollbar(event.parentNode);
-        }
+    clearList(input) {
+        this.findList.length = 0;
     }
 
     getFormGroup(event, type) {
@@ -144,49 +138,33 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
         control.setValue(value);
     }
 
-    rendererResult(input, group, controlName) {
-        const containerItems = input.nextSibling;
-        const parentScroll = input.parentNode;
-        this.deleteItensScrollbar(parentScroll);
-
-        this.findList.forEach(e => {
-            let contentItem = this.renderer.createElement('div');
-            contentItem.innerText = e.descricao;
-            this.renderer.addClass(contentItem, 'item');
-
-            this.renderer.listen(contentItem, "click", () => {
-                input.value = contentItem.innerText;
-                this.setFormControl(group, controlName, contentItem.innerText);
-                this.deleteItensScrollbar(parentScroll);
-                this.renderer.setStyle(containerItems, 'opacity', 0);
-            });
-
-            containerItems.appendChild(contentItem);
-        });
-
-        this.renderer.setStyle(containerItems, 'opacity', 1);
-        input.parentNode.appendChild(containerItems);
-    }
-
-    deleteItensScrollbar = (parentScroll) => {
-        parentScroll.childNodes.forEach(p => {
-            if (p.nodeName == 'DIV' && p.classList.contains('items')) {
-                while (p.hasChildNodes()) p.childNodes.forEach(c => c.remove());
-            }
-        });
-    };
-
-    add(event) {
-        console.log(this.controlArray.get('items').controls);
-    }
-
     validatorStepItem() {
         let controls = this.controlArray.get('items').controls;
 
-        for (let control of controls)
-            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" || control.get('quantidade').value == "")
+        for (let control of controls) {
+            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" || control.get('quantidade').value == "") {
                 return false;
+            }
+        }
 
         return true;
     }
+
+    setInputValue(event, type) {
+        const input = event.parentNode.previousSibling;
+        const controlName = input.getAttribute('ng-reflect-name');
+        const group = this.getFormGroup(input, type);
+
+        if (input != undefined && input.nodeName == 'INPUT' && group != null) {
+            this.setFormControl(group, controlName, input.value);
+            input.value = event.innerText;
+            this.offsetList = 0;
+            if (this.getFormControl(group, controlName).value == input.value) this.findList = [];
+        }
+    }
+
+    add() {
+        console.log(this.controlArray.get('items'));
+    }
+
 }
