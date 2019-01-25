@@ -52,30 +52,35 @@
                     </div>
                 </aside>
                 <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
+                <aside class="right-aside col-7" [formGroup]="form">
+                    <div formGroupName="products" class="request-form-group col-7">
 
-                <aside class="right-aside col-7">
-                    <div class="request-form-group col-7" [formGroup]="this.formControls" #searchContainer>
-                        <label class="request-label label-left col-6">Produto</label>
-                        <input id="{{i}}" title="" (blur)="clearInputs($event.target, i)"
-                               (focus)="find($event.target)" formControlName="searchField{{i}}"
-                               class="request-input-line-bottom col-12" type="text" #search>
-                        <div class="scroll" infiniteScroll [scrollWindow]="false" (scrolled)="find(i)"
-                             *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
-                            <div (click)="select($event.target, search, itemWpd, i)" class="item"
-                                 *ngFor="let itemWpd of wpdProducts" #list>{{itemWpd.descricao}}
+                        <label for="{{i}}" class="request-label label-left col-6">Produto</label>
+                        <input formControlName="product{{i}}" id="{{i}}"
+                               (focus)="find($event.target, false)" class="request-input-line-bottom col-12" type="text"
+                               #search>
+
+                        <div class="scroll" infiniteScroll [scrollWindow]="false" (scrolled)="find(currentInput, true)"
+                             *ngIf="wpdProducts.length > 0 && currentInput == search">
+
+                            <div (click)="select(itemWpd)" class="item"
+                                 *ngFor="let itemWpd of wpdProducts">{{itemWpd.descricao}}
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="request-form-group col-2">
+                    <div formGroupName="cods" class="request-form-group col-2">
                         <label class="request-label label-right col-12">Código</label>
-                        <input title="Código" id="codPro{{i}}" class="request-item text-right col-12" value=""
-                               disabled #codPro>
+                        <input formControlName="cod{{i}}" id="codPro{{i}}" class="request-item text-right col-12"
+                               value=""
+                               readonly #codPro>
                     </div>
-                    <div class="request-form-group col-2">
+                    <div formGroupName="stocks" class="request-form-group col-2">
                         <label class="request-label label-right col-12">Estoque</label>
-                        <input title="Estoque WPD" id="stock{{i}}" class="request-item text-right col-12" value=""
-                               disabled #stock>
+                        <input formControlName="stock{{i}}" id="stock{{i}}" class="request-item text-right col-12"
+                               value=""
+                               readonly #stock>
                     </div>
                 </aside>
 
@@ -93,4 +98,3 @@
     <button class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
     <button class="float-right button btn-almoxarife col-2">Voltar</button>
 </div>
-
