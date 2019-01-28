@@ -45,6 +45,7 @@ export class SolicitacaoCreateComponent implements OnInit {
     createFormControl(type) {
         if (type == 'items') {
             return this.fb.group({
+                id: '',
                 descricao: '',
                 unidade_medida: '',
                 quantidade: ''
@@ -164,17 +165,18 @@ export class SolicitacaoCreateComponent implements OnInit {
         return true;
     }
 
-    setInputValue(event, type) {
+    setInputValue(event, item, type) {
         const input = event.parentNode.previousSibling;
         const controlName = input.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(input, type);
 
         if (input != undefined && input.nodeName == 'INPUT' && group != null) {
-            this.setFormControl(group, controlName, event.innerText);
-            input.value = event.innerText;
+            this.setFormControl(group, controlName, item.descricao);
+            this.setFormControl(group, 'id', item.id);
+            input.value = item.descricao;
             this.offsetList = 0;
             this.clearList();
-            if (this.getFormControl(group, controlName).value == event.innerText)
+            if (this.getFormControl(group, controlName).value == item.descricao)
                 this.renderer.setProperty(event.parentNode, 'hidden', true);
         }
     }

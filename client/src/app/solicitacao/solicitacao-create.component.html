@@ -18,7 +18,9 @@
                                 <div class="items col-12" (scrolled)="find(items.previousSibling, 'items', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
-                                    <div class="item" (mousedown)="setInputValue($event.target, 'items')"  *ngFor="let i of this.findList">{{ i.descricao }}</div>
+                                    <div class="item" (mousedown)="setInputValue($event.target, i, 'items')"
+                                         *ngFor="let i of this.findList">{{ i.descricao }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-2">
@@ -59,7 +61,8 @@
                             <select name="" id="itens_fabricante" class="request-input-line-bottom col-12">
                                 <option value="">Escolha um item</option>
                                 <option
-                                        *ngFor="let item of controlArray.get('items').controls">
+                                        *ngFor="let item of controlArray.get('items').controls"
+                                        [value]="item.get('id').value">
                                     {{ item.get('descricao').value }}
                                 </option>
                             </select>
