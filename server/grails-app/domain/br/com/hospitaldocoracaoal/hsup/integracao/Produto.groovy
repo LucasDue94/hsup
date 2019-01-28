@@ -11,12 +11,4 @@ class Produto implements Serializable {
         id generator: 'assigned', composite: ['codigo', 'setor']
         version false
     }
-
-    static Long countDistinctProducts() {
-        return (Long) createCriteria().get {
-            projections {
-                countDistinct 'codigo'
-            }
-        }
-    }
 }

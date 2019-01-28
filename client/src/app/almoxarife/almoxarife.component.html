@@ -53,34 +53,31 @@
                 </aside>
                 <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
                 <aside class="right-aside col-7" [formGroup]="form">
-                    <div formGroupName="products" class="request-form-group col-7">
+                    <div class="request-form-group col-7">
 
                         <label for="{{i}}" class="request-label label-left col-6">Produto</label>
-                        <input formControlName="product{{i}}" id="{{i}}"
-                               (focus)="find($event.target, false)" class="request-input-line-bottom col-12" type="text"
+                        <input id="{{i}}" formControlName="{{i}}" (focus)="find($event.target)" (blur)="clearInputs()" class="request-input-line-bottom col-12" type="text"
                                #search>
 
                         <div class="scroll" infiniteScroll [scrollWindow]="false" (scrolled)="find(currentInput, true)"
-                             *ngIf="wpdProducts.length > 0 && currentInput == search">
+                             *ngIf="wpdProducts.length > 0 && wpdProducts.length != [] &&  search.value!='' && currentInput == search">
 
-                            <div (click)="select(itemWpd)" class="item"
+                            <div (mousedown)="select(itemWpd)" class="item"
                                  *ngFor="let itemWpd of wpdProducts">{{itemWpd.descricao}}
-
                             </div>
                         </div>
                     </div>
 
-                    <div formGroupName="cods" class="request-form-group col-2">
+                    <div class="request-form-group col-2">
                         <label class="request-label label-right col-12">Código</label>
-                        <input formControlName="cod{{i}}" id="codPro{{i}}" class="request-item text-right col-12"
+                        <input  id="cod{{i}}" class="request-item text-right col-12"
                                value=""
                                readonly #codPro>
                     </div>
-                    <div formGroupName="stocks" class="request-form-group col-2">
+                    <div class="request-form-group col-2">
                         <label class="request-label label-right col-12">Estoque</label>
-                        <input formControlName="stock{{i}}" id="stock{{i}}" class="request-item text-right col-12"
-                               value=""
-                               readonly #stock>
+                        <input id="stock{{i}}" class="request-item text-right col-12"
+                               value="" readonly #stock>
                     </div>
                 </aside>
 

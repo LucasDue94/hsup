@@ -38,7 +38,6 @@ abstract class ProdutoService {
                     unidade_estoque: row[UNIDADE_ESTOQUE],
             )
         }
-
     }
 
     abstract Long count()

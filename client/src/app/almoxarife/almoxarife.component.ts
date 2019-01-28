@@ -28,10 +28,13 @@ export class AlmoxarifeComponent implements OnInit {
     wpdProductsFiltered = new Map();
     form: FormGroup;
     currentInput = null;
+    countList = 0;
+    cod = null;
+    stock = null;
     offset = 0;
     limit = 10;
     almoxarifeList: Produto[] = [];
-    scrollActived: boolean = false;
+    count: number;
 
     constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder, private renderer: Renderer2) {
     }
@@ -39,33 +42,26 @@ export class AlmoxarifeComponent implements OnInit {
     ngOnInit() {
         this.wpdProducts = [];
         this.buildForm();
+
+        this.almoxarifeService.count().subscribe((quantity: number) => {
+            this.count = quantity;
+        });
     }
 
     buildForm() {
-        this.form = this.fb.group({
-            products: this.fb.group({}),
-            cods: this.fb.group({}),
-            stocks: this.fb.group({})
-        });
-
-        this.createControlGroup("products", this.itemsRequest.length);
-        this.createControlGroup("cods", this.itemsRequest.length);
-        this.createControlGroup("stocks", this.itemsRequest.length);
-    }
-
-    createControlGroup(name, quantity) {
-        let group;
-        for (let i = 0; i < quantity; i++) {
-            group = this.form.get(name);
-            group.addControl(name.slice(0, -1) + i, new FormControl());
+        this.form = this.fb.group({});
+        for (let i = 0; i < this.itemsRequest.length; i++) {
+            this.form.addControl('' + i, new FormControl());
         }
     }
 
-    find(input, scrollActived) {
+
+    find(input, scrollActived = false) {
         this.currentInput = input;
-        const currentControl = this.form.get('products.' + this.currentInput.getAttribute('ng-reflect-name'));
+        const currentControl = this.form.get('' + input.id);
         if (scrollActived) {
-            this.almoxarifeService.search(currentControl.value, this.offset, this.limit).subscribe((almoxarifeList: Produto[]) => {
+            this.offset += 10;
+            this.almoxarifeService.search(currentControl.value, this.offset, '').subscribe((almoxarifeList: Produto[]) => {
                 this.almoxarifeList = almoxarifeList;
                 if (this.almoxarifeList.length > 0) {
                     this.almoxarifeList.forEach(item => {
@@ -73,55 +69,63 @@ export class AlmoxarifeComponent implements OnInit {
                     });
                 }
             });
-            this.offset += 10;
         } else {
             this.offset = 0;
             currentControl.valueChanges
                 .debounceTime(1000)
                 .distinctUntilChanged()
-                .switchMap(inputValue => this.almoxarifeService.search(inputValue, this.offset, this.limit))
-                .subscribe((produtos: Produto[]) => {
-                    let current = '';
-                    this.wpdProductsFiltered.clear();
-                    for (const a of produtos) {
-                        a['codigo'] = a['codigo'].replace(/\s/g, '');
-                        if (!this.wpdProductsFiltered.has(a['codigo'])) {
-                            this.wpdProductsFiltered.set(a['codigo'], a);
-                            current = this.wpdProductsFiltered.get(a['codigo']);
-                        } else {
-                            current['estoque'] = +current['estoque'] + +a['estoque'];
-                        }
+                .subscribe(inputValue => {
+                    if (inputValue != '') {
+                        this.almoxarifeService.search(inputValue, this.offset, '').subscribe((produtos: Produto[]) => {
+                            let current = '';
+                            this.wpdProductsFiltered.clear();
+                            this.wpdProducts.length = 0;
+                            for (const a of produtos) {
+                                a['codigo'] = a['codigo'].replace(/\s/g, '');
+                                if (!this.wpdProductsFiltered.has(a['codigo'])) {
+                                    this.wpdProductsFiltered.set(a['codigo'], a);
+                                    current = this.wpdProductsFiltered.get(a['codigo']);
+                                } else {
+                                    current['estoque'] = +current['estoque'] + +a['estoque'];
+                                }
+                            }
+
+                            this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
+                        });
                     }
-                    this.wpdProductsFiltered.forEach(v => this.wpdProducts.push(v));
-                });
+
+                    currentControl.valueChanges
+                        .debounceTime(1000)
+                        .distinctUntilChanged()
+                        .switchMap(v =>
+                            this.almoxarifeService.countList(v, this.count)).subscribe((count: number) => {
+                        this.countList = count;
+                    });
+                })
         }
 
-        console.log(this.wpdProducts);
-        console.log(this.offset);
-    }
-
-    clearInputs(index) {
-        this.form.get('stocks.' + 'stock' + index).reset();
-        this.form.get('cods.' + 'cod' + index).reset();
-        this.form.get('products.' + 'product' + index).reset();
-        this.wpdProducts = [];
-        this.offset = 0;
     }
 
     select(item) {
-        const index = this.currentInput.getAttribute('ng-reflect-name').slice(-1);
-        let inputPro, inputSto, inputCod;
-        inputPro = this.form.get('products.' + 'product' + index);
-        inputSto = this.form.get('stocks.' + 'stock' + index);
-        inputCod = this.form.get('cods.' + 'cod' + index);
-        inputPro.setValue(item.descricao);
-        inputSto.setValue(item.estoque);
-        inputCod.setValue(item.codigo);
-        this.wpdProducts = [];
-        this.currentInput = null;
-        this.scrollActived = false;
+        this.currentInput.value = item.descricao;
+        this.cod = document.getElementById('cod' + this.currentInput.id);
+        this.stock = document.getElementById('stock' + this.currentInput.id);
+        this.cod.value = item.codigo;
+        this.stock.value = item.estoque;
         this.offset = 0;
-        // this.clearInputs(index);
+        this.wpdProducts.length = 0;
     }
 
+    clearInputs() {
+        this.cod = document.getElementById('cod' + this.currentInput.id);
+        this.stock = document.getElementById('stock' + this.currentInput.id);
+        if (this.cod.value == '' || this.currentInput.value == '') {
+            this.wpdProducts.length = 0;
+            this.wpdProducts = [];
+            this.stock.value = '';
+            this.cod.value = '';
+            this.currentInput.value = '';
+            this.offset = 0;
+        }
+    }
 }
