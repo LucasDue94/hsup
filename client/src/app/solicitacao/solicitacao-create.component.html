@@ -16,8 +16,8 @@
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
                                 <div class="items col-12" (scrolled)="find(items.previousSibling, 'items', true)"
-                                     infiniteScroll
-                                     [scrollWindow]="false" #items [ngStyle]="{opacity: this.findList.length > 0 ? 1 : 0}">
+                                     infiniteScroll [hidden]="true"
+                                     [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputValue($event.target, 'items')"  *ngFor="let i of this.findList">{{ i.descricao }}</div>
                                 </div>
                             </div>
@@ -58,16 +58,10 @@
                             <label for="itens_fabricante" class="request-label color-gray">Item</label>
                             <select name="" id="itens_fabricante" class="request-input-line-bottom col-12">
                                 <option value="">Escolha um item</option>
-                                <option value="">Item 1</option>
-                                <option value="">Item 2</option>
-                                <option value="">Item 3</option>
-                                <option value="">Item 4</option>
-                                <option value="">Item 5</option>
-                                <option value="">Item 6</option>
-                                <option value="">Item 7</option>
-                                <option value="">Item 8</option>
-                                <option value="">Item 9</option>
-                                <option value="">Item 10</option>
+                                <option
+                                        *ngFor="let item of controlArray.get('items').controls">
+                                    {{ item.get('descricao').value }}
+                                </option>
                             </select>
                         </div>
                         <button class="button-cancel" name="button-cancel-2">X</button>

@@ -13,6 +13,7 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
+import { Fabricante } from "../core/fabricante/fabricante";
 
 @Component({
     selector: 'solicitacao-create',
@@ -95,21 +96,33 @@ export class SolicitacaoCreateComponent implements OnInit {
         const group = this.getFormGroup(event, type);
         let currentInput;
 
-        if (!scroll) this.offsetList = 0;
+        currentInput = this.getFormControl(group, controlName);
+        if (currentInput == undefined || currentInput == null || currentInput == '') return false;
 
-        currentInput = this.getFormControl(group, controlName) != undefined ? this.getFormControl(group, controlName) : undefined;
+        if (!scroll) {
+            this.offsetList = 0;
+            switch (controlName) {
+                case 'descricao':
+                    currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
+                        if (c != '') {
+                            this.itemService.search(c, this.offsetList).subscribe((itemList: Item[]) => {
+                                this.findList = itemList;
+                                itemList.forEach(i => {
+                                    if (c == i.descricao) {
+                                        this.clearList();
+                                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
+                                    }
+                                });
 
-        switch (controlName) {
-            case 'descricao':
-                currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
-                    this.itemService.search(c, this.offsetList).subscribe((itemList: Item[]) => {
-                        this.findList = itemList;
-                    })
-                });
-                break;
-        }
-
-        if (scroll) {
+                                if (this.findList.length > 0) {
+                                    this.renderer.setProperty(event.nextSibling, 'hidden', false)
+                                }
+                            })
+                        }
+                    });
+                    break;
+            }
+        } else {
             this.offsetList += 10;
             this.itemService.search(event.value, this.offsetList).subscribe((itemList: Item[]) => {
                     itemList.forEach(i => {
@@ -120,8 +133,9 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    clearList(input) {
+    clearList() {
         this.findList.length = 0;
+        this.items.last.nativeElement.hidden = true;
     }
 
     getFormGroup(event, type) {
@@ -156,15 +170,16 @@ export class SolicitacaoCreateComponent implements OnInit {
         const group = this.getFormGroup(input, type);
 
         if (input != undefined && input.nodeName == 'INPUT' && group != null) {
-            this.setFormControl(group, controlName, input.value);
+            this.setFormControl(group, controlName, event.innerText);
             input.value = event.innerText;
             this.offsetList = 0;
-            if (this.getFormControl(group, controlName).value == input.value) this.findList = [];
+            this.clearList();
+            if (this.getFormControl(group, controlName).value == event.innerText)
+                this.renderer.setProperty(event.parentNode, 'hidden', true);
         }
     }
 
     add() {
-        console.log(this.controlArray.get('items'));
     }
 
 }

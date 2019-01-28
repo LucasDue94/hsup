@@ -30,7 +30,7 @@ export class ItemService {
     }
 
     search(searchTerm, offset?: any, limit?): Observable<Item[]> {
-        if (searchTerm == '') return [];
+        if (searchTerm == '') return null;
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
         this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
