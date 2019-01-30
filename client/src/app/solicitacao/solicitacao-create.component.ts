@@ -23,12 +23,12 @@ import { Fabricante } from "../core/fabricante/fabricante";
 export class SolicitacaoCreateComponent implements OnInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
-    @ViewChildren('stepItem', {read: ElementRef}) stepItem;
+    @ViewChildren('stepFabricante', {read: ElementRef}) stepFabricante;
     @ViewChildren('items', {read: ElementRef}) items;
 
     fields: FormArray;
     controlArray;
-    findList: Item[] = [];
+    findList: any[] = [];
     offsetList = 0;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService, private renderer: Renderer2) {
@@ -183,6 +183,17 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     add() {
+        let controls = this.controlArray.get('fabricantes').controls;
+        console.log(this.stepFabricante.last.nativeElement);
+
+        for (let control of controls) {
+            if (control.get('fantasia').value == '') {
+                control.get('fantasia').parent.removeControl('fantasia');
+
+            }
+        }
+
+        console.log(this.controlArray.get('fabricantes').controls);
     }
 
 }

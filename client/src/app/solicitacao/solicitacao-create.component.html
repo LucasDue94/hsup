@@ -45,11 +45,11 @@
             </perfect-scrollbar>
         </section>
     </hcal-step>
-    <hcal-step>
+    <hcal-step #stepFabricante>
         <h2 class="title-step color-gray">seleção de fabricantes</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
-                <div class="col-12 list-item-container" [formGroup]="controlArray" #stepFabricante>
+                <div class="col-12 list-item-container" [formGroup]="controlArray">
                     <section class="col-12 solicitacao-group" id="fabricante{{i}}"
                              *ngFor="let fabricante of controlArray.get('fabricantes').controls; let i = index"
                              formArrayName="fabricantes">

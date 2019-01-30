@@ -24,8 +24,8 @@
             <tr class="trow-content" *ngFor="let solicitacao of this.solicitacaoList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
                 <td class="tdata-default">{{ solicitacao.id }}</td>
-                <td class="tdata-default">{{ solicitacao.responsavel.name }}</td>
-                <td class="tdata-default">{{ solicitacao.responsavel }}</td>
+                <td class="tdata-default">{{ solicitacao.responsavel.nome }}</td>
+                <td class="tdata-default">{{ solicitacao.setor.nome }}</td>
                 <td class="tdata-default">{{ solicitacao.data }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/solicitacao', 'edit', solicitacao.id]">

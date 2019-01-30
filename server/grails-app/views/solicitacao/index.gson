@@ -5,7 +5,7 @@ model {
 }
 
 json {
-    solicitacao tmpl.solicitacao(solicitacaoList, [expand: ['responsavel'], resolveTemplate: false] ?: [])
+    solicitacao tmpl.solicitacao(solicitacaoList?: [])
     total Solicitacao.count
 }
 
