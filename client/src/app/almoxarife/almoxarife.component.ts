@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 
 import 'rxjs/add/operator/switchMap';
@@ -6,6 +6,9 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { AlmoxarifeService } from "../core/almoxarife/almoxarife.service";
 import { Produto } from "../core/produto/produto";
+import { ActivatedRoute, Params } from "@angular/router";
+import { Solicitacao } from "../core/solicitacao/solicitacao";
+import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 
 @Component({
     selector: 'almoxarife',
@@ -14,16 +17,6 @@ import { Produto } from "../core/produto/produto";
 })
 export class AlmoxarifeComponent implements OnInit {
 
-    @ViewChild('stock') stock;
-    @ViewChild('codPro') codPro;
-    @Input() itemsRequest = [{descricao: 'Memoria 8GB', qnt: '10', unidade: 'und'},
-        {descricao: 'Mouse', qnt: '1', unidade: 'KG'},
-        {descricao: 'Pilha', qnt: '1', unidade: 'KG'},
-        {descricao: 'Coco', qnt: '1', unidade: 'KG'}];
-    sector = 'Tecnologia da Informação';
-    requestNumber = '0001';
-    date = '19/12/2018';
-    requestUser = 'Beroaldo da Silva Carneiro';
     wpdProducts: Produto[];
     wpdProductsFiltered = new Map();
     form: FormGroup;
@@ -31,30 +24,42 @@ export class AlmoxarifeComponent implements OnInit {
     countList = 0;
     cod = null;
     stock = null;
+    count: number;
     offset = 0;
     limit = 10;
     almoxarifeList: Produto[] = [];
-    count: number;
+    solicitacao = new Solicitacao();
+    create = true;
 
-    constructor(private almoxarifeService: AlmoxarifeService, private fb: FormBuilder, private renderer: Renderer2) {
+    constructor(private almoxarifeService: AlmoxarifeService, private solicitacaoService: SolicitacaoService, private fb: FormBuilder, private route: ActivatedRoute, private renderer: Renderer2) {
     }
 
     ngOnInit() {
         this.wpdProducts = [];
         this.buildForm();
 
+        this.route.params.subscribe((params: Params) => {
+            if (params.hasOwnProperty('id')) {
+                this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
+                    this.create = false;
+                    this.solicitacao = solicitacao;
+                });
+            }
+        });
+
         this.almoxarifeService.count().subscribe((quantity: number) => {
             this.count = quantity;
         });
+
+        console.log(this.solicitacao);
     }
 
     buildForm() {
         this.form = this.fb.group({});
-        for (let i = 0; i < this.itemsRequest.length; i++) {
+        for (let i = 0; i < this.almoxarifeList.length; i++) {
             this.form.addControl('' + i, new FormControl());
         }
     }
-
 
     find(input, scrollActived = false) {
         this.currentInput = input;

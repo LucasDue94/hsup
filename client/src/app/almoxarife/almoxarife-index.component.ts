@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
-import { Fabricante } from "../core/fabricante/fabricante";
+import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
+import { Solicitacao } from "../core/solicitacao/solicitacao";
 
 @Component({
     selector: 'almoxarife-index',
@@ -9,48 +10,48 @@ import { Fabricante } from "../core/fabricante/fabricante";
 })
 export class AlmoxarifeIndexComponent implements OnInit {
 
-    solicitacaoList = [
-        {id: '0001', setor: 'TI', solicitante: 'JOAQUIM'},
-        {id: '0002', setor: 'FINANCEIRO', solicitante: 'SOLICITADOR'},
-        {id: '0003', setor: 'FATURAMENTO', solicitante: 'MARIA'},
-        {id: '0004', setor: 'SUPRIMENTOS', solicitante: 'LARISSA'},
-        {id: '0005', setor: 'ALMOXARIFE', solicitante: 'ROBSON CARECA'},
-        {id: '0006', setor: 'RECEPÇÃO', solicitante: 'BEROALDO'},
-        {id: '0007', setor: 'RECEPÇÃO', solicitante: 'BEROALDO'},
-        {id: '0008', setor: 'RECEPÇÃO', solicitante: 'BEROALDO'},
-        {id: '0009', setor: 'RECEPÇÃO', solicitante: 'BEROALDO'},
-        {id: '00010', setor: 'RECEPÇÃO', solicitante: 'BEROALDO'},
-        {id: '00011', setor: 'RECEPÇÃO', solicitante: 'BEROALDO'}
-        ];
-
+    solicitacaoList: Solicitacao[] = [];
     private _pageNumber: number;
     private _offset;
-
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
 
-    constructor() {
-        this.searchControl = new FormControl('');
-        this.searchForm = new FormGroup({
-            searchControl: this.searchControl
-        });
+    constructor(private solicitacaoService: SolicitacaoService) {
         this._pageNumber = 0;
     }
 
     ngOnInit() {
-        this.count = this.solicitacaoList.length;
-        this.list(this._pageNumber);
+        this.searchControl = new FormControl('');
+        this.searchForm = new FormGroup({
+            searchControl: this.searchControl
+        });
+
+        this.solicitacaoService.count().subscribe((quantity: number) => {
+            this.count = quantity;
+        });
+
+        this.searchControl.valueChanges
+            .debounceTime(1000)
+            .distinctUntilChanged()
+            .switchMap(searchTerm =>
+                this.solicitacaoService.list(this.count, searchTerm))
+            .subscribe((solicitacaoList: Solicitacao[]) => {
+                this.solicitacaoList = solicitacaoList
+            });
+
+        if (this.searchControl.value == "") {
+            this.list(this.pageNumber);
+        }
+        console.log(this.solicitacaoList);
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-        return this.solicitacaoList;
-
-        /*this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
-            this.solicitacaoList = solicitacaoList;
-        });*/
+        this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
+            this.solicitacaoList = solicitacaoList
+        });
     }
 
     changePageData() {

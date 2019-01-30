@@ -1,32 +1,28 @@
 import { Fabricante } from '../fabricante/fabricante';
 import { Fornecedor } from "../fornecedor/fornecedor";
-import { UnidadeMedida } from "../unidadeMedida/unidadeMedida";
 
 export class Item {
     id: number;
+
     descricao: string;
-    unidadeMedida: UnidadeMedida[];
+    unidadeMedida: string;
     fornecedor: Fornecedor[];
     fabricante: Fabricante[];
     ativo: boolean;
 
-    constructor(object?: any) {
+    constructor (object?: any) {
         if (this.ativo == null) this.ativo = true;
         this.fornecedor = [];
         this.fabricante = [];
 
         if (object) {
             if (object.hasOwnProperty('fornecedor')) {
-                this.fornecedor = object['fornecedor'].map((obj: any) => {
-                    return new Fornecedor(obj);
-                });
+                this.fornecedor = object['fornecedor'].map((obj: any) => { return new Fornecedor(obj); });
                 delete object['fornecedor'];
             }
 
             if (object.hasOwnProperty('fabricante')) {
-                this.fabricante = object['fabricante'].map((obj: any) => {
-                    return new Fabricante(obj);
-                });
+                this.fabricante = object['fabricante'].map((obj: any) => { return new Fabricante(obj); });
                 delete object['fabricante'];
             }
 

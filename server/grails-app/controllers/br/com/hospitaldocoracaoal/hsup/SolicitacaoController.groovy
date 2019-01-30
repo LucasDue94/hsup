@@ -15,10 +15,8 @@ class SolicitacaoController {
     @Secured('ROLE_SOLICITACAO_INDEX')
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        if (params.id == null)
-            respond solicitacaoService.list(params), model: [solicitacaoCount: solicitacaoService.count()]
-        else
-            respond search()
+        List<Solicitacao> solicitacaoList = solicitacaoService.list(params)
+        respond solicitacaoList
     }
 
     @Secured('ROLE_SOLICITACAO_SHOW')

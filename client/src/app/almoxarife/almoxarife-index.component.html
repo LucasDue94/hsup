@@ -13,7 +13,8 @@
                 <th class="thead-default" thead-content>Nº da solicitação</th>
                 <th class="thead-default" thead-content>Setor</th>
                 <th class="thead-default" thead-content>Solicitante</th>
-                <th class="thead-default" thead-content >
+                <th class="thead-default" thead-content>Data</th>
+                <th class="thead-default" thead-content>
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
                 <th class="thead-default" thead-content>Associação WPD</th>
@@ -21,12 +22,14 @@
             <tr class="trow-content"
                 *ngFor="let solicitacao of this.solicitacaoList | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
                 <td class="tdata-default">{{ solicitacao.id}}</td>
-                <td class="tdata-default">{{ solicitacao.setor}}</td>
-                <td class="tdata-default">{{ solicitacao.solicitante}}</td>
-                <td class="tdata-default"><a>
-                    <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
-                    <a><fa-icon [icon]="['fas', 'exchange-alt']" class="color-blue icon-config"></fa-icon></a>
-                </a></td>
+                <td class="tdata-default">{{ solicitacao.setor.nome}}</td>
+                <td class="tdata-default">{{ solicitacao.responsavel.nome}}</td>
+                <td class="tdata-default">{{ solicitacao.responsavel.data}}</td>
+                <td class="tdata-default">
+                    <a [routerLink]="['/almoxarife', 'associar', solicitacao.id]">
+                        <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
+                    </a>
+                </td>
                 <td class="tdata-default">
                     <a>
                         <fa-icon [icon]="['fas', 'times']" class="color-danger icon-config"></fa-icon>

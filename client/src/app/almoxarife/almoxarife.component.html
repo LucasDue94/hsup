@@ -36,7 +36,8 @@
     </header>
     <section class="main-content">
         <perfect-scrollbar>
-            <section class="section-line col-12" *ngFor="let itemRequest of itemsRequest; index as i">
+            {{ solicitacao.responsavel }}
+            <!--<section class="section-line col-12" *ngFor="let itemRequest of solicitacaoList; index as i">
                 <aside class="float-left col-4">
                     <div class="request-form-group col-9">
                         <label class="request-label label-left col-6"><I></I>Item</label>
@@ -87,7 +88,7 @@
                          class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
                 <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
                          [icon]="['fas', 'times']"></fa-icon>
-            </section>
+            </section>-->
         </perfect-scrollbar>
     </section>
 </main>

@@ -10,7 +10,6 @@ import {
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
-import { UnidadeMedida } from "../core/unidadeMedida/unidadeMedida";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
@@ -27,7 +26,6 @@ export class SolicitacaoCreateComponent implements OnInit, AfterContentInit {
     @ViewChildren('stepItem', {read: ElementRef}) stepItem;
 
     fields: FormArray;
-    unidades: UnidadeMedida[] = [];
     controlArray;
     itemList: Item[] = [];
     value;

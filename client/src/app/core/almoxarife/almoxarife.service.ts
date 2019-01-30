@@ -3,7 +3,9 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { Produto } from "../produto/produto";
 import { Observable, Subject } from "rxjs";
-import { Produto } from "../Produto/Produto";
+import { Fabricante } from "../fabricante/fabricante";
+import { Response } from "@angular/http";
+import { Solicitacao } from "../solicitacao/solicitacao";
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +28,6 @@ export class AlmoxarifeService {
             params: {termo: produtoWpd}
         }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
-                console.log(json['produto']);
                 subject.next(json['produto'].map((item: any) => new Produto(item)))
             });
         return subject.asObservable();
@@ -44,6 +45,15 @@ export class AlmoxarifeService {
                     return count;
                 }
             );
+    }
+
+    get(id: number): Observable<Solicitacao> {
+        let solicitacao;
+        return this.http.get(this.baseUrl + 'solicitacao/' + id, {headers: this.headers})
+            .map((r: Response) => {
+                solicitacao = new Fabricante(r);
+                return solicitacao
+            });
     }
 
     count() {
