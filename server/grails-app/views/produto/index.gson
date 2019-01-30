@@ -1,12 +1,12 @@
 import br.com.hospitaldocoracaoal.hsup.integracao.Produto
 
 model {
-    Iterable<Produto> produtoList
+	Iterable<Produto> produtoList
 }
 
 json {
-    produto tmpl.produto(produtoList ?: [])
-    total Produto.count
-    totalFind produtoList?.size()
+	produto tmpl.produto(produtoList ?: [])
+	total Produto.count
+	countList produtoList.size()
 }
 

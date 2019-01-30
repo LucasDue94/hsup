@@ -42,7 +42,7 @@ export class SolicitacaoComponent implements OnInit {
             .switchMap(searchTerm =>
                 this.solicitacaoService.list(this.count, searchTerm))
             .subscribe((solicitacaoList: Solicitacao[]) => {
-                this.solicitacaoList = solicitacaoList
+                this.solicitacaoList = solicitacaoList;
             });
 
         if (this.searchControl.value == "") {

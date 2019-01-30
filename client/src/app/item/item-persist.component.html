@@ -23,19 +23,6 @@
                    [(ngModel)]="item.descricao"
                    [class]="'form-control col-12'">
         </div>
-        <div class="form-group position-relative col-4 offset-1">
-            <label for="unidade_medida" class="control-label">Unidade de Medida</label>
-            <input type="text"
-                   name="unidade_medida"
-                   tooltipHcal="Campo unidade de medida do Item. Ex.: GB (Gigabyte)"
-                   [position]="'top'"
-                   [delay]="3000"
-                   required="required"
-                   id="unidade_medida"
-                   placeholder="Digite a unidade de medida..."
-                   [(ngModel)]="item.unidadeMedida"
-            [class]="'form-control col-12'">
-        </div>
         <div class="form-group col-2 offset-1">
             <label class="control-label">Estado</label>
             <input type="checkbox" [(ngModel)]="item.ativo" class="checkbox-filled" id="estado" name="ativo">

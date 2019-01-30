@@ -29,11 +29,11 @@ export class ItemService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?, limit?) {
-        if (searchTerm == '') return [];
+    search(searchTerm, offset?: any, limit?): Observable<Item[]> {
+        if (searchTerm == '') return null;
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
-        this.http.get(url, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
+        this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });

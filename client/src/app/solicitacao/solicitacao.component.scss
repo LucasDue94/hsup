@@ -59,6 +59,7 @@ input, select {
     text-align: left;
     font-size: 1.2em;
     font-family: inherit;
+    text-transform: capitalize;
     color: $brown;
     border: none;
     outline: none;
@@ -91,11 +92,15 @@ input, select {
 
 .solicitacao-group {
   display: flex;
-  display: -ms-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
 
+  .group {
+    margin: 0;
+    display: flex;
+    display: -ms-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 }
 
 select {
@@ -315,14 +320,14 @@ select {
   }
 }
 
-
-.scroll-item {
-  height: 300px;
+.items {
+  height: 200px;
   max-height: 130px;
+  position: absolute;
+  overflow-y: scroll;
 
   .item {
-    width: 100%;
-    z-index: 99;
+    z-index: 1;
     position: relative;
     padding: 5px;
     background-color: $mediumGrayTransparent;

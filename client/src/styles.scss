@@ -183,6 +183,7 @@ html, body {
 .form-group {
   float: left;
   margin-bottom: 25px;
+  position: relative;
 
   & .form-control:not(textarea) {
     height: 40px;
