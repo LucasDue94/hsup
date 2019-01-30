@@ -1,6 +1,6 @@
 <h1 class="title-solicitacao color-gray">solicitação de compra</h1>
 <hcal-tab>
-    <hcal-step [validator]="validatorStepItem()">
+    <hcal-step>
         <h2 class="title-step color-gray">seleção de itens</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
@@ -49,27 +49,40 @@
         <h2 class="title-step color-gray">seleção de fabricantes</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
-                <div class="col-12 list-item-container">
-                    <section class="col-12 solicitacao-group" id="fabricante">
-                        <div class="form-group col-8">
-                            <label class="request-label color-gray" for="fantasia_fabricante">Fantasia</label>
-                            <input type="text" id="fantasia_fabricante" name="fantasia_fabricante"
-                                   class="col-12 request-input-line-bottom">
+                <div class="col-12 list-item-container" [formGroup]="controlArray" #stepFabricante>
+                    <section class="col-12 solicitacao-group" id="fabricante{{i}}"
+                             *ngFor="let fabricante of controlArray.get('fabricantes').controls; let i = index"
+                             formArrayName="fabricantes">
+                        <div class="group col-12" [formGroupName]="i">
+                            <div class="form-group col-8">
+                                <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
+                                <input type="text" id="fantasia{{i}}" (blur)="this.clearList($event.target)"
+                                       (focus)="find($event.target, 'fabricantes')"
+                                       formControlName="fantasia" name="fantasia"
+                                       class="col-12 request-input-line-bottom">
+                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'fabricantes', true)"
+                                     infiniteScroll [hidden]="true"
+                                     [scrollWindow]="false" #items>
+                                    <div class="item" (mousedown)="setInputValue($event.target, i, 'fabricantes')"
+                                         *ngFor="let i of this.findList">{{ i.descricao }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="itens{{i}}" class="request-label color-gray">Item</label>
+                                <select name="" id="itens{{i}}" class="request-input-line-bottom col-12">
+                                    <option value="">Escolha um item</option>
+                                    <option
+                                            *ngFor="let item of controlArray.get('items').controls"
+                                            [value]="item.get('id').value">
+                                        {{ item.get('descricao').value }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-3">
-                            <label for="itens_fabricante" class="request-label color-gray">Item</label>
-                            <select name="" id="itens_fabricante" class="request-input-line-bottom col-12">
-                                <option value="">Escolha um item</option>
-                                <option
-                                        *ngFor="let item of controlArray.get('items').controls"
-                                        [value]="item.get('id').value">
-                                    {{ item.get('descricao').value }}
-                                </option>
-                            </select>
-                        </div>
-                        <button class="button-cancel" name="button-cancel-2">X</button>
+                        <button class="button-cancel" name="button-cancel">X</button>
                     </section>
-                    <button (click)="addField($event.target, 'fabricantes')"
+                    <button (click)="addField('fabricantes')" [name]="'add-button'"
                             class="float-button-plus bg-green color-white">+
                     </button>
                 </div>

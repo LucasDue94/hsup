@@ -37,6 +37,7 @@ export class SolicitacaoCreateComponent implements OnInit {
     ngOnInit() {
         this.controlArray = this.fb.group({
             items: this.fb.array([this.createFormControl('items')]),
+            fabricantes: this.fb.array([this.createFormControl('fabricantes')]),
         });
     }
 
