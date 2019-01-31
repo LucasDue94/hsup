@@ -5,6 +5,7 @@ class SolicitacaoItem implements Serializable {
     Solicitacao solicitacao
     Item item
     String unidadeMedida
+    Integer quantidade
 
     static belongsTo = Solicitacao
     static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
@@ -13,6 +14,7 @@ class SolicitacaoItem implements Serializable {
         solicitacao nullable: false
         item nullable: false
         unidadeMedida nullable: false, blank: false
+        quantidade nullable: false, blank: false
     }
 
     static mapping = {

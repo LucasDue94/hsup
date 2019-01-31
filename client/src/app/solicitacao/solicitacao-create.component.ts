@@ -184,16 +184,18 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     add() {
         let controls = this.controlArray.get('fabricantes').controls;
-        console.log(this.stepFabricante.last.nativeElement);
+        let eventParent = this.renderer.parentNode(event.target).parentNode;
 
-        for (let control of controls) {
-            if (control.get('fantasia').value == '') {
-                control.get('fantasia').parent.removeControl('fantasia');
-
+        for (let node of eventParent.childNodes) {
+            if (node.nodeName == 'HCAL-STEP' && +node.id > 2 && !node.classList.contains('hidden')) {
+                for (let control of controls) {
+                    /*if (control.get('fantasia') != null && control.get('fantasia').value == '') {
+                        control.get('fantasia').parent.removeControl('fantasia');
+                    }*/
+                    console.log(control.get('fantasia').parent);
+                }
             }
         }
-
-        console.log(this.controlArray.get('fabricantes').controls);
     }
 
 }
