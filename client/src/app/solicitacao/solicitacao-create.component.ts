@@ -23,7 +23,6 @@ import { Fabricante } from "../core/fabricante/fabricante";
 export class SolicitacaoCreateComponent implements OnInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
-    @ViewChildren('stepFabricante', {read: ElementRef}) stepFabricante;
     @ViewChildren('items', {read: ElementRef}) items;
 
     fields: FormArray;
@@ -67,6 +66,8 @@ export class SolicitacaoCreateComponent implements OnInit {
             this.fields = this.controlArray.get(type) as FormArray;
             this.fields.push(this.createFormControl(type));
         }
+        console.log(this.controlArray);
+
     }
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
@@ -186,13 +187,16 @@ export class SolicitacaoCreateComponent implements OnInit {
         let controls = this.controlArray.get('fabricantes').controls;
         let eventParent = this.renderer.parentNode(event.target).parentNode;
 
+        let nodeFabricante = eventParent.childNodes.item(2);
+        let nodeFornecedor = eventParent.childNodes.item(3);
+        console.log(nodeFabricante.hidden);
         for (let node of eventParent.childNodes) {
-            if (node.nodeName == 'HCAL-STEP' && +node.id > 2 && !node.classList.contains('hidden')) {
+            if (node.nodeName == 'HCAL-STEP' && !nodeFornecedor.hidden && nodeFabricante.hidden) {
                 for (let control of controls) {
-                    /*if (control.get('fantasia') != null && control.get('fantasia').value == '') {
+                    if (control.get('fantasia') != null && control.get('fantasia').value == '') {
                         control.get('fantasia').parent.removeControl('fantasia');
-                    }*/
-                    console.log(control.get('fantasia').parent);
+                    }
+                    console.log(control.get('fantasia'));
                 }
             }
         }
