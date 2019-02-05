@@ -4,7 +4,7 @@ import { Setor } from "../setor/setor";
 
 export class Solicitacao {
     id: number;
-
+    itens: Solicitacao[];
     responsavel: Usuario;
     setor: Setor;
     data: any;

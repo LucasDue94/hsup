@@ -19,7 +19,7 @@ export class AlmoxarifeService {
 
     private baseUrl = environment.serverUrl;
 
-    search(produtoWpd, offset?, limit?): Observable<Produto[]> {
+    search(produtoWpd, offset?, limit?) {
         if (produtoWpd == '') return null;
         const url = this.baseUrl + 'produto';
         let subject = new Subject<Produto[]>();

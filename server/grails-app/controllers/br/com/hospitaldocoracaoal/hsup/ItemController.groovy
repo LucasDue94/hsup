@@ -40,16 +40,6 @@ class ItemController {
         respond item, [status: CREATED, view:"show"]
     }
 
-    @Secured('ROLE_ITEM_INDEX')
-    def search() {
-        List<Item> itemList = Item.withCriteria {
-            if (params.containsKey('descricao') && !params.descricao.empty)
-                ilike ('descricao', "%${params.descricao}%")
-        }
-
-        return itemList
-    }
-
     @Secured('ROLE_ITEM_UPDATE')
     def update(Item item) {
         if (item == null) {

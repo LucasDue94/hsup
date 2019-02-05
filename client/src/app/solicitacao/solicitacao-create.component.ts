@@ -55,7 +55,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         if (type == 'items') {
             return this.fb.group({
                 id: '',
-                descricao: '',
+                produto: '',
                 unidade_medida: '',
                 quantidade: ''
             });
@@ -112,13 +112,13 @@ export class SolicitacaoCreateComponent implements OnInit {
         if (!scroll) {
             this.offsetList = 0;
             switch (controlName) {
-                case 'descricao':
+                case 'produto':
                     currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
                         if (c != '') {
                             this.itemService.search(c, this.offsetList).subscribe((itemList: Item[]) => {
                                 this.findList = itemList;
                                 itemList.forEach(i => {
-                                    if (c == i.descricao) {
+                                    if (c == i.produto) {
                                         this.clearList();
                                         this.renderer.setProperty(event.nextSibling, 'hidden', true)
                                     }
@@ -166,7 +166,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         let controls = this.controlArray.get('items').controls;
 
         for (let control of controls) {
-            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" || control.get('quantidade').value == "") {
+            if (control.get('produto').value == "" || control.get('unidade_medida').value == "" || control.get('quantidade').value == "") {
                 return false;
             }
         }

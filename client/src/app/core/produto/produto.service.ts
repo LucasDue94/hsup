@@ -11,7 +11,6 @@ import "rxjs-compat/add/operator/map";
 
 @Injectable()
 export class ProdutoService {
-
     private baseUrl = 'http://localhost:8080/';
 
     constructor(private http: HttpClient) {

@@ -4,8 +4,7 @@ class Solicitacao {
 
     Usuario responsavel
     Setor setor
-    Date data = new Date()
-
+    Date data
     static hasMany = [itens: SolicitacaoItem]
 
     static constraints = {

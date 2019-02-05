@@ -1,12 +1,12 @@
 import br.com.hospitaldocoracaoal.hsup.Solicitacao
 
 model {
-	Solicitacao solicitacao
+    Solicitacao solicitacao
 }
 
-json g.render(solicitacao, [excludes: ['responsavel'], expand:['setor'], resolveTemplate: false]) {
-	responsavel {
+json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expand: ['setor', 'itens', 'produto'], resolveTemplate: false]) {
+    responsavel {
         id solicitacao.responsavel.id
-		nome solicitacao.responsavel.name
-	}
+        name solicitacao.responsavel.name
+    }
 }

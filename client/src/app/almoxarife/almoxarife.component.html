@@ -3,25 +3,24 @@
         <h2>Associação</h2>
         <h2>Item x Produto WPD</h2>
     </section>
-
     <aside class="float-left col-6">
         <h4 class="label">Solicitante:</h4>
-        <h3 class="label-description">{{requestUser}}</h3>
+        <h3 class="label-description">{{ solicitacao?.responsavel?.name }}</h3>
     </aside>
 
     <aside class="float-right text-right col-6">
         <h4 class="label">Nº da Solicitação:</h4>
-        <h3 class="label-description"> {{requestNumber}}</h3>
+        <h3 class="label-description"></h3>
     </aside>
 
     <aside class="float-left col-6">
         <h4 class="label">Setor:</h4>
-        <h3 class="label-description">{{sector}}</h3>
+        <h3 class="label-description">{{ solicitacao?.setor?.nome }}</h3>
     </aside>
 
     <aside class="float-right text-right col-6">
         <h4 class="label">Data:</h4>
-        <h3 class="label-description">{{date}}</h3>
+        <h3 class="label-description"> {{solicitacao?.data | date:'dd/MM/yyyy'}}</h3>
     </aside>
 </header>
 
@@ -36,63 +35,66 @@
     </header>
     <section class="main-content">
         <perfect-scrollbar>
-            {{ solicitacao.responsavel }}
-            <!--<section class="section-line col-12" *ngFor="let itemRequest of solicitacaoList; index as i">
-                <aside class="float-left col-4">
-                    <div class="request-form-group col-9">
-                        <label class="request-label label-left col-6"><I></I>Item</label>
-                        <input title="Descrição do Item" class="request-item col-6" value="{{itemRequest.descricao}}"
-                               disabled>
-                    </div>
+            <section class="section-line col-12" [formGroup]="form" *ngFor="let item of solicitacao.itens; index as i">
+                <div formGroupName="{{i}}">
+                    <aside class="float-left col-4" formGroupName="itemSolicitacao">
+                        <div class="request-form-group col-9">
+                            <label class="request-label label-left col-6"><I></I>Item</label>
+                            <input formControlName="descricao" class="request-item col-6"
+                                   value="{{item.item.descricao}}" readonly>
+                        </div>
 
-                    <div class="request-form-group col-3">
-                        <label class="request-label label-right col-12">Qnt</label>
-                        <input title="Quantidade de Itens" class="request-item text-right  col-12"
-                               value="{{itemRequest.qnt}} {{itemRequest.unidade}}"
-                               type="text">
-                    </div>
-                </aside>
-                <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
-                <aside class="right-aside col-7" [formGroup]="form">
-                    <div class="request-form-group col-7">
+                        <div class="request-form-group col-3">
+                            <label class="request-label label-right col-12">Qnt</label>
+                            <input formControlName="quantidade" class="request-item text-right  col-12"
+                                   value="{{item.quantidade}} {{item.unidadeMedida}}" type="text" readonly>
+                        </div>
+                    </aside>
+                    <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
+                    <aside class="right-aside col-7" formGroupName="produto">
 
-                        <label for="{{i}}" class="request-label label-left col-6">Produto</label>
-                        <input id="{{i}}" formControlName="{{i}}" (focus)="find($event.target)" (blur)="clearInputs()" class="request-input-line-bottom col-12" type="text"
-                               #search>
+                        <div class="request-form-group col-7">
 
-                        <div class="scroll" infiniteScroll [scrollWindow]="false" (scrolled)="find(currentInput, true)"
-                             *ngIf="wpdProducts.length > 0 && wpdProducts.length != [] &&  search.value!='' && currentInput == search">
+                            <label for="{{i}}" class="request-label label-left col-6">Produto</label>
+                            <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
+                                   class="request-input-line-bottom col-12" type="text">
 
-                            <div (mousedown)="select(itemWpd)" class="item"
-                                 *ngFor="let itemWpd of wpdProducts">{{itemWpd.descricao}}
+                            <div class="scroll" infiniteScroll [scrollWindow]="false"
+                                 (scrolled)="find(currentInput, true)"
+                                 *ngIf="wpdProducts.length > 0  && currentInput.id == i">
+
+                                <div (mousedown)="select(itemWpd)" class="item"
+                                     *ngFor="let itemWpd of wpdProducts">{{itemWpd.descricao}}
+                                </div>
+
                             </div>
                         </div>
-                    </div>
 
-                    <div class="request-form-group col-2">
-                        <label class="request-label label-right col-12">Código</label>
-                        <input  id="cod{{i}}" class="request-item text-right col-12"
-                               value=""
-                               readonly #codPro>
-                    </div>
-                    <div class="request-form-group col-2">
-                        <label class="request-label label-right col-12">Estoque</label>
-                        <input id="stock{{i}}" class="request-item text-right col-12"
-                               value="" readonly #stock>
-                    </div>
-                </aside>
+                        <div class="request-form-group col-2">
+                            <label for="cod{{i}}" class="request-label label-right col-12">Código</label>
+                            <input id="cod{{i}}" formControlName="codigo" class="request-item text-right col-12"
+                                   value=""
+                                   readonly>
+                        </div>
+                        <div class="request-form-group col-2">
+                            <label for="stock{{i}}" class="request-label label-right col-12">Estoque</label>
+                            <input id="stock{{i}}" formControlName="estoque" class="request-item text-right col-12"
+                                   value="" readonly #stock>
+                        </div>
+                    </aside>
 
-                <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
-                         class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
-                         class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                         [icon]="['fas', 'times']"></fa-icon>
-            </section>-->
+                    <fa-icon *ngIf="stock.value >= item.qnt && stock.value > 0 && stock.value!= ''"
+                             class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
+                    <fa-icon *ngIf="stock.value >0 && stock.value < item.qnt && stock.value!= ''"
+                             class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
+                    <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
+                             [icon]="['fas', 'times']"></fa-icon>
+                </div>
+            </section>
         </perfect-scrollbar>
     </section>
 </main>
 <div class="col-11">
-    <button class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
+    <button (click)="saveItems()" class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
     <button class="float-right button btn-almoxarife col-2">Voltar</button>
 </div>

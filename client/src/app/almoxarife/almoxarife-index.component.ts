@@ -44,13 +44,13 @@ export class AlmoxarifeIndexComponent implements OnInit {
         if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
-        console.log(this.solicitacaoList);
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
         this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
             this.solicitacaoList = solicitacaoList
+            console.log(this.solicitacaoList);
         });
     }
 

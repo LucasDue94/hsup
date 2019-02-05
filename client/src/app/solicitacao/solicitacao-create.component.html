@@ -19,7 +19,7 @@
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputValue($event.target, i, 'items')"
-                                         *ngFor="let i of this.findList">{{ i.descricao }}
+                                         *ngFor="let i of this.findList">{{ i.produto }}
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputValue($event.target, i, 'fabricantes')"
-                                         *ngFor="let i of this.findList">{{ i.descricao }}
+                                         *ngFor="let i of this.findList">{{ i.produto }}
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                     <option
                                             *ngFor="let item of controlArray.get('items').controls"
                                             [value]="item.get('id').value">
-                                        {{ item.get('descricao').value }}
+                                        {{ item.get('produto').value }}
                                     </option>
                                 </select>
                             </div>
