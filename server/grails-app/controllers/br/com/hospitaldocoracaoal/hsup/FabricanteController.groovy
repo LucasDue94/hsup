@@ -13,12 +13,10 @@ class FabricanteController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_FABRICANTE_INDEX')
-    def index(Integer max) {
+    def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        if (params.fantasia == null)
-            respond fabricanteService.list(params), model:[fabricanteCount: fabricanteService.count()]
-        else
-            respond search()
+        List<Fabricante> fabricanteList = fabricanteService.list(params, termo)
+        return respond(fabricanteList)
     }
 
     @Secured('ROLE_FABRICANTE_SHOW')
@@ -36,7 +34,7 @@ class FabricanteController {
         try {
             fabricanteService.save(fabricante)
         } catch (ValidationException e) {
-            respond fabricante.errors, view:'create'
+            respond fabricante.errors, view: 'create'
             return
         }
 
@@ -49,16 +47,6 @@ class FabricanteController {
         }
     }
 
-    @Secured('ROLE_FABRICANTE_INDEX')
-    def search() {
-        List<Fabricante> fabricanteList = Fabricante.withCriteria {
-            if (params.containsKey('fantasia') && !params.fantasia.empty)
-                ilike ('fantasia', "%${params.fantasia}%")
-        }
-
-        return fabricanteList
-    }
-
     @Secured('ROLE_FABRICANTE_UPDATE')
     def update(Fabricante fabricante) {
         if (fabricante == null) {
@@ -69,11 +57,11 @@ class FabricanteController {
         try {
             fabricanteService.save(fabricante)
         } catch (ValidationException e) {
-            respond fabricante.errors, view:'edit'
+            respond fabricante.errors, view: 'edit'
             return
         }
 
-        respond fabricante, [status: OK, view:"show"]
+        respond fabricante, [status: OK, view: "show"]
     }
 
     @Secured('ROLE_FABRICANTE_DELETE')

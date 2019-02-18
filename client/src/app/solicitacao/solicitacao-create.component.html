@@ -1,7 +1,8 @@
 <h1 class="title-solicitacao color-gray">solicitação de compra</h1>
 <hcal-tab>
-    <hcal-step>
+    <hcal-step [validator]="validatorStepItem()">
         <h2 class="title-step color-gray">seleção de itens</h2>
+        <h3 class="error-span container-md" *ngIf="this.error != null">{{ error }}</h3>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray" #stepItem>
@@ -60,17 +61,17 @@
                                        (focus)="find($event.target, 'fabricantes')"
                                        formControlName="fantasia" name="fantasia"
                                        class="col-12 request-input-line-bottom">
-                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'fabricantes', true)"
+                                <div class="items col-12" (scrolled)="find(fabricantes.previousSibling, 'fabricantes', true)"
                                      infiniteScroll [hidden]="true"
-                                     [scrollWindow]="false" #items>
+                                     [scrollWindow]="false" #fabricantes>
                                     <div class="item" (mousedown)="setInputValue($event.target, i, 'fabricantes')"
-                                         *ngFor="let i of this.findList">{{ i.descricao }}
+                                         *ngFor="let i of this.findList">{{ i.fantasia }}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-3">
                                 <label for="itens{{i}}" class="request-label color-gray">Item</label>
-                                <select name="" id="itens{{i}}" class="request-input-line-bottom col-12">
+                                <select name="item_fabricante" formControlName="item_fabricante" id="itens{{i}}" class="request-input-line-bottom col-12">
                                     <option value="">Escolha um item</option>
                                     <option
                                             *ngFor="let item of controlArray.get('items').controls"

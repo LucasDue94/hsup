@@ -14,6 +14,7 @@ import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
 import { Fabricante } from "../core/fabricante/fabricante";
+import { FabricanteService } from "../core/fabricante/fabricante.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -29,8 +30,10 @@ export class SolicitacaoCreateComponent implements OnInit {
     controlArray;
     findList: any[] = [];
     offsetList = 0;
+    error = null;
 
-    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService, private renderer: Renderer2) {
+    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
+                private fabricanteService: FabricanteService, private renderer: Renderer2) {
     }
 
     ngOnInit() {
@@ -53,6 +56,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         } else if (type == 'fabricantes') {
             return this.fb.group({
                 fantasia: '',
+                item_fabricante: ''
             });
         }
     }
@@ -100,7 +104,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         let currentInput;
 
         currentInput = this.getFormControl(group, controlName);
-        if (currentInput == undefined || currentInput == null || currentInput == '') return false;
+        if (currentInput == undefined || currentInput == '') return false;
 
         if (!scroll) {
             this.offsetList = 0;
@@ -117,9 +121,24 @@ export class SolicitacaoCreateComponent implements OnInit {
                                     }
                                 });
 
-                                if (this.findList.length > 0) {
-                                    this.renderer.setProperty(event.nextSibling, 'hidden', false)
-                                }
+                                this.showList(event);
+                            })
+                        }
+                    });
+                    break;
+                case 'fantasia':
+                    currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
+                        if (c != '') {
+                            this.fabricanteService.search(c, this.offsetList).subscribe((fabricanteList: Fabricante[]) => {
+                                this.findList = fabricanteList;
+                                fabricanteList.forEach(i => {
+                                    if (c == i.fantasia) {
+                                        this.clearList();
+                                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
+                                    }
+                                });
+
+                                this.showList(event);
                             })
                         }
                     });
@@ -127,18 +146,34 @@ export class SolicitacaoCreateComponent implements OnInit {
             }
         } else {
             this.offsetList += 10;
-            this.itemService.search(event.value, this.offsetList).subscribe((itemList: Item[]) => {
-                    itemList.forEach(i => {
-                        this.findList.push(i);
-                    });
-                }
-            );
+            switch (type) {
+                case 'items':
+                    this.itemService.search(event.value, this.offsetList + 10).subscribe((itemList: Item[]) => {
+                            itemList.forEach(i => {
+                                this.findList.push(i);
+                            });
+                        }
+                    );
+                    break;
+                case 'fabricantes':
+                    this.fabricanteService.search(event.value, this.offsetList).subscribe((fabricanteList: Fabricante[]) => {
+                            fabricanteList.forEach(i => {
+                                this.findList.push(i);
+                            });
+                        }
+                    );
+                    break;
+            }
         }
     }
 
     clearList() {
         this.findList.length = 0;
         this.items.last.nativeElement.hidden = true;
+    }
+
+    showList(containerList) {
+        if (this.findList.length > 0) this.renderer.setProperty(containerList.nextSibling, 'hidden', false)
     }
 
     getFormGroup(event, type) {
@@ -167,38 +202,46 @@ export class SolicitacaoCreateComponent implements OnInit {
         return true;
     }
 
+    validatorStepFabricante(input) {
+        let controls = this.controlArray.get('fabricantes').controls;
+
+        let childsItem = input.parentNode.parentNode.nextSibling.childNodes;
+
+        for (let c of childsItem) if (c.nodeName == 'SELECT' && c.value == '') return false;
+    }
+
     setInputValue(event, item, type) {
         const input = event.parentNode.previousSibling;
         const controlName = input.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(input, type);
 
         if (input != undefined && input.nodeName == 'INPUT' && group != null) {
-            this.setFormControl(group, controlName, item.descricao);
-            this.setFormControl(group, 'id', item.id);
-            input.value = item.descricao;
+            switch (type) {
+                case 'items':
+                    this.setFormControl(group, controlName, item.descricao);
+                    this.setFormControl(group, 'id', item.id);
+                    input.value = item.descricao;
+                    break;
+                case 'fabricantes':
+                    this.setFormControl(group, controlName, item.fantasia);
+                    this.setFormControl(group, controlName, item.id);
+                    input.value = item.fantasia;
+                    break;
+            }
+
             this.offsetList = 0;
             this.clearList();
-            if (this.getFormControl(group, controlName).value == item.descricao)
-                this.renderer.setProperty(event.parentNode, 'hidden', true);
+            this.renderer.setProperty(event.parentNode, 'hidden', true);
         }
     }
 
     add() {
         let controls = this.controlArray.get('fabricantes').controls;
-        let eventParent = this.renderer.parentNode(event.target).parentNode;
 
-        let nodeFabricante = eventParent.childNodes.item(2);
-        let nodeFornecedor = eventParent.childNodes.item(3);
-        console.log(nodeFabricante.hidden);
-        for (let node of eventParent.childNodes) {
-            if (node.nodeName == 'HCAL-STEP' && !nodeFornecedor.hidden && nodeFabricante.hidden) {
-                for (let control of controls) {
-                    if (control.get('fantasia') != null && control.get('fantasia').value == '') {
-                        control.get('fantasia').parent.removeControl('fantasia');
-                    }
-                    console.log(control.get('fantasia'));
-                }
-            }
+        if (!this.validatorStepItem()) {
+            this.error = 'Verifique se todos os campos foram preenchidos';
+        } else {
+            this.error = null;
         }
     }
 

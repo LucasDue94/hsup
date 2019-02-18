@@ -1,9 +1,10 @@
 import { Fabricante } from '../fabricante/fabricante';
 import { Fornecedor } from "../fornecedor/fornecedor";
+import { Produto } from "../produto/produto";
 
 export class Item {
     id: number;
-
+    produto: Produto;
     descricao: string;
     unidadeMedida: string;
     fornecedor: Fornecedor[];
