@@ -47,6 +47,7 @@ class ItemController {
             return
         }
 
+
         try {
             itemService.save(item)
         } catch (ValidationException e) {
@@ -65,7 +66,6 @@ class ItemController {
         }
 
         itemService.delete(id)
-
         render status: NO_CONTENT
     }
 }

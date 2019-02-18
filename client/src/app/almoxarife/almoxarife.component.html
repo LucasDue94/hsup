@@ -57,14 +57,16 @@
 
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
+                                   (blur)="clearInputs()" value="{{item?.item?.produto?.descricao}}"
                                    class="request-input-line-bottom col-12" type="text">
+
 
                             <div class="scroll" infiniteScroll [scrollWindow]="false"
                                  (scrolled)="find(currentInput, true)"
                                  *ngIf="wpdProducts.length > 0  && currentInput.id == i">
 
-                                <div (mousedown)="select(itemWpd)" class="item"
-                                     *ngFor="let itemWpd of wpdProducts">{{itemWpd.descricao}}
+                                <div (mousedown)="select(produtoWpd)" class="item"
+                                     *ngFor="let produtoWpd of wpdProducts">{{produtoWpd.descricao}}
                                 </div>
 
                             </div>
@@ -73,22 +75,21 @@
                         <div class="request-form-group col-2">
                             <label for="cod{{i}}" class="request-label label-right col-12">Código</label>
                             <input id="cod{{i}}" formControlName="codigo" class="request-item text-right col-12"
-                                   value=""
-                                   readonly>
+                                   value="{{item?.item?.produto?.codigo}}" readonly>
                         </div>
                         <div class="request-form-group col-2">
                             <label for="stock{{i}}" class="request-label label-right col-12">Estoque</label>
                             <input id="stock{{i}}" formControlName="estoque" class="request-item text-right col-12"
-                                   value="" readonly #stock>
+                                   value="{{item?.item?.produto?.estoque}}" readonly #stock>
                         </div>
                     </aside>
 
-                    <fa-icon *ngIf="stock.value >= item.qnt && stock.value > 0 && stock.value!= ''"
+             <!--       <fa-icon *ngIf="stock.value >= item.qnt && stock.value > 0 && stock.value!= ''"
                              class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                    <fa-icon *ngIf="stock.value >0 && stock.value < item.qnt && stock.value!= ''"
+                    <fa-icon *ngIf="stock.value >0 && stock.value < item.quantidade && stock.value!= ''"
                              class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
                     <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                             [icon]="['fas', 'times']"></fa-icon>
+                             [icon]="['fas', 'times']"></fa-icon>-->
                 </div>
             </section>
         </perfect-scrollbar>

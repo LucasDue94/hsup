@@ -7,7 +7,6 @@ import grails.plugin.springsecurity.annotation.Secured
 class ProdutoController {
 
     ProdutoService produtoService
-
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -17,4 +16,5 @@ class ProdutoController {
         List<Produto> produtoList = produtoService.list(params, termo)
         respond produtoList
     }
+
 }

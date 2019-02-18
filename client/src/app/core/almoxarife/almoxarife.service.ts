@@ -20,9 +20,9 @@ export class AlmoxarifeService {
     private baseUrl = environment.serverUrl;
 
     search(produtoWpd, offset?, limit?) {
-        if (produtoWpd == '') return null;
-        const url = this.baseUrl + 'produto';
         let subject = new Subject<Produto[]>();
+        if (produtoWpd == '') return subject.asObservable();
+        const url = this.baseUrl + 'produto';
         this.http.get(url + `?offset=${offset}`, {
             headers: this.headers,
             params: {termo: produtoWpd}
@@ -41,7 +41,7 @@ export class AlmoxarifeService {
         })
             .map(
                 data => {
-                    count = data['totalFind'];
+                    count = data['countList'];
                     return count;
                 }
             );
@@ -57,12 +57,12 @@ export class AlmoxarifeService {
     }
 
     count() {
-        let quantity: number;
+        let count: number;
         return this.http.get<Produto[]>(this.baseUrl + 'produto/', {headers: this.headers})
             .map(
                 data => {
-                    quantity = data['total'];
-                    return quantity;
+                    count = data['total'];
+                    return count;
                 }
             );
     }

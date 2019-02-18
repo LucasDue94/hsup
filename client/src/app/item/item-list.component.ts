@@ -42,14 +42,15 @@ export class ItemListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm =>
                 this.itemService.list(this.count, searchTerm))
-            .subscribe((itemList: Item[]) => {this.itemList = itemList});
-
+            .subscribe((itemList: Item[]) => {
+                this.itemList = itemList
+            });
 
         if (this.searchControl.value == "" || this.searchControl.value == undefined) {
             this.list(this.pageNumber);
         }
 
-        }
+    }
 
     list(p: number) {
         this._offset = (p - 1) * 10;

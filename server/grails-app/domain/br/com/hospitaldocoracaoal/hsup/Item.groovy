@@ -15,6 +15,7 @@ class Item {
 
     static constraints = {
         descricao nullable: false, blank: false
+        produto nullable: true
         ativo nullable: false, blank: false
     }
 }
