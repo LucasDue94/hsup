@@ -57,7 +57,7 @@ export class FabricanteListComponent implements OnInit {
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-        this.fabricanteService.list('', '', this._offset).subscribe((fabricanteList: Fabricante[]) => {
+        this.fabricanteService.list('', this._offset).subscribe((fabricanteList: Fabricante[]) => {
             this.fabricanteList = fabricanteList
         });
     }

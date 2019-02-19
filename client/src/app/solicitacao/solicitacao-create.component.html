@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="quantidade{{i}}">Qtd.</label>
-                                <input type="text" id="quantidade{{i}}"
+                                <input type="text" id="quantidade{{i}}"ç
                                        formControlName="quantidade" name="quantidade"
                                        class="col-12 request-input-line-bottom">
                             </div>
@@ -46,7 +46,8 @@
             </perfect-scrollbar>
         </section>
     </hcal-step>
-    <hcal-step #stepFabricante>
+    <hcal-step [validator]="this.error == null">
+        <h3 class="error-span container-md" *ngIf="this.error != null">{{ error }}</h3>
         <h2 class="title-step color-gray">seleção de fabricantes</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>

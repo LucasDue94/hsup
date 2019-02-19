@@ -202,12 +202,12 @@ export class SolicitacaoCreateComponent implements OnInit {
         return true;
     }
 
-    validatorStepFabricante(input) {
-        let controls = this.controlArray.get('fabricantes').controls;
-
-        let childsItem = input.parentNode.parentNode.nextSibling.childNodes;
-
-        for (let c of childsItem) if (c.nodeName == 'SELECT' && c.value == '') return false;
+    validatorStepFabricante(control) {
+        const itemFabricante = control.get('item_fabricante').value;
+        const fantasia = control.get('fantasia').value;
+        if (fantasia != '' && itemFabricante == '' || fantasia == '' && itemFabricante != '') {
+            this.error = 'Verifique se todos os campos foram preenchidos';
+        }
     }
 
     setInputValue(event, item, type) {
@@ -243,6 +243,17 @@ export class SolicitacaoCreateComponent implements OnInit {
         } else {
             this.error = null;
         }
-    }
 
+        if (this.validatorStepItem()) {
+            const nodes = event.target['parentNode'].parentNode.childNodes.item(0).childNodes.item(0).childNodes;
+            for (const n of nodes) {
+                if (n.classList != undefined && n.classList.contains('current') && n.id == 2) {
+                    for (const c of controls) {
+                        this.validatorStepFabricante(c);
+
+                    }
+                }
+            }
+        }
+    }
 }

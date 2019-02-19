@@ -8,7 +8,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
 import { environment } from "../../../environments/environment";
-import { Item } from "../item/item";
 
 @Injectable()
 export class FabricanteService {
