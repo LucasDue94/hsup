@@ -35,19 +35,19 @@
     </header>
     <section class="main-content">
         <perfect-scrollbar>
-            <section class="section-line col-12" [formGroup]="form" *ngFor="let item of solicitacao.itens; index as i">
+            <section class="section-line col-12" [formGroup]="form" *ngFor="let it of solicitacao.itens; index as i">
                 <div formGroupName="{{i}}">
-                    <aside class="float-left col-4" formGroupName="itemSolicitacao">
+                    <aside class="float-left col-4">
                         <div class="request-form-group col-9">
                             <label class="request-label label-left col-6"><I></I>Item</label>
                             <input formControlName="descricao" class="request-item col-6"
-                                   value="{{item.item.descricao}}" readonly>
+                                   readonly>
                         </div>
 
                         <div class="request-form-group col-3">
                             <label class="request-label label-right col-12">Qnt</label>
                             <input formControlName="quantidade" class="request-item text-right  col-12"
-                                   value="{{item.quantidade}} {{item.unidadeMedida}}" type="text" readonly>
+                                   type="text" readonly>
                         </div>
                     </aside>
                     <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
@@ -57,7 +57,7 @@
 
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
-                                   (blur)="clearInputs()" value="{{item?.item?.produto?.descricao}}"
+                                   (blur)="clearInputs()"
                                    class="request-input-line-bottom col-12" type="text">
 
 
@@ -65,8 +65,9 @@
                                  (scrolled)="find(currentInput, true)"
                                  *ngIf="wpdProducts.length > 0  && currentInput.id == i">
 
-                                <div (mousedown)="select(produtoWpd)" class="item"
-                                     *ngFor="let produtoWpd of wpdProducts">{{produtoWpd.descricao}}
+                                <div (mousedown)="select(wpdPro)" class="item"
+                                     *ngFor="let wpdPro of wpdProducts">
+                                    {{wpdPro.descricao}}
                                 </div>
 
                             </div>
@@ -75,27 +76,27 @@
                         <div class="request-form-group col-2">
                             <label for="cod{{i}}" class="request-label label-right col-12">Código</label>
                             <input id="cod{{i}}" formControlName="codigo" class="request-item text-right col-12"
-                                   value="{{item?.item?.produto?.codigo}}" readonly>
+                                   readonly>
                         </div>
                         <div class="request-form-group col-2">
                             <label for="stock{{i}}" class="request-label label-right col-12">Estoque</label>
                             <input id="stock{{i}}" formControlName="estoque" class="request-item text-right col-12"
-                                   value="{{item?.item?.produto?.estoque}}" readonly #stock>
+                                   readonly #stock>
                         </div>
                     </aside>
 
-             <!--       <fa-icon *ngIf="stock.value >= item.qnt && stock.value > 0 && stock.value!= ''"
-                             class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                    <fa-icon *ngIf="stock.value >0 && stock.value < item.quantidade && stock.value!= ''"
-                             class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                    <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                             [icon]="['fas', 'times']"></fa-icon>-->
+                    <!--       <fa-icon *ngIf="stock.value >= item.qnt && stock.value > 0 && stock.value!= ''"
+                                    class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
+                           <fa-icon *ngIf="stock.value >0 && stock.value < item.quantidade && stock.value!= ''"
+                                    class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
+                           <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
+                                    [icon]="['fas', 'times']"></fa-icon>-->
                 </div>
             </section>
         </perfect-scrollbar>
     </section>
 </main>
 <div class="col-11">
-    <button (click)="saveItems()" class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
+    <button (click)="save()" class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
     <button class="float-right button btn-almoxarife col-2">Voltar</button>
 </div>

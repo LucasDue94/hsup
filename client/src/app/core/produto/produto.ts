@@ -5,7 +5,7 @@ export class Produto {
     codigo: string;
     bloqueado: string;
 
-    constructor (object?: any) {
+    constructor(object?: any) {
         if (object) {
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];

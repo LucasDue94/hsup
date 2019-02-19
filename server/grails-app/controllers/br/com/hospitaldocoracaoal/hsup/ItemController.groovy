@@ -47,7 +47,6 @@ class ItemController {
             return
         }
 
-
         try {
             itemService.save(item)
         } catch (ValidationException e) {
