@@ -1,9 +1,7 @@
 export class Produto {
-    id: number;
-    estoque: number;
+    id: string;
     descricao: string;
-    codigo: string;
-    bloqueado: string;
+    estoque: number;
 
     constructor(object?: any) {
         if (object) {

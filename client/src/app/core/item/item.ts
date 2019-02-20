@@ -15,6 +15,7 @@ export class Item {
         if (this.ativo == null) this.ativo = true;
         this.fornecedor = [];
         this.fabricante = [];
+        this.produto = new Produto();
 
         if (object) {
             if (object.hasOwnProperty('fornecedor')) {

@@ -57,7 +57,7 @@
 
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
-                                   (blur)="clearInputs()"
+                                   (blur)="clearInputs()" autocomplete="off"
                                    class="request-input-line-bottom col-12" type="text">
 
 

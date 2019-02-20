@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { Produto } from "../produto/produto";
 
 @Injectable()
 export class ItemService {

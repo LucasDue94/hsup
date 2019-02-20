@@ -11,7 +11,6 @@ import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
-import { forEach } from "@angular/router/src/utils/collection";
 
 @Component({
     selector: 'almoxarife',
@@ -69,29 +68,16 @@ export class AlmoxarifeComponent implements OnInit {
     }
 
     createGroup(item) {
-        if (item.item.produto != undefined) {
-            return this.fb.group({
-                    descricao: new FormControl(item.item.descricao),
-                    quantidade: new FormControl(item.quantidade),
-                    produto: this.fb.group({
-                        codigo: new FormControl(item.item.produto.codigo),
-                        descricao: new FormControl(item.item.produto.descricao),
-                        estoque: new FormControl(item.item.produto.estoque)
-                    })
-                }
-            );
-        } else {
-            return this.fb.group({
-                    descricao: new FormControl(item.item.descricao),
-                    quantidade: new FormControl(item.quantidade),
-                    produto: this.fb.group({
-                        codigo: '',
-                        descricao: '',
-                        estoque: ''
-                    })
-                }
-            );
-        }
+        return this.fb.group({
+                descricao: new FormControl(item.item.descricao),
+                quantidade: new FormControl(item.quantidade),
+                produto: this.fb.group({
+                    codigo: item.item.produto != null || item.item.produto != undefined ? new FormControl(item.item.produto.id) : '',
+                    descricao: item.item.produto != null || item.item.produto != undefined ? new FormControl(item.item.produto.descricao) : '',
+                    estoque: item.item.produto != null || item.item.produto != undefined ? new FormControl(item.item.produto.estoque) : ''
+                })
+            }
+        );
     }
 
     find(input, scrollActived = false) {
@@ -128,23 +114,7 @@ export class AlmoxarifeComponent implements OnInit {
                     if (inputValue != '' && inputValue != null) {
                         this.almoxarifeService.search(inputValue, this.offset, this.limit)
                             .subscribe((produtos: Produto[]) => {
-                                let current = '';
-                                this.wpdProductsFiltered.clear();
-                                this.wpdProducts.length = 0;
-                                for (const a of produtos) {
-                                    a['codigo'] = a['codigo'].replace(/\s/g, '');
-                                    if (!this.wpdProductsFiltered.has(a['codigo'])) {
-                                        this.wpdProductsFiltered.set(a['codigo'], a);
-                                        current = this.wpdProductsFiltered.get(a['codigo']);
-                                    } else {
-                                        current['estoque'] = +current['estoque'] + +a['estoque'];
-                                    }
-                                }
-                                this.wpdProductsFiltered.forEach(v => {
-                                    if (this.currentInput.value != v.descricao) {
-                                        this.wpdProducts.push(v)
-                                    }
-                                });
+                                this.wpdProducts = produtos
                             });
                     }
                 });
@@ -172,12 +142,12 @@ export class AlmoxarifeComponent implements OnInit {
 
     select(produtoWpd) {
         this.setFields();
-        this.cod.setValue(produtoWpd.codigo);
+        this.cod.setValue(produtoWpd.id);
         this.desc.setValue(produtoWpd.descricao);
         this.stock.setValue(produtoWpd.estoque);
         this.offset = 0;
         this.wpdProducts.length = 0;
-        this.attachProduto(produtoWpd.codigo);
+        this.attachProduto(produtoWpd);
     }
 
     getItem(itemName): any {
@@ -187,12 +157,14 @@ export class AlmoxarifeComponent implements OnInit {
                 item = solicitacaoItem.item;
             }
         });
-        return item.produto;
+        return item;
     }
 
-    attachProduto(wpdCod) {
-        let produto: Produto = this.getItem(this.form.controls[this.currentInput.id].controls.descricao.value);
-        produto.codigo = wpdCod;
+    attachProduto(produtoWpd) {
+        let item: Item = this.getItem(this.form.controls[this.currentInput.id].controls.descricao.value);
+        item.produto = new Produto(produtoWpd);
+        delete item.produto.estoque;
+        delete item.produto.descricao;
     }
 
     save() {

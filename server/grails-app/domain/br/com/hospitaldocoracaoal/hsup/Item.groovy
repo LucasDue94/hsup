@@ -9,10 +9,6 @@ class Item {
 
     static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
 
-    static mapping = {
-        id generator: 'foreign', params: [property: 'produto']
-    }
-
     static constraints = {
         descricao nullable: false, blank: false
         produto nullable: true

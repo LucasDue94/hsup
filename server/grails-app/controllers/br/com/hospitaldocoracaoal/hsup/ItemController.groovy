@@ -1,7 +1,9 @@
 package br.com.hospitaldocoracaoal.hsup
 
+import br.com.hospitaldocoracaoal.hsup.integracao.Produto
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+
 import static org.springframework.http.HttpStatus.*
 
 class ItemController {
@@ -23,23 +25,6 @@ class ItemController {
         respond itemService.get(id)
     }
 
-    @Secured('ROLE_ITEM_SAVE')
-    def save(Item item) {
-        if (item == null) {
-            render status: NOT_FOUND
-            return
-        }
-
-        try {
-            itemService.save(item)
-        } catch (ValidationException e) {
-            respond item.errors, view:'create'
-            return
-        }
-
-        respond item, [status: CREATED, view:"show"]
-    }
-
     @Secured('ROLE_ITEM_UPDATE')
     def update(Item item) {
         if (item == null) {
@@ -55,6 +40,23 @@ class ItemController {
         }
 
         respond item, [status: OK, view:"show"]
+    }
+
+    @Secured('ROLE_ITEM_SAVE')
+    def save(Item item) {
+        if (item == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        try {
+            itemService.save(item)
+        } catch (ValidationException e) {
+            respond item.errors, view:'create'
+            return
+        }
+
+        respond item, [status: CREATED, view:"show"]
     }
 
     @Secured('ROLE_ITEM_DELETE')
