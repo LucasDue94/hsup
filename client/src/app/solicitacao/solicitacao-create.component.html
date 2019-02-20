@@ -12,7 +12,7 @@
                         <div class="group" [formGroupName]="i">
                             <div class="form-group col-7">
                                 <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
-                                <input type="text" id="descricao{{i}}" (blur)="this.clearList($event.target)"
+                                <input autocomplete="off" type="text" id="descricao{{i}}" (blur)="this.clearList($event.target)"
                                        (focus)="find($event.target, 'items')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
@@ -20,19 +20,20 @@
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputValue($event.target, i, 'items')"
-                                         *ngFor="let i of this.findList">{{ i.descricao }}
+                                         *ngFor="let i of this.findList">
+                                        {{ i.descricao }}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="unidade_medida{{i}}">Unid.</label>
-                                <input type="text" (focus)="find($event.target, 'items')" id="unidade_medida{{i}}"
+                                <input autocomplete="off" type="text" (focus)="find($event.target, 'items')" id="unidade_medida{{i}}"
                                        name="unidade_medida" formControlName="unidade_medida"
-                                       class="col-12 request-input-line-bottom">
+                                       class="col-12 request-input-line-bottom upper-text">
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="quantidade{{i}}">Qtd.</label>
-                                <input type="text" id="quantidade{{i}}"ç
+                                <input autocomplete="off" type="text" id="quantidade{{i}}"
                                        formControlName="quantidade" name="quantidade"
                                        class="col-12 request-input-line-bottom">
                             </div>
@@ -47,8 +48,8 @@
         </section>
     </hcal-step>
     <hcal-step [validator]="this.error == null">
-        <h3 class="error-span container-md" *ngIf="this.error != null">{{ error }}</h3>
         <h2 class="title-step color-gray">seleção de fabricantes</h2>
+        <h3 class="error-span container-md" *ngIf="this.error != null">{{ error }}</h3>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray">
@@ -58,7 +59,7 @@
                         <div class="group col-12" [formGroupName]="i">
                             <div class="form-group col-8">
                                 <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
-                                <input type="text" id="fantasia{{i}}" (blur)="this.clearList($event.target)"
+                                <input autocomplete="off" type="text" id="fantasia{{i}}" (blur)="this.clearList($event.target)"
                                        (focus)="find($event.target, 'fabricantes')"
                                        formControlName="fantasia" name="fantasia"
                                        class="col-12 request-input-line-bottom">
@@ -76,7 +77,7 @@
                                     <option value="">Escolha um item</option>
                                     <option
                                             *ngFor="let item of controlArray.get('items').controls"
-                                            [value]="item.get('id').value">
+                                            [value]="item.get('id').value != '' ? item.get('id').value : item.get('descricao').value">
                                         {{ item.get('descricao').value }}
                                     </option>
                                 </select>
@@ -99,16 +100,16 @@
                     <section class="col-12 items solicitacao-group" id="fornecedor">
                         <div class="form-group col-2">
                             <label class="request-label color-gray" for="fantasia_fornecedor">Fantasia</label>
-                            <input type="text" id="fantasia_fornecedor" name="fantasia_fornecedor"
+                            <input autocomplete="off" type="text" id="fantasia_fornecedor" name="fantasia_fornecedor"
                                    class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-2">
                             <label class="request-label color-gray" for="telefone">Telefone</label>
-                            <input type="tel" id="telefone" name="telefone" class="col-12 request-input-line-bottom">
+                            <input autocomplete="off" type="tel" id="telefone" name="telefone" class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-2">
                             <label for="email" class="request-label color-gray">Email</label>
-                            <input type="email" id="email" name="email" class="col-12 request-input-line-bottom">
+                            <input autocomplete="off" type="email" id="email" name="email" class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-3">
                             <label for="itens_fornecedor" class="request-label color-gray">Item</label>
