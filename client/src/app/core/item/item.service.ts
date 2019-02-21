@@ -4,11 +4,9 @@ import { Observable } from 'rxjs';
 import { Item } from './item';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
-
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import {Fabricante} from "../fabricante/fabricante";
 
 @Injectable()
 export class ItemService {
@@ -16,7 +14,7 @@ export class ItemService {
     private baseUrl = 'http://localhost:8080/';
     headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
-    constructor(private http: HttpClient) {
+    constructor(private http?: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Item[]> {
@@ -29,7 +27,7 @@ export class ItemService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?): Observable<Item[]> {
+    search(searchTerm, offset?: any, limit?) {
         if (searchTerm == '') return null;
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();

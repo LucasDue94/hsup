@@ -19,7 +19,7 @@
                                 <div class="items col-12" (scrolled)="find(items.previousSibling, 'items', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
-                                    <div class="item" (mousedown)="setInputValue($event.target, i, 'items')"
+                                    <div class="item" (mousedown)="setInputValue(i, 'items', $event.target)"
                                          *ngFor="let i of this.findList">
                                         {{ i.descricao }}
                                     </div>
@@ -66,8 +66,8 @@
                                 <div class="items col-12" (scrolled)="find(fabricantes.previousSibling, 'fabricantes', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #fabricantes>
-                                    <div class="item" (mousedown)="setInputValue($event.target, i, 'fabricantes')"
-                                         *ngFor="let i of this.findList">{{ i.fantasia }}
+                                    <div class="item" (mousedown)="setInputValue(i, 'fabricantes', $event.target)"
+                                         *ngFor="let i of this.list">{{ i.fantasia }}
                                     </div>
                                 </div>
                             </div>

@@ -12,9 +12,8 @@ import { Router } from "@angular/router";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
-import { Item } from "../core/item/item";
-import { Fabricante } from "../core/fabricante/fabricante";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
     selector: 'solicitacao-create',
@@ -28,10 +27,9 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     fields: FormArray;
     controlArray;
-    findList: any[] = [];
+    findList;
     offsetList = 0;
     error = null;
-    loading;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private renderer: Renderer2) {
@@ -105,67 +103,34 @@ export class SolicitacaoCreateComponent implements OnInit {
     find(event, type, scroll = false) {
         const controlName = event.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(event, type);
-        let currentInput;
+        const currentInput = this.getFormControl(group, controlName);
 
-        currentInput = this.getFormControl(group, controlName);
-        if (currentInput == undefined || currentInput == '') return false;
+        if (currentInput == undefined) return false;
 
-        let msg = '';
         if (!scroll) {
             this.offsetList = 0;
             switch (controlName) {
                 case 'descricao':
-                    currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
-                        if (c != '') {
-                            this.itemService.search(c, this.offsetList).subscribe((itemList: Item[]) => {
-                                this.findList = itemList;
-                                itemList.forEach(i => {
-                                    if (c == i.descricao) {
-                                        this.clearList();
-                                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
-                                    }
-                                });
-
-                                this.showList(event);
-
-                            });
-                        }
-                    });
+                    this.searchItems(currentInput, event, this.itemService, controlName);
                     break;
                 case 'fantasia':
-                    currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
-                        if (c != '') {
-                            this.fabricanteService.search(c, this.offsetList).subscribe((fabricanteList: Fabricante[]) => {
-                                msg = 'wait';
-                                console.log(msg);
-                                this.findList = fabricanteList;
-                                fabricanteList.forEach(i => {
-                                    if (c == i.fantasia) {
-                                        this.clearList();
-                                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
-                                    }
-                                });
-
-                                this.showList(event);
-                            })
-                        }
-                    });
+                    this.searchItems(currentInput, event, this.fabricanteService, controlName);
                     break;
             }
         } else {
             this.offsetList += 10;
             switch (type) {
                 case 'items':
-                    this.itemService.search(event.value, this.offsetList + 10).subscribe((itemList: Item[]) => {
-                            itemList.forEach(i => {
+                    this.itemService.search(event.value, this.offsetList + 10).subscribe((list: any[]) => {
+                            list.forEach(i => {
                                 this.findList.push(i);
                             });
                         }
                     );
                     break;
                 case 'fabricantes':
-                    this.fabricanteService.search(event.value, this.offsetList).subscribe((fabricanteList: Fabricante[]) => {
-                            fabricanteList.forEach(i => {
+                    this.fabricanteService.search(event.value, this.offsetList).subscribe((list: any[]) => {
+                            list.forEach(i => {
                                 this.findList.push(i);
                             });
                         }
@@ -173,19 +138,24 @@ export class SolicitacaoCreateComponent implements OnInit {
                     break;
             }
         }
+
+        if (this.findList != undefined && this.findList.length > 0 && this.findList.includes(currentInput.value)) {
+            console.log(currentInput.value);
+        }
     }
 
     clearList() {
-        this.findList.length = 0;
         const container = this.renderer.nextSibling(event.target);
-        if (container != undefined) this.renderer.setProperty(container, 'hidden', true);
-        if (event.target['childNodes'].item(0) == undefined) {
 
+        if (this.findList != undefined && container != undefined) {
+            this.findList.length = 0;
+            this.renderer.setProperty(container, 'hidden', true);
         }
     }
 
     showList(containerList) {
-        if (this.findList.length > 0) this.renderer.setProperty(containerList.nextSibling, 'hidden', false)
+        if (this.findList != undefined && this.findList.length > 0)
+            this.renderer.setProperty(containerList.nextSibling, 'hidden', false)
     }
 
     getFormGroup(event, type) {
@@ -222,28 +192,35 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    setInputValue(event, item, type) {
-        const input = event.parentNode.previousSibling;
-        const controlName = input.getAttribute('ng-reflect-name');
-        const group = this.getFormGroup(input, type);
+    setInputValue(item, type, e?) {
+        if (e != null) {
+            const input = e.parentNode.previousSibling;
+            const controlName = input.getAttribute('ng-reflect-name');
+            const group = this.getFormGroup(input, type);
 
-        if (input != undefined && input.nodeName == 'INPUT' && group != null) {
-            switch (type) {
-                case 'items':
-                    this.setFormControl(group, controlName, item.descricao);
-                    this.setFormControl(group, 'id', item.id);
-                    input.value = item.descricao;
-                    break;
-                case 'fabricantes':
-                    this.setFormControl(group, controlName, item.fantasia);
-                    this.setFormControl(group, controlName, item.id);
-                    input.value = item.fantasia;
-                    break;
+            if (input != undefined && input.nodeName == 'INPUT' && group != null) {
+                switch (type) {
+                    case 'items':
+                        this.setFormControl(group, controlName, item.descricao);
+                        this.setFormControl(group, 'id', item.id);
+                        input.value = item.descricao;
+
+                        break;
+                    case 'fabricantes':
+                        this.setFormControl(group, controlName, item.fantasia);
+                        this.setFormControl(group, controlName, item.id);
+                        input.value = item.fantasia;
+                        break;
+                }
+
+                this.offsetList = 0;
+                this.clearList();
+                this.renderer.setProperty(e.parentNode, 'hidden', true);
             }
-
-            this.offsetList = 0;
-            this.clearList();
-            this.renderer.setProperty(event.parentNode, 'hidden', true);
+        } else {
+            if (event != null && event.target['nodeName'] == 'INPUT') {
+                return event.target['value'] = '';
+            }
         }
     }
 
@@ -264,5 +241,20 @@ export class SolicitacaoCreateComponent implements OnInit {
                 }
             }
         }
+    }
+
+    searchItems(currentInput, event, type, field) {
+        currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
+            type.search(c, this.offsetList).subscribe((list: any[]) => {
+                this.findList = list;
+                list.forEach(item => {
+                    if (c == item[field]) {
+                        this.clearList();
+                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
+                    }
+                });
+                this.showList(event);
+            });
+        });
     }
 }
