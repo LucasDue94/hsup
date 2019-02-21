@@ -54,22 +54,21 @@
                     <aside class="right-aside col-7" formGroupName="produto">
 
                         <div class="request-form-group col-7">
-
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
                                    (blur)="clearInputs()" autocomplete="off"
                                    class="request-input-line-bottom col-12" type="text">
 
+                            <div class="off" #scroll>
+                                <div class="scroll" infiniteScroll [scrollWindow]="false"
+                                     (scrolled)="find(currentInput, true)"
+                                     *ngIf="wpdProducts.length > 0 && currentInput.id == i ">
 
-                            <div class="scroll" infiniteScroll [scrollWindow]="false"
-                                 (scrolled)="find(currentInput, true)"
-                                 *ngIf="wpdProducts.length > 0  && currentInput.id == i">
-
-                                <div (mousedown)="select(wpdPro)" class="item"
-                                     *ngFor="let wpdPro of wpdProducts">
-                                    {{wpdPro.descricao}}
+                                    <div (mousedown)="select(wpdPro)" class="item"
+                                         *ngFor="let wpdPro of wpdProducts">
+                                        {{wpdPro.descricao}}
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -98,5 +97,5 @@
 </main>
 <div class="col-11">
     <button (click)="save()" class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
-    <button class="float-right button btn-almoxarife col-2">Voltar</button>
+    <button [routerLink]="['/almoxarife']" class="float-right button btn-almoxarife col-2">Voltar</button>
 </div>

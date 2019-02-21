@@ -7,14 +7,14 @@ import grails.plugin.springsecurity.annotation.Secured
 class ProdutoController {
 
     ProdutoService produtoService
+
     static responseFormats = ['json', 'xml']
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_PRODUTO_INDEX')
     def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
         List<Produto> produtoList = produtoService.list(params, termo)
-        respond produtoList
+        return respond(produtoList)
     }
 
 }

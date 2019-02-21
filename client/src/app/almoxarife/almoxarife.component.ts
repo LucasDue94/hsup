@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl } from "@angular/forms";
-
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -19,44 +18,30 @@ import { Item } from "../core/item/item";
 })
 export class AlmoxarifeComponent implements OnInit {
 
+    @ViewChild('scroll') scroll;
     wpdProducts: Produto[] = [];
     almoxarifeList: Produto[] = [];
     solicitacao = new Solicitacao();
-    wpdProductsFiltered = new Map();
-    form;
-    currentInput;
-    countTotal: number;
-    countSearch = 0;
-    create;
     cod: FormControl;
     stock: FormControl;
     desc: FormControl;
+    form;
+    currentInput;
     offset = 0;
-    limit = 10;
     errors: any[];
 
     constructor(private almoxarifeService: AlmoxarifeService, private solicitacaoService: SolicitacaoService,
-                private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
+                private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) {
     }
 
     ngOnInit() {
-        this.cod = null;
-        this.stock = null;
-        this.desc = null;
-        this.create = true;
-
         this.route.params.subscribe((params: Params) => {
             if (params.hasOwnProperty('id')) {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
-                    this.create = false;
                     this.solicitacao = solicitacao;
                     this.buildForm();
                 });
             }
-        });
-
-        this.almoxarifeService.count().subscribe((quantity: number) => {
-            this.countTotal = quantity;
         });
     }
 
@@ -82,47 +67,61 @@ export class AlmoxarifeComponent implements OnInit {
 
     find(input, scrollActived = false) {
         this.currentInput = input;
+        this.setFields();
         const currentControl = this.form.get(input.id + '.produto.descricao');
-
-        currentControl.valueChanges
-            .debounceTime(1000)
-            .distinctUntilChanged()
-            .switchMap(v =>
-                this.almoxarifeService.countList(v, this.countTotal)).subscribe((count: number) => {
-            this.countSearch = count;
-        });
 
         if (scrollActived) {
             this.offset += 10;
-            if (this.offset < this.countSearch) {
-                this.almoxarifeService.search(currentControl.value, this.offset, '').subscribe((produtos: Produto[]) => {
-                    this.almoxarifeList = produtos;
-                    if (this.almoxarifeList.length > 0) {
-                        this.almoxarifeList.forEach(item => {
-                            this.wpdProducts.push(item);
-                        });
-                    }
-                });
-            }
+            this.almoxarifeService.search(currentControl.value, this.offset).subscribe((produtos: Produto[]) => {
+                this.almoxarifeList = produtos;
+                if (this.almoxarifeList.length > 0) {
+                    this.almoxarifeList.forEach(item => {
+                        this.wpdProducts.push(item);
+                    });
+                }
+            });
         } else {
-            this.offset = 0;
             currentControl.valueChanges
                 .debounceTime(1000)
                 .distinctUntilChanged()
                 .subscribe(inputValue => {
                     if (inputValue == '') this.clearInputs();
-                    if (inputValue != '' && inputValue != null) {
-                        this.almoxarifeService.search(inputValue, this.offset, this.limit)
+                    if (inputValue != null) {
+                        this.almoxarifeService.search(inputValue, this.offset)
                             .subscribe((produtos: Produto[]) => {
-                                this.wpdProducts = produtos
+                                this.wpdProducts = produtos;
+
+                                if (this.wpdProducts.length > 0) {
+                                    setTimeout(this.setScroll, 1000);
+                                } else {
+                                    alert('item não encontrado');
+                                    this.clearInputs();
+                                }
+                                produtos.forEach(produto => {
+                                    if (produto.descricao == inputValue) {
+                                        this.renderer.setProperty(input.nextSibling, 'hidden', true);
+                                        this.wpdProducts.length = 0;
+                                    }
+                                });
                             });
+                        if (this.wpdProducts.length > 0) {
+                            this.renderer.setProperty(input.nextSibling, 'hidden', false)
+                        }
                     }
                 });
+
         }
     }
 
+    setScroll() {
+        this.renderer.addClass(this.scroll.nativeElement, 'on');
+    }
+    removeScroll(){
+        this.renderer.removeClass(this.scroll.nativeElement, 'off');
+    }
+
     clearInputs() {
-        this.setFields();
+        this.removeScroll();
         if (this.cod.value == '' || this.desc.value == '') {
             this.cod.reset('');
             this.desc.reset('');
@@ -133,21 +132,19 @@ export class AlmoxarifeComponent implements OnInit {
     }
 
     setFields() {
-        let index = this.currentInput.id;
         const currentGroup = this.form.controls as FormArray;
-        this.cod = currentGroup[index].controls['produto'].controls['codigo'];
-        this.desc = currentGroup[index].controls['produto'].controls['descricao'];
-        this.stock = currentGroup[index].controls['produto'].controls['estoque'];
+        this.cod = currentGroup[this.currentInput.id].controls['produto'].controls['codigo'];
+        this.desc = currentGroup[this.currentInput.id].controls['produto'].controls['descricao'];
+        this.stock = currentGroup[this.currentInput.id].controls['produto'].controls['estoque'];
     }
 
     select(produtoWpd) {
-        this.setFields();
         this.cod.setValue(produtoWpd.id);
         this.desc.setValue(produtoWpd.descricao);
         this.stock.setValue(produtoWpd.estoque);
+        this.attachProduto(produtoWpd);
         this.offset = 0;
         this.wpdProducts.length = 0;
-        this.attachProduto(produtoWpd);
     }
 
     getItem(itemName): any {

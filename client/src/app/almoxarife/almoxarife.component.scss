@@ -3,6 +3,7 @@
 
 .container-header {
   margin-bottom: 5em;
+
   & {
     color: $brown;
     font-family: "Poppins SemiBold", sans-serif;
@@ -34,6 +35,7 @@
     background-color: $mediumGrayTransparent;
     border-radius: 20px;
   }
+
   .title {
     display: inline-block;
     margin-top: 0.8em;
@@ -50,6 +52,7 @@
     height: 75%;
     min-height: 200px;
     width: 95%;
+
     & {
       background-color: rgba($lightGray, 0.7);
       border-radius: 10px;
@@ -74,6 +77,7 @@
       }
     }
   }
+
   .arrows-icon {
     float: left;
     font-size: 1.5em;
@@ -101,6 +105,7 @@
   .request-label {
     float: left;
     display: block;
+
     & {
       font-size: 0.8em;
     }
@@ -109,6 +114,7 @@
   .request-item {
     position: relative;
     width: 100%;
+
     & {
       font-family: inherit;
       background-color: transparent;
@@ -127,6 +133,7 @@
     position: relative;
     //padding-right: 5px;
     width: 100%;
+
     & {
       text-align: left;
       font-size: 1.2em;
@@ -137,6 +144,7 @@
       background-color: transparent;
       border-bottom: 1px solid $mediumGray;
     }
+
     @media screen and (max-width: 1024px) {
       font-size: 1em;
     }
@@ -184,9 +192,11 @@
     .ps {
       width: 100%;
     }
+
     .ps--active-y {
       border: 1px solid red;
     }
+
     .ps-content {
       margin: 0;
       width: 100%;
@@ -204,6 +214,17 @@
   margin-left: 5px;
 }
 
+
+.on{
+  position: relative;
+  opacity: 1;
+  transition: 1s;
+}
+
+.off{
+  opacity: 0;
+  transition: 1s;
+}
 .scroll {
   position: relative;
   overflow-y: scroll;
