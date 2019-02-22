@@ -21,7 +21,6 @@ export class AlmoxarifeService {
 
     search(produtoWpd, offset?): Observable<Produto[]> {
         let subject = new Subject<Produto[]>();
-        if (produtoWpd == '') return subject.asObservable();
         const url = this.baseUrl + 'produto';
         this.http.get(url + `?offset=${offset}`, {
             headers: this.headers,

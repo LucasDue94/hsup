@@ -6,7 +6,6 @@ export class Item {
     id: number;
     produto: Produto;
     descricao: string;
-    unidadeMedida: string;
     fornecedor: Fornecedor[];
     fabricante: Fabricante[];
     ativo: boolean;

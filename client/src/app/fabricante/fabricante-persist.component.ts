@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Fabricante } from '../core/fabricante/fabricante';
 import { FabricanteService } from '../core/fabricante/fabricante.service';
-import { AuthService } from "../signin/auth.service";
 
 @Component({
     selector: 'fabricante-persist',

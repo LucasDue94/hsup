@@ -33,9 +33,10 @@
             <h2 class="title col-12">PRODUTO WPD</h2>
         </aside>
     </header>
+    <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message" [modalType]="'success'"></hcal-modal>
     <section class="main-content">
         <perfect-scrollbar>
-            <section class="section-line col-12" [formGroup]="form" *ngFor="let it of solicitacao.itens; index as i">
+            <section class="section-line col-12" [formGroup]="form" *ngFor="let item of solicitacao.itens; index as i">
                 <div formGroupName="{{i}}">
                     <aside class="float-left col-4">
                         <div class="request-form-group col-9">
@@ -46,8 +47,9 @@
 
                         <div class="request-form-group col-3">
                             <label class="request-label label-right col-12">Qnt</label>
-                            <input formControlName="quantidade" class="request-item text-right  col-12"
-                                   type="text" readonly>
+                            <input formControlName="quantidade" class="request-item text-right col-12"
+                                   value="{{qnt.value + ' ' + item.unidadeMedida}}"
+                                   type="text" readonly #qnt>
                         </div>
                     </aside>
                     <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
@@ -56,40 +58,36 @@
                         <div class="request-form-group col-7">
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
-                                   (blur)="clearInputs()" autocomplete="off"
+                                   (blur)="wpdProducts.length > 0 || hasItems!=null ? clearInputs(): '' "
+                                   autocomplete="off"
                                    class="request-input-line-bottom col-12" type="text">
 
-                            <div class="off" #scroll>
-                                <div class="scroll" infiniteScroll [scrollWindow]="false"
-                                     (scrolled)="find(currentInput, true)"
-                                     *ngIf="wpdProducts.length > 0 && currentInput.id == i ">
+                            <div *ngIf="hasItems != null && currentInput.value != '' && currentInput.id == i">
+                                {{hasItems}}
+                            </div>
 
-                                    <div (mousedown)="select(wpdPro)" class="item"
-                                         *ngFor="let wpdPro of wpdProducts">
-                                        {{wpdPro.descricao}}
-                                    </div>
+                            <div class="scroll" infiniteScroll [scrollWindow]="false"
+                                 (scrolled)="find(currentInput, true)"
+                                 *ngIf="wpdProducts.length > 0 && currentInput.id == i && currentInput.value != ''">
+
+                                <div (mousedown)="select(wpdPro)" class="item"
+                                     *ngFor="let wpdPro of wpdProducts">
+                                    {{wpdPro.descricao}}
                                 </div>
                             </div>
                         </div>
 
                         <div class="request-form-group col-2">
                             <label for="cod{{i}}" class="request-label label-right col-12">Código</label>
-                            <input id="cod{{i}}" formControlName="codigo" class="request-item text-right col-12"
+                            <input id="cod{{i}}" formControlName="id" class="request-item text-right col-12"
                                    readonly>
                         </div>
                         <div class="request-form-group col-2">
                             <label for="stock{{i}}" class="request-label label-right col-12">Estoque</label>
                             <input id="stock{{i}}" formControlName="estoque" class="request-item text-right col-12"
-                                   readonly #stock>
+                                   readonly>
                         </div>
                     </aside>
-
-                    <!--       <fa-icon *ngIf="stock.value >= item.qnt && stock.value > 0 && stock.value!= ''"
-                                    class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                           <fa-icon *ngIf="stock.value >0 && stock.value < item.quantidade && stock.value!= ''"
-                                    class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                           <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                                    [icon]="['fas', 'times']"></fa-icon>-->
                 </div>
             </section>
         </perfect-scrollbar>

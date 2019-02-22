@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HcalSharedModule, TableModule } from "hcal";
+import { HcalSharedModule, ModalModule, TableModule } from "hcal";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlmoxarifeComponent } from "./almoxarife.component";
 import { AlmoxarifeIndexComponent } from './almoxarife-index.component';
@@ -26,11 +26,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         ReactiveFormsModule,
         AlmoxarifeRoutingModule,
         TableModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        ModalModule
     ],
     declarations: [
         AlmoxarifeComponent,
-        AlmoxarifeIndexComponent
+        AlmoxarifeIndexComponent,
     ],
     providers: [{
         provide: PERFECT_SCROLLBAR_CONFIG,
