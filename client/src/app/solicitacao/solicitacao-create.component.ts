@@ -13,7 +13,6 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
-import { HttpClient } from "@angular/common/http";
 
 @Component({
     selector: 'solicitacao-create',
@@ -108,12 +107,11 @@ export class SolicitacaoCreateComponent implements OnInit {
         if (currentInput == undefined) return false;
 
         if (!scroll) {
-            this.offsetList = 0;
-            switch (controlName) {
-                case 'descricao':
+            switch (type) {
+                case 'items':
                     this.searchItems(currentInput, event, this.itemService, controlName);
                     break;
-                case 'fantasia':
+                case 'fabricantes':
                     this.searchItems(currentInput, event, this.fabricanteService, controlName);
                     break;
             }
@@ -145,17 +143,14 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     clearList() {
+        this.findList.length = 0;
         const container = this.renderer.nextSibling(event.target);
-
-        if (this.findList != undefined && container != undefined) {
-            this.findList.length = 0;
-            this.renderer.setProperty(container, 'hidden', true);
-        }
+        if (container != undefined) this.renderer.setProperty(container, 'hidden', true);
     }
 
     showList(containerList) {
         if (this.findList != undefined && this.findList.length > 0)
-            this.renderer.setProperty(containerList.nextSibling, 'hidden', false)
+            this.renderer.setProperty(containerList.nextSibling, 'hidden', false);
     }
 
     getFormGroup(event, type) {
@@ -187,39 +182,25 @@ export class SolicitacaoCreateComponent implements OnInit {
     validatorStepFabricante(control) {
         const itemFabricante = control.get('item_fabricante').value;
         const fantasia = control.get('fantasia').value;
-        if (fantasia != '' && itemFabricante == '' || fantasia == '' && itemFabricante != '') {
+        if (fantasia != '' && itemFabricante == '' || fantasia == '' && itemFabricante != '')
             this.error = 'Verifique se todos os campos foram preenchidos';
-        }
     }
 
-    setInputValue(item, type, e?) {
-        if (e != null) {
-            const input = e.parentNode.previousSibling;
-            const controlName = input.getAttribute('ng-reflect-name');
-            const group = this.getFormGroup(input, type);
+    setInputValue(type, input, object?) {
+        const parentSibling = input.parentNode.previousSibling;
+        if (parentSibling != null) {
+            const controlName = parentSibling.getAttribute('ng-reflect-name');
+            console.log(controlName);
+            const group = this.getFormGroup(parentSibling, type);
 
-            if (input != undefined && input.nodeName == 'INPUT' && group != null) {
-                switch (type) {
-                    case 'items':
-                        this.setFormControl(group, controlName, item.descricao);
-                        this.setFormControl(group, 'id', item.id);
-                        input.value = item.descricao;
+            this.setFormControl(group, controlName, object[controlName]);
+            this.setFormControl(group, 'id', object.id);
 
-                        break;
-                    case 'fabricantes':
-                        this.setFormControl(group, controlName, item.fantasia);
-                        this.setFormControl(group, controlName, item.id);
-                        input.value = item.fantasia;
-                        break;
-                }
+            parentSibling.value = object[controlName];
+            this.clearList();
 
-                this.offsetList = 0;
-                this.clearList();
-                this.renderer.setProperty(e.parentNode, 'hidden', true);
-            }
-        } else {
-            if (event != null && event.target['nodeName'] == 'INPUT') {
-                return event.target['value'] = '';
+            if (input.nodeName == 'DIV') {
+                this.renderer.setProperty(input.parentNode, 'hidden', true);
             }
         }
     }
@@ -234,8 +215,8 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
 
         if (this.validatorStepItem()) {
-            const nodes = event.target['parentNode'].parentNode.childNodes.item(0).childNodes.item(0).childNodes;
-            for (const n of nodes) {
+            const tabNodes = event.target['parentNode'].parentNode.childNodes.item(0).childNodes.item(0).childNodes;
+            for (const n of tabNodes) {
                 if (n.classList != undefined && n.classList.contains('current') && n.id == 2) {
                     for (const c of controls) this.validatorStepFabricante(c);
                 }
@@ -243,18 +224,27 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    searchItems(currentInput, event, type, field) {
-        currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
-            type.search(c, this.offsetList).subscribe((list: any[]) => {
-                this.findList = list;
-                list.forEach(item => {
-                    if (c == item[field]) {
-                        this.clearList();
-                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
+    searchItems(input, event, type, field) {
+        input.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(value => {
+            if (value != '')
+                type.search(value, this.offsetList).subscribe((list: any[]) => {
+                        this.findList = list;
+                        this.showList(event);
+
+
+                        if (this.findInList(list, value, field)) {
+                            this.clearList();
+                            this.renderer.setProperty(event.nextSibling, 'hidden', true)
+                        } else {
+                            console.log(event);
+                            this.setInputValue(type, event, value);
+                        }
                     }
-                });
-                this.showList(event);
-            });
+                );
         });
+    }
+
+    findInList = (list, value, field) => {
+        for (const i of list) if (value == i[field]) return true
     }
 }
