@@ -41,7 +41,7 @@ export class AuthService {
         return this.http.post(url, null, {headers: header.auth, responseType: 'json'}).subscribe(
             resp => {
                 localStorage.removeItem('token');
-                this.router(['/']);
+                this.router.navigate(['/']);
             },
             err => {
                 console.log(err);
