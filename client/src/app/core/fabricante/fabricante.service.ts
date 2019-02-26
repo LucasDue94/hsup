@@ -28,7 +28,7 @@ export class FabricanteService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?) {
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
         if (searchTerm == '') return null;
         const url = this.baseUrl + 'fabricante';
         let subject = new Subject<Fabricante[]>();

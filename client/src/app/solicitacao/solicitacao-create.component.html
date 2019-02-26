@@ -12,18 +12,20 @@
                         <div class="group" [formGroupName]="i">
                             <div class="form-group col-7">
                                 <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
-                                <input autocomplete="off" type="text" id="descricao{{i}}" (blur)="this.clearList($event.target)"
-                                       (focus)="find($event.target, 'item')"
+                                <input autocomplete="off" type="text" id="descricao{{i}}"
+                                       (blur)="this.clearList($event.target)"
+                                       (keydown)="find($event.target, 'item')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
-                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'items', true)"
+                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'item', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
-                                    <div class="item" (mousedown)="setInputFindValue('items', $event.target, i)"
+                                    <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
                                          *ngFor="let i of this.findList">
                                         {{ i.descricao }}
                                     </div>
                                 </div>
+                                <div *ngIf="loading && this.findList.length == 0" #loading>Carregando...</div>
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="unidade_medida{{i}}">Unid.</label>
@@ -59,7 +61,8 @@
                         <div class="group col-12" [formGroupName]="i">
                             <div class="form-group col-8">
                                 <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
-                                <input autocomplete="off" type="text" id="fantasia{{i}}" (blur)="this.clearList($event.target)"
+                                <input autocomplete="off" type="text" id="fantasia{{i}}"
+                                       (blur)="this.clearList($event.target)"
                                        (focus)="find($event.target, 'fabricante')"
                                        formControlName="fantasia" name="fantasia"
                                        class="col-12 request-input-line-bottom">
@@ -73,7 +76,8 @@
                             </div>
                             <div class="form-group col-3">
                                 <label for="itens{{i}}" class="request-label color-gray">Item</label>
-                                <select name="item_fabricante" formControlName="item_fabricante" id="itens{{i}}" class="request-input-line-bottom col-12">
+                                <select name="item_fabricante" formControlName="item_fabricante" id="itens{{i}}"
+                                        class="request-input-line-bottom col-12">
                                     <option value="">Escolha um item</option>
                                     <option
                                             *ngFor="let item of controlArray.get('item').controls"
@@ -105,11 +109,13 @@
                         </div>
                         <div class="form-group col-2">
                             <label class="request-label color-gray" for="telefone">Telefone</label>
-                            <input autocomplete="off" type="tel" id="telefone" name="telefone" class="col-12 request-input-line-bottom">
+                            <input autocomplete="off" type="tel" id="telefone" name="telefone"
+                                   class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-2">
                             <label for="email" class="request-label color-gray">Email</label>
-                            <input autocomplete="off" type="email" id="email" name="email" class="col-12 request-input-line-bottom">
+                            <input autocomplete="off" type="email" id="email" name="email"
+                                   class="col-12 request-input-line-bottom">
                         </div>
                         <div class="form-group col-3">
                             <label for="itens_fornecedor" class="request-label color-gray">Item</label>

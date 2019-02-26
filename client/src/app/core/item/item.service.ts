@@ -27,7 +27,7 @@ export class ItemService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?) {
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
         if (searchTerm == '') return null;
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
