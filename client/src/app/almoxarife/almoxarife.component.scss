@@ -205,6 +205,19 @@
   }
 }
 
+.prod-not-found {
+  position: relative;
+
+  & {
+    padding: 10px auto;
+    text-align: center;
+    border-radius: 0 0 6px 6px;
+    z-index: 4;
+    background: $lightDanger;
+    color: $white;
+  }
+}
+
 .scrollProducts > .ps {
   width: unset;
 }
@@ -215,8 +228,9 @@
 }
 
 .scroll {
+  width: 100%;
   position: relative;
   overflow-y: scroll;
-  height: 200px;
-  z-index: 99;
+  max-height: 200px;
+  z-index: 3;
 }

@@ -10,7 +10,7 @@
 
     <aside class="float-right text-right col-6">
         <h4 class="label">Nº da Solicitação:</h4>
-        <h3 class="label-description"></h3>
+        <h3 class="label-description">{{solicitacao?.id}}</h3>
     </aside>
 
     <aside class="float-left col-6">
@@ -40,16 +40,14 @@
                 <div formGroupName="{{i}}">
                     <aside class="float-left col-4">
                         <div class="request-form-group col-9">
-                            <label class="request-label label-left col-6"><I></I>Item</label>
-                            <input formControlName="descricao" class="request-item col-6"
-                                   readonly>
+                            <label for="descItem{{i}}" class="request-label label-left col-6"><I></I>Item</label>
+                            <input id="descItem{{i}}" formControlName="descricao" class="request-item col-6" readonly>
                         </div>
 
                         <div class="request-form-group col-3">
-                            <label class="request-label label-right col-12">Qnt</label>
-                            <input formControlName="quantidade" class="request-item text-right col-12"
-                                   value="{{qnt.value + ' ' + item.unidadeMedida}}"
-                                   type="text" readonly #qnt>
+                            <label for="qntItem{{i}}" class="request-label label-right col-12">Qnt</label>
+                            <input id="qntItem{{i}}" formControlName="quantidade" class="request-item text-right col-12"
+                                   value="{{qnt.value}}" type="text" readonly #qnt>
                         </div>
                     </aside>
                     <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
@@ -57,34 +55,33 @@
 
                         <div class="request-form-group col-7">
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
-                            <input id="{{i}}" formControlName="descricao" (focus)="find($event.target)"
-                                   (blur)="wpdProducts.length > 0 || hasItems!=null ? clearInputs(): '' "
-                                   autocomplete="off"
-                                   class="request-input-line-bottom col-12" type="text">
+                            <input id="{{i}}" class="request-input-line-bottom col-12" type="text"
+                                   formControlName="descricao" autocomplete="off"
+                                   (focus)="find($event.target)">
 
-                            <div *ngIf="hasItems != null && currentInput.value != '' && currentInput.id == i">
-                                {{hasItems}}
-                            </div>
+                            <div id="scroll{{i}}" class="scroll" infiniteScroll [scrollWindow]="false" [hidden]="true"
+                                 (scrolled)="find(currentInput, true)" (mouseleave)="closeList()">
 
-                            <div class="scroll" infiniteScroll [scrollWindow]="false"
-                                 (scrolled)="find(currentInput, true)"
-                                 *ngIf="wpdProducts.length > 0 && currentInput.id == i && currentInput.value != ''">
-
-                                <div (mousedown)="select(wpdPro)" class="item"
+                                <div (click)="select(wpdPro)" class="item"
                                      *ngFor="let wpdPro of wpdProducts">
                                     {{wpdPro.descricao}}
                                 </div>
                             </div>
+
+                            <div class="prod-not-found col-12"
+                                 *ngIf="itemsNotFound != null && currentInput.id == i">
+                                {{itemsNotFound}}
+                            </div>
                         </div>
 
                         <div class="request-form-group col-2">
-                            <label for="cod{{i}}" class="request-label label-right col-12">Código</label>
-                            <input id="cod{{i}}" formControlName="id" class="request-item text-right col-12"
+                            <label for="codPro{{i}}" class="request-label label-right col-12">Código</label>
+                            <input id="codPro{{i}}" formControlName="id" class="request-item text-right col-12"
                                    readonly>
                         </div>
                         <div class="request-form-group col-2">
-                            <label for="stock{{i}}" class="request-label label-right col-12">Estoque</label>
-                            <input id="stock{{i}}" formControlName="estoque" class="request-item text-right col-12"
+                            <label for="estPro{{i}}" class="request-label label-right col-12">Estoque</label>
+                            <input id="estPro{{i}}" formControlName="estoque" class="request-item text-right col-12"
                                    readonly>
                         </div>
                     </aside>

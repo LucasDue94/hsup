@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl } from "@angular/forms";
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
@@ -19,17 +19,18 @@ import { Item } from "../core/item/item";
 export class AlmoxarifeComponent implements OnInit {
 
     wpdProducts: Produto[] = [];
-    almoxarifeList: Produto[] = [];
     solicitacao = new Solicitacao();
     currentInput;
     form;
     offset = 0;
     errors: any[];
     message;
-    hasItems;
+    selected;
+    itemsNotFound;
+    last;
 
     constructor(private almoxarifeService: AlmoxarifeService, private solicitacaoService: SolicitacaoService,
-                private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private renderer: Renderer2) {
+                private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private render: Renderer2) {
     }
 
     ngOnInit() {
@@ -38,6 +39,8 @@ export class AlmoxarifeComponent implements OnInit {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
                     this.solicitacao = solicitacao;
                     this.buildForm();
+                    this.solicitacao.itens.forEach(item => {
+                    });
                 });
             }
         });
@@ -53,7 +56,7 @@ export class AlmoxarifeComponent implements OnInit {
     createGroup(solicitacaoItem) {
         return this.fb.group({
                 descricao: this.createControl(solicitacaoItem.item, 'descricao'),
-                quantidade: this.createControl(solicitacaoItem,'quantidade'),
+                quantidade: new FormControl(solicitacaoItem.quantidade + ' ' + solicitacaoItem.unidadeMedida),
                 produto: this.fb.group({
                     id: this.createControl(solicitacaoItem.item.produto, 'id'),
                     descricao: this.createControl(solicitacaoItem.item.produto, 'descricao'),
@@ -68,62 +71,98 @@ export class AlmoxarifeComponent implements OnInit {
         return new FormControl(produto[value]);
     }
 
-
     find(input, scrollActived = false) {
+        this.itemsNotFound = null;
         this.currentInput = input;
-        const currentControl = this.form.get(input.id + '.produto.descricao');
-
-        if (scrollActived) {
-            this.offset += 10;
-            this.almoxarifeService.search(currentControl.value, this.offset).subscribe((produtos: Produto[]) => {
-                this.almoxarifeList = produtos;
-                if (this.almoxarifeList.length > 0) {
-                    this.almoxarifeList.forEach(item => {
-                        this.wpdProducts.push(item);
-                    });
-                }
-            });
-        } else {
+        this.last = this.currentInput.value;
+        if (!scrollActived) {
+            this.selected = false;
             this.offset = 0;
-            currentControl.valueChanges
+            this.getControls('produto')['descricao']
+                .valueChanges
                 .debounceTime(1000)
                 .distinctUntilChanged()
                 .subscribe(inputValue => {
-                    if (inputValue != '')
-                        this.almoxarifeService.search(inputValue, this.offset)
-                            .subscribe((produtos: Produto[]) => {
-                                this.wpdProducts = produtos;
-                                this.hasItems = produtos.length == 0 ? 'Nenhum item encontrado' : null;
-                                produtos.forEach(produto => {
-                                    if (produto.descricao == inputValue) {
-                                        this.renderer.setProperty(input.nextSibling, 'hidden', true);
-                                        this.wpdProducts.length = 0;
-                                    }
+                    if (inputValue != '') {
+                        if (!this.selected) {
+                            this.almoxarifeService.search(inputValue, this.offset)
+                                .subscribe((produtos: Produto[]) => {
+                                    this.wpdProducts = produtos;
+                                    console.log(this.form.get(this.currentInput.id).value);
+                                    this.setConfig();
                                 });
-
-                            });
-                    else this.clearInputs();
-                    if (this.wpdProducts.length > 0) {
-                        this.renderer.setProperty(input.nextSibling, 'hidden', false)
+                        }
+                    } else {
+                        this.clearControls();
+                        this.attachProduto(null);
+                        this.itemsNotFound = null;
+                        this.last = ''
                     }
                 });
+
+        } else {
+            this.offsetScroll();
         }
     }
 
-    clearInputs() {
-        const controls = this.getControls('produto');
-        for (const c of Object.keys(controls)) controls[c].reset('');
-        this.wpdProducts.length = 0;
+    setConfig() {
+        if (this.wpdProducts.length > 0) {
+            this.itemsNotFound = null;
+            this.openList();
+        } else {
+            this.itemsNotFound = 'Nenhum produto encontrado!';
+        }
     }
 
-    select(produtoWpd) {
-        const controls = this.getControls('produto');
-        for (const c of Object.keys(controls)) controls[c].setValue(produtoWpd[c]);
-        this.attachProduto(produtoWpd);
+    offsetScroll() {
+        this.offset += 10;
+        this.almoxarifeService.search(this.getControls('produto')['descricao'].value, this.offset).subscribe((produtos: Produto[]) => {
+            const offsetList = produtos;
+            if (offsetList.length > 0) {
+                offsetList.forEach(item => {
+                    this.wpdProducts.push(item);
+                });
+            }
+        });
+    }
+
+    getInput = () => this.currentInput;
+
+    closeList = () => setTimeout(() => {
+        this.close();
+    }, 400);
+
+    close() {
+        const scroll = document.getElementById('scroll' + this.getInput().id);
+        this.render.setProperty(scroll, 'hidden', true);
         this.wpdProducts.length = 0;
+        if (this.selected == false) this.currentInput.value = this.last;
+    }
+
+    openList() {
+        const scroll = document.getElementById('scroll' + this.currentInput.id);
+        this.render.setProperty(scroll, 'hidden', false);
+    }
+
+    select(produto) {
+        this.selected = true;
+        const controls = this.getControls('produto');
+        for (const c of Object.keys(controls)) controls[c].setValue(produto[c]);
+        this.attachProduto(produto.id);
+        this.wpdProducts.length = 0;
+        this.closeList();
     }
 
     getControls = (group) => this.form.controls[this.currentInput.id].controls[group].controls;
+
+    clearControls() {
+        const controls = this.getControls('produto');
+        for (const c of Object.keys(controls)) {
+            controls[c].reset('');
+            console.log(controls[c]);
+        }
+        this.wpdProducts.length = 0;
+    }
 
     getItem(itemName): any {
         let item = new Item();
@@ -135,15 +174,16 @@ export class AlmoxarifeComponent implements OnInit {
         return item;
     }
 
-    attachProduto(produtoWpd) {
+    attachProduto(produtoId) {
         let item: Item = this.getItem(this.form.controls[this.currentInput.id].controls.descricao.value);
-        item.produto = new Produto(produtoWpd);
+        item.produto = new Produto({id: produtoId});
         delete item.produto.estoque;
         delete item.produto.descricao;
     }
 
     save() {
         this.solicitacao.itens.forEach((solicitacaoItem: any) => {
+            console.log(solicitacaoItem);
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
                 let r = this.router;
                 this.message = 'Produtos associados com sucesso!';
