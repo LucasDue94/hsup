@@ -20,17 +20,16 @@ export class AlmoxarifeComponent implements OnInit {
 
     wpdProducts: Produto[] = [];
     solicitacao = new Solicitacao();
-    currentInput;
-    form;
-    offset = 0;
     errors: any[];
-    message;
-    selected;
-    itemsNotFound;
-    last;
+    notFoundMessage: string;
+    message: string;
+    offset: number;
+    form;
+    prod: Produto;
 
     constructor(private almoxarifeService: AlmoxarifeService, private solicitacaoService: SolicitacaoService,
-                private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private render: Renderer2) {
+                private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute,
+                private router: Router, private render: Renderer2) {
     }
 
     ngOnInit() {
@@ -39,8 +38,6 @@ export class AlmoxarifeComponent implements OnInit {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
                     this.solicitacao = solicitacao;
                     this.buildForm();
-                    this.solicitacao.itens.forEach(item => {
-                    });
                 });
             }
         });
@@ -72,51 +69,29 @@ export class AlmoxarifeComponent implements OnInit {
     }
 
     find(input, scrollActived = false) {
-        this.itemsNotFound = null;
-        this.currentInput = input;
-        this.last = this.currentInput.value;
+        this.offset = 0;
         if (!scrollActived) {
-            this.selected = false;
-            this.offset = 0;
-            this.getControls('produto')['descricao']
-                .valueChanges
-                .debounceTime(1000)
-                .distinctUntilChanged()
-                .subscribe(inputValue => {
-                    if (inputValue != '') {
-                        if (!this.selected) {
-                            this.almoxarifeService.search(inputValue, this.offset)
-                                .subscribe((produtos: Produto[]) => {
-                                    this.wpdProducts = produtos;
-                                    console.log(this.form.get(this.currentInput.id).value);
-                                    this.setConfig();
-                                });
-                        }
-                    } else {
-                        this.clearControls();
-                        this.attachProduto(null);
-                        this.itemsNotFound = null;
-                        this.last = ''
-                    }
-                });
-
+            this.getControls('produto', input)['descricao'].valueChanges.debounceTime(1000)
+                .distinctUntilChanged().subscribe(inputValue => {
+                console.log(inputValue);
+                if (inputValue != '') {
+                    this.almoxarifeService.search(inputValue, this.offset)
+                        .subscribe((produtos: Produto[]) => {
+                            this.wpdProducts = produtos;
+                            this.loadResult(input);
+                        });
+                } else {
+                    this.clearControls(input);
+                }
+            });
         } else {
-            this.offsetScroll();
+            this.offsetScroll(input);
         }
     }
 
-    setConfig() {
-        if (this.wpdProducts.length > 0) {
-            this.itemsNotFound = null;
-            this.openList();
-        } else {
-            this.itemsNotFound = 'Nenhum produto encontrado!';
-        }
-    }
-
-    offsetScroll() {
+    offsetScroll(input) {
         this.offset += 10;
-        this.almoxarifeService.search(this.getControls('produto')['descricao'].value, this.offset).subscribe((produtos: Produto[]) => {
+        this.almoxarifeService.search(this.getControls('produto', input)['descricao'].value, this.offset).subscribe((produtos: Produto[]) => {
             const offsetList = produtos;
             if (offsetList.length > 0) {
                 offsetList.forEach(item => {
@@ -126,42 +101,67 @@ export class AlmoxarifeComponent implements OnInit {
         });
     }
 
-    getInput = () => this.currentInput;
+    loadResult(input) {
+        if (this.wpdProducts.length > 0) {
+            this.openList(input);
+            this.offNotFound(input);
+        } else {
+            this.onNotFound(input);
+        }
+    }
 
-    closeList = () => setTimeout(() => {
-        this.close();
+    offNotFound(input) {
+        this.notFoundMessage = null;
+        this.render.setProperty(input.nextSibling.nextSibling, 'hidden', true);
+    }
+
+    onNotFound(input) {
+        this.notFoundMessage = 'Nenhum produto encontrado!';
+        this.render.setProperty(input.nextSibling.nextSibling, 'hidden', false);
+    }
+
+    openList = (input) => this.render.setProperty(input.nextSibling, 'hidden', false);
+
+    closeList = (input) => setTimeout(() => {
+        this.close(input);
+        this.wpdProducts.length = 0;
+        this.undo(input);
     }, 400);
 
-    close() {
-        const scroll = document.getElementById('scroll' + this.getInput().id);
-        this.render.setProperty(scroll, 'hidden', true);
-        this.wpdProducts.length = 0;
-        if (this.selected == false) this.currentInput.value = this.last;
+    close = (input) => this.render.setProperty(input.nextSibling, 'hidden', true);
+
+    getProduto(id) {
+        let value = '';
+        this.solicitacao.itens.forEach((solicitacaoItem: any) => {
+            if (solicitacaoItem.item.produto.id == id) {
+                value = solicitacaoItem.item.produto.descricao;
+            }
+        });
+        return value;
     }
 
-    openList() {
-        const scroll = document.getElementById('scroll' + this.currentInput.id);
-        this.render.setProperty(scroll, 'hidden', false);
+    undo(input) {
+        const proId = this.getControls('produto', input)['id'];
+        input.value = proId != '' ? this.getProduto(proId.value) : '';
     }
 
-    select(produto) {
-        this.selected = true;
-        const controls = this.getControls('produto');
-        for (const c of Object.keys(controls)) controls[c].setValue(produto[c]);
-        this.attachProduto(produto.id);
+    select(produto, input) {
+        const controls = this.getControls('produto', input);
+        for (const c of Object.keys(controls)) controls[c].setValue(produto[c], {emitEvent: false});
+        this.setProduto(produto, input);
+        this.close(input);
         this.wpdProducts.length = 0;
-        this.closeList();
     }
 
-    getControls = (group) => this.form.controls[this.currentInput.id].controls[group].controls;
+    getControls = (group, input) => this.form.controls[input.id].controls[group].controls;
 
-    clearControls() {
-        const controls = this.getControls('produto');
-        for (const c of Object.keys(controls)) {
-            controls[c].reset('');
-            console.log(controls[c]);
-        }
-        this.wpdProducts.length = 0;
+    clearControls(input) {
+        const controls = this.getControls('produto', input);
+        for (const c of Object.keys(controls)) controls[c].reset('');
+        this.closeList(input);
+        this.setProduto(null, input);
+        this.offNotFound(input);
+        this.prod = new Produto();
     }
 
     getItem(itemName): any {
@@ -174,17 +174,21 @@ export class AlmoxarifeComponent implements OnInit {
         return item;
     }
 
-    attachProduto(produtoId) {
-        let item: Item = this.getItem(this.form.controls[this.currentInput.id].controls.descricao.value);
-        item.produto = new Produto({id: produtoId});
-        delete item.produto.estoque;
-        delete item.produto.descricao;
+    setProduto(produto, input) {
+        let item: Item = this.getItem(this.form.controls[input.id].controls.descricao.value);
+        item.produto = produto != null ? new Produto({
+            id: produto.id,
+            descricao: produto.descricao,
+            estoque: produto.estoque
+        }) : new Produto();
     }
 
     save() {
         this.solicitacao.itens.forEach((solicitacaoItem: any) => {
-            console.log(solicitacaoItem);
+            delete solicitacaoItem.item.produto.estoque;
+            delete solicitacaoItem.item.produto.descricao;
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
+
                 let r = this.router;
                 this.message = 'Produtos associados com sucesso!';
                 setTimeout(function () {

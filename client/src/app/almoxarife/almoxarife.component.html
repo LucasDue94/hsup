@@ -25,6 +25,7 @@
 </header>
 
 <main class="container-request col-11">
+
     <header class="main-content-header col-12">
         <aside class="left-aside col-6">
             <h2 class="title col-12">ITEM SOLICITAÇÃO</h2>
@@ -33,6 +34,7 @@
             <h2 class="title col-12">PRODUTO WPD</h2>
         </aside>
     </header>
+
     <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message" [modalType]="'success'"></hcal-modal>
     <section class="main-content">
         <perfect-scrollbar>
@@ -57,20 +59,18 @@
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" class="request-input-line-bottom col-12" type="text"
                                    formControlName="descricao" autocomplete="off"
-                                   (focus)="find($event.target)">
+                                   (focus)="find($event.target)"  #input>
 
                             <div id="scroll{{i}}" class="scroll" infiniteScroll [scrollWindow]="false" [hidden]="true"
-                                 (scrolled)="find(currentInput, true)" (mouseleave)="closeList()">
-
-                                <div (click)="select(wpdPro)" class="item"
+                                 (scrolled)="find(input, true)" (mouseleave)="closeList(input)" >
+                                <div (click)="select(wpdPro, input)" class="item"
                                      *ngFor="let wpdPro of wpdProducts">
                                     {{wpdPro.descricao}}
                                 </div>
                             </div>
 
-                            <div class="prod-not-found col-12"
-                                 *ngIf="itemsNotFound != null && currentInput.id == i">
-                                {{itemsNotFound}}
+                            <div class="prod-not-found col-12" [hidden]="true">
+                                {{notFoundMessage}}
                             </div>
                         </div>
 
