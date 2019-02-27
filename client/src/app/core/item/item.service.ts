@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Item } from './item';
 import { Subject } from 'rxjs/Subject';
@@ -19,7 +19,10 @@ export class ItemService {
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Item[]> {
         let subject = new Subject<Item[]>();
-        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {headers: this.headers, params: {termo: searchTerm}})
+        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        })
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
@@ -27,15 +30,14 @@ export class ItemService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?): Observable<any[]> {
-        if (searchTerm == '') return null;
+    search(searchTerm, offset?: any, limit?): Observable<any> {
+        if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
         this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });
-        return subject.asObservable();
     }
 
     count() {
@@ -71,7 +73,7 @@ export class ItemService {
         if (item.id) {
             url = this.baseUrl + 'item/' + item.id;
             return this.http.put<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
-        }else {
+        } else {
             url = this.baseUrl + 'item';
             return this.http.post<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
         }

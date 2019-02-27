@@ -45,25 +45,32 @@ export class SolicitacaoCreateComponent implements OnInit {
     cancel = () => this.route.navigate(['solicitacao']);
 
     createFormControl(type) {
+        let group;
+        let control;
         if (type === 'item') {
-            return this.fb.group({
+            group = this.fb.group({
                 id: '',
                 descricao: '',
                 unidade_medida: '',
                 quantidade: ''
             });
+            control = this.getFormControl(group, 'descricao');
         } else if (type === 'fabricante') {
-            return this.fb.group({
+            group = this.fb.group({
                 id: '',
                 fantasia: '',
                 item_fabricante: ''
             });
+            control = this.getFormControl(group, 'fantasia');
         } else if (type === 'fornecedor') {
-            return this.fb.group({
+            group = this.fb.group({
                 fantasia: '',
                 item_fantasia: ''
             });
         }
+
+        this.searchItems(control, control, type);
+        return group;
     }
 
     removeFormGroup = (type, i) => this.controlArray.get(type).removeAt(i) as FormGroup;
@@ -106,15 +113,15 @@ export class SolicitacaoCreateComponent implements OnInit {
 
         if (currentInput == undefined) return false;
 
+        let service = this.getService(type);
+
         if (scroll) {
             this.offset += 10;
-            this.getService(type).search(event.value, this.offset).subscribe((list: any[]) => {
+            service.search(event.value, this.offset).subscribe((list: any[]) => {
                 list.forEach(i => {
                     this.findList.push(i);
                 })
             });
-        } else {
-            this.searchItems(currentInput, event, this.getService(type), type, controlName);
         }
 
     }
@@ -186,7 +193,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value['id']);
         } else {
             group = this.getFormGroup(element, type);
-            this.getFormControl(group, 'id').reset(element.value);
+            this.getFormControl(group, 'id').reset(value);
         }
     }
 
@@ -209,16 +216,21 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    searchItems(input, event, service, type, field) {
-        this.loading = true;
-        input.valueChanges
-            .debounceTime(1000)
-            .distinctUntilChanged()
-            .switchMap(value => service.search(value, 0))
-            .subscribe(list => {
-                this.findList = list;
-                this.showList(event.nextSibling);
-                this.loading = false;
-            });
+    searchItems(input, event, type) {
+        if (input.valueChanges.observers.length == 0) {
+            input.valueChanges
+                .debounceTime(500)
+                .distinctUntilChanged()
+                .switchMap(value => {
+                    this.loading = true;
+                    return this.getService(type).search(value, 0)
+                })
+                .subscribe(list => {
+                    this.findList = list;
+                    this.showList(event.nextSibling);
+                    this.setInputFindValue(type, input, '');
+                    this.loading = false;
+                })
+        }
     }
 }
