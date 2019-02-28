@@ -70,6 +70,7 @@ export class UsuarioPersistComponent implements OnInit {
                 this.message = "Cadastro realizado com sucesso!";
             }
 
+
             let r = this.router;
             setTimeout(function () {
                 r.navigate(['/usuario', 'show', usuario.id]);

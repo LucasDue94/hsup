@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 import { Fabricante } from './fabricante';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -18,10 +18,21 @@ export class FabricanteService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Fabricante[]> {
+    list(max?: any, offset?: any): Observable<Fabricante[]> {
         let subject = new Subject<Fabricante[]>();
-        this.http.get(this.baseUrl + `fabricante?offset=${offset}&max=${max}`, {headers: this.headers, params: {fantasia: searchTerm}})
+        this.http.get(this.baseUrl + `fabricante?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
+            .subscribe((json: any) => {
+                subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'fabricante';
+        let subject = new Subject<Fabricante[]>();
+        this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
             });

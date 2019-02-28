@@ -13,6 +13,7 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
+import { FabricanteService } from "../core/fabricante/fabricante.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -22,63 +23,68 @@ import { Item } from "../core/item/item";
 export class SolicitacaoCreateComponent implements OnInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
-    @ViewChildren('stepItem', {read: ElementRef}) stepItem;
-    @ViewChildren('items', {read: ElementRef}) items;
+    @ViewChildren('item', {read: ElementRef}) item: QueryList<any>;
 
-    fields: FormArray;
+    fields: any = [];
     controlArray;
-    findList: Item[] = [];
-    offsetList = 0;
+    findList = [];
+    error = null;
+    loading = false;
+    offset: number = 0;
 
-    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService, private renderer: Renderer2) {
+    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
+                private fabricanteService: FabricanteService, private renderer: Renderer2) {
     }
 
     ngOnInit() {
         this.controlArray = this.fb.group({
-            items: this.fb.array([this.createFormControl('items')]),
-            fabricantes: this.fb.array([this.createFormControl('fabricantes')]),
+            item: this.fb.array([this.createFormControl('item')]),
+            fabricante: this.fb.array([this.createFormControl('fabricante')]),
         });
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
 
-    inputBuilder(input, name) {
-        input.setAttribute('formControlName', name);
-        input.setAttribute('ng-reflect-name', name);
-        input.name = name;
-        input.id = name;
-        input.value = '';
-        input.previousElementSibling.setAttribute('for', name);
-    }
-
     createFormControl(type) {
-        if (type == 'items') {
-            return this.fb.group({
+        let group;
+        let control;
+        if (type === 'item') {
+            group = this.fb.group({
                 id: '',
-                produto: '',
+                descricao: '',
                 unidade_medida: '',
                 quantidade: ''
             });
-        } else if (type == 'fabricantes') {
-            return this.fb.group({
+            control = this.getFormControl(group, 'descricao');
+        } else if (type === 'fabricante') {
+            group = this.fb.group({
+                id: '',
                 fantasia: '',
+                item_fabricante: ''
+            });
+            control = this.getFormControl(group, 'fantasia');
+        } else if (type === 'fornecedor') {
+            group = this.fb.group({
+                fantasia: '',
+                item_fantasia: ''
             });
         }
+
+        this.searchItems(control, control, type);
+        return group;
     }
 
-    removeFormGroup(type, i) {
-        this.controlArray.get(type).removeAt(i) as FormGroup;
-    }
+    removeFormGroup = (type, i) => this.controlArray.get(type).removeAt(i) as FormGroup;
 
     addField(type: string) {
-        if (this.fields == undefined || this.fields.length < 10) {
-            this.fields = this.controlArray.get(type) as FormArray;
-            this.fields.push(this.createFormControl(type));
-        }
+        if (type == 'item' && this.fields.length == 10) return false;
+        this.fields = this.controlArray.get(type) as FormArray;
+        this.fields.push(this.createFormControl(type));
     }
 
-    @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-        if (event.key === 'F5' && !confirm('Você tem certeza que deseja atualizar a página? Seus dados serão apagados.')) return false;
+    @HostListener('document:keydown', ['$event']) onKeydownHandler(e: KeyboardEvent) {
+        if (e.key === 'F5' && !confirm('Você tem certeza que deseja atualizar a página? Seus dados serão apagados.'))
+            return false;
     }
 
     @HostListener('document:click', ['$event']) removeField(event) {
@@ -104,53 +110,46 @@ export class SolicitacaoCreateComponent implements OnInit {
     find(event, type, scroll = false) {
         const controlName = event.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(event, type);
-        let currentInput;
+        const currentInput = this.getFormControl(group, controlName);
 
-        currentInput = this.getFormControl(group, controlName);
-        if (currentInput == undefined || currentInput == null || currentInput == '') return false;
+        if (currentInput == undefined) return false;
 
-        if (!scroll) {
-            this.offsetList = 0;
-            switch (controlName) {
-                case 'produto':
-                    currentInput.valueChanges.distinctUntilChanged().debounceTime(1000).subscribe(c => {
-                        if (c != '') {
-                            this.itemService.search(c, this.offsetList).subscribe((itemList: Item[]) => {
-                                this.findList = itemList;
-                                itemList.forEach(i => {
-                                    if (c == i.produto) {
-                                        this.clearList();
-                                        this.renderer.setProperty(event.nextSibling, 'hidden', true)
-                                    }
-                                });
+        let service = this.getService(type);
 
-                                if (this.findList.length > 0) {
-                                    this.renderer.setProperty(event.nextSibling, 'hidden', false)
-                                }
-                            })
-                        }
-                    });
-                    break;
-            }
-        } else {
-            this.offsetList += 10;
-            this.itemService.search(event.value, this.offsetList).subscribe((itemList: Item[]) => {
-                    itemList.forEach(i => {
-                        this.findList.push(i);
-                    });
-                }
-            );
+        if (scroll) {
+            this.offset += 10;
+            service.search(event.value, this.offset).subscribe((list: any[]) => {
+                list.forEach(i => {
+                    this.findList.push(i);
+                })
+            });
+        }
+
+    }
+
+    getService(name) {
+        if (name == 'item') {
+            return this.itemService;
+        } else if (name == 'fabricante') {
+            return this.fabricanteService;
         }
     }
 
     clearList() {
         this.findList.length = 0;
-        this.items.last.nativeElement.hidden = true;
+        const container = this.renderer.nextSibling(event.target);
+        if (container != undefined) this.renderer.setProperty(container, 'hidden', true);
     }
 
-    getFormGroup(event, type) {
-        let index = +event.id.slice(-1);
-        return this.controlArray.get(type).controls[index] as FormGroup;
+    showList(containerList) {
+        if (this.findList != undefined && this.findList.length > 0)
+            this.renderer.setProperty(containerList, 'hidden', false);
+    }
+
+    getFormGroup(input, type) {
+        let index = +input.id.match(/\d/g);
+        const formGroup = this.controlArray.get(type).controls[index] as FormGroup;
+        if (formGroup) return formGroup;
     }
 
     getFormControl(group: FormGroup, controlName) {
@@ -159,14 +158,15 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     setFormControl(group, controlName, value) {
         let control = this.getFormControl(group, controlName);
-        control.setValue(value);
+        control.setValue(value, {emitEvent: false});
     }
 
     validatorStepItem() {
-        let controls = this.controlArray.get('items').controls;
+        let controls = this.controlArray.get('item').controls;
 
         for (let control of controls) {
-            if (control.get('produto').value == "" || control.get('unidade_medida').value == "" || control.get('quantidade').value == "") {
+            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" ||
+                control.get('quantidade').value == "") {
                 return false;
             }
         }
@@ -174,23 +174,64 @@ export class SolicitacaoCreateComponent implements OnInit {
         return true;
     }
 
-    setInputValue(event, item, type) {
-        const input = event.parentNode.previousSibling;
-        const controlName = input.getAttribute('ng-reflect-name');
-        const group = this.getFormGroup(input, type);
+    validatorStepFabricante(control) {
+        const itemFabricante = control.get('item_fabricante').value;
+        const fantasia = control.get('fantasia').value;
+        if (fantasia != '' && itemFabricante == '' || fantasia == '' && itemFabricante != '')
+            this.error = 'Verifique se todos os campos foram preenchidos';
+    }
 
-        if (input != undefined && input.nodeName == 'INPUT' && group != null) {
-            this.setFormControl(group, controlName, item.descricao);
-            this.setFormControl(group, 'id', item.id);
-            input.value = item.descricao;
-            this.offsetList = 0;
-            this.clearList();
-            if (this.getFormControl(group, controlName).value == item.descricao)
-                this.renderer.setProperty(event.parentNode, 'hidden', true);
+    setInputFindValue(type, element, value?) {
+        let input, controlName, group;
+
+        if (typeof value == "object") {
+            input = this.renderer.parentNode(element).previousSibling;
+            controlName = input.getAttribute('ng-reflect-name');
+            group = this.getFormGroup(input, type);
+
+            this.setFormControl(group, controlName, value[controlName]);
+
+            if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value['id']);
+        } else {
+            group = this.getFormGroup(element, type);
+            this.getFormControl(group, 'id').reset(value);
         }
     }
 
     add() {
+        let controls = this.controlArray.get('fabricante').controls;
+
+        if (!this.validatorStepItem()) {
+            this.error = 'Verifique se todos os campos foram preenchidos';
+        } else {
+            this.error = null;
+        }
+
+        if (this.validatorStepItem()) {
+            const tabNodes = event.target['parentNode'].parentNode.childNodes.item(0).childNodes.item(0).childNodes;
+            for (const n of tabNodes) {
+                if (n.classList != undefined && n.classList.contains('current') && n.id == 2) {
+                    for (const c of controls) this.validatorStepFabricante(c);
+                }
+            }
+        }
     }
 
+    searchItems(input, event, type) {
+        if (input.valueChanges.observers.length == 0) {
+            input.valueChanges
+                .debounceTime(500)
+                .distinctUntilChanged()
+                .switchMap(value => {
+                    this.loading = true;
+                    return this.getService(type).search(value, 0)
+                })
+                .subscribe(list => {
+                    this.findList = list;
+                    this.showList(event.nextSibling);
+                    this.setInputFindValue(type, input, '');
+                    this.loading = false;
+                })
+        }
+    }
 }

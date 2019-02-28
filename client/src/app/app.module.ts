@@ -39,6 +39,7 @@ import { SetorModule } from './setor/setor.module';
 import { ErrorComponent } from './error/error.component';
 import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 
 @NgModule({
     declarations: [
@@ -78,7 +79,8 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
         AlmoxarifeModule,
         BrowserAnimationsModule,
         SetorModule,
-        SolicitacaoModule
+        SolicitacaoModule,
+        PerfectScrollbarModule
     ],
     providers: [AuthGuard, Location, {
         provide: LocationStrategy,

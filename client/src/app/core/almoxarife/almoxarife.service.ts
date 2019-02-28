@@ -19,7 +19,8 @@ export class AlmoxarifeService {
 
     private baseUrl = environment.serverUrl;
 
-    search(produtoWpd, offset?): Observable<Produto[]> {
+    search(produtoWpd, offset?): Observable<any[]> {
+        if (produtoWpd == '') return new Observable();
         let subject = new Subject<Produto[]>();
         const url = this.baseUrl + 'produto';
         this.http.get(url + `?offset=${offset}`, {

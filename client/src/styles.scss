@@ -1336,10 +1336,12 @@ html, body {
   font-weight: bold;
   padding: 10px;
   border-radius: 8px;
+  margin-bottom: 5px;
 
   & {
     background: $lightDanger;
     color: $white;
+    transition: 0.7s;
   }
 
   .angry-error {
@@ -1351,4 +1353,9 @@ html, body {
   border: 1px solid black;
   height: 100px;
   overflow: scroll;
+}
+
+
+.upper-text {
+  text-transform: uppercase !important;
 }

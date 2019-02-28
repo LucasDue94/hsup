@@ -1,4 +1,4 @@
-<hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged">
+<hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged" style="background-color: blue">
     <div *ngIf="this.currentRoute != '/solicitacao/create'" main-menu>
         <hcal-link *ngIf="checkPermission('ROLE_APPLICATION_INDEX')" [iconLink]="'home'" [routerLinkName]="'index'"
                    [titleLink]="'Home'" main-menu></hcal-link>
@@ -10,9 +10,11 @@
                    main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_ITEM_INDEX')" [iconLink]="'boxes'" [routerLinkName]="'item'"
                    [titleLink]="'Itens'" main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_PERFIL_INDEX')" [iconLink]="'user-circle'" [routerLinkName]="'perfil'"
+        <hcal-link *ngIf="checkPermission('ROLE_PERFIL_INDEX')" [iconLink]="'user-circle'"
+                   [routerLinkName]="'perfil'"
                    [titleLink]="'Perfil'" main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_PERMISSOES_INDEX')" [iconLink]="'key'" [routerLinkName]="'permissoes'"
+        <hcal-link *ngIf="checkPermission('ROLE_PERMISSOES_INDEX')" [iconLink]="'key'"
+                   [routerLinkName]="'permissoes'"
                    [titleLink]="'Permissões'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_USUARIO_INDEX')" [iconLink]="'user'" [routerLinkName]="'usuario'"
                    [titleLink]="'Usuários'" main-menu></hcal-link>
@@ -21,7 +23,8 @@
         <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
                    [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')"
-                [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'" main-menu></hcal-link>
+                   [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'"
+                   main-menu></hcal-link>
     </div>
 </hcal-aside-bar>
 <hcal-main [title]="'HSUP'" *ngIf="isLogged">

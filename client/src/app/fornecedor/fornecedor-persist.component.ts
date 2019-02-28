@@ -26,7 +26,6 @@ export class FornecedorPersistComponent implements OnInit {
                     this.fornecedor = fornecedor;
                 });
             }
-
         });
     }
 

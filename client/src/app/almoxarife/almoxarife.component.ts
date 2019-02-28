@@ -37,9 +37,11 @@ export class AlmoxarifeComponent implements OnInit {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
                     this.solicitacao = solicitacao;
                     this.buildForm();
+                    console.log(this.form.controls);
                 });
             }
         });
+
     }
 
     buildForm() {

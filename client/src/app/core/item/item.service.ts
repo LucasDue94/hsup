@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Item } from './item';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
-
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import { Produto } from "../produto/produto";
+import {Fabricante} from "../fabricante/fabricante";
 
 @Injectable()
 export class ItemService {
@@ -16,12 +15,15 @@ export class ItemService {
     private baseUrl = 'http://localhost:8080/';
     headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
-    constructor(private http: HttpClient) {
+    constructor(private http?: HttpClient) {
     }
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Item[]> {
         let subject = new Subject<Item[]>();
-        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {headers: this.headers, params: {termo: searchTerm}})
+        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        })
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
@@ -29,15 +31,14 @@ export class ItemService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?): Observable<Item[]> {
-        if (searchTerm == '') return null;
+    search(searchTerm, offset?: any, limit?): Observable<any> {
+        if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
         this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });
-        return subject.asObservable();
     }
 
     count() {
