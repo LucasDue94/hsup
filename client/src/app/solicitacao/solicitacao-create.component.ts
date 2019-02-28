@@ -28,7 +28,6 @@ export class SolicitacaoCreateComponent implements OnInit {
     controlArray;
     findList = [];
     error = null;
-    loading = false;
     offset: number = 0;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
@@ -39,6 +38,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         this.controlArray = this.fb.group({
             item: this.fb.array([this.createFormControl('item')]),
             fabricante: this.fb.array([this.createFormControl('fabricante')]),
+            fornecedor: this.fb.array([this.createFormControl('fornecedor')]),
         });
     }
 
@@ -46,7 +46,6 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     createFormControl(type) {
         let group;
-        let control;
         if (type === 'item') {
             group = this.fb.group({
                 id: '',
@@ -54,14 +53,12 @@ export class SolicitacaoCreateComponent implements OnInit {
                 unidade_medida: '',
                 quantidade: ''
             });
-            control = this.getFormControl(group, 'descricao');
         } else if (type === 'fabricante') {
             group = this.fb.group({
                 id: '',
                 fantasia: '',
                 item_fabricante: ''
             });
-            control = this.getFormControl(group, 'fantasia');
         } else if (type === 'fornecedor') {
             group = this.fb.group({
                 fantasia: '',
@@ -69,7 +66,6 @@ export class SolicitacaoCreateComponent implements OnInit {
             });
         }
 
-        this.searchItems(control, control, type);
         return group;
     }
 
@@ -122,6 +118,8 @@ export class SolicitacaoCreateComponent implements OnInit {
                     this.findList.push(i);
                 })
             });
+        } else {
+            this.searchItems(currentInput, type, event);
         }
 
     }
@@ -141,8 +139,10 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     showList(containerList) {
-        if (this.findList != undefined && this.findList.length > 0)
+        if (this.findList != undefined && this.findList.length > 0) {
             this.renderer.setProperty(containerList, 'hidden', false);
+            this.renderer.setProperty(containerList.nextSibling, 'hidden', true);
+        }
     }
 
     getFormGroup(input, type) {
@@ -216,21 +216,23 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    searchItems(input, event, type) {
+    loading = (container, value) => this.renderer.setProperty(container, 'hidden', !value);
+
+    searchItems(input, type, element) {
+        const containerLoading = element.nextSibling.nextSibling;
         if (input.valueChanges.observers.length == 0) {
             input.valueChanges
-                .debounceTime(500)
-                .distinctUntilChanged()
+                .debounceTime(1000)
                 .switchMap(value => {
-                    this.loading = true;
+                    this.loading(containerLoading, true);
                     return this.getService(type).search(value, 0)
                 })
                 .subscribe(list => {
                     this.findList = list;
-                    this.showList(event.nextSibling);
-                    this.setInputFindValue(type, input, '');
-                    this.loading = false;
-                })
+                    this.showList(element.nextSibling);
+                    this.setInputFindValue(type, element, element.value);
+                    this.loading(containerLoading, false);
+                });
         }
     }
 }

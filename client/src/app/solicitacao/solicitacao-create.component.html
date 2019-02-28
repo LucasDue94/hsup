@@ -14,6 +14,7 @@
                                 <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
                                 <input autocomplete="off" type="text" id="descricao{{i}}"
                                        (blur)="this.clearList($event.target)"
+                                       (focus)="find($event.target, 'item')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
                                 <div class="items col-12" (scrolled)="find(items.previousSibling, 'item', true)"
@@ -24,7 +25,7 @@
                                         {{ i.descricao }}
                                     </div>
                                 </div>
-                                <div *ngIf="loading" #loading>
+                                <div [hidden]="true">
                                     Carregando...
                                 </div>
                             </div>
@@ -75,6 +76,9 @@
                                          *ngFor="let i of this.findList">{{ i.fantasia }}
                                     </div>
                                 </div>
+                                <div [hidden]="true">
+                                    Carregando...
+                                </div>
                             </div>
                             <div class="form-group col-3">
                                 <label for="itens{{i}}" class="request-label color-gray">Item</label>
@@ -102,38 +106,56 @@
         <h2 class="title-step color-gray">seleção de fornecedores</h2>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
-                <div class="col-12 list-item-container">
-                    <section class="col-12 items solicitacao-group" id="fornecedor">
-                        <div class="form-group col-2">
-                            <label class="request-label color-gray" for="fantasia_fornecedor">Fantasia</label>
-                            <input autocomplete="off" type="text" id="fantasia_fornecedor" name="fantasia_fornecedor"
-                                   class="col-12 request-input-line-bottom">
-                        </div>
-                        <div class="form-group col-2">
-                            <label class="request-label color-gray" for="telefone">Telefone</label>
-                            <input autocomplete="off" type="tel" id="telefone" name="telefone"
-                                   class="col-12 request-input-line-bottom">
-                        </div>
-                        <div class="form-group col-2">
-                            <label for="email" class="request-label color-gray">Email</label>
-                            <input autocomplete="off" type="email" id="email" name="email"
-                                   class="col-12 request-input-line-bottom">
-                        </div>
-                        <div class="form-group col-3">
-                            <label for="itens_fornecedor" class="request-label color-gray">Item</label>
-                            <select name="" id="itens_fornecedor" class="request-input-line-bottom col-12">
-                                <option value="">Escolha um item</option>
-                                <option value="">Item 1</option>
-                                <option value="">Item 2</option>
-                                <option value="">Item 3</option>
-                                <option value="">Item 4</option>
-                                <option value="">Item 5</option>
-                                <option value="">Item 6</option>
-                                <option value="">Item 7</option>
-                                <option value="">Item 8</option>
-                                <option value="">Item 9</option>
-                                <option value="">Item 10</option>
-                            </select>
+                <div class="col-12 list-item-container" [formGroup]="controlArray">
+                    <section class="col-12 items solicitacao-group"
+                             *ngFor="let fornecedor of controlArray.get('fornecedor').controls; let i = index"
+                             formArrayName="fornecedor" id="fornecedor{{i}}">
+                        <div class="group" [formGroupName]="i">
+                            <div class="form-group col-2">
+                                <label class="request-label color-gray" for="fantasia_fornecedor{{i}}">Fantasia</label>
+                                <input autocomplete="off" type="text" id="fantasia_fornecedor{{i}}"
+                                       (blur)="this.clearList($event.target)"
+                                       (focus)="find($event.target, 'fornecedor')"
+                                       formControlName="fantasia" name="fantasia_fornecedor"
+                                       class="col-12 request-input-line-bottom">
+                                <div class="items col-12" (scrolled)="find(fornecedor.previousSibling, 'fornecedor', true)"
+                                     infiniteScroll [hidden]="true"
+                                     [scrollWindow]="false" #fornecedor>
+                                    <div class="item" (mousedown)="setInputFindValue('fornecedor', $event.target, i)"
+                                         *ngFor="let i of this.findList">
+                                        {{ i.descricao }}
+                                    </div>
+                                </div>
+                                <div [hidden]="true">
+                                    Carregando...
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <label class="request-label color-gray" for="telefone">Telefone</label>
+                                <input autocomplete="off" type="tel" id="telefone" name="telefone"
+                                       class="col-12 request-input-line-bottom">
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="email" class="request-label color-gray">Email</label>
+                                <input autocomplete="off" type="email" id="email" name="email"
+                                       class="col-12 request-input-line-bottom">
+                            </div>
+                            <div class="form-group col-3">
+                                <label for="itens_fornecedor" class="request-label color-gray">Item</label>
+                                <select name="" id="itens_fornecedor" class="request-input-line-bottom col-12">
+                                    <option value="">Escolha um item</option>
+                                    <option value="">Item 1</option>
+                                    <option value="">Item 2</option>
+                                    <option value="">Item 3</option>
+                                    <option value="">Item 4</option>
+                                    <option value="">Item 5</option>
+                                    <option value="">Item 6</option>
+                                    <option value="">Item 7</option>
+                                    <option value="">Item 8</option>
+                                    <option value="">Item 9</option>
+                                    <option value="">Item 10</option>
+                                </select>
+                            </div>
                         </div>
                         <button class="button-cancel" name="button-cancel-3">X</button>
                     </section>
