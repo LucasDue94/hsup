@@ -1,4 +1,4 @@
-<header class="container-header col-11" #header>
+<header class="container-header col-11">
     <section class="title-header col-12">
         <h2>Associação</h2>
         <h2>Item x Produto WPD</h2>
@@ -59,10 +59,10 @@
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" class="request-input-line-bottom col-12" type="text"
                                    formControlName="descricao" autocomplete="off"
-                                   (focus)="find($event.target)"  #input>
+                                   (focus)="find($event.target)" #input>
 
                             <div id="scroll{{i}}" class="scroll" infiniteScroll [scrollWindow]="false" [hidden]="true"
-                                 (scrolled)="find(input, true)" (mouseleave)="closeList(input)" >
+                                 (scrolled)="find(input, true)" (mouseleave)="closeList(input)">
                                 <div (click)="select(wpdPro, input)" class="item"
                                      *ngFor="let wpdPro of wpdProducts">
                                     {{wpdPro.descricao}}

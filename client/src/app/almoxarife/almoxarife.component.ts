@@ -23,9 +23,8 @@ export class AlmoxarifeComponent implements OnInit {
     errors: any[];
     notFoundMessage: string;
     message: string;
-    offset: number;
+    offset: number = 0;
     form;
-    prod: Produto;
 
     constructor(private almoxarifeService: AlmoxarifeService, private solicitacaoService: SolicitacaoService,
                 private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute,
@@ -69,21 +68,17 @@ export class AlmoxarifeComponent implements OnInit {
     }
 
     find(input, scrollActived = false) {
-        this.offset = 0;
         if (!scrollActived) {
             this.getControls('produto', input)['descricao'].valueChanges.debounceTime(1000)
-                .distinctUntilChanged().subscribe(inputValue => {
-                console.log(inputValue);
-                if (inputValue != '') {
-                    this.almoxarifeService.search(inputValue, this.offset)
-                        .subscribe((produtos: Produto[]) => {
-                            this.wpdProducts = produtos;
-                            this.loadResult(input);
-                        });
-                } else {
-                    this.clearControls(input);
-                }
-            });
+                .distinctUntilChanged()
+                .switchMap(value => {
+                    if (value == '') this.clearControls(input);
+                    return this.almoxarifeService.search(value, 0);
+                })
+                .subscribe(produtos => {
+                    this.wpdProducts = produtos;
+                    this.loadResult(input);
+                });
         } else {
             this.offsetScroll(input);
         }
@@ -161,7 +156,6 @@ export class AlmoxarifeComponent implements OnInit {
         this.closeList(input);
         this.setProduto(null, input);
         this.offNotFound(input);
-        this.prod = new Produto();
     }
 
     getItem(itemName): any {
@@ -188,7 +182,6 @@ export class AlmoxarifeComponent implements OnInit {
             delete solicitacaoItem.item.produto.estoque;
             delete solicitacaoItem.item.produto.descricao;
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
-
                 let r = this.router;
                 this.message = 'Produtos associados com sucesso!';
                 setTimeout(function () {
