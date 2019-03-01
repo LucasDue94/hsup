@@ -9,10 +9,11 @@ import {
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
+import { FornecedorService } from "../core/fornecedor/fornecedor.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -31,7 +32,8 @@ export class SolicitacaoCreateComponent implements OnInit {
     offset: number = 0;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
-                private fabricanteService: FabricanteService, private renderer: Renderer2) {
+                private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
@@ -56,13 +58,15 @@ export class SolicitacaoCreateComponent implements OnInit {
         } else if (type === 'fabricante') {
             group = this.fb.group({
                 id: '',
-                fantasia: '',
-                item_fabricante: ''
+                fantasia: new FormControl('', [Validators.required]),
+                item: ''
             });
         } else if (type === 'fornecedor') {
             group = this.fb.group({
+                id: '',
                 fantasia: '',
-                item_fantasia: ''
+                telefone: '',
+                item: ''
             });
         }
 
@@ -129,6 +133,8 @@ export class SolicitacaoCreateComponent implements OnInit {
             return this.itemService;
         } else if (name == 'fabricante') {
             return this.fabricanteService;
+        } else if (name == 'fornecedor') {
+            return this.fornecedorService;
         }
     }
 
@@ -160,24 +166,16 @@ export class SolicitacaoCreateComponent implements OnInit {
         control.setValue(value, {emitEvent: false});
     }
 
-    validatorStepItem() {
-        let controls = this.controlArray.get('item').controls;
-
-        for (let control of controls) {
-            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" ||
-                control.get('quantidade').value == "") {
-                return false;
-            }
-        }
-
-        return true;
+    validate(type) {
+        const groups = this.controlArray.get(type).controls;
+        return groups.reduce((valid, group) => valid && this.groupIsValid(group, type != 'item'), true);
     }
 
-    validatorStepFabricante(control) {
-        const itemFabricante = control.get('item_fabricante').value;
-        const fantasia = control.get('fantasia').value;
-        if (fantasia != '' && itemFabricante == '' || fantasia == '' && itemFabricante != '')
-            this.error = 'Verifique se todos os campos foram preenchidos';
+    groupIsValid(group: FormGroup, canBeEmpty: boolean) {
+        const keys = Object.keys(group.value);
+        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' ? 1 : 0), 0);
+
+        return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }
 
     setInputFindValue(type, element, value?) {
@@ -190,29 +188,10 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             this.setFormControl(group, controlName, value[controlName]);
 
-            if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value['id']);
+            if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
         } else {
             group = this.getFormGroup(element, type);
             this.getFormControl(group, 'id').reset(value);
-        }
-    }
-
-    add() {
-        let controls = this.controlArray.get('fabricante').controls;
-
-        if (!this.validatorStepItem()) {
-            this.error = 'Verifique se todos os campos foram preenchidos';
-        } else {
-            this.error = null;
-        }
-
-        if (this.validatorStepItem()) {
-            const tabNodes = event.target['parentNode'].parentNode.childNodes.item(0).childNodes.item(0).childNodes;
-            for (const n of tabNodes) {
-                if (n.classList != undefined && n.classList.contains('current') && n.id == 2) {
-                    for (const c of controls) this.validatorStepFabricante(c);
-                }
-            }
         }
     }
 
