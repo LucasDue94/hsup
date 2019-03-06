@@ -1,8 +1,5 @@
-
-
 export class Fornecedor {
     id: number;
-
     fantasia: string;
     ativo: boolean;
     telefone: string;
@@ -13,8 +10,7 @@ export class Fornecedor {
         if (this.ativo == null) this.ativo = true;
 
         if (object) {
-
-            for (var prop in object) {
+            for (var prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }
