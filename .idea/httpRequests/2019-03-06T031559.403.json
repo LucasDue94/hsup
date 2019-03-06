@@ -1,0 +1,7 @@
+{
+  "timestamp": 1551896159457,
+  "status": 403,
+  "error": "Forbidden",
+  "message": "Access is denied",
+  "path": "/produto"
+}

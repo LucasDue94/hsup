@@ -189,6 +189,15 @@ export class SolicitacaoCreateComponent implements OnInit {
             this.setFormControl(group, controlName, value[controlName]);
 
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
+
+            for (let valueKey in value) {
+                delete value[valueKey];
+            }
+
+            if (type == 'fornecedor') {
+                console.log(value);
+            }
+
         } else {
             group = this.getFormGroup(element, type);
             this.getFormControl(group, 'id').reset(value);

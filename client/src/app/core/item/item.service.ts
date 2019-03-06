@@ -38,6 +38,7 @@ export class ItemService {
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });
+        return subject.asObservable();
     }
 
     count() {
