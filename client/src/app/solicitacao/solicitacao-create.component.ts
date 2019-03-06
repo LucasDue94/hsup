@@ -48,24 +48,25 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     createFormControl(type) {
         let group;
-        if (type === 'item') {
+        if (type == 'item') {
             group = this.fb.group({
                 id: '',
                 descricao: '',
                 unidade_medida: '',
                 quantidade: ''
             });
-        } else if (type === 'fabricante') {
+        } else if (type == 'fabricante') {
             group = this.fb.group({
                 id: '',
-                fantasia: new FormControl('', [Validators.required]),
+                fantasia: '',
                 item: ''
             });
-        } else if (type === 'fornecedor') {
+        } else if (type == 'fornecedor') {
             group = this.fb.group({
                 id: '',
                 fantasia: '',
                 telefone: '',
+                email: '',
                 item: ''
             });
         }
@@ -129,12 +130,13 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     getService(name) {
-        if (name == 'item') {
-            return this.itemService;
-        } else if (name == 'fabricante') {
-            return this.fabricanteService;
-        } else if (name == 'fornecedor') {
-            return this.fornecedorService;
+        switch (name) {
+            case 'item':
+                return this.itemService;
+            case 'fabricante':
+                return this.fabricanteService;
+            case 'fornecedor':
+                return this.fornecedorService;
         }
     }
 
@@ -190,17 +192,15 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
 
-            for (let valueKey in value) {
-                delete value[valueKey];
-            }
-
             if (type == 'fornecedor') {
-                console.log(value);
+               for (let key of Object.keys(value)) {
+                   if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key]);
+               }
             }
 
         } else {
             group = this.getFormGroup(element, type);
-            this.getFormControl(group, 'id').reset(value);
+            this.setFormControl(group, 'id', value);
         }
     }
 

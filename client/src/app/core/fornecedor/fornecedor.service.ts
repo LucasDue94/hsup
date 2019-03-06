@@ -10,6 +10,7 @@ import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
 import { environment } from "../../../environments/environment";
 import { Item } from "../item/item";
+import { Fabricante } from "../fabricante/fabricante";
 
 @Injectable()
 export class FornecedorService {
@@ -30,13 +31,13 @@ export class FornecedorService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?): Observable<any> {
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'fornecedor';
-        let subject = new Subject<Item[]>();
+        let subject = new Subject<Fornecedor[]>();
         this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
-                subject.next(json['fornecedor'].map((item: any) => new Item(item)))
+                subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
             });
         return subject.asObservable();
     }

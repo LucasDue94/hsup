@@ -58,7 +58,7 @@
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray">
                     <section class="col-12 solicitacao-group" id="fabricante{{i}}"
-                             *ngFor="let fabricante of controlArray.get('fabricante').controls; let i = index"
+                             *ngFor="let fab of controlArray.get('fabricante').controls; let i = index"
                              formArrayName="fabricante">
                         <div class="group col-12" [formGroupName]="i">
                             <div class="form-group col-8">
@@ -107,10 +107,10 @@
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray">
-                    <section class="col-12 items solicitacao-group"
-                             *ngFor="let fornecedor of controlArray.get('fornecedor').controls; let i = index"
+                    <section class="col-12 solicitacao-group"
+                             *ngFor="let forn of controlArray.get('fornecedor').controls; let i = index"
                              formArrayName="fornecedor" id="fornecedor{{i}}">
-                        <div class="group" [formGroupName]="i">
+                        <div class="group col-12" [formGroupName]="i">
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="fantasia_fornecedor{{i}}">Fantasia</label>
                                 <input autocomplete="off" type="text" id="fantasia_fornecedor{{i}}"
@@ -118,7 +118,8 @@
                                        (focus)="find($event.target, 'fornecedor')"
                                        formControlName="fantasia" name="fantasia_fornecedor"
                                        class="col-12 request-input-line-bottom">
-                                <div class="items col-12" (scrolled)="find(fornecedor.previousSibling, 'fornecedor', true)"
+                                <div class="items col-12"
+                                     (scrolled)="find(fornecedor.previousSibling, 'fornecedor', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #fornecedor>
                                     <div class="item" (mousedown)="setInputFindValue('fornecedor', $event.target, i)"
@@ -137,7 +138,7 @@
                             </div>
                             <div class="form-group col-2">
                                 <label for="email" class="request-label color-gray">Email</label>
-                                <input autocomplete="off" type="email" id="email" name="email"
+                                <input autocomplete="off" formControlName="email" type="email" id="email" name="email"
                                        class="col-12 request-input-line-bottom">
                             </div>
                             <div class="form-group col-3">
@@ -153,9 +154,9 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="button-cancel" name="button-cancel-3">X</button>
+                        <button class="button-cancel" name="button-cancel">X</button>
                     </section>
-                    <button (click)="addField($event.target)" class="float-button-plus bg-green color-white">+</button>
+                    <button (click)="addField('fornecedor')" class="float-button-plus bg-green color-white">+</button>
                 </div>
             </perfect-scrollbar>
         </section>
