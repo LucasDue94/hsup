@@ -9,11 +9,11 @@ import {
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
-import { Item } from "../core/item/item";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
+import { FornecedorService } from "../core/fornecedor/fornecedor.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -29,17 +29,18 @@ export class SolicitacaoCreateComponent implements OnInit {
     controlArray;
     findList = [];
     error = null;
-    loading = false;
     offset: number = 0;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
-                private fabricanteService: FabricanteService, private renderer: Renderer2) {
+                private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
         this.controlArray = this.fb.group({
             item: this.fb.array([this.createFormControl('item')]),
             fabricante: this.fb.array([this.createFormControl('fabricante')]),
+            fornecedor: this.fb.array([this.createFormControl('fornecedor')]),
         });
     }
 
@@ -47,7 +48,6 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     createFormControl(type) {
         let group;
-        let control;
         if (type === 'item') {
             group = this.fb.group({
                 id: '',
@@ -55,22 +55,21 @@ export class SolicitacaoCreateComponent implements OnInit {
                 unidade_medida: '',
                 quantidade: ''
             });
-            control = this.getFormControl(group, 'descricao');
         } else if (type === 'fabricante') {
             group = this.fb.group({
                 id: '',
-                fantasia: '',
-                item_fabricante: ''
+                fantasia: new FormControl('', [Validators.required]),
+                item: ''
             });
-            control = this.getFormControl(group, 'fantasia');
         } else if (type === 'fornecedor') {
             group = this.fb.group({
+                id: '',
                 fantasia: '',
-                item_fantasia: ''
+                telefone: '',
+                item: ''
             });
         }
 
-        this.searchItems(control, control, type);
         return group;
     }
 
@@ -123,6 +122,8 @@ export class SolicitacaoCreateComponent implements OnInit {
                     this.findList.push(i);
                 })
             });
+        } else {
+            this.searchItems(currentInput, type, event);
         }
 
     }
@@ -132,6 +133,8 @@ export class SolicitacaoCreateComponent implements OnInit {
             return this.itemService;
         } else if (name == 'fabricante') {
             return this.fabricanteService;
+        } else if (name == 'fornecedor') {
+            return this.fornecedorService;
         }
     }
 
@@ -142,8 +145,10 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     showList(containerList) {
-        if (this.findList != undefined && this.findList.length > 0)
+        if (this.findList != undefined && this.findList.length > 0) {
             this.renderer.setProperty(containerList, 'hidden', false);
+            this.renderer.setProperty(containerList.nextSibling, 'hidden', true);
+        }
     }
 
     getFormGroup(input, type) {
@@ -161,24 +166,16 @@ export class SolicitacaoCreateComponent implements OnInit {
         control.setValue(value, {emitEvent: false});
     }
 
-    validatorStepItem() {
-        let controls = this.controlArray.get('item').controls;
-
-        for (let control of controls) {
-            if (control.get('descricao').value == "" || control.get('unidade_medida').value == "" ||
-                control.get('quantidade').value == "") {
-                return false;
-            }
-        }
-
-        return true;
+    validate(type) {
+        const groups = this.controlArray.get(type).controls;
+        return groups.reduce((valid, group) => valid && this.groupIsValid(group, type != 'item'), true);
     }
 
-    validatorStepFabricante(control) {
-        const itemFabricante = control.get('item_fabricante').value;
-        const fantasia = control.get('fantasia').value;
-        if (fantasia != '' && itemFabricante == '' || fantasia == '' && itemFabricante != '')
-            this.error = 'Verifique se todos os campos foram preenchidos';
+    groupIsValid(group: FormGroup, canBeEmpty: boolean) {
+        const keys = Object.keys(group.value);
+        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' ? 1 : 0), 0);
+
+        return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }
 
     setInputFindValue(type, element, value?) {
@@ -191,47 +188,38 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             this.setFormControl(group, controlName, value[controlName]);
 
-            if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value['id']);
+            if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
+
+            for (let valueKey in value) {
+                delete value[valueKey];
+            }
+
+            if (type == 'fornecedor') {
+                console.log(value);}
+
         } else {
             group = this.getFormGroup(element, type);
             this.getFormControl(group, 'id').reset(value);
         }
     }
 
-    add() {
-        let controls = this.controlArray.get('fabricante').controls;
+    loading = (container, value) => this.renderer.setProperty(container, 'hidden', !value);
 
-        if (!this.validatorStepItem()) {
-            this.error = 'Verifique se todos os campos foram preenchidos';
-        } else {
-            this.error = null;
-        }
-
-        if (this.validatorStepItem()) {
-            const tabNodes = event.target['parentNode'].parentNode.childNodes.item(0).childNodes.item(0).childNodes;
-            for (const n of tabNodes) {
-                if (n.classList != undefined && n.classList.contains('current') && n.id == 2) {
-                    for (const c of controls) this.validatorStepFabricante(c);
-                }
-            }
-        }
-    }
-
-    searchItems(input, event, type) {
+    searchItems(input, type, element) {
+        const containerLoading = element.nextSibling.nextSibling;
         if (input.valueChanges.observers.length == 0) {
             input.valueChanges
-                .debounceTime(500)
-                .distinctUntilChanged()
+                .debounceTime(1000)
                 .switchMap(value => {
-                    this.loading = true;
+                    this.loading(containerLoading, true);
                     return this.getService(type).search(value, 0)
                 })
                 .subscribe(list => {
                     this.findList = list;
-                    this.showList(event.nextSibling);
-                    this.setInputFindValue(type, input, '');
-                    this.loading = false;
-                })
+                    this.showList(element.nextSibling);
+                    this.setInputFindValue(type, element, element.value);
+                    this.loading(containerLoading, false);
+                });
         }
     }
 }

@@ -7,7 +7,6 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import {Fabricante} from "../fabricante/fabricante";
 
 @Injectable()
 export class ItemService {
@@ -39,6 +38,7 @@ export class ItemService {
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });
+        return subject.asObservable();
     }
 
     count() {

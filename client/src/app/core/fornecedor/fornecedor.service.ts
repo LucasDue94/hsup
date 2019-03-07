@@ -3,12 +3,13 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Fornecedor } from './fornecedor';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
 import { environment } from "../../../environments/environment";
+import { Item } from "../item/item";
 
 @Injectable()
 export class FornecedorService {
@@ -25,6 +26,17 @@ export class FornecedorService {
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'fornecedor';
+        let subject = new Subject<Item[]>();
+        this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['fornecedor'].map((item: any) => new Item(item)))
             });
         return subject.asObservable();
     }
