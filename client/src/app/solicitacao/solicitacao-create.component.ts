@@ -192,16 +192,15 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
 
-            if (type == 'fornecedor') {
-               for (let key of Object.keys(value)) {
-                   if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key]);
-               }
+            for (let key of Object.keys(value)) {
+                if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key]);
             }
-
         } else {
             group = this.getFormGroup(element, type);
             this.setFormControl(group, 'id', value);
         }
+
+        if (type == 'fornecedor') console.log(this.controlArray.controls);
     }
 
     loading = (container, value) => this.renderer.setProperty(container, 'hidden', !value);
