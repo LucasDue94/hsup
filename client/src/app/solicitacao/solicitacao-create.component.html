@@ -85,8 +85,7 @@
                                 <select name="item_fabricante" formControlName="item" id="itens_fa{{i}}"
                                         class="request-input-line-bottom col-12">
                                     <option value="">Escolha um item</option>
-                                    <option
-                                            *ngFor="let item of controlArray.get('item').controls"
+                                    <option *ngFor="let item of controlArray.get('item').controls"
                                             [value]="item.get('id').value">
                                         {{ item.get('descricao').value }}
                                     </option>
@@ -146,8 +145,7 @@
                                 <select name="item_fornecedor" formControlName="item" id="itens_fo{{i}}"
                                         class="request-input-line-bottom col-12">
                                     <option value="">Escolha um item</option>
-                                    <option
-                                            *ngFor="let item of controlArray.get('item').controls"
+                                    <option *ngFor="let item of controlArray.get('item').controls"
                                             [value]="item.get('id').value">
                                         {{ item.get('descricao').value }}
                                     </option>
