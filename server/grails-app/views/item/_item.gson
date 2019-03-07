@@ -4,4 +4,4 @@ model {
 	Item item
 }
 
-json g.render(item, [expand: ['produto'], resolveTemplate: false])
+json g.render(item, [expand: ['produto'],resolveTemplate: false])

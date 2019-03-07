@@ -9,6 +9,4 @@ class Produto implements Serializable {
         id generator: 'assigned'
         version false
     }
-
-
 }

@@ -16,15 +16,12 @@ import { Authentic } from "../authentic";
 export class FabricanteListComponent implements OnInit {
 
     fabricanteList: Fabricante[] = [];
-
     private _pageNumber: number;
     private _offset;
-
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
-
     error;
 
     constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {

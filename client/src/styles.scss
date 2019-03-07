@@ -1349,6 +1349,17 @@ html, body {
   }
 }
 
+.container-scroll{
+  border: 1px solid black;
+  height: 100px;
+  overflow: scroll;
+}
+
+
+.upper-text {
+  text-transform: uppercase !important;
+}
+
 .upper-text {
   text-transform: uppercase !important;
 }

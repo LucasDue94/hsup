@@ -17,6 +17,7 @@ import {
     PerfectScrollbarConfigInterface,
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
+import { SolicitacaoApprovalComponent } from './solicitacao-approval.component';
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -26,7 +27,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 @NgModule({
     declarations: [
         SolicitacaoComponent,
-        SolicitacaoCreateComponent
+        SolicitacaoCreateComponent,
+        SolicitacaoApprovalComponent
     ],
     imports: [
         CommonModule,
@@ -38,18 +40,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         NgxMaskModule.forRoot(),
         HcalSharedModule,
         InputBaseModule,
-        InfiniteScrollModule,
         NgxPaginationModule,
         TooltipModule,
         TableModule,
         TabModule,
         StepModule,
         CoreModule,
-        SolicitacaoRoutingModule
+        SolicitacaoRoutingModule,
+        InfiniteScrollModule
     ],
     providers: [{
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }]
 })
-export class SolicitacaoModule {}
+export class SolicitacaoModule {
+}
+

@@ -14,11 +14,12 @@
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content>descrição</th>
+                <th class="thead-default" thead-content>unidade de medida</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let item of this.list
+            <tr class="trow-content" *ngFor="let item of this.itemList
             | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
                 <td class="tdata-default">{{ item.descricao }}</td>
                 <td class="tdata-default">
@@ -31,7 +32,7 @@
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.list.length == 0">
+        <div class="not-found" *ngIf="this.itemList.length == 0">
             <h1 class="not-found-error" *ngIf="this.searchControl.value == ''">Não há dados cadastrados</h1>
             <h1 class="not-found-error" *ngIf="this.searchControl.value != ''">Nenhum registro encontrado</h1>
         </div>
@@ -39,7 +40,7 @@
 
 
 
-    <pagination-controls *ngIf="this.count > 10 && this.list.length > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="this.count > 10 && this.findList.length > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">

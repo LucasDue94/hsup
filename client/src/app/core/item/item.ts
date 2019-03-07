@@ -6,7 +6,6 @@ export class Item {
     id: number;
     produto: Produto;
     descricao: string;
-    unidadeMedida: string;
     fornecedor: Fornecedor[];
     fabricante: Fabricante[];
     ativo: boolean;
@@ -15,6 +14,7 @@ export class Item {
         if (this.ativo == null) this.ativo = true;
         this.fornecedor = [];
         this.fabricante = [];
+        this.produto = new Produto();
 
         if (object) {
             if (object.hasOwnProperty('fornecedor')) {

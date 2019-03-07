@@ -1,136 +1,8 @@
-@import '../../color';
-@import url('https://fonts.googleapis.com/css?family=Poppins');
+@import '../../color.scss';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import 'solicitacao.component';
 
-input, select {
-  font-size: 12px;
-  font-family: Poppins, sans-serif !important;
-}
-
-.title-solicitacao {
-  & {
-    text-transform: uppercase;
-    font-family: Poppins, sans-serif;
-    font-weight: 400;
-    font-size: 2em;
-    text-align: center;
-  }
-}
-
-.list-item-container {
-  width: 97%;
-  min-height: 330px;
-  height: 100%;
-  padding: 15px;
-
-  & {
-    background: $sGrayWizard;
-    border-radius: 8px;
-  }
-}
-
-.scroll-container {
-  height: 330px;
-  padding: 7px;
-}
-
-.title-step {
-  & {
-    text-transform: uppercase;
-    font-family: Poppins, sans-serif;
-    font-weight: bold;
-    font-size: 1.5em;
-    text-align: center;
-  }
-}
-
-.request-label {
-  display: block;
-
-  & {
-    font-family: Poppins, sans-serif;
-    font-size: 1em;
-    font-weight: bold;
-    text-align: left;
-  }
-}
-
-.request-input-line-bottom {
-  & {
-    text-align: left;
-    font-size: 1.2em;
-    font-family: inherit;
-    text-transform: capitalize;
-    color: $brown;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    border-bottom: 3px solid $mediumGray;
-  }
-}
-
-.float-button-plus {
-  right: 3%;
-  bottom: 5%;
-  position: absolute;
-  width: 35px;
-  height: 35px;
-
-  & {
-    outline: none;
-    border-radius: 50px;
-    border: none;
-    font-size: 1.1em;
-    font-family: Poppins, sans-serif;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.solicitacao-group {
-  display: flex;
-
-  .group {
-    margin: 0;
-    display: flex;
-    display: -ms-flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-}
-
-select {
-  margin-top: 2.48px;
-}
-
-.button-cancel {
-  width: 20px;
-  height: 20px;
-  margin-top: 30px;
-  padding-top: 3px;
-
-  & {
-    background: $danger;
-    border-radius: 14px;
-    border: none;
-    color: $white;
-    font-size: 10px;
-    font-family: Poppins, sans-serif;
-    font-weight: bold;
-    text-align: center;
-    outline: none;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.container-header {
+/*.container-header {
   position: relative;
   box-shadow: none;
   & {
@@ -146,7 +18,8 @@ select {
 
 .container-request {
   padding: 10px;
-  max-height: 370px;
+  height: 62%;
+  min-height: 300px;
 
   & {
     color: $brown;
@@ -197,10 +70,6 @@ select {
           text-align: left;
           font-family: "Poppins SemiBold", sans-serif;
           color: $white;
-        }
-
-        span{
-          outline: none;
         }
 
         .icon-watch {
@@ -318,24 +187,76 @@ select {
     text-align: right;
     float: right;
   }
-}
+}*/
 
-.items {
-  height: 200px;
-  max-height: 130px;
-  position: absolute;
-  overflow-y: scroll;
+.checkbox-approval-container {
+  margin: 0;
 
-  .item {
-    z-index: 1;
-    position: relative;
-    padding: 5px;
-    background-color: $mediumGrayTransparent;
-    border-bottom: 1px solid $lightGray;
+  .checkbox-filled + .checkbox-label:before {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    margin-left: 2%;
+    top: 4px;
 
-    &:hover {
-      background-color: $mediumGray;
-      cursor: pointer;
+    & {
+      border: 2px solid $blue;
+    }
+  }
+  .checkbox-filled:checked + .checkbox-label:before {
+    & {
+      background: $green;
+      font-size: 25px!important;
+    }
+  }
+  .checkbox-label, .radio-label {
+    & {
+      font-size: 1.1em;
     }
   }
 }
+
+.checkbox-approved-container{
+  .approved-label {
+    color: $green;
+  }
+
+  .checkbox-filled + .checkbox-label:before {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    margin-left: 2%;
+    top: 4px;
+    vertical-align: top;
+
+    & {
+      content: "";
+      border: 2px solid $green;
+      border-radius: 2px;
+      font-family: Poppins, sans-serif;
+      font-size: 20px;
+      line-height: 0.35em;
+      font-weight: bold;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+  }
+  .checkbox-filled:checked + .checkbox-label:before {
+    & {
+      content: "\2713";
+      color: $white;
+      background: $green;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+  }
+}
+

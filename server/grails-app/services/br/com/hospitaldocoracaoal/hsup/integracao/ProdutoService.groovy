@@ -12,7 +12,7 @@ abstract class ProdutoService {
         List<Produto> produtoList = (List<Produto>) criteria.list(args) {
             if (termo != null && !termo.isEmpty()) {
                 or {
-                    ilike('codigo', "%${termo}%")
+                    ilike('id', "%${termo}%")
                     ilike('descricao', "%${termo}%")
                 }
             }

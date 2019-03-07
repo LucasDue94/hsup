@@ -1,28 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { ActivatedRoute, Router } from '@angular/router';
-import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { FormControl, FormGroup } from "@angular/forms";
+import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
+import { Solicitacao } from "../core/solicitacao/solicitacao";
 
 @Component({
-    selector: 'solicitacao',
-    templateUrl: './solicitacao.component.html',
-    styleUrls: ['./solicitacao.component.scss']
+    selector: 'almoxarife-index',
+    templateUrl: './almoxarife-index.component.html',
+    styleUrls: ['./almoxarife-index.component.scss']
 })
-export class SolicitacaoComponent implements OnInit {
+export class AlmoxarifeIndexComponent implements OnInit {
 
     solicitacaoList: Solicitacao[] = [];
-
     private _pageNumber: number;
     private _offset;
-
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
-    error;
 
-    constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private router: Router){
+    constructor(private solicitacaoService: SolicitacaoService) {
         this._pageNumber = 0;
     }
 
@@ -42,7 +38,7 @@ export class SolicitacaoComponent implements OnInit {
             .switchMap(searchTerm =>
                 this.solicitacaoService.list(this.count, searchTerm))
             .subscribe((solicitacaoList: Solicitacao[]) => {
-                this.solicitacaoList = solicitacaoList;
+                this.solicitacaoList = solicitacaoList
             });
 
         if (this.searchControl.value == "") {

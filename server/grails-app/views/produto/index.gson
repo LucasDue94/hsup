@@ -7,6 +7,6 @@ model {
 json {
 	produto tmpl.produto(produtoList ?: [])
 	total Produto.count
-	countList produtoList.size()
+	countList produtoList?.size()
 }
 

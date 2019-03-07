@@ -6,7 +6,7 @@ import { Solicitacao } from './solicitacao';
 import { Response } from "@angular/http";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SolicitacaoService {
 
