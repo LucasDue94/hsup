@@ -52,7 +52,7 @@ export class ItemService {
             );
     }
 
-    get(id: number): Observable<Item> {
+    get(id: number): Observable<any> {
         let item;
         return this.http.get(this.baseUrl + 'item/' + id, {headers: this.headers})
             .map((r: Response) => {
@@ -61,7 +61,7 @@ export class ItemService {
             });
     }
 
-    save(item: Item): Observable<Item> {
+    save(item: any): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -73,10 +73,10 @@ export class ItemService {
 
         if (item.id) {
             url = this.baseUrl + 'item/' + item.id;
-            return this.http.put<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put(url, item, {headers: httpOptions.headers, responseType: 'json'});
         } else {
             url = this.baseUrl + 'item';
-            return this.http.post<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.post(url, item, {headers: httpOptions.headers, responseType: 'json'});
         }
     }
 

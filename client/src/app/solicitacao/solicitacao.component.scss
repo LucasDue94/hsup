@@ -103,10 +103,6 @@ input, select {
   }
 }
 
-select {
-  margin-top: 2.48px;
-}
-
 .button-cancel {
   width: 20px;
   height: 20px;
@@ -133,6 +129,7 @@ select {
 .container-header {
   position: relative;
   box-shadow: none;
+
   & {
     color: $brown;
     font-family: "Poppins SemiBold", sans-serif;
@@ -187,6 +184,7 @@ select {
         padding: 8px 12px;
         margin-left: 0;
         width: 120px;
+
         & {
           transition: 1s;
           cursor: pointer;
@@ -199,7 +197,7 @@ select {
           color: $white;
         }
 
-        span{
+        span {
           outline: none;
         }
 
@@ -226,6 +224,7 @@ select {
         }
 
       }
+
       #qnt {
         margin-right: 10px;
       }
@@ -244,11 +243,12 @@ select {
 
 .scroll {
   width: 97%;
-  max-height: 92%;
+  max-height: 300px;
   padding: 0 10px;
 }
 
 .container-items {
+  position: relative;
   width: 98%;
   padding: 5px 10px;
   margin-top: 10px;
@@ -290,10 +290,6 @@ select {
     margin-right: 10px;
     margin-left: 0;
   }
-}
-
-.container-list {
-  height: 80px;
 }
 
 .button {
@@ -338,4 +334,24 @@ select {
       cursor: pointer;
     }
   }
+}
+
+.items-resumo {
+  height: 80px;
+  display: flex;
+
+  & {
+    font-size: 16px;
+    justify-content: space-between;
+  }
+}
+
+.item-resumo {
+  flex: 2;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.container-list {
+  height: 80px;
 }

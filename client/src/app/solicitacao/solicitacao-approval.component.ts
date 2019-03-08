@@ -13,7 +13,6 @@ export class SolicitacaoApprovalComponent implements OnInit {
 
     @ViewChild('iconContainer') iconContainer;
     @ViewChild('iconContent') iconContent;
-    urgency: boolean = false;
     private _pageNumber: number;
     private _offset;
     count: number;
@@ -107,15 +106,5 @@ export class SolicitacaoApprovalComponent implements OnInit {
         return aprovada ? 'Sim' : 'Não';
     }
 
-    setUrgency() {
-        this.iconContent = document.getElementById('iconContent');
-        this.urgency = !this.urgency;
-        if (this.urgency == true) {
-            this.render.addClass(this.iconContainer.nativeElement, 'enable-urgency-container');
-            this.render.addClass(this.iconContent, 'enable');
-        } else if (this.urgency == false) {
-            this.render.removeClass(this.iconContainer.nativeElement, 'enable-urgency-container');
-            this.render.removeClass(this.iconContent, 'enable');
-        }
-    }
+
 }

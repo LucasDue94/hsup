@@ -50,7 +50,7 @@ export class FabricanteService {
             );
     }
 
-    get(id: number): Observable<Fabricante> {
+    get(id: number): Observable<any> {
         let fabricante;
         return this.http.get(this.baseUrl + 'fabricante/' + id, {headers: this.headers})
             .map((r: Response) => {
@@ -59,7 +59,7 @@ export class FabricanteService {
             });
     }
 
-    save(fabricante: Fabricante): Observable<Fabricante> {
+    save(fabricante: any): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -71,10 +71,10 @@ export class FabricanteService {
 
         if (fabricante.id) {
             url = this.baseUrl + 'fabricante/' + fabricante.id;
-            return this.http.put<Fabricante>(url, fabricante, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put(url, fabricante, {headers: httpOptions.headers, responseType: 'json'});
         } else {
             url = this.baseUrl + 'fabricante';
-            return this.http.post<Fabricante>(url, fabricante, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.post(url, fabricante, {headers: httpOptions.headers, responseType: 'json'});
         }
 
     }

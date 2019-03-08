@@ -6,14 +6,18 @@ import {
     OnInit,
     QueryList,
     Renderer2,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
 import { FornecedorService } from "../core/fornecedor/fornecedor.service";
+import { Item } from "../core/item/item";
+import { Fabricante } from "../core/fabricante/fabricante";
+import { Fornecedor } from "../core/fornecedor/fornecedor";
 
 @Component({
     selector: 'solicitacao-create',
@@ -28,10 +32,15 @@ export class SolicitacaoCreateComponent implements OnInit {
     fields: any = [];
     controlArray;
     findList = [];
-    error = null;
+    errors: any[];
     offset: number = 0;
+    urgency: boolean = false;
+    message;
+    items: Item[] = [];
+    @ViewChild('iconContainer') iconContainer;
 
-    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
+
+    constructor(private router: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
                 private renderer: Renderer2) {
     }
@@ -44,7 +53,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         });
     }
 
-    cancel = () => this.route.navigate(['solicitacao']);
+    cancel = () => this.router.navigate(['solicitacao']);
 
     createFormControl(type) {
         let group;
@@ -199,17 +208,12 @@ export class SolicitacaoCreateComponent implements OnInit {
             group = this.getFormGroup(element, type);
             this.setFormControl(group, 'id', value);
         }
-
-        if (type == 'item') {
-            this.findItemControl(type);
-        }
     }
 
     findItemControl(type) {
         const controls = this.controlArray.controls;
         for (let c of Object.keys(controls)) {
             if (c != 'item') {
-                console.log(controls[c].controls);
             }
         }
     }
@@ -232,5 +236,101 @@ export class SolicitacaoCreateComponent implements OnInit {
                     this.loading(containerLoading, false);
                 });
         }
+    }
+
+    setUrgency() {
+        this.urgency = !this.urgency;
+        if (this.urgency) {
+            this.renderer.addClass(this.iconContainer.nativeElement, 'enable-urgency-container');
+            this.renderer.addClass(this.iconContainer.nativeElement.childNodes[1], 'enable');
+        } else {
+            this.renderer.removeClass(this.iconContainer.nativeElement, 'enable-urgency-container');
+            this.renderer.removeClass(this.iconContainer.nativeElement.childNodes[1], 'enable');
+        }
+    }
+
+    getAllFormGroup(type) {
+        return this.controlArray.get(type).controls
+    }
+
+    findInItem(item) {
+        this.getAllFormGroup('item').forEach(item => {
+            const novoItem = new Item();
+            this.getAllFormGroup('fabricante').forEach(fabricante => {
+                if (fabricante.item == item.id) {
+                    novoItem.fabricante.push(fabricante.id);
+                    fabricante.remove();
+                }
+            });
+
+            this.getAllFormGroup('fornecedor').forEach(fornecedor => {
+                if (fornecedor.item == item.id) {
+                    novoItem.fornecedor.push(fornecedor.id);
+                    fornecedor.remove();
+                }
+            });
+            this.items.push();
+        });
+
+    }
+
+    saveItems() {
+
+        this.items.forEach((item: Item) => {
+            console.log('Itens cadastrados');
+        }, (res: any) => {
+            const json = res.error;
+            if (json.hasOwnProperty('message')) {
+                this.errors = [json];
+            } else {
+                this.errors = json._embedded.errors;
+            }
+        });
+    }
+
+    findOrSaveAll() {
+        const types = Object.keys(this.controlArray.controls);
+        for (let type of types) {
+            const service = this.getService(type);
+            const groups = this.getAllFormGroup(type);
+            for (let obj in groups) {
+                let properties = groups[obj].controls;
+                const objInstance = this.getInstance(type, properties);
+
+                if (typeof objInstance.id == "string" && objInstance.id != '') {
+                    delete objInstance.id;
+                    service.save(objInstance).subscribe(o => {
+                        console.log(o);
+                    })
+                }
+            }
+        }
+    }
+
+    getInstance(type, obj) {
+        switch (type) {
+            case 'item':
+                return new Item({id: obj['id'].value, descricao: obj['descricao'].value});
+            case 'fabricante':
+                return new Fabricante({id: obj['id'].value, fantasia: obj['fantasia'].value});
+            case 'fornecedor':
+                return new Fornecedor({id: obj['id'].value, fantasia: obj['fantasia'].value});
+        }
+    }
+
+    save() {
+        this.findOrSaveAll();
+        /* items.forEach(){
+             this.findInItem();
+         }*/
+        this.saveItems();
+
+
+        // console.log(this.controlArray);
+        // console.log(this.getAllFormGroup('item'));
+        // console.log(this.getAllFormGroup('fabricante'));
+        // console.log(this.getAllFormGroup('fornecedor'));
+
+
     }
 }

@@ -53,7 +53,7 @@ export class FornecedorService {
             );
     }
 
-    get(id: number): Observable<Fornecedor> {
+    get(id: number): Observable<any> {
         let fornecedor;
         return this.http.get(this.baseUrl + 'fornecedor/' + id, {headers: this.headers})
             .map((r: Response) => {
@@ -62,7 +62,7 @@ export class FornecedorService {
             });
     }
 
-    save(fornecedor: Fornecedor): Observable<Fornecedor> {
+    save(fornecedor: any): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -74,10 +74,10 @@ export class FornecedorService {
 
         if (fornecedor.id) {
             url = this.baseUrl + 'fornecedor/' + fornecedor.id;
-            return this.http.put<Fornecedor>(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
         } else {
             url = this.baseUrl + 'fornecedor';
-            return this.http.post<Fornecedor>(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.post(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
         }
     }
 
