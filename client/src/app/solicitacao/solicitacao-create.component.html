@@ -6,10 +6,10 @@
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray" #stepItem>
-                    <section class="col-12 solicitacao-group" id="item{{i}}"
+                    <section class="col-12" id="item{{i}}"
                              *ngFor="let item of controlArray.get('item').controls; let i = index"
                              formArrayName="item">
-                        <div class="group" [formGroupName]="i">
+                        <div class="group col-12" [formGroupName]="i">
                             <div class="form-group col-7">
                                 <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
                                 <input autocomplete="off" type="text" id="descricao{{i}}"
@@ -37,12 +37,14 @@
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="quantidade{{i}}">Qtd.</label>
-                                <input autocomplete="off" type="text" id="quantidade{{i}}"
+                                <input autocomplete="off" type="number" id="quantidade{{i}}"
                                        formControlName="quantidade" name="quantidade"
-                                       class="col-12 request-input-line-bottom">
+                                       class="request-input-line-bottom col-12">
+                            </div>
+                            <div class="grow">
+                                <button class="button-cancel" name="button-cancel">X</button>
                             </div>
                         </div>
-                        <button class="button-cancel" name="button-cancel">X</button>
                     </section>
                     <button (click)="addField('item')" [name]="'add-button'"
                             class="float-button-plus bg-green color-white">+
@@ -132,7 +134,8 @@
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="telefone">Telefone</label>
-                                <input autocomplete="off" formControlName="telefone" type="tel" id="telefone" name="telefone"
+                                <input autocomplete="off" formControlName="telefone" type="tel" id="telefone"
+                                       name="telefone"
                                        class="col-12 request-input-line-bottom">
                             </div>
                             <div class="form-group col-2">
@@ -160,9 +163,9 @@
         </section>
     </hcal-step>
     <hcal-step></hcal-step>
-    <button class="button button-blue float-right" next-button #next>Próximo ></button>
-    <button class="button button-blue float-right" finish-button>
+    <button class="button button-blue float-right" next-button>Avançar ></button>
+    <button class="button button-blue float-right" *ngIf="validate('item')" finish-button>
         Finalizar
     </button>
-    <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
+    <button class="button button-reverse button-blue float-right" previous-button>< Voltar</button>
 </hcal-tab>

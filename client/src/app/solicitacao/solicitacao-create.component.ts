@@ -14,6 +14,7 @@ import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
 import { FornecedorService } from "../core/fornecedor/fornecedor.service";
+import { Item } from "../core/item/item";
 
 @Component({
     selector: 'solicitacao-create',
@@ -201,15 +202,23 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
 
         if (type == 'item') {
-            this.findItemControl(type);
+            this.findItemControl(type, value);
         }
     }
 
-    findItemControl(type) {
+    findItemControl(type, object) {
         const controls = this.controlArray.controls;
         for (let c of Object.keys(controls)) {
             if (c != 'item') {
-                console.log(controls[c].controls);
+                for (let v of controls[c].controls) {
+                    if (v.get('id').value != '') {
+                        if (object.hasOwnProperty('id') && v.get('item').value == '') {
+                            v.get('item').setValue(object.id, {emitEvent: false});
+                        } else {
+                            v.get('item').setValue(object, {emitEvent: false});
+                        }
+                    }
+                }
             }
         }
     }
@@ -232,5 +241,16 @@ export class SolicitacaoCreateComponent implements OnInit {
                     this.loading(containerLoading, false);
                 });
         }
+    }
+
+    getAllFormGroup(type) {
+        const groups = this.controlArray.get(type).controls as FormGroup;
+        if (this.validate(type))
+            for (var groupsKey in groups) {
+                const keys = Object.keys(groups[groupsKey].controls);
+                for (let values of keys) {
+                    groups[groupsKey].controls[values];
+                }
+            }
     }
 }

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 input, select {
-  font-size: 12px;
+  font-size: 14px;
   font-family: Poppins, sans-serif !important;
 }
 
@@ -44,7 +44,7 @@ input, select {
 }
 
 .request-label {
-  display: block;
+  display: flex;
 
   & {
     font-family: Poppins, sans-serif;
@@ -90,21 +90,13 @@ input, select {
   }
 }
 
-.solicitacao-group {
+.group {
+  margin: 0;
   display: flex;
-
-  .group {
-    margin: 0;
-    display: flex;
-    display: -ms-flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-}
-
-select {
-  margin-top: 2.48px;
+  display: -ms-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .button-cancel {
@@ -133,6 +125,7 @@ select {
 .container-header {
   position: relative;
   box-shadow: none;
+
   & {
     color: $brown;
     font-family: "Poppins SemiBold", sans-serif;
@@ -187,6 +180,7 @@ select {
         padding: 8px 12px;
         margin-left: 0;
         width: 120px;
+
         & {
           transition: 1s;
           cursor: pointer;
@@ -199,7 +193,7 @@ select {
           color: $white;
         }
 
-        span{
+        span {
           outline: none;
         }
 
@@ -226,6 +220,7 @@ select {
         }
 
       }
+
       #qnt {
         margin-right: 10px;
       }
@@ -252,6 +247,7 @@ select {
   width: 98%;
   padding: 5px 10px;
   margin-top: 10px;
+
   & {
     background-color: $lightGray;
     border-top: 2px solid $brown;
@@ -279,6 +275,7 @@ select {
   .items {
     height: 80px;
     display: flex;
+
     & {
       font-size: 16px;
       justify-content: space-between;

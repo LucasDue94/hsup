@@ -1,7 +1,4 @@
 <div class="col-12 float-left" role="main">
-    <a [routerLink]="['/index']" class="back-icon-link float-left">
-        <fa-icon [icon]="['fas', 'home']" class=""></fa-icon>
-    </a>
     <div class="col-4 form-group float-right">
         <form [formGroup]="searchForm">
             <input type="text"
@@ -10,7 +7,7 @@
                    placeholder="Buscar fabricante..." #field>
         </form>
     </div>
-    <hcal-table tableName="Fabricantes - Quantidade {{ this.count }}">
+    <hcal-table tableName="Fabricantes - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content>fantasia</th>
@@ -19,8 +16,8 @@
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let fabricante of this.fabricanteList
-            | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+            <tr class="trow-content" *ngFor="let fabricante of fabricanteList
+            | paginate: { currentPage: pageNumber, itemsPerPage: 10, totalItems: count }">
                 <td class="tdata-default">{{ fabricante.fantasia }}</td>
                 <td class="tdata-default">{{ fabricante.ativo == true ? 'Ativo' : 'Inativo' }}</td>
                 <td class="tdata-default">
@@ -33,16 +30,21 @@
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.fabricanteList.length == 0">
-            <h1 class="not-found-error" *ngIf="this.searchControl.value == ''">Não há dados cadastrados</h1>
-            <h1 class="not-found-error" *ngIf="this.searchControl.value != ''">Nenhum registro encontrado</h1>
+        <div class="not-found" *ngIf="fabricanteList.length == 0">
+            <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
+            <h1 class="not-found-error" *ngIf="fabricanteList.length == 0 && !loading && field.value == ''">
+                Não há dados cadastrados
+            </h1>
+            <h1 class="not-found-error" *ngIf="fabricanteList.length == 0 && !loading">
+                Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
+            </h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="count > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Cadastrar {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
+    <div class="floating-button" tooltip="Novo" [placement]="'top'" [show-delay]="500">
         <a [routerLink]="['/fabricante','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>
