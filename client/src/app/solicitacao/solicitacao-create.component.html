@@ -2,18 +2,18 @@
 <hcal-tab>
     <hcal-step [validator]="validate('item')">
         <h2 class="title-step color-gray">seleção de itens</h2>
-        <h3 class="error-span container-md" *ngIf="this.error != null">{{ error }}</h3>
+        <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray" #stepItem>
-                    <section class="col-12" id="item{{i}}"
+                    <section class="col-12 solicitacao-group" id="item{{i}}"
                              *ngFor="let item of controlArray.get('item').controls; let i = index"
                              formArrayName="item">
                         <div class="group col-12" [formGroupName]="i">
                             <div class="form-group col-7">
                                 <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
                                 <input autocomplete="off" type="text" id="descricao{{i}}"
-                                       (blur)="this.clearList($event.target)"
+                                       (blur)="clearList($event.target)"
                                        (focus)="find($event.target, 'item')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
@@ -21,7 +21,7 @@
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
-                                         *ngFor="let i of this.findList">
+                                         *ngFor="let i of findList">
                                         {{ i.descricao }}
                                     </div>
                                 </div>
@@ -37,14 +37,12 @@
                             </div>
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="quantidade{{i}}">Qtd.</label>
-                                <input autocomplete="off" type="number" id="quantidade{{i}}"
+                                <input autocomplete="off" type="text" id="quantidade{{i}}"
                                        formControlName="quantidade" name="quantidade"
-                                       class="request-input-line-bottom col-12">
-                            </div>
-                            <div class="grow">
-                                <button class="button-cancel" name="button-cancel">X</button>
+                                       class="col-12 request-input-line-bottom">
                             </div>
                         </div>
+                        <button class="button-cancel" name="button-cancel">X</button>
                     </section>
                     <button (click)="addField('item')" [name]="'add-button'"
                             class="float-button-plus bg-green color-white">+
@@ -55,7 +53,7 @@
     </hcal-step>
     <hcal-step [validator]="validate('fabricante')">
         <h2 class="title-step color-gray">seleção de fabricantes</h2>
-        <h3 class="error-span container-md" *ngIf="this.error != null">{{ error }}</h3>
+        <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
         <section class="container-md scroll-container bg-gray">
             <perfect-scrollbar>
                 <div class="col-12 list-item-container" [formGroup]="controlArray">
@@ -66,7 +64,7 @@
                             <div class="form-group col-8">
                                 <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
                                 <input autocomplete="off" type="text" id="fantasia{{i}}"
-                                       (blur)="this.clearList($event.target)"
+                                       (blur)="clearList($event.target)"
                                        (focus)="find($event.target, 'fabricante')"
                                        formControlName="fantasia" name="fantasia"
                                        class="col-12 request-input-line-bottom">
@@ -75,7 +73,7 @@
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #fabricante>
                                     <div class="item" (mousedown)="setInputFindValue('fabricante', $event.target, i)"
-                                         *ngFor="let i of this.findList">{{ i.fantasia }}
+                                         *ngFor="let i of findList">{{ i.fantasia }}
                                     </div>
                                 </div>
                                 <div [hidden]="true">
@@ -115,7 +113,7 @@
                             <div class="form-group col-2">
                                 <label class="request-label color-gray" for="fantasia_fornecedor{{i}}">Fantasia</label>
                                 <input autocomplete="off" type="text" id="fantasia_fornecedor{{i}}"
-                                       (blur)="this.clearList($event.target)"
+                                       (blur)="clearList($event.target)"
                                        (focus)="find($event.target, 'fornecedor')"
                                        formControlName="fantasia" name="fantasia_fornecedor"
                                        class="col-12 request-input-line-bottom">
@@ -124,7 +122,7 @@
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #fornecedor>
                                     <div class="item" (mousedown)="setInputFindValue('fornecedor', $event.target, i)"
-                                         *ngFor="let i of this.findList">
+                                         *ngFor="let i of findList">
                                         {{ i.fantasia }}
                                     </div>
                                 </div>
@@ -155,17 +153,66 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="button-cancel" name="button-cancel">X</button>
+                        <button class="button-cancel" name="button-cancel-3">X</button>
                     </section>
-                    <button (click)="addField('fornecedor')" class="float-button-plus bg-green color-white">+</button>
+                    <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">+</button>
                 </div>
             </perfect-scrollbar>
         </section>
     </hcal-step>
-    <hcal-step></hcal-step>
-    <button class="button button-blue float-right" next-button>Avançar ></button>
-    <button class="button button-blue float-right" *ngIf="validate('item')" finish-button>
-        Finalizar
-    </button>
-    <button class="button button-reverse button-blue float-right" previous-button>< Voltar</button>
+    <hcal-step>
+        <main class="container-request container-md">
+            <section class="main-content col-12">
+                <header class="col-12 header-main-content">
+                    <button (click)="setUrgency()" class="btn-urgency-container" #urgencyIcon>
+                        <span>URGENTE</span>
+                        <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
+                    </button>
+                    <h2 class="item-header">RESUMO DA COMPRA</h2>
+                    <h2 id="qnt" class="item-header">QUANTIDADE: {{getAllFormGroup('item').length}}</h2>
+                </header>
+                <perfect-scrollbar class="scroll col-12">
+                    <section class="col-12 container-items" *ngFor="let item of getAllFormGroup('item'); index as i">
+                        <section class="labels">
+                            <div class="label">Item</div>
+                            <div class="label qnt-flex">Qnt</div>
+                            <div class="label">Fabricante</div>
+                            <div class="label">Fornecedor</div>
+                        </section>
+
+                        <section class="items-resumo">
+                            <div class="item-resumo">{{item.controls['descricao'].value}}</div>
+                            <div class="item-resumo qnt-flex">
+                                {{ item.controls['quantidade'].value + ' ' + item.controls['unidade_medida'].value }}
+                            </div>
+                            <div class="item-resumo container-list">
+                                <perfect-scrollbar>
+                                    <section class="item" *ngFor="let fa of getAllFormGroup('fabricante')">
+                                        <div *ngIf="fa.item == item.id">
+                                            {{ fa.controls['fantasia'].value }}
+                                        </div>
+                                    </section>
+                                </perfect-scrollbar>
+                            </div>
+                            <div class="item-resumo container-list">
+                                <perfect-scrollbar>
+                                    <section *ngFor="let fo of getAllFormGroup('fornecedor')">
+                                        <div *ngIf="fo.item == item.id">
+                                            {{ fo.controls['fantasia'].value }}
+                                        </div>
+                                    </section>
+                                </perfect-scrollbar>
+                            </div>
+                        </section>
+                    </section>
+                    <button (click)="save()" class="float-button-plus bg-green color-white">
+                        <fa-icon [icon]="['fa', 'check']"></fa-icon>
+                    </button>
+                </perfect-scrollbar>
+            </section>
+        </main>
+    </hcal-step>
+    <button class="button button-blue float-right" next-button>Próximo ></button>
+    <button *ngIf="validate('item')" class="button button-blue float-right" finish-button>Finalizar</button>
+    <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
 </hcal-tab>

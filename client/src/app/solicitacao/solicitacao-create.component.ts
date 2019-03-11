@@ -2,10 +2,11 @@ import {
     Component,
     ContentChild,
     ElementRef,
-    HostListener,
+    HostListener, OnChanges,
     OnInit,
     QueryList,
-    Renderer2,
+    Renderer2, SimpleChanges,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 import { Router } from "@angular/router";
@@ -14,7 +15,12 @@ import 'rxjs/add/operator/debounceTime';
 import { ItemService } from "../core/item/item.service";
 import { FabricanteService } from "../core/fabricante/fabricante.service";
 import { FornecedorService } from "../core/fornecedor/fornecedor.service";
+import { Fornecedor } from "../core/fornecedor/fornecedor";
+import { Fabricante } from "../core/fabricante/fabricante";
 import { Item } from "../core/item/item";
+import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
+import { Solicitacao } from "../core/solicitacao/solicitacao";
+import { UsuarioService } from "../core/usuario/usuario.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -25,16 +31,23 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('item', {read: ElementRef}) item: QueryList<any>;
+    @ViewChild('urgencyIcon', {read: ElementRef}) urgencyIcon: QueryList<any>;
 
     fields: any = [];
     controlArray;
     findList = [];
     error = null;
     offset: number = 0;
+    urgency;
+    requester;
+    errors;
+    message;
+    items: Item[] = [];
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
-                private renderer: Renderer2) {
+                private renderer: Renderer2, private solicitacaoService: SolicitacaoService,
+                private usuarioService: UsuarioService) {
     }
 
     ngOnInit() {
@@ -43,33 +56,42 @@ export class SolicitacaoCreateComponent implements OnInit {
             fabricante: this.fb.array([this.createFormControl('fabricante')]),
             fornecedor: this.fb.array([this.createFormControl('fornecedor')]),
         });
+
+        const userLoggedId = +localStorage.getItem('id');
+        this.usuarioService.get(userLoggedId).subscribe(usuario => {
+            this.requester = usuario;
+        });
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
 
     createFormControl(type) {
         let group;
-        if (type == 'item') {
-            group = this.fb.group({
-                id: '',
-                descricao: '',
-                unidade_medida: '',
-                quantidade: ''
-            });
-        } else if (type == 'fabricante') {
-            group = this.fb.group({
-                id: '',
-                fantasia: '',
-                item: ''
-            });
-        } else if (type == 'fornecedor') {
-            group = this.fb.group({
-                id: '',
-                fantasia: '',
-                telefone: '',
-                email: '',
-                item: ''
-            });
+        switch (type) {
+            case 'item':
+                group = this.fb.group({
+                    id: '',
+                    descricao: '',
+                    unidade_medida: '',
+                    quantidade: ''
+                });
+                break;
+            case 'fabricante':
+                group = this.fb.group({
+                    id: '',
+                    fantasia: new FormControl('', [Validators.required]),
+                    item: ''
+                });
+                break;
+            case 'fornecedor':
+                group = this.fb.group({
+                    id: '',
+                    fantasia: '',
+                    telefone: '',
+                    email: '',
+                    item: ''
+                });
+                break;
         }
 
         return group;
@@ -200,10 +222,6 @@ export class SolicitacaoCreateComponent implements OnInit {
             group = this.getFormGroup(element, type);
             this.setFormControl(group, 'id', value);
         }
-
-        if (type == 'item') {
-            this.findItemControl(type, value);
-        }
     }
 
     findItemControl(type, object) {
@@ -243,14 +261,68 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
+    setUrgency() {
+        this.urgency = !this.urgency;
+        if (this.urgency) {
+            this.renderer.addClass(this.urgencyIcon['nativeElement'], 'enable-urgency-container');
+            this.renderer.addClass(this.urgencyIcon['nativeElement'].childNodes[1], 'enable');
+        } else {
+            this.renderer.removeClass(this.urgencyIcon['nativeElement'], 'enable-urgency-container');
+            this.renderer.removeClass(this.urgencyIcon['nativeElement'].childNodes[1], 'enable');
+        }
+    }
+
     getAllFormGroup(type) {
-        const groups = this.controlArray.get(type).controls as FormGroup;
-        if (this.validate(type))
-            for (var groupsKey in groups) {
-                const keys = Object.keys(groups[groupsKey].controls);
-                for (let values of keys) {
-                    groups[groupsKey].controls[values];
+        return this.controlArray.get(type).controls;
+    }
+
+    findOrSaveAll() {
+        const types = Object.keys(this.controlArray.controls);
+        for (let type of types) {
+            const service = this.getService(type);
+            const groups = this.getAllFormGroup(type);
+
+            for (let obj in groups) {
+                let properties = groups[obj].controls;
+                const objInstance = this.requestItemsBuilder(type, properties);
+
+                if (typeof objInstance.id == "string" && objInstance.id != '') {
+                    delete objInstance.id;
+                    if (objInstance.hasOwnProperty('produto')) delete objInstance['produto'];
+                    service.save(objInstance).subscribe();
                 }
             }
+        }
     }
+
+    requestItemsBuilder(type, obj) {
+        switch (type) {
+            case 'item':
+                return new Item({id: obj['id'].value, descricao: obj['descricao'].value});
+            case 'fabricante':
+                return new Fabricante({id: obj['id'].value, fantasia: obj['fantasia'].value});
+            case 'fornecedor':
+                return new Fornecedor({
+                    id: obj['id'].value,
+                    fantasia: obj['fantasia'].value,
+                    telefone: obj['telefone'].value,
+                    email: obj['email'].value
+                });
+        }
+    }
+
+    save() {
+        const solicitacao = new Solicitacao({
+            itens: this.items,
+            responsavel: this.requester,
+            data: ''
+        });
+
+        this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
+            this.message = 'Solicitação realizada com sucesso!';
+        });
+
+        this.findOrSaveAll();
+    }
+
 }

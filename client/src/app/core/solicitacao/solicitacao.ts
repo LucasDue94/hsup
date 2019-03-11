@@ -6,9 +6,7 @@ export class Solicitacao {
     id: number;
     itens: Solicitacao[];
     responsavel: Usuario;
-    setor: Setor;
     data: any;
-
 
     constructor (object?: any) {
         if (object) {

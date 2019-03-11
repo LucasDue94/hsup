@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
 
 input, select {
-  font-size: 14px;
+  font-size: 12px;
   font-family: Poppins, sans-serif !important;
 }
 
@@ -90,13 +90,17 @@ input, select {
   }
 }
 
-.group {
-  margin: 0;
+.solicitacao-group {
   display: flex;
-  display: -ms-flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+
+  .group {
+    margin: 0;
+    display: flex;
+    display: -ms-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 }
 
 .button-cancel {
@@ -189,7 +193,8 @@ input, select {
           background-color: $mediumGrayTransparent;
           outline: none;
           text-align: left;
-          font-family: "Poppins SemiBold", sans-serif;
+          font-family: "Poppins", sans-serif;
+          font-weight: bold;
           color: $white;
         }
 
@@ -239,7 +244,7 @@ input, select {
 
 .scroll {
   width: 97%;
-  max-height: 92%;
+  max-height: 300px;
   padding: 0 10px;
 }
 
@@ -289,10 +294,6 @@ input, select {
   }
 }
 
-.container-list {
-  height: 80px;
-}
-
 .button {
   margin: 10px;
 }
@@ -335,4 +336,24 @@ input, select {
       cursor: pointer;
     }
   }
+}
+
+.items-resumo {
+  height: 80px;
+  display: flex;
+
+  & {
+    font-size: 16px;
+    justify-content: space-between;
+  }
+}
+
+.item-resumo {
+  flex: 2;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.container-list {
+  height: 80px;
 }

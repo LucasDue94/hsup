@@ -53,7 +53,7 @@ export class FornecedorService {
             );
     }
 
-    get(id: number): Observable<Fornecedor> {
+    get(id: number): Observable<any> {
         let fornecedor;
         return this.http.get(this.baseUrl + 'fornecedor/' + id, {headers: this.headers})
             .map((r: Response) => {
@@ -62,7 +62,7 @@ export class FornecedorService {
             });
     }
 
-    save(fornecedor: Fornecedor): Observable<Fornecedor> {
+    save(fornecedor: any): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",

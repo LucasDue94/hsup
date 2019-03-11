@@ -52,7 +52,7 @@ export class ItemService {
             );
     }
 
-    get(id: number): Observable<Item> {
+    get(id: number): Observable<any> {
         let item;
         return this.http.get(this.baseUrl + 'item/' + id, {headers: this.headers})
             .map((r: Response) => {
@@ -61,7 +61,7 @@ export class ItemService {
             });
     }
 
-    save(item: Item): Observable<Item> {
+    save(item: any): Observable<any> | Observable<Item> {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
