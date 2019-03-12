@@ -1,18 +1,26 @@
 package br.com.hospitaldocoracaoal.hsup
 
 import grails.gorm.services.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service(Solicitacao)
-interface SolicitacaoService {
+abstract class SolicitacaoService {
 
-    Solicitacao get(Serializable id)
+    abstract Solicitacao get(Serializable id)
 
-    List<Solicitacao> list(Map args)
+    abstract List<Solicitacao> list(Map args)
 
-    Long count()
+    abstract Long count()
 
-    void delete(Serializable id)
+    abstract void delete(Serializable id)
 
-    Solicitacao save(Solicitacao solicitacao)
+    @Transactional
+    Solicitacao save(Solicitacao solicitacao) {
+        solicitacao.itens.each {item ->
+            if (Item.find(item)) {
+
+            }
+        }
+    }
 
 }

@@ -2,10 +2,10 @@ import {
     Component,
     ContentChild,
     ElementRef,
-    HostListener, OnChanges,
+    HostListener,
     OnInit,
     QueryList,
-    Renderer2, SimpleChanges,
+    Renderer2,
     ViewChild,
     ViewChildren
 } from '@angular/core';
@@ -19,8 +19,9 @@ import { Fornecedor } from "../core/fornecedor/fornecedor";
 import { Fabricante } from "../core/fabricante/fabricante";
 import { Item } from "../core/item/item";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { UsuarioService } from "../core/usuario/usuario.service";
+import { Usuario } from "../core/usuario/usuario";
+import { Solicitacao } from "../core/solicitacao/solicitacao";
 
 @Component({
     selector: 'solicitacao-create',
@@ -38,7 +39,7 @@ export class SolicitacaoCreateComponent implements OnInit {
     findList = [];
     error = null;
     offset: number = 0;
-    urgency;
+    urgency: boolean = false;
     requester;
     errors;
     message;
@@ -277,38 +278,33 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     findOrSaveAll() {
-        const types = Object.keys(this.controlArray.controls);
-        for (let type of types) {
-            const service = this.getService(type);
-            const groups = this.getAllFormGroup(type);
+        const groups = this.getAllFormGroup('item');
+        let item;
 
-            for (let group of groups) {
-                let properties = group.controls;
-                const objInstance = this.requestItemsBuilder(type, properties);
+        for (let group of groups) {
+            let properties = group.controls;
+            item = this.requestItemsBuilder('item', properties);
 
-                if (typeof objInstance.id == "string") delete objInstance.id;
-                if (objInstance.constructor.name == 'Item') {
-                    console.log(this.attachItem(objInstance));
-                }
-                // service.save(objInstance).subscribe();
+            if (typeof item.id == "string") delete item.id;
+            if (item.constructor.name == 'Item') {
+                this.attachToItem(item, 'fabricante');
+                this.attachToItem(item, 'fornecedor');
+
+                this.items.push(item);
             }
         }
     }
 
-    attachItem(item) {
-        const types = Object.keys(this.controlArray.controls);
-        let result = [];
-        for (let type of types) {
-            if (type != 'item') {
-                const groups = this.getAllFormGroup(type);
+    attachToItem(item, type) {
+        const groups = this.getAllFormGroup(type);
 
-                for (let group of groups) {
-                    const groupItem = group.controls.item.value;
-                    if (groupItem == item.id || groupItem == item.descricao) {
-                        result.push(group.controls);
-                        return result;
-                    }
-                }
+        for (let group of groups) {
+            const groupItem = group.controls.item.value;
+            if (groupItem == item.id || groupItem == item.descricao) {
+                const objInstance = this.requestItemsBuilder(type, group.controls);
+                if (typeof objInstance.id == 'string') delete objInstance.id;
+                if (type == 'fabricante') item.fabricante.push(objInstance);
+                if (type == 'fornecedor') item.fornecedor.push(objInstance);
             }
         }
     }
@@ -332,17 +328,18 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     save() {
-        // const solicitacao = new Solicitacao({
-        //     itens: this.items,
-        //     responsavel: this.requester,
-        //     data: ''
-        // });
-        //
-        // this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
-        //     this.message = 'Solicitação realizada com sucesso!';
-        // });
-
         this.findOrSaveAll();
+
+        const solicitacao = new Solicitacao({
+            itens: this.items,
+            responsavel: this.requester,
+            data: '',
+            urgente: this.urgency
+        });
+
+        this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
+            this.message = 'Solicitação realizada com sucesso!';
+        });
     }
 
 }

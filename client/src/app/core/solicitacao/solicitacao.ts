@@ -7,6 +7,7 @@ export class Solicitacao {
     itens: Solicitacao[];
     responsavel: Usuario;
     data: any;
+    urgente: boolean;
 
     constructor (object?: any) {
         if (object) {
