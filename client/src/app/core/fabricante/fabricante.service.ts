@@ -32,7 +32,10 @@ export class FabricanteService {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'fabricante';
         let subject = new Subject<Fabricante[]>();
-        this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
             });

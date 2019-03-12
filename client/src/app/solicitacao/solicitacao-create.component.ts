@@ -58,7 +58,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         });
 
         const userLoggedId = +localStorage.getItem('id');
-        this.usuarioService.get(userLoggedId).subscribe(usuario => {
+        this.usuarioService.get(userLoggedId).subscribe((usuario: Usuario) => {
             this.requester = usuario;
         });
     }
@@ -282,14 +282,32 @@ export class SolicitacaoCreateComponent implements OnInit {
             const service = this.getService(type);
             const groups = this.getAllFormGroup(type);
 
-            for (let obj in groups) {
-                let properties = groups[obj].controls;
+            for (let group of groups) {
+                let properties = group.controls;
                 const objInstance = this.requestItemsBuilder(type, properties);
 
-                if (typeof objInstance.id == "string" && objInstance.id != '') {
-                    delete objInstance.id;
-                    if (objInstance.hasOwnProperty('produto')) delete objInstance['produto'];
-                    service.save(objInstance).subscribe();
+                if (typeof objInstance.id == "string") delete objInstance.id;
+                if (objInstance.constructor.name == 'Item') {
+                    console.log(this.attachItem(objInstance));
+                }
+                // service.save(objInstance).subscribe();
+            }
+        }
+    }
+
+    attachItem(item) {
+        const types = Object.keys(this.controlArray.controls);
+        let result = [];
+        for (let type of types) {
+            if (type != 'item') {
+                const groups = this.getAllFormGroup(type);
+
+                for (let group of groups) {
+                    const groupItem = group.controls.item.value;
+                    if (groupItem == item.id || groupItem == item.descricao) {
+                        result.push(group.controls);
+                        return result;
+                    }
                 }
             }
         }
@@ -298,29 +316,31 @@ export class SolicitacaoCreateComponent implements OnInit {
     requestItemsBuilder(type, obj) {
         switch (type) {
             case 'item':
-                return new Item({id: obj['id'].value, descricao: obj['descricao'].value});
+                const item = new Item({id: obj.id.value, descricao: obj.descricao.value});
+                delete item.produto;
+                return item;
             case 'fabricante':
-                return new Fabricante({id: obj['id'].value, fantasia: obj['fantasia'].value});
+                return new Fabricante({id: obj.id.value, fantasia: obj.fantasia.value});
             case 'fornecedor':
                 return new Fornecedor({
-                    id: obj['id'].value,
-                    fantasia: obj['fantasia'].value,
-                    telefone: obj['telefone'].value,
-                    email: obj['email'].value
+                    id: obj.id.value,
+                    fantasia: obj.fantasia.value,
+                    telefone: obj.telefone.value,
+                    email: obj.email.value
                 });
         }
     }
 
     save() {
-        const solicitacao = new Solicitacao({
-            itens: this.items,
-            responsavel: this.requester,
-            data: ''
-        });
-
-        this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
-            this.message = 'Solicitação realizada com sucesso!';
-        });
+        // const solicitacao = new Solicitacao({
+        //     itens: this.items,
+        //     responsavel: this.requester,
+        //     data: ''
+        // });
+        //
+        // this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
+        //     this.message = 'Solicitação realizada com sucesso!';
+        // });
 
         this.findOrSaveAll();
     }
