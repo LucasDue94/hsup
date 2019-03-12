@@ -40,12 +40,14 @@ import { ErrorComponent } from './error/error.component';
 import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { StatusSolicitacaoComponent } from './status-solicitacao/status-solicitacao.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavComponent,
-        ErrorComponent
+        ErrorComponent,
+        StatusSolicitacaoComponent
     ],
     imports: [
         BrowserModule,

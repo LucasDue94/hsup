@@ -47,7 +47,7 @@
 
       & {
         justify-content: space-between;
-        align-items: center;
+        align-solicitacaoItems: center;
         border-bottom: 1px solid gray;
         font-family: "Poppins Medium", sans-serif;
         line-height: 28px;
@@ -117,7 +117,7 @@
   padding: 0 10px;
 }
 
-.container-items {
+.container-solicitacaoItems {
   width: 98%;
   padding: 5px 10px;
   margin-top: 10px;
@@ -145,7 +145,7 @@
     }
   }
 
-  .items {
+  .solicitacaoItems {
     height: 80px;
     display: flex;
     & {

@@ -1,24 +1,20 @@
-import { Usuario } from "../usuario/usuario";
-import { Setor } from "../setor/setor";
-import { Status } from "tslint/lib/runner";
+import { Item } from "../item/item";
 
 
-export class Solicitacao {
+export class SolicitacaoItem {
     id: number;
-    itens: Solicitacao[];
-    responsavel: Usuario;
-    data: any;
-    urgente: boolean;
-    status: Status;
+    item: Item;
+    unidadeMedida: string;
+    quantidade: number;
 
     constructor (object?: any) {
-        if (this.urgente == null) this.urgente = false;
-
         if (object) {
+
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }
+
     }
 
     toString(): string {

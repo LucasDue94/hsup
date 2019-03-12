@@ -16,9 +16,10 @@ abstract class SolicitacaoService {
 
     @Transactional
     Solicitacao save(Solicitacao solicitacao) {
-        solicitacao.itens.each {item ->
-            if (Item.find(item)) {
 
+        solicitacao.itens.each { item ->
+            if (item != null && !Item.exists(item.id)) {
+                item.save()
             }
         }
     }

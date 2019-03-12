@@ -17,7 +17,7 @@
                                        (focus)="find($event.target, 'item')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
-                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'item', true)"
+                                <div class="items col-12" (scrolled)="find(solicitacaoItems.previousSibling, 'item', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"

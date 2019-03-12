@@ -22,6 +22,9 @@ import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { UsuarioService } from "../core/usuario/usuario.service";
 import { Usuario } from "../core/usuario/usuario";
 import { Solicitacao } from "../core/solicitacao/solicitacao";
+import { SolicitacaoItem } from "../core/solicitacaoItem/solicitacao-item";
+import { StatusSolicitacaoService } from "../core/status-solicitacao/status-solicitacao.service";
+import { StatusSolicitacao } from "../core/status-solicitacao/status-solicitacao";
 
 @Component({
     selector: 'solicitacao-create',
@@ -43,12 +46,13 @@ export class SolicitacaoCreateComponent implements OnInit {
     requester;
     errors;
     message;
-    items: Item[] = [];
+    solicitacaoItems: SolicitacaoItem[] = [];
+    status;
 
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
                 private renderer: Renderer2, private solicitacaoService: SolicitacaoService,
-                private usuarioService: UsuarioService) {
+                private usuarioService: UsuarioService, private statusSolicitacaoService: StatusSolicitacaoService) {
     }
 
     ngOnInit() {
@@ -62,6 +66,10 @@ export class SolicitacaoCreateComponent implements OnInit {
         this.usuarioService.get(userLoggedId).subscribe((usuario: Usuario) => {
             this.requester = usuario;
         });
+
+        this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) =>  {
+            this.status = value;
+        })
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
@@ -286,12 +294,21 @@ export class SolicitacaoCreateComponent implements OnInit {
             item = this.requestItemsBuilder('item', properties);
 
             if (typeof item.id == "string") delete item.id;
-            if (item.constructor.name == 'Item') {
-                this.attachToItem(item, 'fabricante');
-                this.attachToItem(item, 'fornecedor');
 
-                this.items.push(item);
+            this.attachToItem(item, 'fabricante');
+            this.attachToItem(item, 'fornecedor');
+
+            if (typeof item.id == "number") {
+                for (let key in item) if (key != "id" && item.hasOwnProperty(key)) delete item[key];
             }
+
+            const solicitacaoItem = new SolicitacaoItem({
+                item: item,
+                unidadeMedida: properties['unidade_medida'].value,
+                quantidade: properties['quantidade'].value
+            });
+
+            this.solicitacaoItems.push(solicitacaoItem);
         }
     }
 
@@ -330,11 +347,11 @@ export class SolicitacaoCreateComponent implements OnInit {
     save() {
         this.findOrSaveAll();
 
-        const solicitacao = new Solicitacao({
-            itens: this.items,
+        let solicitacao = new Solicitacao({
+            itens: this.solicitacaoItems,
             responsavel: this.requester,
             data: '',
-            urgente: this.urgency
+            status: this.status
         });
 
         this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {

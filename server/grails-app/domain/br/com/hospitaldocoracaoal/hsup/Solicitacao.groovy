@@ -5,6 +5,7 @@ class Solicitacao {
     Usuario responsavel
     Date dateCreated
     Boolean urgente
+    StatusSolicitacao status
 
     static hasMany = [itens: SolicitacaoItem]
 

@@ -14,6 +14,8 @@ class Usuario implements Serializable {
     String username
     String name
     String password
+    String email
+
     Perfil perfil
     boolean enabled = true
     boolean accountExpired
@@ -33,6 +35,7 @@ class Usuario implements Serializable {
         username nullable: false, blank: false, unique: true
         name nullable: false, blank: false, unique: true
         perfil nullable: false, blank: false
+        email nullable: false, blank: false
     }
 
     static mapping = {
