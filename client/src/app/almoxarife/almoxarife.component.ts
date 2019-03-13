@@ -37,7 +37,6 @@ export class AlmoxarifeComponent implements OnInit {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
                     this.solicitacao = solicitacao;
                     this.buildForm();
-                    console.log(this.form.controls);
                 });
             }
         });
@@ -156,7 +155,8 @@ export class AlmoxarifeComponent implements OnInit {
         const controls = this.getControls('produto', input);
         for (const c of Object.keys(controls)) controls[c].reset('');
         this.closeList(input);
-        this.setProduto(null, input);
+        let item: Item = this.getItem(this.form.controls[input.id].controls.descricao.value);
+        if(item.produto!= undefined) item.produto.id = null;
         this.offNotFound(input);
     }
 
@@ -184,6 +184,7 @@ export class AlmoxarifeComponent implements OnInit {
             delete solicitacaoItem.item.produto.estoque;
             delete solicitacaoItem.item.produto.descricao;
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
+                console.log(solicitacaoItem);
                 let r = this.router;
                 this.message = 'Produtos associados com sucesso!';
                 setTimeout(function () {
