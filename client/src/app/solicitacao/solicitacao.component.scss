@@ -44,7 +44,7 @@ input, select {
 }
 
 .request-label {
-  display: block;
+  display: flex;
 
   & {
     font-family: Poppins, sans-serif;
@@ -193,7 +193,8 @@ input, select {
           background-color: $mediumGrayTransparent;
           outline: none;
           text-align: left;
-          font-family: "Poppins SemiBold", sans-serif;
+          font-family: "Poppins", sans-serif;
+          font-weight: bold;
           color: $white;
         }
 
@@ -248,10 +249,10 @@ input, select {
 }
 
 .container-items {
-  position: relative;
   width: 98%;
   padding: 5px 10px;
   margin-top: 10px;
+
   & {
     background-color: $lightGray;
     border-top: 2px solid $brown;
@@ -279,6 +280,7 @@ input, select {
   .items {
     height: 80px;
     display: flex;
+
     & {
       font-size: 16px;
       justify-content: space-between;

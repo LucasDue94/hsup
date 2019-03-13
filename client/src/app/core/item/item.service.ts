@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs';
-import { Item } from './item';
-import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs';
+import {Item} from './item';
+import {Subject} from 'rxjs/Subject';
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
@@ -34,7 +34,10 @@ export class ItemService {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
-        this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
             });
@@ -73,10 +76,10 @@ export class ItemService {
 
         if (item.id) {
             url = this.baseUrl + 'item/' + item.id;
-            return this.http.put(url, item, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
         } else {
             url = this.baseUrl + 'item';
-            return this.http.post(url, item, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.post<Item>(url, item, {headers: httpOptions.headers, responseType: 'json'});
         }
     }
 

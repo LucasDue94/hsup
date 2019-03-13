@@ -1,5 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup
 
+import br.com.hospitaldocoracaoal.hsup.integracao.ProdutoController
 import grails.testing.web.controllers.ControllerUnitTest
 import spock.lang.Specification
 

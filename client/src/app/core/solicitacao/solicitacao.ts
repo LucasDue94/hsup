@@ -1,26 +1,25 @@
 import { Usuario } from "../usuario/usuario";
-import { Setor } from "../setor/setor";
-
+import { Status } from "tslint/lib/runner";
 
 export class Solicitacao {
     id: number;
     itens: Solicitacao[];
     responsavel: Usuario;
-    setor: Setor;
     data: any;
-
+    urgente: boolean;
+    status: Status;
 
     constructor (object?: any) {
-        if (object) {
+        if (this.urgente == null) this.urgente = false;
 
+        if (object) {
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }
-
     }
 
     toString(): string {
-        return 'br.com.hospitaldocoracaoal.hsup.Solicitacao : ' + (this.id ? this.id : '(unsaved)');
+        return 'br.com.hospitaldocoracaoal.hsup.SolicitacaoItem : ' + (this.id ? this.id : '(unsaved)');
     }
 }

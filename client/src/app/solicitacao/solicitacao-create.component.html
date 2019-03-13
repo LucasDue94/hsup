@@ -17,7 +17,7 @@
                                        (focus)="find($event.target, 'item')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom">
-                                <div class="items col-12" (scrolled)="find(items.previousSibling, 'item', true)"
+                                <div class="items col-12" (scrolled)="find(solicitacaoItems.previousSibling, 'item', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div [hidden]="true">
-                                    Carregando...
+                                    Procurando por itens...
                                 </div>
                             </div>
                             <div class="form-group col-2">
@@ -45,7 +45,7 @@
                         <button class="button-cancel" name="button-cancel">X</button>
                     </section>
                     <button (click)="addField('item')" [name]="'add-button'"
-                            class="float-button-plus bg-blue color-white">+
+                            class="float-button-plus bg-green color-white">+
                     </button>
                 </div>
             </perfect-scrollbar>
@@ -95,7 +95,7 @@
                         <button class="button-cancel" name="button-cancel">X</button>
                     </section>
                     <button (click)="addField('fabricante')" [name]="'add-button'"
-                            class="float-button-plus bg-blue color-white">+
+                            class="float-button-plus bg-green color-white">+
                     </button>
                 </div>
             </perfect-scrollbar>
@@ -153,7 +153,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="button-cancel" name="button-cancel">X</button>
+                        <button class="button-cancel" name="button-cancel-3">X</button>
                     </section>
                     <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">+</button>
                 </div>
@@ -164,7 +164,7 @@
         <main class="container-request container-md">
             <section class="main-content col-12">
                 <header class="col-12 header-main-content">
-                    <button (click)="setUrgency()" class="btn-urgency-container" #iconContainer>
+                    <button (click)="setUrgency()" class="btn-urgency-container" #urgencyIcon>
                         <span>URGENTE</span>
                         <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
                     </button>
@@ -215,5 +215,4 @@
     <button class="button button-blue float-right" next-button>Próximo ></button>
     <button *ngIf="validate('item')" class="button button-blue float-right" finish-button>Finalizar</button>
     <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
-
 </hcal-tab>

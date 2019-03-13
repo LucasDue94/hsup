@@ -66,10 +66,10 @@
                 <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
             </button>
             <h2 class="item-header">RESUMO DA COMPRA</h2>
-            <h2 id="qnt" class="item-header">QUANTIDADE: {{items.length}}</h2>
+            <h2 id="qnt" class="item-header">QUANTIDADE: {{solicitacaoItems.length}}</h2>
         </header>
         <perfect-scrollbar class="scroll col-12">
-            <section class="col-12 container-items" *ngFor="let item of items; index as i">
+            <section class="col-12 container-solicitacaoItems" *ngFor="let item of solicitacaoItems; index as i">
                 <section class="labels">
                     <div class="label">Item</div>
                     <div class="label qnt-flex">Qnt</div>
@@ -77,7 +77,7 @@
                     <div class="label">Fornecedor</div>
                 </section>
 
-                <section class="items">
+                <section class="solicitacaoItems">
                     <div class="item">{{i+1}} - {{item.descricao}}</div>
                     <div class="item qnt-flex">{{item.qnt}}</div>
                     <div class="item container-list">

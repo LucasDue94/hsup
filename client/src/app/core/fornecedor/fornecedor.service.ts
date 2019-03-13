@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
-import { Observable } from 'rxjs';
-import { Fornecedor } from './fornecedor';
-import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {Observable} from 'rxjs';
+import {Fornecedor} from './fornecedor';
+import {Subject} from 'rxjs/Subject';
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import { environment } from "../../../environments/environment";
-import { Item } from "../item/item";
-import { Fabricante } from "../fabricante/fabricante";
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class FornecedorService {
@@ -23,7 +21,10 @@ export class FornecedorService {
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Fornecedor[]> {
         let subject = new Subject<Fornecedor[]>();
-        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {headers: this.headers, params: {fantasia: searchTerm}})
+        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {
+            headers: this.headers,
+            params: {fantasia: searchTerm}
+        })
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
@@ -35,7 +36,10 @@ export class FornecedorService {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'fornecedor';
         let subject = new Subject<Fornecedor[]>();
-        this.http.get(url + `?offset=${offset}`, {headers: this.headers, params: {termo: searchTerm}}).map((r: HttpResponse<any>) => r)
+        this.http.get(url + `?offset=${offset}&max=${limit}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
                 subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
             });
@@ -74,10 +78,10 @@ export class FornecedorService {
 
         if (fornecedor.id) {
             url = this.baseUrl + 'fornecedor/' + fornecedor.id;
-            return this.http.put(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Fornecedor>(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
         } else {
             url = this.baseUrl + 'fornecedor';
-            return this.http.post(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.post<Fornecedor>(url, fornecedor, {headers: httpOptions.headers, responseType: 'json'});
         }
     }
 

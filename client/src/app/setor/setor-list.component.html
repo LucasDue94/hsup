@@ -1,7 +1,4 @@
 <div class="col-12 float-left" role="main">
-    <a [routerLink]="['/index']" class="back-icon-link float-left">
-        <fa-icon [icon]="['fas', 'home']" class=""></fa-icon>
-    </a>
     <div class="col-4 form-group float-right">
         <form [formGroup]="searchForm">
             <input type="text"
@@ -40,7 +37,7 @@
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Cadastrar {{this.constructor.name | slice : 0:-13}}" [placement]="'top'" [show-delay]="500">
+    <div class="floating-button" tooltip="Novo" [placement]="'top'" [show-delay]="500">
         <a [routerLink]="['/setor','create']" class="create a-link-page">
             <p class="plus">+</p>
         </a>

@@ -58,7 +58,7 @@ export class ItemPersistComponent implements OnInit {
     }
 
     save() {
-        this.itemService.save(this.item).subscribe((item: Item) => {
+        this.itemService.save(this.item).subscribe((item: any) => {
             if (this.item.id != null) {
                 this.message = `Item ${this.item.descricao} alterado com sucesso!`;
             } else {

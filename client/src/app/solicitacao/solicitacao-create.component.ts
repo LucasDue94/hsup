@@ -9,15 +9,22 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
-import { Router } from "@angular/router";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import {Router} from "@angular/router";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
-import { ItemService } from "../core/item/item.service";
-import { FabricanteService } from "../core/fabricante/fabricante.service";
-import { FornecedorService } from "../core/fornecedor/fornecedor.service";
-import { Item } from "../core/item/item";
-import { Fabricante } from "../core/fabricante/fabricante";
-import { Fornecedor } from "../core/fornecedor/fornecedor";
+import {ItemService} from "../core/item/item.service";
+import {FabricanteService} from "../core/fabricante/fabricante.service";
+import {FornecedorService} from "../core/fornecedor/fornecedor.service";
+import {Fornecedor} from "../core/fornecedor/fornecedor";
+import {Fabricante} from "../core/fabricante/fabricante";
+import {Item} from "../core/item/item";
+import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
+import {UsuarioService} from "../core/usuario/usuario.service";
+import {Usuario} from "../core/usuario/usuario";
+import {Solicitacao} from "../core/solicitacao/solicitacao";
+import {SolicitacaoItem} from "../core/solicitacaoItem/solicitacao-item";
+import {StatusSolicitacaoService} from "../core/statusSolicitacao/status-solicitacao.service";
+import {StatusSolicitacao} from "../core/statusSolicitacao/status-solicitacao";
 
 @Component({
     selector: 'solicitacao-create',
@@ -28,21 +35,24 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     @ContentChild(SolicitacaoCreateComponent, {read: ElementRef}) content: QueryList<SolicitacaoCreateComponent>;
     @ViewChildren('item', {read: ElementRef}) item: QueryList<any>;
+    @ViewChild('urgencyIcon', {read: ElementRef}) urgencyIcon: QueryList<any>;
 
     fields: any = [];
     controlArray;
     findList = [];
-    errors: any[];
+    error = null;
     offset: number = 0;
     urgency: boolean = false;
+    requester;
+    errors;
     message;
-    items: Item[] = [];
-    @ViewChild('iconContainer') iconContainer;
+    solicitacaoItems: SolicitacaoItem[] = [];
+    status;
 
-
-    constructor(private router: Router, private fb: FormBuilder, private itemService: ItemService,
+    constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
-                private renderer: Renderer2) {
+                private renderer: Renderer2, private solicitacaoService: SolicitacaoService,
+                private usuarioService: UsuarioService, private statusSolicitacaoService: StatusSolicitacaoService) {
     }
 
     ngOnInit() {
@@ -51,33 +61,46 @@ export class SolicitacaoCreateComponent implements OnInit {
             fabricante: this.fb.array([this.createFormControl('fabricante')]),
             fornecedor: this.fb.array([this.createFormControl('fornecedor')]),
         });
+
+        const userLoggedId = +localStorage.getItem('id');
+        this.usuarioService.get(userLoggedId).subscribe((usuario: Usuario) => {
+            this.requester = usuario;
+        });
+
+        this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) => {
+            this.status = value;
+        })
     }
 
-    cancel = () => this.router.navigate(['solicitacao']);
+    cancel = () => this.route.navigate(['solicitacao']);
 
     createFormControl(type) {
         let group;
-        if (type == 'item') {
-            group = this.fb.group({
-                id: '',
-                descricao: '',
-                unidade_medida: '',
-                quantidade: ''
-            });
-        } else if (type == 'fabricante') {
-            group = this.fb.group({
-                id: '',
-                fantasia: '',
-                item: ''
-            });
-        } else if (type == 'fornecedor') {
-            group = this.fb.group({
-                id: '',
-                fantasia: '',
-                telefone: '',
-                email: '',
-                item: ''
-            });
+        switch (type) {
+            case 'item':
+                group = this.fb.group({
+                    id: '',
+                    descricao: '',
+                    unidade_medida: '',
+                    quantidade: ''
+                });
+                break;
+            case 'fabricante':
+                group = this.fb.group({
+                    id: '',
+                    fantasia: new FormControl('', [Validators.required]),
+                    item: ''
+                });
+                break;
+            case 'fornecedor':
+                group = this.fb.group({
+                    id: '',
+                    fantasia: '',
+                    telefone: '',
+                    email: '',
+                    item: ''
+                });
+                break;
         }
 
         return group;
@@ -210,10 +233,19 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    findItemControl(type) {
+    findItemControl(type, object) {
         const controls = this.controlArray.controls;
         for (let c of Object.keys(controls)) {
             if (c != 'item') {
+                for (let v of controls[c].controls) {
+                    if (v.get('id').value != '') {
+                        if (object.hasOwnProperty('id') && v.get('item').value == '') {
+                            v.get('item').setValue(object.id, {emitEvent: false});
+                        } else {
+                            v.get('item').setValue(object, {emitEvent: false});
+                        }
+                    }
+                }
             }
         }
     }
@@ -241,96 +273,86 @@ export class SolicitacaoCreateComponent implements OnInit {
     setUrgency() {
         this.urgency = !this.urgency;
         if (this.urgency) {
-            this.renderer.addClass(this.iconContainer.nativeElement, 'enable-urgency-container');
-            this.renderer.addClass(this.iconContainer.nativeElement.childNodes[1], 'enable');
+            this.renderer.addClass(this.urgencyIcon['nativeElement'], 'enable-urgency-container');
+            this.renderer.addClass(this.urgencyIcon['nativeElement'].childNodes[1], 'enable');
         } else {
-            this.renderer.removeClass(this.iconContainer.nativeElement, 'enable-urgency-container');
-            this.renderer.removeClass(this.iconContainer.nativeElement.childNodes[1], 'enable');
+            this.renderer.removeClass(this.urgencyIcon['nativeElement'], 'enable-urgency-container');
+            this.renderer.removeClass(this.urgencyIcon['nativeElement'].childNodes[1], 'enable');
         }
     }
 
-    getAllFormGroup(type) {
-        return this.controlArray.get(type).controls
-    }
-
-    findInItem(item) {
-        this.getAllFormGroup('item').forEach(item => {
-            const novoItem = new Item();
-            this.getAllFormGroup('fabricante').forEach(fabricante => {
-                if (fabricante.item == item.id) {
-                    novoItem.fabricante.push(fabricante.id);
-                    fabricante.remove();
-                }
-            });
-
-            this.getAllFormGroup('fornecedor').forEach(fornecedor => {
-                if (fornecedor.item == item.id) {
-                    novoItem.fornecedor.push(fornecedor.id);
-                    fornecedor.remove();
-                }
-            });
-            this.items.push();
-        });
-
-    }
-
-    saveItems() {
-
-        this.items.forEach((item: Item) => {
-            console.log('Itens cadastrados');
-        }, (res: any) => {
-            const json = res.error;
-            if (json.hasOwnProperty('message')) {
-                this.errors = [json];
-            } else {
-                this.errors = json._embedded.errors;
-            }
-        });
-    }
+    getAllFormGroup = (type) => this.controlArray.get(type).controls;
 
     findOrSaveAll() {
-        const types = Object.keys(this.controlArray.controls);
-        for (let type of types) {
-            const service = this.getService(type);
-            const groups = this.getAllFormGroup(type);
-            for (let obj in groups) {
-                let properties = groups[obj].controls;
-                const objInstance = this.getInstance(type, properties);
+        const groups = this.getAllFormGroup('item');
+        for (let group of groups) {
+            let properties = group.controls;
+            let item = this.requestItemsBuilder('item', properties);
 
-                if (typeof objInstance.id == "string" && objInstance.id != '') {
-                    delete objInstance.id;
-                    service.save(objInstance).subscribe(o => {
-                        console.log(o);
-                    })
-                }
+            if (typeof item.id == "string") delete item.id;
+
+            this.attachToItem(item, 'fabricante');
+            this.attachToItem(item, 'fornecedor');
+
+            if (typeof item.id == "number") {
+                for (let key in item) if (key != "id" && item.hasOwnProperty(key)) delete item[key];
+            }
+
+            const solicitacaoItem = new SolicitacaoItem({
+                item: item,
+                unidadeMedida: properties['unidade_medida'].value,
+                quantidade: properties['quantidade'].value
+            });
+
+            this.solicitacaoItems.push(solicitacaoItem);
+        }
+    }
+
+    attachToItem(item, type) {
+        const groups = this.getAllFormGroup(type);
+
+        for (let group of groups) {
+            const groupItem = group.controls.item.value;
+            if (groupItem == item.id || groupItem == item.descricao) {
+                const objInstance = this.requestItemsBuilder(type, group.controls);
+                if (typeof objInstance.id == 'string') delete objInstance.id;
+                if (type == 'fabricante') item.fabricante.push(objInstance);
+                if (type == 'fornecedor') item.fornecedor.push(objInstance);
             }
         }
     }
 
-    getInstance(type, obj) {
+    requestItemsBuilder(type, obj) {
         switch (type) {
             case 'item':
-                return new Item({id: obj['id'].value, descricao: obj['descricao'].value});
+                const item = new Item({id: obj.id.value, descricao: obj.descricao.value});
+                delete item.produto;
+                return item;
             case 'fabricante':
-                return new Fabricante({id: obj['id'].value, fantasia: obj['fantasia'].value});
+                return new Fabricante({id: obj.id.value, fantasia: obj.fantasia.value});
             case 'fornecedor':
-                return new Fornecedor({id: obj['id'].value, fantasia: obj['fantasia'].value});
+                return new Fornecedor({
+                    id: obj.id.value,
+                    fantasia: obj.fantasia.value,
+                    telefone: obj.telefone.value,
+                    email: obj.email.value
+                });
         }
     }
 
     save() {
         this.findOrSaveAll();
-        /* items.forEach(){
-             this.findInItem();
-         }*/
-        this.saveItems();
 
+        let solicitacao = new Solicitacao({
+            itens: this.solicitacaoItems,
+            responsavel: this.requester,
+            data: '',
+            status: this.status
+        });
 
-        // console.log(this.controlArray);
-        // console.log(this.getAllFormGroup('item'));
-        // console.log(this.getAllFormGroup('fabricante'));
-        // console.log(this.getAllFormGroup('fornecedor'));
-
-
+        this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
+            this.message = 'Solicitação realizada com sucesso!';
+        });
     }
+
 }
