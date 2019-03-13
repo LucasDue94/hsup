@@ -8,5 +8,6 @@ json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expa
     responsavel {
         id solicitacao.responsavel.id
         name solicitacao.responsavel.name
+        setor solicitacao.responsavel.setor.nome
     }
 }

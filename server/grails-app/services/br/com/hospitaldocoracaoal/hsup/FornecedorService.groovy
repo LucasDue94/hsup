@@ -3,16 +3,27 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.services.Service
 
 @Service(Fornecedor)
-interface FornecedorService {
+abstract class FornecedorService {
 
-    Fornecedor get(Serializable id)
+    abstract Fornecedor get(Serializable id)
 
-    List<Fornecedor> list(Map args)
+    List<Fornecedor> list(Map args, String termo) {
+        def criteria = Fornecedor.createCriteria()
+        List<Fornecedor> fornecedorList = (List<Fornecedor>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('fantasia', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return fornecedorList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Fornecedor save(Fornecedor fornecedor)
+    abstract void delete(Serializable id)
+
+    abstract Fornecedor save(Fornecedor fornecedor)
 
 }

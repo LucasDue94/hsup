@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-import {Fornecedor} from './fornecedor';
-import {Subject} from 'rxjs/Subject';
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { Fornecedor } from './fornecedor';
+import { Subject } from 'rxjs/Subject';
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import {environment} from "../../../environments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class FornecedorService {
@@ -36,7 +36,7 @@ export class FornecedorService {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'fornecedor';
         let subject = new Subject<Fornecedor[]>();
-        this.http.get(url + `?offset=${offset}&max=${limit}`, {
+        this.http.get(url + `?offset=${offset}`, {
             headers: this.headers,
             params: {termo: searchTerm}
         }).map((r: HttpResponse<any>) => r)

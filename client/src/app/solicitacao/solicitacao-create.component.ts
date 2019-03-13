@@ -9,22 +9,22 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
-import {Router} from "@angular/router";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { Router } from "@angular/router";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
-import {ItemService} from "../core/item/item.service";
-import {FabricanteService} from "../core/fabricante/fabricante.service";
-import {FornecedorService} from "../core/fornecedor/fornecedor.service";
-import {Fornecedor} from "../core/fornecedor/fornecedor";
-import {Fabricante} from "../core/fabricante/fabricante";
-import {Item} from "../core/item/item";
-import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
-import {UsuarioService} from "../core/usuario/usuario.service";
-import {Usuario} from "../core/usuario/usuario";
-import {Solicitacao} from "../core/solicitacao/solicitacao";
-import {SolicitacaoItem} from "../core/solicitacaoItem/solicitacao-item";
-import {StatusSolicitacaoService} from "../core/statusSolicitacao/status-solicitacao.service";
-import {StatusSolicitacao} from "../core/statusSolicitacao/status-solicitacao";
+import { ItemService } from "../core/item/item.service";
+import { FabricanteService } from "../core/fabricante/fabricante.service";
+import { FornecedorService } from "../core/fornecedor/fornecedor.service";
+import { Fornecedor } from "../core/fornecedor/fornecedor";
+import { Fabricante } from "../core/fabricante/fabricante";
+import { Item } from "../core/item/item";
+import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
+import { UsuarioService } from "../core/usuario/usuario.service";
+import { Usuario } from "../core/usuario/usuario";
+import { Solicitacao } from "../core/solicitacao/solicitacao";
+import { SolicitacaoItem } from "../core/solicitacaoItem/solicitacao-item";
+import { StatusSolicitacaoService } from "../core/statusSolicitacao/status-solicitacao.service";
+import { StatusSolicitacao } from "../core/statusSolicitacao/status-solicitacao";
 
 @Component({
     selector: 'solicitacao-create',
@@ -158,7 +158,6 @@ export class SolicitacaoCreateComponent implements OnInit {
         } else {
             this.searchItems(currentInput, type, event);
         }
-
     }
 
     getService(name) {
@@ -220,7 +219,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             controlName = input.getAttribute('ng-reflect-name');
             group = this.getFormGroup(input, type);
 
-            this.setFormControl(group, controlName, value[controlName]);
+            this.setFormControl(group, controlName, value[controlName].toUpperCase());
 
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
 
@@ -229,23 +228,21 @@ export class SolicitacaoCreateComponent implements OnInit {
             }
         } else {
             group = this.getFormGroup(element, type);
-            this.setFormControl(group, 'id', value);
+            controlName = element.name;
+            const result = this.findInList(value.toUpperCase(), controlName);
+
+            if (result != undefined && result.hasOwnProperty('id')) {
+                this.setFormControl(group, 'id', result.id);
+            } else {
+                this.setFormControl(group, 'id', value.toUpperCase());
+            }
         }
     }
 
-    findItemControl(type, object) {
-        const controls = this.controlArray.controls;
-        for (let c of Object.keys(controls)) {
-            if (c != 'item') {
-                for (let v of controls[c].controls) {
-                    if (v.get('id').value != '') {
-                        if (object.hasOwnProperty('id') && v.get('item').value == '') {
-                            v.get('item').setValue(object.id, {emitEvent: false});
-                        } else {
-                            v.get('item').setValue(object, {emitEvent: false});
-                        }
-                    }
-                }
+    findInList(value, field) {
+        for (let item of this.findList) {
+            if (item.hasOwnProperty(field) && item[field].toUpperCase() == value) {
+                return item;
             }
         }
     }
@@ -295,7 +292,10 @@ export class SolicitacaoCreateComponent implements OnInit {
             this.attachToItem(item, 'fornecedor');
 
             if (typeof item.id == "number") {
-                for (let key in item) if (key != "id" && item.hasOwnProperty(key)) delete item[key];
+                for (let key in item) {
+                    if (key != "id" && key != "fabricante" && key != "fornecedor" && item.hasOwnProperty(key))
+                        delete item[key];
+                }
             }
 
             const solicitacaoItem = new SolicitacaoItem({
@@ -325,15 +325,15 @@ export class SolicitacaoCreateComponent implements OnInit {
     requestItemsBuilder(type, obj) {
         switch (type) {
             case 'item':
-                const item = new Item({id: obj.id.value, descricao: obj.descricao.value});
+                const item = new Item({id: obj.id.value, descricao: obj.descricao.value.toUpperCase()});
                 delete item.produto;
                 return item;
             case 'fabricante':
-                return new Fabricante({id: obj.id.value, fantasia: obj.fantasia.value});
+                return new Fabricante({id: obj.id.value, fantasia: obj.fantasia.value.toUpperCase()});
             case 'fornecedor':
                 return new Fornecedor({
                     id: obj.id.value,
-                    fantasia: obj.fantasia.value,
+                    fantasia: obj.fantasia.value.toUpperCase(),
                     telefone: obj.telefone.value,
                     email: obj.email.value
                 });
@@ -345,7 +345,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
         let solicitacao = new Solicitacao({
             itens: this.solicitacaoItems,
-            responsavel: this.requester,
+            responsavel: this.requester.id,
             data: '',
             status: this.status
         });

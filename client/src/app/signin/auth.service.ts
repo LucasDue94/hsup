@@ -40,7 +40,7 @@ export class AuthService {
 
         return this.http.post(url, null, {headers: header.auth, responseType: 'json'}).subscribe(
             resp => {
-                localStorage.removeItem('token');
+                localStorage.clear();
                 this.router.navigate(['/']);
             },
             err => {
