@@ -1,7 +1,5 @@
 import { Usuario } from "../usuario/usuario";
-import { Setor } from "../setor/setor";
 import { Status } from "tslint/lib/runner";
-
 
 export class Solicitacao {
     id: number;

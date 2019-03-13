@@ -9,22 +9,22 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
-import { Router } from "@angular/router";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {Router} from "@angular/router";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
-import { ItemService } from "../core/item/item.service";
-import { FabricanteService } from "../core/fabricante/fabricante.service";
-import { FornecedorService } from "../core/fornecedor/fornecedor.service";
-import { Fornecedor } from "../core/fornecedor/fornecedor";
-import { Fabricante } from "../core/fabricante/fabricante";
-import { Item } from "../core/item/item";
-import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { UsuarioService } from "../core/usuario/usuario.service";
-import { Usuario } from "../core/usuario/usuario";
-import { Solicitacao } from "../core/solicitacao/solicitacao";
-import { SolicitacaoItem } from "../core/solicitacaoItem/solicitacao-item";
-import { StatusSolicitacaoService } from "../core/status-solicitacao/status-solicitacao.service";
-import { StatusSolicitacao } from "../core/status-solicitacao/status-solicitacao";
+import {ItemService} from "../core/item/item.service";
+import {FabricanteService} from "../core/fabricante/fabricante.service";
+import {FornecedorService} from "../core/fornecedor/fornecedor.service";
+import {Fornecedor} from "../core/fornecedor/fornecedor";
+import {Fabricante} from "../core/fabricante/fabricante";
+import {Item} from "../core/item/item";
+import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
+import {UsuarioService} from "../core/usuario/usuario.service";
+import {Usuario} from "../core/usuario/usuario";
+import {Solicitacao} from "../core/solicitacao/solicitacao";
+import {SolicitacaoItem} from "../core/solicitacaoItem/solicitacao-item";
+import {StatusSolicitacaoService} from "../core/statusSolicitacao/status-solicitacao.service";
+import {StatusSolicitacao} from "../core/statusSolicitacao/status-solicitacao";
 
 @Component({
     selector: 'solicitacao-create',
@@ -67,7 +67,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             this.requester = usuario;
         });
 
-        this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) =>  {
+        this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) => {
             this.status = value;
         })
     }
@@ -281,17 +281,13 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    getAllFormGroup(type) {
-        return this.controlArray.get(type).controls;
-    }
+    getAllFormGroup = (type) => this.controlArray.get(type).controls;
 
     findOrSaveAll() {
         const groups = this.getAllFormGroup('item');
-        let item;
-
         for (let group of groups) {
             let properties = group.controls;
-            item = this.requestItemsBuilder('item', properties);
+            let item = this.requestItemsBuilder('item', properties);
 
             if (typeof item.id == "string") delete item.id;
 

@@ -16,12 +16,23 @@ abstract class SolicitacaoService {
 
     @Transactional
     Solicitacao save(Solicitacao solicitacao) {
+        if (solicitacao == null) {
+            throw new IllegalArgumentException("Solicitação não pode ser nula.")
+        }
 
-        solicitacao.itens.each { item ->
-            if (item != null && !Item.exists(item.id)) {
-                item.save()
+        solicitacao.itens.item.each { it ->
+            if (it != null && !Item.exists(it.id)) {
+                it.save(flush: true)
             }
         }
+
+        solicitacao.save()
+
+        solicitacao.itens.each { it ->
+            it.save(flush: true)
+        }
+
+        solicitacao
     }
 
 }

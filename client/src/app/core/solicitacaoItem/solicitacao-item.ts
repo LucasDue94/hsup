@@ -1,23 +1,17 @@
 import { Item } from "../item/item";
-
+import { Solicitacao } from "../solicitacao/solicitacao";
 
 export class SolicitacaoItem {
-    id: number;
+    solicitacao: Solicitacao;
     item: Item;
     unidadeMedida: string;
     quantidade: number;
 
     constructor (object?: any) {
         if (object) {
-
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }
-
-    }
-
-    toString(): string {
-        return 'br.com.hospitaldocoracaoal.hsup.SolicitacaoItem : ' + (this.id ? this.id : '(unsaved)');
     }
 }
