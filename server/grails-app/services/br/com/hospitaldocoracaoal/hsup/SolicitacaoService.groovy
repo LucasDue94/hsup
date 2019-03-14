@@ -52,12 +52,16 @@ abstract class SolicitacaoService {
 
         solicitacao.itens.each { it ->
             it.item.each { item ->
-                if (item.fornecedor != null) {
-                    it.addToFornecedor(item.fornecedor)
+                item.fornecedor.each { forn ->
+                    if (forn != null) {
+                        it.addToFornecedor(forn)
+                    }
                 }
 
-                if (item.fabricante != null) {
-                    it.addToFabricante(item.fabricante)
+                item.fabricante.each { fab ->
+                    if (fab != null) {
+                        it.addToFabricante(fab)
+                    }
                 }
             }
 
@@ -66,5 +70,4 @@ abstract class SolicitacaoService {
 
         solicitacao
     }
-
 }
