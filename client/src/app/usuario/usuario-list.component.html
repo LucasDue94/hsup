@@ -32,11 +32,8 @@
         </table>
         <div class="not-found" *ngIf="usuarioList.length == 0">
             <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
-            <h1 class="not-found-error" *ngIf="usuarioList.length == 0 && !loading && field.value == ''">
-                Não há dados cadastrados
-            </h1>
-            <h1 class="not-found-error" *ngIf="usuarioList.length == 0 && !loading">
-                Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
+            <h1 class="not-found-error" *ngIf="field.value == ''">
+                Nenhum dado encontrado
             </h1>
         </div>
     </hcal-table>

@@ -39,8 +39,8 @@
         </table>
         <div class="not-found" *ngIf="solicitacaoList.length == 0">
             <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
-            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading && field.value == ''">
-                Não há dados cadastrados
+            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading ">
+                Nenhum dado encontrado
             </h1>
             <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading">
                 Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
@@ -51,7 +51,7 @@
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Nova {{this.constructor.name | slice : 0:-9}}" [placement]="'top'"
+    <div class="floating-button" tooltip="Novo" [placement]="'top'"
          [show-delay]="500">
         <a [routerLink]="['/solicitacao','create']" class="create a-link-page">
             <p class="plus">+</p>

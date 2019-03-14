@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Perfil } from '../core/perfil/perfil';
 import { PerfilService } from '../core/perfil/perfil.service';
@@ -39,7 +39,7 @@ export class PerfilPersistComponent implements OnInit {
     }
 
     permissoesList() {
-        this.permissoesService.list('', '', '')
+        this.permissoesService.list('', '')
             .subscribe((permissoesList: Permissoes[]) => {
                 permissoesList.forEach(p => {
                     this.aPermissoes.push(p)

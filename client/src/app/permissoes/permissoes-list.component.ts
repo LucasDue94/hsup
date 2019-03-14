@@ -43,6 +43,7 @@ export class PermissoesListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
+                if (searchTerm == '') return this.permissoesService.list('', this._offset);
                 return this.permissoesService.search(searchTerm, this._offset)
             })
             .subscribe((permissoesList: Permissoes[]) => {

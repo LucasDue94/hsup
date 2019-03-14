@@ -42,7 +42,7 @@ export class UsuarioPersistComponent implements OnInit {
     }
 
     perfilList () {
-        this.perfilService.list('', '', '').subscribe((perfilList: Perfil[]) => {
+        this.perfilService.list('', '').subscribe((perfilList: Perfil[]) => {
             perfilList.forEach(p => {
                 this.aPerfis.push(p)
             });
@@ -52,7 +52,7 @@ export class UsuarioPersistComponent implements OnInit {
     }
 
     permissoesList () {
-        this.permissoesService.list('', '', '').subscribe((permissoesList: Permissoes[]) => {
+        this.permissoesService.list('', '').subscribe((permissoesList: Permissoes[]) => {
             permissoesList.forEach(p => {
                 this.aPermissoes.push(p)
             });

@@ -8,7 +8,6 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
-import { Permissoes } from "../permissoes/permissoes";
 
 @Injectable()
 export class PermissoesService {

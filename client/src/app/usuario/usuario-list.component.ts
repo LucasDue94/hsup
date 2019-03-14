@@ -43,6 +43,7 @@ export class UsuarioListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
+                if (searchTerm == '') return this.usuarioService.list('', this._offset);
                 return this.usuarioService.search(searchTerm, this._offset)
             })
             .subscribe((usuarioList: Usuario[]) => {
