@@ -2,6 +2,8 @@
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 .container-header {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 5em;
 
   & {
@@ -14,15 +16,25 @@
     margin-bottom: 20px;
   }
 
-  .label {
+  .flex-column{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content-header{
+    display: flex;
+    flex-direction: row;
+  }
+ /* .label {
     display: inline;
     font-family: "Poppins ExtraLight", sans-serif;
     margin-right: 5px;
   }
 
   .label-description {
+    text-transform: capitalize;
     display: inline;
-  }
+  }*/
 }
 
 .container-request {
@@ -234,3 +246,4 @@
   max-height: 200px;
   z-index: 4;
 }
+

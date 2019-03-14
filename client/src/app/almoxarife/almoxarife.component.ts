@@ -40,7 +40,7 @@ export class AlmoxarifeComponent implements OnInit {
                 });
             }
         });
-
+        console.log(this.solicitacao);
     }
 
     buildForm() {
@@ -106,6 +106,11 @@ export class AlmoxarifeComponent implements OnInit {
         }
     }
 
+    @HostListener('document:keydown', ['$event']) onKeydownHandler(e: KeyboardEvent) {
+        if (e.key === 'F5' && !confirm('Você tem certeza que deseja atualizar a página? Seus dados não salvos serão perdidos.'))
+            return false;
+    }
+
     offNotFound(input) {
         this.notFoundMessage = null;
         this.render.setProperty(input.nextSibling.nextSibling, 'hidden', true);
@@ -128,17 +133,19 @@ export class AlmoxarifeComponent implements OnInit {
 
     getProduto(id) {
         let value = '';
-        this.solicitacao.itens.forEach((solicitacaoItem: any) => {
-            if (solicitacaoItem.item.produto.id == id) {
-                value = solicitacaoItem.item.produto.descricao;
+        this.solicitacao.itens.forEach((solicitacaoItem) => {
+            if (solicitacaoItem.item.produto != undefined) {
+                if (solicitacaoItem.item.produto.id == id) {
+                    value = solicitacaoItem.item.produto.descricao;
+                }
             }
         });
         return value;
     }
 
     undo(input) {
-        const proId = this.getControls('produto', input)['id'];
-        input.value = proId != '' ? this.getProduto(proId.value) : '';
+        const produtoId = this.getControls('produto', input)['id'];
+        input.value = produtoId != '' ? this.getProduto(produtoId.value) : '';
     }
 
     select(produto, input) {
@@ -156,13 +163,13 @@ export class AlmoxarifeComponent implements OnInit {
         for (const c of Object.keys(controls)) controls[c].reset('');
         this.closeList(input);
         let item: Item = this.getItem(this.form.controls[input.id].controls.descricao.value);
-        if(item.produto!= undefined) item.produto.id = null;
+        if (item.produto != undefined) item.produto.id = null;
         this.offNotFound(input);
     }
 
     getItem(itemName): any {
         let item = new Item();
-        this.solicitacao.itens.forEach((solicitacaoItem: any) => {
+        this.solicitacao.itens.forEach((solicitacaoItem) => {
             if (itemName == solicitacaoItem.item.descricao) {
                 item = solicitacaoItem.item;
             }
@@ -179,10 +186,16 @@ export class AlmoxarifeComponent implements OnInit {
         }) : new Produto();
     }
 
+    getPriority(){
+        return this.solicitacao.urgente ? 'urgente': 'normal';
+    }
+
     save() {
-        this.solicitacao.itens.forEach((solicitacaoItem: any) => {
-            delete solicitacaoItem.item.produto.estoque;
-            delete solicitacaoItem.item.produto.descricao;
+        this.solicitacao.itens.forEach((solicitacaoItem) => {
+            if (solicitacaoItem.item.produto != undefined) {
+                delete solicitacaoItem.item.produto.estoque;
+                delete solicitacaoItem.item.produto.descricao;
+            }
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
                 console.log(solicitacaoItem);
                 let r = this.router;

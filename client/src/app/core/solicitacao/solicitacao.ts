@@ -1,11 +1,12 @@
 import { Usuario } from "../usuario/usuario";
 import { Status } from "tslint/lib/runner";
+import { SolicitacaoItem } from "../solicitacaoItem/solicitacao-item";
 
 export class Solicitacao {
     id: number;
-    itens: Solicitacao[];
+    itens: SolicitacaoItem[];
     responsavel: Usuario;
-    data: any;
+    dateCreated: any;
     urgente: boolean;
     status: Status;
 

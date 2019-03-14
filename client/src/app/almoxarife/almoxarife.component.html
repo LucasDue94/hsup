@@ -3,29 +3,40 @@
         <h2>Associação</h2>
         <h2>Item x Produto WPD</h2>
     </section>
-    <aside class="float-left col-6">
-        <h4 class="label">Solicitante:</h4>
-        <h3 class="label-description">{{ solicitacao?.responsavel?.name }}</h3>
-    </aside>
 
-    <aside class="float-right text-right col-6">
-        <h4 class="label">Nº da Solicitação:</h4>
-        <h3 class="label-description">{{solicitacao?.id}}</h3>
-    </aside>
+    <section class="content-header">
+        <section class="flex-column">
+            <aside>
+                <h4 class="label">Prioridade:</h4>
+                <h3 [ngClass]="['label-description', getPriority()]"> {{ getPriority() }}</h3>
+            </aside>
+            <aside>
+                <h4 class="label">Solicitante:</h4>
+                <h3 class="label-description">{{ solicitacao?.responsavel?.name }}</h3>
+            </aside>
+            <aside>
+                <h4 class="label">Nº da Solicitação:</h4>
+                <h3 class="label-description">{{solicitacao?.id}}</h3>
+            </aside>
+        </section>
 
-    <aside class="float-left col-6">
-        <h4 class="label">Setor:</h4>
-        <h3 class="label-description">{{ solicitacao?.setor?.nome }}</h3>
-    </aside>
+        <section class="flex-column">
+            <aside class="">
+                <h4 class="label">Setor:</h4>
+                <h3 class="label-description">{{ solicitacao?.responsavel?.setor}}</h3>
+            </aside>
 
-    <aside class="float-right text-right col-6">
-        <h4 class="label">Data:</h4>
-        <h3 class="label-description"> {{solicitacao?.data | date:'dd/MM/yyyy'}}</h3>
-    </aside>
+            <aside class="">
+                <h4 class="label">Data:</h4>
+                <h3 class="label-description"> {{solicitacao?.dateCreated | date:'dd/MM/yyyy'}}</h3>
+            </aside>
+
+        </section>
+    </section>
+
 </header>
 
 <main class="container-request col-11">
-
     <header class="main-content-header col-12">
         <aside class="left-aside col-6">
             <h2 class="title col-12">ITEM SOLICITAÇÃO</h2>
