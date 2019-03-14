@@ -38,7 +38,7 @@ export class ItemPersistComponent implements OnInit {
     }
 
     fornecedorList () {
-        this.fornecedorService.list('', '', '').subscribe((fornecedorList: Fornecedor[]) => {
+        this.fornecedorService.list('', '').subscribe((fornecedorList: Fornecedor[]) => {
             fornecedorList.forEach(f => {
                 this.aFornecedores.push(f)
             });

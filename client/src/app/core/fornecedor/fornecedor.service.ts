@@ -19,15 +19,12 @@ export class FornecedorService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Fornecedor[]> {
+    list(max?: any, offset?: any): Observable<Fornecedor[]> {
         let subject = new Subject<Fornecedor[]>();
-        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {
-            headers: this.headers,
-            params: {fantasia: searchTerm}
-        })
+        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
+                subject.next(json['fornecedor'].map((fornecedor: any) => new Fornecedor(fornecedor)))
             });
         return subject.asObservable();
     }
@@ -41,7 +38,7 @@ export class FornecedorService {
             params: {termo: searchTerm}
         }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
-                subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
+                subject.next(json['fornecedor'].map((fornecedor: any) => new Fornecedor(fornecedor)))
             });
         return subject.asObservable();
     }

@@ -21,8 +21,9 @@ export class SolicitacaoComponent implements OnInit {
     searchControl: FormControl;
     message;
     error;
+    loading: boolean;
 
-    constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private router: Router){
+    constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private router: Router) {
         this._pageNumber = 0;
     }
 
@@ -39,10 +40,13 @@ export class SolicitacaoComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.solicitacaoService.list(this.count, searchTerm))
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.solicitacaoService.list(this.count, searchTerm)
+            })
             .subscribe((solicitacaoList: Solicitacao[]) => {
                 this.solicitacaoList = solicitacaoList;
+                this.loading = false;
             });
 
         if (this.searchControl.value == "") {
@@ -52,8 +56,10 @@ export class SolicitacaoComponent implements OnInit {
 
     list(p: number) {
         this._offset = (p - 1) * 10;
+        this.loading = true;
         this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
             this.solicitacaoList = solicitacaoList
+            this.loading = false;
         });
     }
 

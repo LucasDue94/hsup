@@ -3,16 +3,28 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.services.Service
 
 @Service(Setor)
-interface SetorService {
+abstract class SetorService {
 
-    Setor get(Serializable id)
+    abstract Setor get(Serializable id)
 
-    List<Setor> list(Map args)
+    List<Setor> list(Map args, String termo) {
+        def criteria = Setor.createCriteria()
+        List<Setor> setorList = (List<Setor>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('id', "%${termo}%")
+                    ilike('nome', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return setorList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Setor save(Setor setor)
+    abstract void delete(Serializable id)
+
+    abstract Setor save(Setor setor)
 
 }

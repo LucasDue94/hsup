@@ -224,7 +224,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
 
             for (let key of Object.keys(value)) {
-                if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key]);
+                if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key].toUpperCase());
             }
         } else {
             group = this.getFormGroup(element, type);
@@ -234,7 +234,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (result != undefined && result.hasOwnProperty('id')) {
                 this.setFormControl(group, 'id', result.id);
             } else {
-                this.setFormControl(group, 'id', value.toUpperCase());
+                this.setFormControl(group, 'id', value);
             }
         }
     }
@@ -300,7 +300,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             const solicitacaoItem = new SolicitacaoItem({
                 item: item,
-                unidadeMedida: properties['unidade_medida'].value,
+                unidadeMedida: properties['unidade_medida'].value.toUpperCase(),
                 quantidade: properties['quantidade'].value
             });
 
@@ -347,7 +347,8 @@ export class SolicitacaoCreateComponent implements OnInit {
             itens: this.solicitacaoItems,
             responsavel: this.requester.id,
             data: '',
-            status: this.status
+            status: this.status,
+            urgente: this.urgency
         });
 
         this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {

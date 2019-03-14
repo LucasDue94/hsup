@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CoreModule } from '../core/core.module';
-import { HcalSharedModule, InputBaseModule, ModalModule, StepModule, TableModule, TabModule } from 'hcal';
+import { HcalSharedModule, InputBaseModule, ModalModule, StepModule, TableModule, WizardModule } from 'hcal';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -43,7 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         NgxPaginationModule,
         TooltipModule,
         TableModule,
-        TabModule,
+        WizardModule,
         StepModule,
         CoreModule,
         SolicitacaoRoutingModule,

@@ -22,6 +22,7 @@ export class UsuarioListComponent implements OnInit {
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
+    loading: boolean;
 
     constructor(private route: ActivatedRoute, private usuarioService: UsuarioService, private router: Router) {
         this._pageNumber = 0;
@@ -40,21 +41,26 @@ export class UsuarioListComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.usuarioService.list(this.count, searchTerm))
-            .subscribe((usuarioList: Usuario[]) => {this.usuarioList = usuarioList});
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.usuarioService.search(searchTerm, this._offset)
+            })
+            .subscribe((usuarioList: Usuario[]) => {
+                this.usuarioList = usuarioList;
+                this.loading = false;
+            });
 
-
-        if (this.searchControl.value == "" || this.searchControl.value == undefined) {
+        if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-
-        this.usuarioService.list('', '', this._offset).subscribe((usuarioList: Usuario[]) => {
-            this.usuarioList = usuarioList
+        this.loading = true;
+        this.usuarioService.list('', this._offset).subscribe((usuarioList: Usuario[]) => {
+            this.usuarioList = usuarioList;
+            this.loading = false;
         });
     }
 

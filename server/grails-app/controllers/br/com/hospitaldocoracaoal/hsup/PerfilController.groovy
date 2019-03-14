@@ -12,9 +12,10 @@ class PerfilController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_PERFIL_INDEX')
-    def index(Integer max) {
+    def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        respond perfilService.list(params), model:[perfilCount: perfilService.count()]
+        List<Perfil> perfilList = perfilService.list(params, termo)
+        return respond(perfilList)
     }
 
     @Secured('ROLE_PERFIL_SHOW')

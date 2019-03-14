@@ -4,34 +4,20 @@
         <h2>Item x Produto WPD</h2>
     </section>
 
-    <section class="content-header">
-        <section class="flex-column">
-            <aside>
-                <h4 class="label">Prioridade:</h4>
-                <h3 [ngClass]="['label-description', getPriority()]"> {{ getPriority() }}</h3>
-            </aside>
-            <aside>
-                <h4 class="label">Solicitante:</h4>
-                <h3 class="label-description">{{ solicitacao?.responsavel?.name }}</h3>
-            </aside>
-            <aside>
-                <h4 class="label">Nº da Solicitação:</h4>
-                <h3 class="label-description">{{solicitacao?.id}}</h3>
-            </aside>
-        </section>
-
-        <section class="flex-column">
-            <aside class="">
-                <h4 class="label">Setor:</h4>
-                <h3 class="label-description">{{ solicitacao?.responsavel?.setor}}</h3>
-            </aside>
-
-            <aside class="">
-                <h4 class="label">Data:</h4>
-                <h3 class="label-description"> {{solicitacao?.dateCreated | date:'dd/MM/yyyy'}}</h3>
-            </aside>
-
-        </section>
+    <section class="col-12 content-header">
+        <div>
+            <h4 class="title-label">Nºda Solicitação: <b class="title-value">{{ solicitacao?.id }}</b></h4>
+            <h4 class="title-label">Solicitante: <b class="title-value">{{ solicitacao?.responsavel?.name }}</b></h4>
+            <h4 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor }} </b></h4>
+        </div>
+        <div>
+            <h4 class="title-label">Prioridade:
+                <b [ngClass]="[solicitacao?.urgente ? 'urgente' : 'normal', 'title-value']">
+                    {{ solicitacao?.urgente ? 'urgente' : 'normal' }}
+                </b>
+            </h4>
+            <h4 class="title-label"> Data: <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h4>
+        </div>
     </section>
 
 </header>
@@ -58,8 +44,8 @@
                         </div>
 
                         <div class="request-form-group col-3">
-                            <label for="qntItem{{i}}" class="request-label label-right col-12">Qnt</label>
-                            <input id="qntItem{{i}}" formControlName="quantidade" class="request-item text-right col-12"
+                            <label for="qntItem{{i}}" class="request-label label-left col-12">Qnt</label>
+                            <input id="qntItem{{i}}" formControlName="quantidade" class="request-item col-12"
                                    value="{{qnt.value}}" type="text" readonly #qnt>
                         </div>
                     </aside>

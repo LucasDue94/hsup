@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Setor } from './setor';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -19,12 +19,26 @@ export class SetorService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Setor[]> {
+    list(max?: any, offset?: any): Observable<Setor[]> {
         let subject = new Subject<Setor[]>();
-        this.http.get(this.baseUrl + `setor?offset=${offset}&max=${max}`, {headers: this.headers, params: {nome: searchTerm}})
+        this.http.get(this.baseUrl + `setor?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['setor'].map((item: any) => new Setor(item)))
+                subject.next(json['setor'].map((setor: any) => new Setor(setor)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'setor';
+        let subject = new Subject<Setor[]>();
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['setor'].map((setor: any) => new Setor(setor)))
             });
         return subject.asObservable();
     }

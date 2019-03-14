@@ -2,6 +2,7 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+
 import static org.springframework.http.HttpStatus.*
 
 class SetorController {
@@ -12,12 +13,10 @@ class SetorController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_SETOR_INDEX')
-    def index(Integer max) {
+    def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        if (params.nome == null)
-            respond setorService.list(params), model:[setorCount: setorService.count()]
-        else
-            respond search()
+        List<Setor> setorList = setorService.list(params, termo)
+        return respond(setorList)
     }
 
     @Secured('ROLE_SETOR_SHOW')
@@ -69,15 +68,5 @@ class SetorController {
         setorService.delete(id)
 
         render status: NO_CONTENT
-    }
-
-    @Secured('ROLE_SETOR_INDEX')
-    def search() {params.nome
-        List<Setor> setorList = Setor.withCriteria {
-            if (params.containsKey('nome') && !params.nome.empty)
-                ilike ('nome', "%${params.nome}%")
-        }
-
-        return setorList
     }
 }

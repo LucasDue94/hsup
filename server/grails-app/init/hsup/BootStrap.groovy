@@ -24,7 +24,7 @@ class BootStrap {
         Perfil adminPerfil = Perfil.findOrCreateByName Perfil.ROLE_ADMIN
         adminPerfil.save()
 
-        Setor setorAdmin = Setor.findOrCreateByNomeAndAutenticacao ADMIN_SETOR, false
+        Setor setorAdmin = Setor.findOrCreateByNomeAndNecessitaAutorizacao ADMIN_SETOR, false
         setorAdmin.save()
 
         def controllers = grailsApplication.getArtefacts(ControllerArtefactHandler.TYPE).toList()

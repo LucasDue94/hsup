@@ -21,7 +21,7 @@ export class SolicitacaoService {
         this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['solicitacao'].map((item: any) => new Solicitacao(item)))
+                subject.next(json['solicitacao'].map((solicitacao: any) => new Solicitacao(solicitacao)))
             });
         return subject.asObservable();
     }

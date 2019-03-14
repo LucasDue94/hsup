@@ -7,17 +7,19 @@
                    placeholder="Buscar setor..." #field>
         </form>
     </div>
-    <hcal-table tableName="Setor - Quantidade {{ this.count }}">
+    <hcal-table tableName="Setor - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default">Nome</th>
+                <th class="thead-default">nome</th>
+                <th class="thead-default">necessita autorização</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let setor of this.setorList
-            | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <td class="tdata-default">{{ setor.name }}</td>
+            <tr class="trow-content" *ngFor="let setor of setorList
+            | paginate: { currentPage: pageNumber, itemsPerPage: 10, totalItems: this.count }">
+                <td class="tdata-default">{{ setor.nome }}</td>
+                <td class="tdata-default">{{ setor.autorizacao ? 'Sim' : 'Não' }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/setor', 'edit', setor.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
@@ -28,9 +30,14 @@
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.setorList.length == 0">
-            <h1 class="not-found-error" *ngIf="this.searchControl.value == ''">Não há dados cadastrados</h1>
-            <h1 class="not-found-error" *ngIf="this.searchControl.value != ''">Nenhum registro encontrado</h1>
+        <div class="not-found" *ngIf="setorList.length == 0">
+            <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
+            <h1 class="not-found-error" *ngIf="setorList.length == 0 && !loading && field.value == ''">
+                Não há dados cadastrados
+            </h1>
+            <h1 class="not-found-error" *ngIf="setorList.length == 0 && !loading">
+                Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
+            </h1>
         </div>
     </hcal-table>
     <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""

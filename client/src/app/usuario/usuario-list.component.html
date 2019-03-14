@@ -7,7 +7,7 @@
                    placeholder="Buscar usuário..." #field>
         </form>
     </div>
-    <hcal-table tableName="Usuários - Quantidade {{ this.count }}">
+    <hcal-table tableName="Usuários - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content>Nome</th>
@@ -16,8 +16,8 @@
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
             </tr>
-            <tr class="trow-content" *ngFor="let usuario of this.usuarioList
-            | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+            <tr class="trow-content" *ngFor="let usuario of usuarioList
+            | paginate: { currentPage: pageNumber, itemsPerPage: 10, totalItems: count }">
                 <td class="tdata-default">{{ usuario.name }}</td>
                 <td class="tdata-default">{{ usuario.enabled == true ? 'Ativo' : 'Inativo' }}</td>
                 <td class="tdata-default">
@@ -30,12 +30,17 @@
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.usuarioList.length == 0">
-            <h1 class="not-found-error" *ngIf="this.searchControl.value == ''">Não há dados cadastrados</h1>
-            <h1 class="not-found-error" *ngIf="this.searchControl.value != ''">Nenhum registro encontrado</h1>
+        <div class="not-found" *ngIf="usuarioList.length == 0">
+            <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
+            <h1 class="not-found-error" *ngIf="usuarioList.length == 0 && !loading && field.value == ''">
+                Não há dados cadastrados
+            </h1>
+            <h1 class="not-found-error" *ngIf="usuarioList.length == 0 && !loading">
+                Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
+            </h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="this.count > 10" (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="count > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">

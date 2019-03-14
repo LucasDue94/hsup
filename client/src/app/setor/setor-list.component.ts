@@ -22,6 +22,7 @@ export class SetorListComponent implements OnInit {
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
+    loading: boolean;
 
     constructor(private route: ActivatedRoute, private setorService: SetorService, private router: Router) {
         this._pageNumber = 0;
@@ -40,10 +41,14 @@ export class SetorListComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.setorService.list(this.count, searchTerm))
-            .subscribe((setorList: Setor[]) => {this.setorList = setorList});
-
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.setorService.search(searchTerm, this._offset)
+            })
+            .subscribe((setorList: Setor[]) => {
+                this.setorList = setorList;
+                this.loading = false;
+            });
 
         if (this.searchControl.value == "") {
             this.list(this.pageNumber);
@@ -52,9 +57,10 @@ export class SetorListComponent implements OnInit {
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-
-        this.setorService.list('', '', this._offset).subscribe((setorList: Setor[]) => {
-            this.setorList = setorList
+        this.loading = true;
+        this.setorService.list('', this._offset).subscribe((setorList: Setor[]) => {
+            this.setorList = setorList;
+            this.loading = false;
         });
     }
 

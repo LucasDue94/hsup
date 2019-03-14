@@ -17,12 +17,9 @@ export class ItemService {
     constructor(private http?: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Item[]> {
+    list(max?: any, offset?: any): Observable<Item[]> {
         let subject = new Subject<Item[]>();
-        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {
-            headers: this.headers,
-            params: {termo: searchTerm}
-        })
+        this.http.get(this.baseUrl + `item?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['item'].map((item: any) => new Item(item)))
@@ -30,7 +27,7 @@ export class ItemService {
         return subject.asObservable();
     }
 
-    search(searchTerm, offset?: any, limit?): Observable<any> {
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'item';
         let subject = new Subject<Item[]>();
@@ -43,7 +40,6 @@ export class ItemService {
             });
         return subject.asObservable();
     }
-
     count() {
         let quantity: number;
         return this.http.get<Item[]>(this.baseUrl + 'item/', {headers: this.headers})

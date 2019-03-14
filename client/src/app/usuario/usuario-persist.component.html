@@ -8,7 +8,7 @@
         <li *ngFor="let error of errors">{{error.message}}</li>
     </ul>
     <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message" [modalType]="'success'"></hcal-modal>
-    <h3 class="title-component">{{ this.constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
+    <h3 class="title-component">{{ constructor.name | slice : 0:-16 }} - {{create ? "Cadastro" : "Alteração"}}</h3>
     <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
         <div class="form-group position-relative col-12">
             <label for="nome" class="control-label">Nome</label>

@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Usuario } from './usuario';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -19,12 +19,26 @@ export class UsuarioService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: number): Observable<Usuario[]> {
+    list(max?: any, offset?: any): Observable<Usuario[]> {
         let subject = new Subject<Usuario[]>();
-        this.http.get(this.baseUrl + `usuario?offset=${offset}&max=${max}`, {headers: this.headers, params: {name: searchTerm}})
+        this.http.get(this.baseUrl + `usuario?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['usuario'].map((item: any) => new Usuario(item)))
+                subject.next(json['usuario'].map((usuario: any) => new Usuario(usuario)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'usuario';
+        let subject = new Subject<Usuario[]>();
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['usuario'].map((usuario: any) => new Usuario(usuario)))
             });
         return subject.asObservable();
     }

@@ -39,7 +39,7 @@ export class PerfilPersistComponent implements OnInit {
     }
 
     permissoesList() {
-        this.permissoesService.list('', '', '')
+        this.permissoesService.list('', '')
             .subscribe((permissoesList: Permissoes[]) => {
                 permissoesList.forEach(p => {
                     this.aPermissoes.push(p)

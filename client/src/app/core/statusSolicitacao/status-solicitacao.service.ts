@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import { Response } from "@angular/http";
 import { StatusSolicitacao } from './status-solicitacao'
+import { Status } from "tslint/lib/runner";
 
 @Injectable({
     providedIn: 'root'
@@ -16,15 +17,26 @@ export class StatusSolicitacaoService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<StatusSolicitacao[]> {
-        let subject = new Subject<StatusSolicitacao[]>();
-        this.http.get(this.baseUrl + `statusSolicitacao?offset=${offset}&max=${max}`, {
-            headers: this.headers,
-            params: {nome: searchTerm}
-        })
+    list(max?: any, offset?: any): Observable<Status[]> {
+        let subject = new Subject<Status[]>();
+        this.http.get(this.baseUrl + `status?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['statusSolicitacao'].map((item: any) => new StatusSolicitacao(item)))
+                subject.next(json['status'].map((statusSolicitacao: any) => new StatusSolicitacao(statusSolicitacao)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'status';
+        let subject = new Subject<Status[]>();
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['status'].map((statusSolicitacao: any) => new StatusSolicitacao(statusSolicitacao)))
             });
         return subject.asObservable();
     }

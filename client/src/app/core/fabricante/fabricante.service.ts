@@ -23,7 +23,7 @@ export class FabricanteService {
         this.http.get(this.baseUrl + `fabricante?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
+                subject.next(json['fabricante'].map((fabricante: any) => new Fabricante(fabricante)))
             });
         return subject.asObservable();
     }
@@ -37,7 +37,7 @@ export class FabricanteService {
             params: {termo: searchTerm}
         }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
-                subject.next(json['fabricante'].map((item: any) => new Fabricante(item)))
+                subject.next(json['fabricante'].map((fabricante: any) => new Fabricante(fabricante)))
             });
         return subject.asObservable();
     }

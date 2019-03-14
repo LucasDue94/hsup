@@ -186,10 +186,6 @@ export class AlmoxarifeComponent implements OnInit {
         }) : new Produto();
     }
 
-    getPriority(){
-        return this.solicitacao.urgente ? 'urgente': 'normal';
-    }
-
     save() {
         this.solicitacao.itens.forEach((solicitacaoItem) => {
             if (solicitacaoItem.item.produto != undefined) {
