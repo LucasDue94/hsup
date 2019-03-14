@@ -70,7 +70,6 @@ abstract class SolicitacaoService {
 
             def historico = [
                     solicitacao: solicitacao,
-                    usuario:
             ]
         }
 
