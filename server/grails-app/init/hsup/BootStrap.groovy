@@ -18,13 +18,11 @@ class BootStrap {
         final String ADMIN_USERNAME = 'admin'
         final String ADMIN_SETOR = 'Administração'
         final String ADMIN_NAME = 'Administrador'
+        final String ADMIN_EMAIL = 'ti@hospitaldocoracao-al.com.br'
         final String ADMIN_PASSWORD = springSecurityService.encodePassword('admin')
 
         Perfil adminPerfil = Perfil.findOrCreateByName Perfil.ROLE_ADMIN
         adminPerfil.save()
-
-        Usuario adminUsuario = Usuario.findOrCreateByUsernameAndPasswordAndNameAndPerfil ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_NAME, adminPerfil
-        adminUsuario.save()
 
         Setor setorAdmin = Setor.findOrCreateByNomeAndAutenticacao ADMIN_SETOR, false
         setorAdmin.save()
@@ -38,6 +36,17 @@ class BootStrap {
                 permissoes.save()
             }
         }
+
+        def user = [
+                username: ADMIN_USERNAME,
+                password: ADMIN_PASSWORD,
+                name    : ADMIN_NAME,
+                perfil  : adminPerfil,
+                setor   : setorAdmin,
+                email   : ADMIN_EMAIL
+        ]
+
+        Usuario.findOrCreateWhere(user).save()
 
         StatusSolicitacao.criarStatusPadroes()
         StatusMensagem.criarStatusPadroes()

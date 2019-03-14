@@ -10,7 +10,7 @@ class Fornecedor {
     static belongsTo = Item
 
     static constraints = {
-        fantasia nullable: false, blank: false
+        fantasia nullable: false, blank: false, unique: true
         ativo nullable: false, blank: false
         telefone nullable: false, blank: false
         email nullable: false, blank: false

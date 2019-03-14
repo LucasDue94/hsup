@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -85,8 +85,8 @@ import { StatusSolicitacaoComponent } from './status-solicitacao/status-solicita
         PerfectScrollbarModule
     ],
     providers: [AuthGuard, Location, {
-        provide: LocationStrategy,
-        useClass: HashLocationStrategy
+        provide: [LocationStrategy, { provide: LOCALE_ID, useValue: "pt-BR" }],
+        useClass: HashLocationStrategy,
     }, NavService, FabricanteService],
     bootstrap: [AppComponent]
 })

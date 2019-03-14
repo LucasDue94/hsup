@@ -18,7 +18,7 @@ export class SolicitacaoService {
 
     list(max?: any, searchTerm?: string, offset?: any): Observable<Solicitacao[]> {
         let subject = new Subject<Solicitacao[]>();
-        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers, params: {nome: searchTerm}})
+        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['solicitacao'].map((item: any) => new Solicitacao(item)))

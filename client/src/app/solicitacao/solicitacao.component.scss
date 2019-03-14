@@ -59,12 +59,15 @@ input, select {
     text-align: left;
     font-size: 1.2em;
     font-family: inherit;
-    text-transform: capitalize;
     color: $brown;
     border: none;
     outline: none;
     background-color: transparent;
     border-bottom: 3px solid $mediumGray;
+  }
+
+  &:not(#email) {
+    text-transform: capitalize;
   }
 }
 

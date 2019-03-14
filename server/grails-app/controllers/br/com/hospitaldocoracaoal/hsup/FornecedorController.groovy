@@ -12,12 +12,10 @@ class FornecedorController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_FORNECEDOR_INDEX')
-    def index(Integer max) {
+    def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        if (params.fantasia == null)
-            respond fornecedorService.list(params), model:[fornecedorCount: fornecedorService.count()]
-        else
-            respond search()
+        List<Fornecedor> fornecedorList = fornecedorService.list(params, termo)
+        return respond(fornecedorList)
     }
 
     @Secured('ROLE_FORNECEDOR_SHOW')
@@ -40,16 +38,6 @@ class FornecedorController {
         }
 
         respond fornecedor, [status: CREATED, view:"show"]
-    }
-
-    @Secured('ROLE_FORNECEDOR_INDEX')
-    def search() {params.nome
-        List<Fornecedor> fornecedorList = Fornecedor.withCriteria {
-            if (params.containsKey('fantasia') && !params.fantasia.empty)
-                ilike ('fantasia', "%${params.fantasia}%")
-        }
-
-        return fornecedorList
     }
 
     @Secured('ROLE_FORNECEDOR_UPDATE')
