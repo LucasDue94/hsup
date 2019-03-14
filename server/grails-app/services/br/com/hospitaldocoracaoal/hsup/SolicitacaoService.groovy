@@ -2,10 +2,14 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
 @Service(Solicitacao)
 abstract class SolicitacaoService {
+
+    @Autowired
+    SpringSecurityService springSecurityService
 
     abstract Solicitacao get(Serializable id)
 
@@ -63,18 +67,22 @@ abstract class SolicitacaoService {
             it.save(flush: true)
         }
 
-        boolean status = solicitacao.id != null && solicitacao.isDirty('status')
+        if (solicitacao.status) {
+            def principal = springSecurityService.principal
+            if (principal == null) throw new IllegalStateException('Deve ter um usuário logado.')
 
-        if (status) {
-            
+            Usuario usuarioLogado = Usuario.get principal.id
 
             def historico = [
                     solicitacao: solicitacao,
+                    usuario    : usuarioLogado,
+                    status     : solicitacao.status
             ]
+
+            SolicitacaoHistorico solicitacaoHistorico = SolicitacaoHistorico.findOrCreateWhere(historico)
+            solicitacaoHistorico.save(flush: true)
         }
 
-        SolicitacaoHistorico solicitacaoHistorico = SolicitacaoHistorico.findOrSaveWhere()
         solicitacao
     }
-
 }

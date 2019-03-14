@@ -3,16 +3,28 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.services.Service
 
 @Service(Perfil)
-interface PerfilService {
+abstract class PerfilService {
 
-    Perfil get(Serializable id)
+    abstract Perfil get(Serializable id)
 
-    List<Perfil> list(Map args)
+    List<Perfil> list(Map args, String termo) {
+        def criteria = Perfil.createCriteria()
+        List<Perfil> perfilList = (List<Perfil>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('id', "%${termo}%")
+                    ilike('name', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return perfilList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Perfil save(Perfil perfil)
+    abstract void delete(Serializable id)
+
+    abstract Perfil save(Perfil perfil)
 
 }

@@ -7,10 +7,11 @@
                    placeholder="Buscar setor..." #field>
         </form>
     </div>
-    <hcal-table tableName="Setor - Quantidade {{ this.count }}">
+    <hcal-table tableName="Setor - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default">Nome</th>
+                <th class="thead-default">nome</th>
+                <th class="thead-default">necessita autorização</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
@@ -18,6 +19,7 @@
             <tr class="trow-content" *ngFor="let setor of setorList
             | paginate: { currentPage: pageNumber, itemsPerPage: 10, totalItems: this.count }">
                 <td class="tdata-default">{{ setor.nome }}</td>
+                <td class="tdata-default">{{ setor.autorizacao ? 'Sim' : 'Não' }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/setor', 'edit', setor.id]">
                         <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>

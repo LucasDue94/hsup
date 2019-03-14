@@ -1,6 +1,5 @@
 package br.com.hospitaldocoracaoal.hsup
 
-import br.com.hospitaldocoracaoal.hsup.integracao.Produto
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 

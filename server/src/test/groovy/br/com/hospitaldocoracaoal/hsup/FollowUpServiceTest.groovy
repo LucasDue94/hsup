@@ -23,7 +23,7 @@ class FollowUpServiceTest extends Specification {
                     setor: setorAdmin,
                     data: new Date(),
                     urgente: false,
-                    autenticacao: setorAdmin.autenticacao
+                    autenticacao: setorAdmin.necessitaAutorizacao
             )
 
             solicitacao.save flush: true

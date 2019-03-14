@@ -12,8 +12,9 @@ class PermissoesController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_PERMISSOES_INDEX')
-    def index(Integer max) {
-        respond permissoesService.list(params), model:[permissoesCount: permissoesService.count()]
+    def index(Integer max, String termo) {
+        List<Permissoes> permissoesList = permissoesService.list(params, termo)
+        return respond(permissoesList)
     }
 
     @Secured('ROLE_PERMISSOES_SHOW')
