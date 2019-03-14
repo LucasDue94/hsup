@@ -1,5 +1,5 @@
 <h1 class="title-solicitacao color-gray">solicitação de compra</h1>
-<hcal-tab>
+<hcal-wizard>
     <hcal-step [validator]="validate('item')">
         <h2 class="title-step color-gray">seleção de itens</h2>
         <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
@@ -18,7 +18,7 @@
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom upper-text">
                                 <div class="items col-12"
-                                     (scrolled)="find(solicitacaoItems.previousSibling, 'item', true)"
+                                     (scrolled)="find(items.previousSibling, 'item', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
@@ -46,7 +46,7 @@
                         <button class="button-cancel" name="button-cancel">X</button>
                     </section>
                     <button (click)="addField('item')" [name]="'add-button'"
-                            class="float-button-plus bg-green color-white">+
+                            class="float-button-plus bg-blue color-white">+
                     </button>
                 </div>
             </perfect-scrollbar>
@@ -96,7 +96,7 @@
                         <button class="button-cancel" name="button-cancel">X</button>
                     </section>
                     <button (click)="addField('fabricante')" [name]="'add-button'"
-                            class="float-button-plus bg-green color-white">+
+                            class="float-button-plus bg-blue color-white">+
                     </button>
                 </div>
             </perfect-scrollbar>
@@ -166,11 +166,11 @@
             <section class="main-content col-12">
                 <header class="col-12 header-main-content">
                     <button (click)="setUrgency()" class="btn-urgency-container" #urgencyIcon>
-                        <span>URGENTE</span>
+                        <span>urgente</span>
                         <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
                     </button>
-                    <h2 class="item-header">RESUMO DA COMPRA</h2>
-                    <h2 id="qnt" class="item-header">QUANTIDADE: {{getAllFormGroup('item').length}}</h2>
+                    <h2 class="item-header">resumo da compra</h2>
+                    <h2 id="qnt" class="item-header">quantidade: {{getAllFormGroup('item').length}}</h2>
                 </header>
                 <perfect-scrollbar class="scroll col-12">
                     <section class="col-12 container-items" *ngFor="let item of getAllFormGroup('item'); index as i">
@@ -182,15 +182,16 @@
                         </section>
 
                         <section class="items-resumo">
-                            <div class="item-resumo">{{item.controls['descricao'].value}}</div>
+                            <div class="item-resumo">{{ item.controls['descricao'].value.toUpperCase() }}</div>
                             <div class="item-resumo qnt-flex">
-                                {{ item.controls['quantidade'].value + ' ' + item.controls['unidade_medida'].value }}
+                                {{ item.controls['quantidade'].value + ' '
+                                + item.controls['unidade_medida'].value.toUpperCase() }}
                             </div>
                             <div class="item-resumo container-list">
                                 <perfect-scrollbar>
                                     <section class="item" *ngFor="let fa of getAllFormGroup('fabricante')">
                                         <div *ngIf="fa.controls['item'].value == item.controls['id'].value">
-                                            {{ fa.controls['fantasia'].value }}
+                                            {{ fa.controls['fantasia'].value.toUpperCase() }}
                                         </div>
                                     </section>
                                 </perfect-scrollbar>
@@ -199,7 +200,7 @@
                                 <perfect-scrollbar>
                                     <section *ngFor="let fo of getAllFormGroup('fornecedor')">
                                         <div *ngIf="fo.controls['item'].value == item.controls['id'].value">
-                                            {{ fo.controls['fantasia'].value }}
+                                            {{ fo.controls['fantasia'].value.toUpperCase() }}
                                         </div>
                                     </section>
                                 </perfect-scrollbar>
@@ -216,4 +217,4 @@
     <button class="button button-blue float-right" next-button>Próximo ></button>
     <button *ngIf="validate('item')" class="button button-blue float-right" finish-button>Finalizar</button>
     <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
-</hcal-tab>
+</hcal-wizard>

@@ -22,6 +22,7 @@ export class PerfilListComponent implements OnInit {
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
+    loading: boolean;
 
     constructor(private route: ActivatedRoute, private perfilService: PerfilService, private router: Router) {
         this._pageNumber = 0;
@@ -40,21 +41,26 @@ export class PerfilListComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.perfilService.list(this.count, searchTerm))
-            .subscribe((perfilList: Perfil[]) => {this.perfilList = perfilList});
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.perfilService.search(searchTerm. this._offset)
+            })
+            .subscribe((perfilList: Perfil[]) => {
+                this.perfilList = perfilList;
+                this.loading = false;
+            });
 
-
-        if (this.searchControl.value == "" || this.searchControl.value == undefined) {
+        if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-
-        this.perfilService.list('', '', this._offset).subscribe((perfilList: Perfil[]) => {
-            this.perfilList = perfilList
+        this.loading = true;
+        this.perfilService.list('', this._offset).subscribe((perfilList: Perfil[]) => {
+            this.perfilList = perfilList;
+            this.loading = false;
         });
     }
 

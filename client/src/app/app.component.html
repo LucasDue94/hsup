@@ -1,40 +1,37 @@
-<hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged" style="background-color: blue">
+<hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged">
     <div *ngIf="this.currentRoute != '/solicitacao/create'" main-menu>
         <hcal-link *ngIf="checkPermission('ROLE_APPLICATION_INDEX')" [iconLink]="'home'" [routerLinkName]="'index'"
-                   [titleLink]="'Home'" main-menu></hcal-link>
+                   [sizeLink]="'small'" [titleLink]="'Home'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_FABRICANTE_INDEX')" [iconLink]="'industry'"
-                   [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'"
+                   [sizeLink]="'small'" [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'"
                    main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_FORNECEDOR_INDEX')" [iconLink]="'briefcase'"
-                   [routerLinkName]="'fornecedor'" [titleLink]="'Fornecedores'"
+                   [sizeLink]="'small'" [routerLinkName]="'fornecedor'" [titleLink]="'Fornecedores'"
                    main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_ITEM_INDEX')" [iconLink]="'boxes'" [routerLinkName]="'item'"
-                   [titleLink]="'Itens'" main-menu></hcal-link>
+                   [sizeLink]="'small'" [titleLink]="'Itens'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_PERFIL_INDEX')" [iconLink]="'user-circle'"
-                   [routerLinkName]="'perfil'"
+                   [sizeLink]="'small'" [routerLinkName]="'perfil'"
                    [titleLink]="'Perfil'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_PERMISSOES_INDEX')" [iconLink]="'key'"
-                   [routerLinkName]="'permissoes'"
+                   [sizeLink]="'small'" [routerLinkName]="'permissoes'"
                    [titleLink]="'Permissões'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_USUARIO_INDEX')" [iconLink]="'user'" [routerLinkName]="'usuario'"
-                   [titleLink]="'Usuários'" main-menu></hcal-link>
+                   [sizeLink]="'small'" [titleLink]="'Usuários'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SETOR_INDEX')" [iconLink]="'users'" [routerLinkName]="'setor'"
-                   [titleLink]="'Setores'" main-menu></hcal-link>
+                   [sizeLink]="'small'" [titleLink]="'Setores'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
-                   [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'" main-menu></hcal-link>
+                   [sizeLink]="'small'" [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'"
+                   main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')"
-                   [iconLink]="'box-open'" [routerLinkName]="'almoxarife'" [titleLink]="'Almoxarifado'"
+                   [sizeLink]="'small'" [iconLink]="'box-open'" [routerLinkName]="'almoxarife'"
+                   [titleLink]="'Almoxarifado'"
                    main-menu></hcal-link>
     </div>
 </hcal-aside-bar>
 <hcal-main [title]="'HSUP'" *ngIf="isLogged">
-    <hcal-nav [hiddenCog]="true" nav-main>
-        <hcal-notification-dropdown class="dropdown"
-                                    [titleNotificationDropdown]="'Title'"
-                                    [textNotificationDropdown]="'Text'"
-                                    [typeNotificationDropdown]="'danger'" dropdown>
-            <fa-icon [icon]="['fas', 'bell']" class="icon-image dropdown-toggle" dropdownToggle></fa-icon>
-        </hcal-notification-dropdown>
+    <hcal-nav [cog]="false" nav-main>
+        <fa-icon [icon]="['fas', 'sign-out-alt']" (click)="logout()" class="icon-nav"></fa-icon>
     </hcal-nav>
     <router-outlet route></router-outlet>
 </hcal-main>

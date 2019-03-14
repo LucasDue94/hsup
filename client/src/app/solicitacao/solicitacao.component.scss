@@ -199,6 +199,7 @@ input, select {
           font-family: "Poppins", sans-serif;
           font-weight: bold;
           color: $white;
+          text-transform: uppercase;
         }
 
         span {
@@ -237,6 +238,8 @@ input, select {
 
     .item-header {
       display: inline;
+      text-transform: uppercase;
+
       @media only screen and(max-width: 1024px) {
         font-size: 20px;
       }

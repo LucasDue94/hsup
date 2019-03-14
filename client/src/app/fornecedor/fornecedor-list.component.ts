@@ -7,6 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { Fabricante } from "../core/fabricante/fabricante";
 
 @Component({
     selector: 'fornecedor-list',
@@ -23,6 +24,7 @@ export class FornecedorListComponent implements OnInit {
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
+    loading: boolean;
 
     constructor(private route: ActivatedRoute, private fornecedorService: FornecedorService, private router: Router) {
         this._pageNumber = 0;
@@ -41,9 +43,14 @@ export class FornecedorListComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.fornecedorService.list(this.count, searchTerm))
-            .subscribe((fornecedorList: Fornecedor[]) => {this.fornecedorList = fornecedorList});
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.fornecedorService.search(searchTerm, this._offset)
+            })
+            .subscribe((fornecedorList: Fornecedor[]) => {
+                this.fornecedorList = fornecedorList;
+                this.loading = false;
+            });
 
         if (this.searchControl.value == "") {
             this.list(this.pageNumber);
@@ -52,9 +59,10 @@ export class FornecedorListComponent implements OnInit {
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-
-        this.fornecedorService.list('', '', this._offset).subscribe((fornecedorList: Fornecedor[]) => {
-            this.fornecedorList = fornecedorList
+        this.loading = true;
+        this.fornecedorService.list('', this._offset).subscribe((fornecedorList: Fornecedor[]) => {
+            this.fornecedorList = fornecedorList;
+            this.loading = false;
         });
     }
 

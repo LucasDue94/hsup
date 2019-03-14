@@ -1,6 +1,7 @@
-import { Component, DoCheck, OnChanges } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { Authentic } from "./authentic";
 import { Router } from "@angular/router";
+import { AuthService } from "./signin/auth.service";
 
 @Component({
     selector: 'app',
@@ -11,7 +12,7 @@ export class AppComponent extends Authentic implements DoCheck {
     isLogged = false;
     currentRoute;
 
-    constructor(private route: Router) {
+    constructor(private route: Router, private auth: AuthService) {
         super();
     }
 
@@ -21,4 +22,8 @@ export class AppComponent extends Authentic implements DoCheck {
     }
 
     checkPermission: (permission: string) => boolean;
+
+    logout() {
+        this.auth.logout(localStorage.getItem('token'));
+    }
 }

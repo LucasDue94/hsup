@@ -7,7 +7,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Authentic } from "../authentic";
 
 @Component({
     selector: 'fabricante-list',
@@ -23,7 +22,7 @@ export class FabricanteListComponent implements OnInit, AfterViewInit {
     searchControl: FormControl;
     message;
     error;
-    loading;
+    loading: boolean;
 
     constructor(private route: ActivatedRoute, private fabricanteService: FabricanteService, private router: Router) {
         this._pageNumber = 0;

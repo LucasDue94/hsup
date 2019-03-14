@@ -22,6 +22,7 @@ export class PermissoesListComponent implements OnInit {
     count: number;
     searchForm: FormGroup;
     searchControl: FormControl;
+    loading: boolean;
 
     constructor(private route: ActivatedRoute, private permissoesService: PermissoesService, private router: Router) {
         this._pageNumber = 0;
@@ -40,21 +41,26 @@ export class PermissoesListComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.permissoesService.list(this.count, searchTerm))
-            .subscribe((permissoesList: Permissoes[]) => {this.permissoesList = permissoesList});
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.permissoesService.search(searchTerm, this._offset)
+            })
+            .subscribe((permissoesList: Permissoes[]) => {
+                this.permissoesList = permissoesList;
+                this.loading = false;
+            });
 
-
-        if (this.searchControl.value == "" || this.searchControl.value == undefined) {
+        if (this.searchControl.value == "") {
             this.list(this.pageNumber);
         }
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-
-        this.permissoesService.list('', '', this._offset).subscribe((permissoesList: Permissoes[]) => {
-            this.permissoesList = permissoesList
+        this.loading = true;
+        this.permissoesService.list('', this._offset).subscribe((permissoesList: Permissoes[]) => {
+            this.permissoesList = permissoesList;
+            this.loading = false;
         });
     }
 
