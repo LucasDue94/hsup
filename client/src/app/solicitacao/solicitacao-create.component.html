@@ -17,7 +17,8 @@
                                        (focus)="find($event.target, 'item')"
                                        formControlName="descricao" name="descricao"
                                        class="col-12 request-input-line-bottom upper-text">
-                                <div class="items col-12" (scrolled)="find(solicitacaoItems.previousSibling, 'item', true)"
+                                <div class="items col-12"
+                                     (scrolled)="find(solicitacaoItems.previousSibling, 'item', true)"
                                      infiniteScroll [hidden]="true"
                                      [scrollWindow]="false" #items>
                                     <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
@@ -188,7 +189,7 @@
                             <div class="item-resumo container-list">
                                 <perfect-scrollbar>
                                     <section class="item" *ngFor="let fa of getAllFormGroup('fabricante')">
-                                        <div *ngIf="fa.item == item.id">
+                                        <div *ngIf="fa.controls['item'].value == item.controls['id'].value">
                                             {{ fa.controls['fantasia'].value }}
                                         </div>
                                     </section>
@@ -197,7 +198,7 @@
                             <div class="item-resumo container-list">
                                 <perfect-scrollbar>
                                     <section *ngFor="let fo of getAllFormGroup('fornecedor')">
-                                        <div *ngIf="fo.item == item.id">
+                                        <div *ngIf="fo.controls['item'].value == item.controls['id'].value">
                                             {{ fo.controls['fantasia'].value }}
                                         </div>
                                     </section>

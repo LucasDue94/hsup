@@ -280,7 +280,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     getAllFormGroup = (type) => this.controlArray.get(type).controls;
 
-    findOrSaveAll() {
+    attachItem() {
         const groups = this.getAllFormGroup('item');
         for (let group of groups) {
             let properties = group.controls;
@@ -288,8 +288,8 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             if (typeof item.id == "string") delete item.id;
 
-            this.attachToItem(item, 'fabricante');
-            this.attachToItem(item, 'fornecedor');
+            this.addTo(item, 'fabricante');
+            this.addTo(item, 'fornecedor');
 
             if (typeof item.id == "number") {
                 for (let key in item) {
@@ -308,7 +308,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    attachToItem(item, type) {
+    addTo(item, type) {
         const groups = this.getAllFormGroup(type);
 
         for (let group of groups) {
@@ -341,7 +341,7 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     save() {
-        this.findOrSaveAll();
+        this.attachItem();
 
         let solicitacao = new Solicitacao({
             itens: this.solicitacaoItems,
