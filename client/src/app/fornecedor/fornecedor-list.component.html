@@ -12,7 +12,6 @@
             <tr class="trow-head">
                 <th class="thead-default" thead-content>fantasia</th>
                 <th class="thead-default" thead-content>telefone</th>
-                <th class="thead-default" thead-content>endereço</th>
                 <th class="thead-default" thead-content>estado</th>
                 <th class="thead-default" thead-content>e-mail</th>
                 <th class="thead-default" thead-content colspan="2">
@@ -23,7 +22,6 @@
             | paginate: { currentPage: pageNumber, itemsPerPage: 10, totalItems: count }">
                 <td class="tdata-default">{{ fornecedor.fantasia }}</td>
                 <td class="tdata-default">{{ fornecedor.telefone | mask: '(00) 0000-0000' }}</td>
-                <td class="tdata-default">{{ fornecedor.endereco }}</td>
                 <td class="tdata-default">{{ fornecedor.ativo == true ? 'Ativo' : 'Inativo' }}</td>
                 <td class="tdata-default">{{ fornecedor.email }}</td>
                 <td class="tdata-default">

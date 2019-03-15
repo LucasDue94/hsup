@@ -32,7 +32,7 @@
         </table>
         <div class="not-found" *ngIf="usuarioList.length == 0">
             <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
-            <h1 class="not-found-error" *ngIf="field.value == ''">
+            <h1 class="not-found-error" *ngIf="!loading">
                 Nenhum dado encontrado
             </h1>
         </div>

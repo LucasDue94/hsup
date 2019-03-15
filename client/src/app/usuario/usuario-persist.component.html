@@ -24,6 +24,27 @@
                    [class]="'form-control col-12'">
         </div>
         <div class="form-group position-relative col-5">
+            <label for="email" class="control-label">E-mail</label>
+            <input type="text"
+                   name="nome"
+                   tooltipHcal="Campo nome do Usuário. Ex.: email@hospitaldocoracao-al.com.br"
+                   [position]="'top'"
+                   [delay]="3000"
+                   required="required"
+                   id="email"
+                   placeholder="Digite o email..."
+                   [(ngModel)]="usuario.email"
+                   [class]="'form-control col-12'">
+        </div>
+        <div class="form-group position-relative col-5 offset-2">
+            <label for="setor" class="control-label">Setor</label>
+            <select id="setor" name="setor" class="form-control col-12" [(ngModel)]="usuario.setor?.id != undefined ? usuario.setor?.id : usuario.setor">
+                <option *ngFor="let setor of aSetores" [value]="setor.id"
+                        [selected]="usuario.setor?.id == setor.id">{{ setor.nome }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group position-relative col-5">
             <label class="control-label" for="username">Nome de usuário</label>
             <input type="text"
                    name="username"
@@ -65,7 +86,7 @@
                 </option>
             </select>
         </div>
-        <div *ngIf="this.create == false" class="form-group col-12">
+        <div *ngIf="!create" class="form-group col-12">
             <label class="control-label">Estado</label>
             <input type="checkbox" [(ngModel)]="usuario.enabled" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>

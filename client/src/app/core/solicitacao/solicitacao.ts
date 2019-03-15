@@ -1,5 +1,5 @@
 import { Usuario } from "../usuario/usuario";
-import { Status } from "tslint/lib/runner";
+import { StatusSolicitacao } from "../statusSolicitacao/status-solicitacao";
 
 export class Solicitacao {
     id: number;
@@ -7,7 +7,7 @@ export class Solicitacao {
     responsavel: Usuario;
     data: any;
     urgente: boolean;
-    status: Status;
+    status: StatusSolicitacao;
 
     constructor (object?: any) {
         if (this.urgente == null) this.urgente = false;

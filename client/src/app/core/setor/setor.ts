@@ -1,10 +1,10 @@
 export class Setor {
     id: number;
     nome: string;
-    autorizacao: boolean;
+    necessitaAutorizacao: boolean;
 
     constructor(object?: any) {
-        if (this.autorizacao == null) this.autorizacao = true;
+        if (this.necessitaAutorizacao == null) this.necessitaAutorizacao = false;
         if (object) {
             for (let prop of Object.keys(object)) {
                 this[prop] = object[prop];

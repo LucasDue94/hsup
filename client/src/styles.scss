@@ -419,10 +419,10 @@ html, body {
 }
 
 .button {
-  min-width: auto;
   position: relative;
   display: inline-block;
   height: 30px;
+  margin-right: 20px;
 
   & {
     opacity: 1;
@@ -441,10 +441,20 @@ html, body {
   }
 }
 
+.button-group {
+  .button:last-child {
+    margin-right: 0;
+  }
+}
+
 .button-reverse {
   & {
     border-radius: 0 5px 0 7px !important;
   }
+}
+
+.button-border-all {
+  border-radius: 4px;
 }
 
 .button-blue {
@@ -481,6 +491,14 @@ html, body {
   }
 }
 
+.button-light-danger {
+  & {
+    color: $white;
+    background-color: $lightDanger;
+    border-bottom: 3.5px solid $danger;
+  }
+}
+
 .button-warning {
   & {
     color: $white;
@@ -492,8 +510,8 @@ html, body {
 .button-success {
   & {
     color: $white;
-    background-color: $green;
-    border-bottom: 3.5px solid $lightGreen;
+    background-color: $lightGreen;
+    border-bottom: 3.5px solid $green;
   }
 }
 
@@ -511,6 +529,11 @@ html, body {
     background-color: $blue;
     border-bottom: 3.5px solid $green;
   }
+}
+
+.urgente-text {
+  color: $danger;
+  font-weight: bold;
 }
 
 .content {

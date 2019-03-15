@@ -8,6 +8,7 @@ export class Usuario {
     password: string;
     username: string;
     name: string;
+    email: string;
     perfil: Perfil;
     authorities: Permissoes[];
     passwordExpired: boolean;

@@ -23,8 +23,8 @@
                    [class]="'form-control col-12'">
         </div>
         <div class="form-group col-12">
-            <label class="control-label">Estado</label>
-            <input type="checkbox" [(ngModel)]="setor.autorizacao" class="checkbox-filled" id="estado" name="ativo">
+            <label class="control-label">Necessita autorização para solicitação</label>
+            <input type="checkbox" [(ngModel)]="setor.necessitaAutorizacao" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>
         </div>
         <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'" />

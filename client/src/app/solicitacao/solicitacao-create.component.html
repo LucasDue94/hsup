@@ -1,220 +1,238 @@
 <h1 class="title-solicitacao color-gray">solicitação de compra</h1>
-<hcal-wizard>
-    <hcal-step [validator]="validate('item')">
-        <h2 class="title-step color-gray">seleção de itens</h2>
-        <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
-        <section class="container-md scroll-container bg-gray">
-            <perfect-scrollbar>
-                <div class="col-12 list-item-container" [formGroup]="controlArray" #stepItem>
-                    <section class="col-12 solicitacao-group" id="item{{i}}"
-                             *ngFor="let item of controlArray.get('item').controls; let i = index"
-                             formArrayName="item">
-                        <div class="group col-12" [formGroupName]="i">
-                            <div class="form-group col-7">
-                                <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
-                                <input autocomplete="off" type="text" id="descricao{{i}}"
-                                       (blur)="clearList($event.target)"
-                                       (focus)="find($event.target, 'item')"
-                                       formControlName="descricao" name="descricao"
-                                       class="col-12 request-input-line-bottom upper-text">
-                                <div class="items col-12"
-                                     (scrolled)="find(items.previousSibling, 'item', true)"
-                                     infiniteScroll [hidden]="true"
-                                     [scrollWindow]="false" #items>
-                                    <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
-                                         *ngFor="let i of findList">
-                                        {{ i.descricao }}
+<section class="col-9">
+    <hcal-wizard>
+        <hcal-step [validator]="validate('item')">
+            <h2 class="title-step color-gray">seleção de itens</h2>
+            <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
+            <section class="container-lg scroll-container bg-gray">
+                <perfect-scrollbar>
+                    <div class="col-12 list-item-container" [formGroup]="controlArray" #stepItem>
+                        <section class="col-12 solicitacao-group" id="item{{i}}"
+                                 *ngFor="let item of controlArray.get('item').controls; let i = index"
+                                 formArrayName="item">
+                            <div class="group col-12" [formGroupName]="i">
+                                <div class="form-group col-7">
+                                    <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
+                                    <input autocomplete="off" type="text" id="descricao{{i}}"
+                                           (blur)="clearList($event.target)"
+                                           (focus)="find($event.target, 'item')"
+                                           formControlName="descricao" name="descricao"
+                                           class="col-12 request-input-line-bottom upper-text">
+                                    <div class="items col-12"
+                                         (scrolled)="find(items.previousSibling, 'item', true)"
+                                         infiniteScroll [hidden]="true"
+                                         [scrollWindow]="false" #items>
+                                        <div class="item" (mousedown)="setInputFindValue('item', $event.target, i)"
+                                             *ngFor="let i of findList">
+                                            {{ i.descricao }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div [hidden]="true">
+                                    <span [hidden]="true" class="loading-input">
                                     Procurando por itens...
+                                </span>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="request-label color-gray" for="unidade_medida{{i}}">Unid.</label>
+                                    <input autocomplete="off" type="text" id="unidade_medida{{i}}"
+                                           name="unidade_medida" formControlName="unidade_medida"
+                                           class="col-12 request-input-line-bottom upper-text">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="request-label color-gray" for="quantidade{{i}}">Qtd.</label>
+                                    <input autocomplete="off" type="number" id="quantidade{{i}}"
+                                           formControlName="quantidade" name="quantidade"
+                                           class="col-12 request-input-line-bottom">
                                 </div>
                             </div>
-                            <div class="form-group col-2">
-                                <label class="request-label color-gray" for="unidade_medida{{i}}">Unid.</label>
-                                <input autocomplete="off" type="text" id="unidade_medida{{i}}"
-                                       name="unidade_medida" formControlName="unidade_medida"
-                                       class="col-12 request-input-line-bottom upper-text">
-                            </div>
-                            <div class="form-group col-2">
-                                <label class="request-label color-gray" for="quantidade{{i}}">Qtd.</label>
-                                <input autocomplete="off" type="text" id="quantidade{{i}}"
-                                       formControlName="quantidade" name="quantidade"
-                                       class="col-12 request-input-line-bottom">
-                            </div>
-                        </div>
-                        <button class="button-cancel" name="button-cancel">X</button>
-                    </section>
-                    <button (click)="addField('item')" [name]="'add-button'"
-                            class="float-button-plus bg-blue color-white">+
-                    </button>
-                </div>
-            </perfect-scrollbar>
-        </section>
-    </hcal-step>
-    <hcal-step [validator]="validate('fabricante')">
-        <h2 class="title-step color-gray">seleção de fabricantes</h2>
-        <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
-        <section class="container-md scroll-container bg-gray">
-            <perfect-scrollbar>
-                <div class="col-12 list-item-container" [formGroup]="controlArray">
-                    <section class="col-12 solicitacao-group" id="fabricante{{i}}"
-                             *ngFor="let fab of controlArray.get('fabricante').controls; let i = index"
-                             formArrayName="fabricante">
-                        <div class="group col-12" [formGroupName]="i">
-                            <div class="form-group col-8">
-                                <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
-                                <input autocomplete="off" type="text" id="fantasia{{i}}"
-                                       (blur)="clearList($event.target)"
-                                       (focus)="find($event.target, 'fabricante')"
-                                       formControlName="fantasia" name="fantasia"
-                                       class="col-12 request-input-line-bottom">
-                                <div class="items col-12"
-                                     (scrolled)="find(fabricante.previousSibling, 'fabricante', true)"
-                                     infiniteScroll [hidden]="true"
-                                     [scrollWindow]="false" #fabricante>
-                                    <div class="item" (mousedown)="setInputFindValue('fabricante', $event.target, i)"
-                                         *ngFor="let i of findList">{{ i.fantasia }}
-                                    </div>
-                                </div>
-                                <div [hidden]="true">
-                                    Carregando...
-                                </div>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="itens_fa{{i}}" class="request-label color-gray">Item</label>
-                                <select name="item_fabricante" formControlName="item" id="itens_fa{{i}}"
-                                        class="request-input-line-bottom col-12">
-                                    <option value="">Escolha um item</option>
-                                    <option *ngFor="let item of controlArray.get('item').controls"
-                                            [value]="item.get('id').value">
-                                        {{ item.get('descricao').value }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="button-cancel" name="button-cancel">X</button>
-                    </section>
-                    <button (click)="addField('fabricante')" [name]="'add-button'"
-                            class="float-button-plus bg-blue color-white">+
-                    </button>
-                </div>
-            </perfect-scrollbar>
-        </section>
-    </hcal-step>
-    <hcal-step #stepFornecedor>
-        <h2 class="title-step color-gray">seleção de fornecedores</h2>
-        <section class="container-md scroll-container bg-gray">
-            <perfect-scrollbar>
-                <div class="col-12 list-item-container" [formGroup]="controlArray">
-                    <section class="col-12 solicitacao-group"
-                             *ngFor="let forn of controlArray.get('fornecedor').controls; let i = index"
-                             formArrayName="fornecedor" id="fornecedor{{i}}">
-                        <div class="group col-12" [formGroupName]="i">
-                            <div class="form-group col-2">
-                                <label class="request-label color-gray" for="fantasia_fornecedor{{i}}">Fantasia</label>
-                                <input autocomplete="off" type="text" id="fantasia_fornecedor{{i}}"
-                                       (blur)="clearList($event.target)"
-                                       (focus)="find($event.target, 'fornecedor')"
-                                       formControlName="fantasia" name="fantasia_fornecedor"
-                                       class="col-12 request-input-line-bottom">
-                                <div class="items col-12"
-                                     (scrolled)="find(fornecedor.previousSibling, 'fornecedor', true)"
-                                     infiniteScroll [hidden]="true"
-                                     [scrollWindow]="false" #fornecedor>
-                                    <div class="item" (mousedown)="setInputFindValue('fornecedor', $event.target, i)"
-                                         *ngFor="let i of findList">
-                                        {{ i.fantasia }}
-                                    </div>
-                                </div>
-                                <div [hidden]="true">
-                                    Carregando...
-                                </div>
-                            </div>
-                            <div class="form-group col-2">
-                                <label class="request-label color-gray" for="telefone">Telefone</label>
-                                <input autocomplete="off" formControlName="telefone" type="tel" id="telefone"
-                                       name="telefone"
-                                       class="col-12 request-input-line-bottom">
-                            </div>
-                            <div class="form-group col-2">
-                                <label for="email" class="request-label color-gray">Email</label>
-                                <input autocomplete="off" formControlName="email" type="email" id="email" name="email"
-                                       class="col-12 request-input-line-bottom">
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="itens_fo{{i}}" class="request-label color-gray">Item</label>
-                                <select name="item_fornecedor" formControlName="item" id="itens_fo{{i}}"
-                                        class="request-input-line-bottom col-12">
-                                    <option value="">Escolha um item</option>
-                                    <option *ngFor="let item of controlArray.get('item').controls"
-                                            [value]="item.get('id').value">
-                                        {{ item.get('descricao').value }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <button class="button-cancel" name="button-cancel-3">X</button>
-                    </section>
-                    <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">+</button>
-                </div>
-            </perfect-scrollbar>
-        </section>
-    </hcal-step>
-    <hcal-step>
-        <main class="container-request container-md">
-            <section class="main-content col-12">
-                <header class="col-12 header-main-content">
-                    <button (click)="setUrgency()" class="btn-urgency-container" #urgencyIcon>
-                        <span>urgente</span>
-                        <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
-                    </button>
-                    <h2 class="item-header">resumo da compra</h2>
-                    <h2 id="qnt" class="item-header">quantidade: {{getAllFormGroup('item').length}}</h2>
-                </header>
-                <perfect-scrollbar class="scroll col-12">
-                    <section class="col-12 container-items" *ngFor="let item of getAllFormGroup('item'); index as i">
-                        <section class="labels">
-                            <div class="label">Item</div>
-                            <div class="label qnt-flex">Qnt</div>
-                            <div class="label">Fabricante</div>
-                            <div class="label">Fornecedor</div>
+                            <button class="button-cancel" name="button-cancel">X</button>
                         </section>
-
-                        <section class="items-resumo">
-                            <div class="item-resumo">{{ item.controls['descricao'].value.toUpperCase() }}</div>
-                            <div class="item-resumo qnt-flex">
-                                {{ item.controls['quantidade'].value + ' '
-                                + item.controls['unidade_medida'].value.toUpperCase() }}
-                            </div>
-                            <div class="item-resumo container-list">
-                                <perfect-scrollbar>
-                                    <section class="item" *ngFor="let fa of getAllFormGroup('fabricante')">
-                                        <div *ngIf="fa.controls['item'].value == item.controls['id'].value">
-                                            {{ fa.controls['fantasia'].value.toUpperCase() }}
-                                        </div>
-                                    </section>
-                                </perfect-scrollbar>
-                            </div>
-                            <div class="item-resumo container-list">
-                                <perfect-scrollbar>
-                                    <section *ngFor="let fo of getAllFormGroup('fornecedor')">
-                                        <div *ngIf="fo.controls['item'].value == item.controls['id'].value">
-                                            {{ fo.controls['fantasia'].value.toUpperCase() }}
-                                        </div>
-                                    </section>
-                                </perfect-scrollbar>
-                            </div>
-                        </section>
-                    </section>
-                    <button (click)="save()" class="float-button-plus bg-green color-white">
-                        <fa-icon [icon]="['fa', 'check']"></fa-icon>
-                    </button>
+                        <button (click)="addField('item')" [name]="'add-button'"
+                                class="float-button-plus bg-blue color-white">+
+                        </button>
+                    </div>
                 </perfect-scrollbar>
             </section>
-        </main>
-    </hcal-step>
-    <button class="button button-blue float-right" next-button>Próximo ></button>
-    <button *ngIf="validate('item')" class="button button-blue float-right" finish-button>Finalizar</button>
-    <button class="button button-reverse button-blue float-right" previous-button>< Anterior</button>
-</hcal-wizard>
+        </hcal-step>
+        <hcal-step [validator]="validate('fabricante')">
+            <h2 class="title-step color-gray">seleção de fabricantes</h2>
+            <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
+            <section class="container-lg scroll-container bg-gray">
+                <perfect-scrollbar>
+                    <div class="col-12 list-item-container" [formGroup]="controlArray">
+                        <section class="col-12 solicitacao-group" id="fabricante{{i}}"
+                                 *ngFor="let fab of controlArray.get('fabricante').controls; let i = index"
+                                 formArrayName="fabricante">
+                            <div class="group col-12" [formGroupName]="i">
+                                <div class="form-group col-8">
+                                    <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
+                                    <input autocomplete="off" type="text" id="fantasia{{i}}"
+                                           (blur)="clearList($event.target)"
+                                           (focus)="find($event.target, 'fabricante')"
+                                           formControlName="fantasia" name="fantasia"
+                                           class="col-12 request-input-line-bottom upper-text">
+                                    <div class="items col-12"
+                                         (scrolled)="find(fabricante.previousSibling, 'fabricante', true)"
+                                         infiniteScroll [hidden]="true"
+                                         [scrollWindow]="false" #fabricante>
+                                        <div class="item"
+                                             (mousedown)="setInputFindValue('fabricante', $event.target, i)"
+                                             *ngFor="let i of findList">{{ i.fantasia }}
+                                        </div>
+                                    </div>
+                                    <span [hidden]="true" class="loading-input">
+                                    Procurando por fabricantes...
+                                </span>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label for="itens_fa{{i}}" class="request-label color-gray">Item</label>
+                                    <select name="item_fabricante" formControlName="item" id="itens_fa{{i}}"
+                                            class="request-input-line-bottom col-12">
+                                        <option value="">Escolha um item</option>
+                                        <option *ngFor="let item of controlArray.get('item').controls"
+                                                [value]="item.get('id').value">
+                                            {{ item.get('descricao').value }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="button-cancel" name="button-cancel">X</button>
+                        </section>
+                        <button (click)="addField('fabricante')" [name]="'add-button'"
+                                class="float-button-plus bg-blue color-white">+
+                        </button>
+                    </div>
+                </perfect-scrollbar>
+            </section>
+        </hcal-step>
+        <hcal-step #stepFornecedor>
+            <h2 class="title-step color-gray">seleção de fornecedores</h2>
+            <section class="container-lg scroll-container bg-gray">
+                <perfect-scrollbar>
+                    <div class="col-12 list-item-container" [formGroup]="controlArray">
+                        <section class="col-12 solicitacao-group"
+                                 *ngFor="let forn of controlArray.get('fornecedor').controls; let i = index"
+                                 formArrayName="fornecedor" id="fornecedor{{i}}">
+                            <div class="group col-12" [formGroupName]="i">
+                                <div class="form-group col-2">
+                                    <label class="request-label color-gray"
+                                           for="fantasia_fornecedor{{i}}">Fantasia</label>
+                                    <input autocomplete="off" type="text" id="fantasia_fornecedor{{i}}"
+                                           (blur)="clearList($event.target)"
+                                           (focus)="find($event.target, 'fornecedor')"
+                                           formControlName="fantasia" name="fantasia_fornecedor"
+                                           class="col-12 request-input-line-bottom upper-text">
+                                    <div class="items col-12"
+                                         (scrolled)="find(fornecedor.previousSibling, 'fornecedor', true)"
+                                         infiniteScroll [hidden]="true"
+                                         [scrollWindow]="false" #fornecedor>
+                                        <div class="item"
+                                             (mousedown)="setInputFindValue('fornecedor', $event.target, i)"
+                                             *ngFor="let i of findList">
+                                            {{ i.fantasia }}
+                                        </div>
+                                    </div>
+                                    <span [hidden]="true" class="loading-input">
+                                    Procurando por fornecedores...
+                                </span>
+                                </div>
+                                <div class="form-group col-2">
+                                    <label class="request-label color-gray" for="telefone">Telefone</label>
+                                    <input autocomplete="off" formControlName="telefone" type="tel" id="telefone"
+                                           name="telefone" [mask]="'(00) 0000-0000'"
+                                           class="col-12 request-input-line-bottom">
+                                </div>
+                                <div class="form-group col-2">
+                                    <label for="email" class="request-label color-gray">Email</label>
+                                    <input autocomplete="off" formControlName="email" type="email" id="email"
+                                           name="email"
+                                           class="col-12 request-input-line-bottom">
+                                </div>
+                                <div class="form-group col-3">
+                                    <label for="itens_fo{{i}}" class="request-label color-gray">Item</label>
+                                    <select name="item_fornecedor" formControlName="item" id="itens_fo{{i}}"
+                                            class="request-input-line-bottom col-12">
+                                        <option value="">Escolha um item</option>
+                                        <option *ngFor="let item of controlArray.get('item').controls"
+                                                [value]="item.get('id').value">
+                                            {{ item.get('descricao').value }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="button-cancel" name="button-cancel-3">X</button>
+                        </section>
+                        <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">+
+                        </button>
+                    </div>
+                </perfect-scrollbar>
+            </section>
+        </hcal-step>
+        <hcal-step>
+            <main class="container-request">
+                <section class="main-content col-12">
+                    <header class="col-12 header-main-content">
+                        <button (click)="setUrgency()" class="btn-urgency-container" #urgencyIcon>
+                            <span>urgente</span>
+                            <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
+                        </button>
+                        <h2 class="item-header">resumo da compra</h2>
+                        <h2 id="qnt" class="item-header">quantidade: {{getAllFormGroup('item').length}}</h2>
+                    </header>
+                    <perfect-scrollbar class="scroll col-12">
+                        <section class="col-12 container-items"
+                                 *ngFor="let item of getAllFormGroup('item'); index as i">
+                            <section class="labels">
+                                <div class="label">Item</div>
+                                <div class="label qnt-flex">Qnt</div>
+                                <div class="label">Fabricante</div>
+                                <div class="label">Fornecedor</div>
+                            </section>
+
+                            <section class="items-resumo">
+                                <div class="item-resumo">{{ item.controls['descricao'].value.toUpperCase() }}</div>
+                                <div class="item-resumo qnt-flex">
+                                    {{ item.controls['quantidade'].value + ' '
+                                + item.controls['unidade_medida'].value.toUpperCase() }}
+                                </div>
+                                <div class="item-resumo container-list">
+                                    <perfect-scrollbar>
+                                        <section class="item" *ngFor="let fa of getAllFormGroup('fabricante')">
+                                            <div *ngIf="fa.controls['item'].value == item.controls['id'].value">
+                                                {{ fa.controls['fantasia'].value.toUpperCase() }}
+                                            </div>
+                                        </section>
+                                    </perfect-scrollbar>
+                                </div>
+                                <div class="item-resumo container-list">
+                                    <perfect-scrollbar>
+                                        <section *ngFor="let fo of getAllFormGroup('fornecedor')">
+                                            <div *ngIf="fo.controls['item'].value == item.controls['id'].value">
+                                                {{ fo.controls['fantasia'].value.toUpperCase() }}
+                                            </div>
+                                        </section>
+                                    </perfect-scrollbar>
+                                </div>
+                            </section>
+                        </section>
+                        <button (click)="save()" class="float-button-plus bg-green color-white">
+                            <fa-icon [icon]="['fa', 'check']"></fa-icon>
+                        </button>
+                    </perfect-scrollbar>
+                </section>
+            </main>
+        </hcal-step>
+        <button [routerLink]="['/solicitacao']" class="button button-border-all button-light-danger" cancel-button>
+            Cancelar
+        </button>
+        <button class="button button-blue" next-button>
+            Avançar
+            <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
+        </button>
+        <button *ngIf="validate('item')" class="button button-border-all button-success" finish-button>Finalizar</button>
+        <button class="button button-reverse button-blue" previous-button>
+            <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
+            Voltar
+        </button>
+        <button class="button button-border-all button-success" submit-button>Solicitacar</button>
+    </hcal-wizard>
+</section>

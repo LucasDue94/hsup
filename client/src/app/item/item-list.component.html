@@ -35,7 +35,7 @@
             </h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="count > 10 && findList.length > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="count > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
