@@ -35,6 +35,7 @@ export class SigninComponent implements OnInit {
                         localStorage.setItem('roles', resp['roles']);
                         localStorage.setItem('name', resp['name']);
                         localStorage.setItem('id', resp['id']);
+                        localStorage.setItem('setor', resp['setor']);
                     }
                     this.router.navigate(['/index']);
                 },

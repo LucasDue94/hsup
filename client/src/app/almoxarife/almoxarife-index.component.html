@@ -15,10 +15,10 @@
                 <th class="thead-default" thead-content>Setor</th>
                 <th class="thead-default" thead-content>Data</th>
                 <th class="thead-default" thead-content>Item x Produto</th>
+                <th class="thead-default" thead-content>Prioridade</th>
                 <th class="thead-default" thead-content>
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
-                <th class="thead-default" thead-content>Prioridade</th>
             </tr>
             <tr class="trow-content"
                 *ngFor="let solicitacao of this.solicitacaoList | paginate:
@@ -30,13 +30,13 @@
                 <td class="tdata-default">
                     Total: {{solicitacao.itens.length}} | Associados: {{ countItemsAssociados(solicitacao) }}
                 </td>
+                <td>
+                    <p [ngClass]="getPriority(solicitacao)"> {{getPriority(solicitacao)}} </p>
+                </td>
                 <td class="tdata-default">
                     <a [routerLink]="['/almoxarife', 'associar', solicitacao.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
-                </td>
-                <td>
-                    <p [ngClass]="getPriority(solicitacao)"> {{getPriority(solicitacao)}} </p>
                 </td>
             </tr>
         </table>

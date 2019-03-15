@@ -7,7 +7,7 @@ import { HcalSharedModule, InputBaseModule, ModalModule, StepModule, TableModule
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { SolicitacaoComponent } from './solicitacao.component';
+import { SolicitacaoListComponent } from './solicitacao-list.component';
 import { NgxMaskModule } from "ngx-mask";
 import { SolicitacaoRoutingModule } from "./solicitacao-routing.module";
 import { SolicitacaoCreateComponent } from "./solicitacao-create.component";
@@ -26,7 +26,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     declarations: [
-        SolicitacaoComponent,
+        SolicitacaoListComponent,
         SolicitacaoCreateComponent,
         SolicitacaoApprovalComponent
     ],

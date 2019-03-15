@@ -1,0 +1,71 @@
+<div class="container-view col-10">
+    <header class="content-header col-11">
+        <div>
+            <h3 class="title-label">Nºda Solicitação: <b class="title-value color-danger">{{ solicitacao?.id }}</b></h3>
+            <h3 class="title-label">Solicitante: <b class="title-value">{{ solicitacao?.responsavel?.name }}</b></h3>
+            <h3 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor }} </b></h3>
+        </div>
+
+        <div>
+            <h3 class="title-label">Prioridade:
+                <b [ngClass]="[solicitacao?.urgente ? 'color-danger' : 'normal', 'title-value']">
+                    {{ solicitacao?.urgente ? 'Urgente' : 'Normal' }}
+                </b>
+            </h3>
+            <h3 class="title-label"> Data: <b
+                    class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h3>
+            <h3 class="title-label"> Status: <b class="title-value">{{ solicitacao?.status?.nome }} </b></h3>
+        </div>
+    </header>
+    <main class="col-11 main-content">
+        <perfect-scrollbar class="scroll">
+            <section class="col-12 container-items" *ngFor="let solicitacaoItem of solicitacao?.itens; index as i">
+                <section class="labels">
+                    <div class="label">Item</div>
+                    <div class="label qnt-flex">Qnt</div>
+                    <div class="label">Fabricante</div>
+                    <div class="label">Fornecedor</div>
+                </section>
+
+                <section class="items-resumo">
+                    <div class="item-resumo"><b>{{i + 1}}</b> - {{ solicitacaoItem?.item?.descricao.toUpperCase() }}
+                    </div>
+                    <div class="item-resumo qnt-flex">
+                        {{ solicitacaoItem.quantidade + ' ' + solicitacaoItem.unidadeMedida.toUpperCase() }}
+                    </div>
+                    <div class="item-resumo container-list">
+                        <perfect-scrollbar>
+                            <div class="item" *ngFor="let fa of solicitacaoItem.item.fabricante">
+                                {{ fa.fantasia }}
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="item-resumo container-list">
+                        <perfect-scrollbar>
+                            <div *ngFor="let fo of solicitacaoItem.item.fornecedor">
+                                {{ fo.fantasia}}
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                </section>
+            </section>
+        </perfect-scrollbar>
+        <footer class="col-12">
+            <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
+            <div class="float-right">
+                <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
+                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == getLocalStorage().name">-->
+                <button name="cancelar" (click)="action()" class="button button-danger"> Cancelar</button>
+                <!--</ng-template>-->
+
+                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'COMPRADOR' || solicitacao?.responsavel?.name == 'GERENCIA'">-->
+                <button name="recusar" (click)="action()" class="button button-danger"> Recusar</button>
+                <!--</ng-template>-->
+
+                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'GERENCIA'">-->
+                <button name="aprovar" (click)="action()" class="button button-success"> Aprovar</button>
+                <!--</ng-template>-->
+            </div>
+        </footer>
+    </main>
+</div>

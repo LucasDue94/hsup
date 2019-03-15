@@ -8,7 +8,7 @@
                    placeholder="Buscar solicitação..." #field>
         </form>
     </div>
-    <hcal-table tableName="Solicitações - Quantidade {{ count }}">
+    <hcal-table class="col-11" tableName="Solicitações - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content>nº</th>
@@ -25,7 +25,7 @@
                 <td class="tdata-default">{{ solicitacao.id }}</td>
                 <td class="tdata-default">{{ solicitacao.responsavel.name }}</td>
                 <td class="tdata-default">{{ solicitacao.responsavel.setor }}</td>
-                <td class="tdata-default">{{ solicitacao.urgente ? 'Urgente' : 'Normal' }}</td>
+                <td [ngClass]="[solicitacao.urgente ?  'urgente': '','tdata-default']"> {{ solicitacao.urgente ? 'Urgente' : 'Normal' }} </td>
                 <td class="tdata-default">{{ solicitacao.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/solicitacao', 'edit', solicitacao.id]">
