@@ -41,6 +41,7 @@ abstract class SolicitacaoService {
                 if (fabricante == null) {
                     fab.save(flush: true)
                 } else {
+                    if (it.fabricante.contains(fabricante)) return
                     it.addToFabricante(fabricante)
                     it.fabricante.remove(fab)
                 }

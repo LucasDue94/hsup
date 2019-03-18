@@ -206,7 +206,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     groupIsValid(group: FormGroup, canBeEmpty: boolean) {
         const keys = Object.keys(group.value);
-        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' ? 1 : 0), 0);
+        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' || group.value[key] == null ? 1 : 0), 0);
 
         return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }

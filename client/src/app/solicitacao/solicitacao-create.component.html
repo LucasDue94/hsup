@@ -44,7 +44,7 @@
                                            class="col-12 request-input-line-bottom">
                                 </div>
                             </div>
-                            <button class="button-cancel" name="button-cancel">X</button>
+                            <button class="button-cancel" name="button-cancel">-</button>
                         </section>
                         <button (click)="addField('item')" [name]="'add-button'"
                                 class="float-button-plus bg-blue color-white">+
@@ -95,7 +95,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button class="button-cancel" name="button-cancel">X</button>
+                            <button class="button-cancel" name="button-cancel">-</button>
                         </section>
                         <button (click)="addField('fabricante')" [name]="'add-button'"
                                 class="float-button-plus bg-blue color-white">+
@@ -104,7 +104,7 @@
                 </perfect-scrollbar>
             </section>
         </hcal-step>
-        <hcal-step #stepFornecedor>
+        <hcal-step [validator]="validate('fornecedor')">
             <h2 class="title-step color-gray">seleção de fornecedores</h2>
             <section class="container-lg scroll-container bg-gray">
                 <perfect-scrollbar>
@@ -159,7 +159,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button class="button-cancel" name="button-cancel-3">X</button>
+                            <button class="button-cancel" name="button-cancel">-</button>
                         </section>
                         <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">+
                         </button>
@@ -168,14 +168,14 @@
             </section>
         </hcal-step>
         <hcal-step>
-            <main class="container-request">
+            <h2 class="title-step color-gray">resumo da compra</h2>
+            <main class="container-request col-12">
                 <section class="main-content col-12">
                     <header class="col-12 header-main-content">
                         <button (click)="setUrgency()" class="btn-urgency-container" #urgencyIcon>
                             <span>urgente</span>
                             <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
                         </button>
-                        <h2 class="item-header">resumo da compra</h2>
                         <h2 id="qnt" class="item-header">quantidade: {{getAllFormGroup('item').length}}</h2>
                     </header>
                     <perfect-scrollbar class="scroll col-12">
@@ -214,25 +214,23 @@
                                 </div>
                             </section>
                         </section>
-                        <button (click)="save()" class="float-button-plus bg-green color-white">
-                            <fa-icon [icon]="['fa', 'check']"></fa-icon>
-                        </button>
                     </perfect-scrollbar>
                 </section>
             </main>
         </hcal-step>
-        <button [routerLink]="['/solicitacao']" class="button button-border-all button-light-danger" cancel-button>
+        <button (click)="cancel()" class="button button-border-all button-light-danger" cancel-button>
             Cancelar
         </button>
         <button class="button button-blue" next-button>
             Avançar
             <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
         </button>
-        <button *ngIf="validate('item')" class="button button-border-all button-success" finish-button>Finalizar</button>
+        <button *ngIf="validate('item')" class="button button-border-all button-success" finish-button>Finalizar
+        </button>
         <button class="button button-reverse button-blue" previous-button>
             <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>
             Voltar
         </button>
-        <button class="button button-border-all button-success" submit-button>Solicitacar</button>
+        <button class="button button-border-all button-success" (click)="save()" submit-button>Solicitar</button>
     </hcal-wizard>
 </section>
