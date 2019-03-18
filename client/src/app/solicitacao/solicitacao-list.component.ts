@@ -6,10 +6,10 @@ import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
     selector: 'solicitacao',
-    templateUrl: './solicitacao.component.html',
+    templateUrl: './solicitacao-list.component.html',
     styleUrls: ['./solicitacao.component.scss']
 })
-export class SolicitacaoComponent implements OnInit {
+export class SolicitacaoListComponent implements OnInit {
 
     solicitacaoList: Solicitacao[] = [];
 

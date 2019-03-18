@@ -364,6 +364,145 @@ input, select {
   height: 80px;
 }
 
+
+.checkbox-approval-container {
+  margin: 0;
+
+  .checkbox-filled + .checkbox-label:before {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    margin-left: 2%;
+    top: 4px;
+
+    & {
+      border: 2px solid $blue;
+    }
+  }
+
+  .checkbox-filled:checked + .checkbox-label:before {
+    & {
+      background: $green;
+      font-size: 25px !important;
+    }
+  }
+
+  .checkbox-label, .radio-label {
+    & {
+      font-size: 1.1em;
+    }
+  }
+}
+
+.checkbox-approved-container {
+  .approved-label {
+    color: $green;
+  }
+
+  .checkbox-filled + .checkbox-label:before {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    margin-right: 8px;
+    margin-left: 2%;
+    top: 4px;
+    vertical-align: top;
+
+    & {
+      content: "";
+      border: 2px solid $green;
+      border-radius: 2px;
+      font-family: Poppins, sans-serif;
+      font-size: 20px;
+      line-height: 0.35em;
+      font-weight: bold;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+  }
+
+  .checkbox-filled:checked + .checkbox-label:before {
+    & {
+      content: "\2713";
+      color: $white;
+      background: $green;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+    }
+  }
+}
+
+.urgente {
+  text-transform: capitalize;
+  color: $danger;
+  font-weight: 600;
+}
+
+.container-view {
+  margin: 2em;
+  height: 75%;
+  position: fixed;
+  font-family: "Poppins", sans-serif;
+  background-color: $white;
+  border-radius: 15px;
+  color: $brown;
+  box-shadow: 1px 1px 3px $gray;
+
+  .content-header {
+    margin: 1em auto;
+    padding: 1em 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $mediumGray;
+
+    & > * {
+      margin: 0;
+
+      .title-label {
+        font-weight: normal;
+        margin-bottom: 3px;
+
+        .title-value {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .main-content {
+    height: 65%;
+  }
+
+  .scroll {
+    width: 100% !important;
+    max-height: 90%;
+    padding: 0;
+
+    .container-items {
+      & {
+        background-color: $lightGray;
+        border-top: 2px solid $brown;
+      }
+    }
+  }
+
+  .total-items {
+    font-size: 20px;
+  }
+
+}
+
+#logo {
+  width: 20%;
+  height: 20%;
+}
 .loading-input {
   font-family: 'Poppins', sans-serif;
 }

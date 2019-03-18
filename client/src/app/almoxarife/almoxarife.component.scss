@@ -2,11 +2,11 @@
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 .container-header {
-  margin-bottom: 5em;
+  margin-bottom: 1em;
 
   & {
     color: $brown;
-    font-family: "Poppins SemiBold", sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
   .title-header {
@@ -14,19 +14,32 @@
     margin-bottom: 20px;
   }
 
-  .label {
-    display: inline;
-    font-family: "Poppins ExtraLight", sans-serif;
-    margin-right: 5px;
-  }
+  .content-header {
+    display: flex;
+    justify-content: space-between;
 
-  .label-description {
-    display: inline;
+    & > * {
+      text-transform: capitalize;
+      margin: 0;
+
+      .title-label {
+        font-weight: normal;
+        margin-bottom: 3px;
+
+        .title-value {
+          font-size: 18px;
+        }
+      }
+
+      .urgente {
+        color: $danger;
+      }
+    }
   }
 }
 
 .container-request {
-  height: 61%;
+  height: 60%;
   min-height: 420px;
 
   & {
@@ -234,3 +247,4 @@
   max-height: 200px;
   z-index: 4;
 }
+

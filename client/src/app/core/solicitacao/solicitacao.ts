@@ -1,11 +1,12 @@
 import { Usuario } from "../usuario/usuario";
+import { SolicitacaoItem } from "../solicitacaoItem/solicitacao-item";
 import { StatusSolicitacao } from "../statusSolicitacao/status-solicitacao";
 
 export class Solicitacao {
     id: number;
-    itens: Solicitacao[];
+    itens: SolicitacaoItem[];
     responsavel: Usuario;
-    data: any;
+    dateCreated: any;
     urgente: boolean;
     status: StatusSolicitacao;
 

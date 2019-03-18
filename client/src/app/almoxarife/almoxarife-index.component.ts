@@ -38,7 +38,8 @@ export class AlmoxarifeIndexComponent implements OnInit {
             .switchMap(searchTerm =>
                 this.solicitacaoService.list(this.count, searchTerm))
             .subscribe((solicitacaoList: Solicitacao[]) => {
-                this.solicitacaoList = solicitacaoList
+                this.solicitacaoList = solicitacaoList;
+                console.log(this.solicitacaoList);
             });
 
         if (this.searchControl.value == "") {
@@ -64,6 +65,21 @@ export class AlmoxarifeIndexComponent implements OnInit {
     set pageNumber(pageNumber: number) {
         this._pageNumber = pageNumber;
         this.changePageData();
+    }
+
+    countItemsAssociados(solicitacao) {
+        let count = 0;
+        solicitacao.itens.forEach(solicitacaoItem => {
+            if (solicitacaoItem.item.produto != null) {
+                count++;
+            }
+        });
+        console.log(solicitacao.urgente);
+        return count;
+    }
+
+    getPriority(solicitacao){
+        return solicitacao.urgente ? 'urgente':'normal';
     }
 
 }

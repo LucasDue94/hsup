@@ -4,36 +4,38 @@
             <input type="text"
                    formControlName="searchControl"
                    class="form-control filter-control col-5 float-right"
-                   placeholder="Buscar fabricante..." #field>
+                   placeholder="Buscar fabricante...">
         </form>
     </div>
     <hcal-table tableName="Solicitações {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
-                <th class="thead-default" thead-content>Nº da solicitação</th>
+                <th class="thead-default" thead-content>Nº</th>
+                <th class="thead-default" thead-content>Responsável</th>
                 <th class="thead-default" thead-content>Setor</th>
-                <th class="thead-default" thead-content>Solicitante</th>
                 <th class="thead-default" thead-content>Data</th>
+                <th class="thead-default" thead-content>Item x Produto</th>
+                <th class="thead-default" thead-content>Prioridade</th>
                 <th class="thead-default" thead-content>
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
-                <th class="thead-default" thead-content>Associação WPD</th>
             </tr>
             <tr class="trow-content"
-                *ngFor="let solicitacao of this.solicitacaoList | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
-                <td class="tdata-default">{{ solicitacao.id}}</td>
-                <td class="tdata-default">{{ solicitacao.setor.nome}}</td>
-                <td class="tdata-default">{{ solicitacao.responsavel.name}}</td>
-                <td class="tdata-default">{{ solicitacao.responsavel.data}}</td>
+                *ngFor="let solicitacao of this.solicitacaoList | paginate:
+                 { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+                <td class="tdata-default">{{ solicitacao.id }}</td>
+                <td class="tdata-default">{{ solicitacao.responsavel.name }}</td>
+                <td class="tdata-default">{{ solicitacao.responsavel.setor }}</td>
+                <td class="tdata-default">{{ solicitacao.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
+                <td class="tdata-default">
+                    Total: {{solicitacao.itens.length}} | Associados: {{ countItemsAssociados(solicitacao) }}
+                </td>
+                <td>
+                    <p [ngClass]="getPriority(solicitacao)"> {{getPriority(solicitacao)}} </p>
+                </td>
                 <td class="tdata-default">
                     <a [routerLink]="['/almoxarife', 'associar', solicitacao.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
-                    </a>
-                </td>
-                <td class="tdata-default">
-                    <a>
-                        <fa-icon [icon]="['fas', 'times']" class="color-danger icon-config"></fa-icon>
-                        <fa-icon [icon]="['fas', 'check']" class="color-green icon-config"></fa-icon>
                     </a>
                 </td>
             </tr>

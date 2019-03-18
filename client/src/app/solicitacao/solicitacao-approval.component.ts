@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 @Component({
     selector: 'solicitacao-approval',
     templateUrl: './solicitacao-approval.component.html',
-    styleUrls: ['./solicitacao-approval.component.scss']
+    styleUrls: ['./solicitacao.component.scss']
 })
 export class SolicitacaoApprovalComponent implements OnInit {
 
@@ -81,7 +81,6 @@ export class SolicitacaoApprovalComponent implements OnInit {
         });
     }
 
-
     changePageData() {
         this.list(this._pageNumber);
     }
@@ -105,6 +104,4 @@ export class SolicitacaoApprovalComponent implements OnInit {
     getApprovalLabel(aprovada) {
         return aprovada ? 'Sim' : 'Não';
     }
-
-
 }

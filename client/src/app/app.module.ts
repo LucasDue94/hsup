@@ -41,13 +41,15 @@ import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { StatusSolicitacaoComponent } from './status-solicitacao/status-solicitacao.component';
+import { SolicitacaoShowComponent } from './solicitacao/solicitacao-show.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavComponent,
         ErrorComponent,
-        StatusSolicitacaoComponent
+        StatusSolicitacaoComponent,
+        SolicitacaoShowComponent
     ],
     imports: [
         BrowserModule,
