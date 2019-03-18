@@ -15,8 +15,6 @@ class SolicitacaoController {
     @Secured('ROLE_SOLICITACAO_INDEX')
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        params.sort = 'urgente'
-        params.order = 'desc'
         List<Solicitacao> solicitacaoList = solicitacaoService.list(params)
         respond solicitacaoList
     }
