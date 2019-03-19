@@ -6,14 +6,14 @@ export class Item {
     id: number;
     produto: Produto;
     descricao: string;
-    fornecedor: Fornecedor[];
-    fabricante: Fabricante[];
+    fornecedor: Set<Fornecedor>;
+    fabricante: Set<Fabricante>;
     ativo: boolean;
 
     constructor (object?: any) {
         if (this.ativo == null) this.ativo = true;
-        this.fornecedor = [];
-        this.fabricante = [];
+        this.fornecedor = new Set<Fornecedor>();
+        this.fabricante = new Set<Fabricante>();
         this.produto = new Produto();
 
         if (object) {

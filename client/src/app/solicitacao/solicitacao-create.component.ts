@@ -316,8 +316,8 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (groupItem == item.id || groupItem == item.descricao) {
                 const objInstance = this.requestItemsBuilder(type, group.controls);
                 if (typeof objInstance.id == 'string') delete objInstance.id;
-                if (type == 'fabricante') item.fabricante.push(objInstance);
-                if (type == 'fornecedor') item.fornecedor.push(objInstance);
+                if (type == 'fabricante') item.fabricante.add(objInstance);
+                if (type == 'fornecedor') item.fornecedor.add(objInstance);
             }
         }
     }
