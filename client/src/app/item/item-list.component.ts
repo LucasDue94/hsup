@@ -43,6 +43,7 @@ export class ItemListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
+                if (searchTerm == '') return this.itemService.list('', this._offset);
                 return this.itemService.search(searchTerm, this._offset)
             })
             .subscribe((itemList: Item[]) => {

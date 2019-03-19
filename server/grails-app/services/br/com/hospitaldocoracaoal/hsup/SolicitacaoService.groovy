@@ -13,7 +13,17 @@ abstract class SolicitacaoService {
 
     abstract Solicitacao get(Serializable id)
 
-    abstract List<Solicitacao> list(Map args)
+    List<Solicitacao> list(Map args) {
+        def criteria = Solicitacao.createCriteria()
+        List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
+            if (!args.containsKey('sort')) {
+                order('urgente', 'desc')
+                order('dateCreated', 'asc')
+            }
+        }
+
+        return solicitacaoList
+    }
 
     abstract Long count()
 
@@ -31,6 +41,7 @@ abstract class SolicitacaoService {
                 if (fabricante == null) {
                     fab.save(flush: true)
                 } else {
+                    if (it.fabricante.contains(fabricante)) return
                     it.addToFabricante(fabricante)
                     it.fabricante.remove(fab)
                 }
@@ -67,6 +78,20 @@ abstract class SolicitacaoService {
             it.save(flush: true)
         }
 
+        createHistorico(solicitacao)
+        solicitacao
+    }
+
+    @Transactional
+    changeStatus(Solicitacao solicitacao) {
+        if (solicitacao.isDirty('status')) {
+            solicitacao.save()
+            createHistorico(solicitacao)
+        }
+    }
+
+    @Transactional
+    createHistorico(Solicitacao solicitacao) {
         if (solicitacao.status) {
             def principal = springSecurityService.principal
             if (principal == null) throw new IllegalStateException('Deve ter um usuário logado.')
@@ -82,7 +107,5 @@ abstract class SolicitacaoService {
             SolicitacaoHistorico solicitacaoHistorico = SolicitacaoHistorico.findOrCreateWhere(historico)
             solicitacaoHistorico.save(flush: true)
         }
-
-        solicitacao
     }
 }

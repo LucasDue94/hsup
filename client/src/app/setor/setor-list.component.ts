@@ -43,6 +43,7 @@ export class SetorListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
+                if (searchTerm == '') return this.setorService.list('', this._offset);
                 return this.setorService.search(searchTerm, this._offset)
             })
             .subscribe((setorList: Setor[]) => {

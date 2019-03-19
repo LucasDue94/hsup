@@ -8,14 +8,14 @@
                    placeholder="Buscar solicitação..." #field>
         </form>
     </div>
-    <hcal-table class="col-11" tableName="Solicitações - Quantidade {{ count }}">
+    <hcal-table tableName="Solicitações - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content>nº</th>
                 <th class="thead-default" thead-content>responsável</th>
                 <th class="thead-default" thead-content>setor</th>
-                <th class="thead-default" thead-content>data</th>
                 <th class="thead-default" thead-content>prioridade</th>
+                <th class="thead-default" thead-content>data</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
                 </th>
@@ -25,7 +25,9 @@
                 <td class="tdata-default">{{ solicitacao.id }}</td>
                 <td class="tdata-default">{{ solicitacao.responsavel.name }}</td>
                 <td class="tdata-default">{{ solicitacao.responsavel.setor }}</td>
-                <td [ngClass]="[solicitacao.urgente ?  'urgente': '','tdata-default']"> {{ solicitacao.urgente ? 'Urgente' : 'Normal' }} </td>
+                <td class="tdata-default" [ngClass]="solicitacao.urgente ? 'urgente-text' : ''">
+                    {{ solicitacao.urgente ? 'Urgente' : 'Normal' }}
+                </td>
                 <td class="tdata-default">{{ solicitacao.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/solicitacao', 'edit', solicitacao.id]">
@@ -39,8 +41,8 @@
         </table>
         <div class="not-found" *ngIf="solicitacaoList.length == 0">
             <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
-            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading && field.value == ''">
-                Não há dados cadastrados
+            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading ">
+                Nenhum dado encontrado
             </h1>
             <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading">
                 Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
@@ -51,7 +53,7 @@
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">
-    <div class="floating-button" tooltip="Nova {{this.constructor.name | slice : 0:-9}}" [placement]="'top'"
+    <div class="floating-button" tooltip="Novo" [placement]="'top'"
          [show-delay]="500">
         <a [routerLink]="['/solicitacao','create']" class="create a-link-page">
             <p class="plus">+</p>

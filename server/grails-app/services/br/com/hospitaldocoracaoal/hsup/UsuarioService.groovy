@@ -12,8 +12,7 @@ abstract class UsuarioService {
         List<Usuario> usuarioList = (List<Usuario>) criteria.list(args) {
             if (termo != null && !termo.isEmpty()) {
                 or {
-                    ilike('id', "%${termo}%")
-                    ilike('nome', "%${termo}%")
+                    ilike('name', "%${termo}%")
                 }
             }
         }

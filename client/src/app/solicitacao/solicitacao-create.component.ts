@@ -206,7 +206,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     groupIsValid(group: FormGroup, canBeEmpty: boolean) {
         const keys = Object.keys(group.value);
-        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' ? 1 : 0), 0);
+        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' || group.value[key] == null ? 1 : 0), 0);
 
         return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }
@@ -224,7 +224,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (value.hasOwnProperty('id')) this.setFormControl(group, 'id', value.id);
 
             for (let key of Object.keys(value)) {
-                if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key].toUpperCase());
+                if (this.getFormControl(group, key)) this.setFormControl(group, key, value[key]);
             }
         } else {
             group = this.getFormGroup(element, type);
@@ -234,7 +234,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (result != undefined && result.hasOwnProperty('id')) {
                 this.setFormControl(group, 'id', result.id);
             } else {
-                this.setFormControl(group, 'id', value);
+                this.setFormControl(group, 'id', value.toUpperCase());
             }
         }
     }
@@ -312,7 +312,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         const groups = this.getAllFormGroup(type);
 
         for (let group of groups) {
-            const groupItem = group.controls.item.value;
+            const groupItem = group.controls.item.value.toUpperCase();
             if (groupItem == item.id || groupItem == item.descricao) {
                 const objInstance = this.requestItemsBuilder(type, group.controls);
                 if (typeof objInstance.id == 'string') delete objInstance.id;

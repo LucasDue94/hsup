@@ -25,7 +25,7 @@
                        [(ngModel)]="fabricante.fantasia"
                        [class]="'form-control col-12'">
             </div>
-            <div *ngIf="this.create == false" class="form-group col-12">
+            <div *ngIf="!create" class="form-group col-12">
                 <label class="control-label">Estado</label>
                 <input type="checkbox" [(ngModel)]="fabricante.ativo" class="checkbox-filled" id="estado" name="ativo">
                 <label for="estado" class="checkbox-label">Ativo</label>

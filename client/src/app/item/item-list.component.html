@@ -30,15 +30,12 @@
         </table>
         <div class="not-found" *ngIf="itemList.length == 0">
             <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
-            <h1 class="not-found-error" *ngIf="itemList.length == 0 && !loading && field.value == ''">
-                Não há dados cadastrados
-            </h1>
-            <h1 class="not-found-error" *ngIf="itemList.length == 0 && !loading">
-                Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
+            <h1 class="not-found-error" *ngIf="!loading ">
+                Nenhum dado encontrado
             </h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="count > 10 && findList.length > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="count > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">

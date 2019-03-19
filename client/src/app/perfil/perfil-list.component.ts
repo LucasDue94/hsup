@@ -43,7 +43,8 @@ export class PerfilListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
-                return this.perfilService.search(searchTerm. this._offset)
+                if (searchTerm == '') return this.perfilService.list('', this._offset);
+                return this.perfilService.search(searchTerm, this._offset)
             })
             .subscribe((perfilList: Perfil[]) => {
                 this.perfilList = perfilList;

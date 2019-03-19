@@ -12,7 +12,6 @@ abstract class SetorService {
         List<Setor> setorList = (List<Setor>) criteria.list(args) {
             if (termo != null && !termo.isEmpty()) {
                 or {
-                    ilike('id', "%${termo}%")
                     ilike('nome', "%${termo}%")
                 }
             }

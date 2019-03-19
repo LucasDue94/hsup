@@ -12,7 +12,6 @@ abstract class PermissoesService {
         List<Permissoes> permissoesList = (List<Permissoes>) criteria.list(args) {
             if (termo != null && !termo.isEmpty()) {
                 or {
-                    ilike('id', "%${termo}%")
                     ilike('authority', "%${termo}%")
                 }
             }

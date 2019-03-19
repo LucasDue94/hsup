@@ -62,7 +62,7 @@
                    [(ngModel)]="fornecedor.email"
                    [class]="'form-control col-12'">
         </div>
-        <div *ngIf="this.create == false" class="form-group col-4 offset-2">
+        <div *ngIf="!create" class="form-group col-4 offset-2">
             <label class="control-label">Estado</label>
             <input type="checkbox" [(ngModel)]="fornecedor.ativo" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>

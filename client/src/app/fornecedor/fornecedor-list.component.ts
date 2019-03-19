@@ -7,7 +7,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Fabricante } from "../core/fabricante/fabricante";
 
 @Component({
     selector: 'fornecedor-list',
@@ -45,6 +44,7 @@ export class FornecedorListComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
+                if (searchTerm == '') return this.fornecedorService.list('', this._offset);
                 return this.fornecedorService.search(searchTerm, this._offset)
             })
             .subscribe((fornecedorList: Fornecedor[]) => {

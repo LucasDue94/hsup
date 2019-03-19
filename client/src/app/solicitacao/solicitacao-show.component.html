@@ -7,7 +7,7 @@
         </div>
 
         <div>
-            <h3 class="title-label">Prioridade:
+            <h3 class="title-label">
                 <b [ngClass]="[solicitacao?.urgente ? 'color-danger' : 'normal', 'title-value']">
                     {{ solicitacao?.urgente ? 'Urgente' : 'Normal' }}
                 </b>
@@ -55,11 +55,11 @@
             <div class="float-right">
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
                 <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == getLocalStorage().name">-->
-                <button name="cancelar" (click)="action()" class="button button-danger"> Cancelar</button>
+                <button name="cancelar" (click)="action()" class="button button-border-all button-light-danger"> Cancelar</button>
                 <!--</ng-template>-->
 
                 <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'COMPRADOR' || solicitacao?.responsavel?.name == 'GERENCIA'">-->
-                <button name="recusar" (click)="action()" class="button button-danger"> Recusar</button>
+                <button name="recusar" (click)="action()" class="button button-border-all button-light-danger"> Recusar</button>
                 <!--</ng-template>-->
 
                 <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'GERENCIA'">-->

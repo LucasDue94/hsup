@@ -12,7 +12,6 @@ abstract class PerfilService {
         List<Perfil> perfilList = (List<Perfil>) criteria.list(args) {
             if (termo != null && !termo.isEmpty()) {
                 or {
-                    ilike('id', "%${termo}%")
                     ilike('name', "%${termo}%")
                 }
             }

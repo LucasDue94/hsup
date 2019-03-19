@@ -19,9 +19,6 @@ export class SolicitacaoShowComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.solicitacaoService.get(+params['id']).subscribe((solicitacao: Solicitacao) => {
                 this.solicitacao = solicitacao;
-                console.log(solicitacao);
-                console.log(solicitacao.responsavel.name);
-                console.log(localStorage.name);
             });
         });
     }

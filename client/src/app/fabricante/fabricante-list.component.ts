@@ -43,6 +43,7 @@ export class FabricanteListComponent implements OnInit, AfterViewInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
+                if (searchTerm == '') return this.fabricanteService.list('', this._offset);
                 return this.fabricanteService.search(searchTerm, this._offset)
             })
             .subscribe((fabricanteList: Fabricante[]) => {
