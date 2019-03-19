@@ -6,6 +6,8 @@ class Item {
     String descricao
     Boolean ativo
     Produto produto
+    Set<Fabricante> fabricante
+    Set<Fornecedor> fornecedor
 
     static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
 

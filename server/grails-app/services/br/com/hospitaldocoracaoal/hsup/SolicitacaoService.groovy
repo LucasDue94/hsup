@@ -39,18 +39,17 @@ abstract class SolicitacaoService {
             it.fabricante.each { fab ->
                 Fabricante fabricante = Fabricante.findByFantasia(fab.fantasia)
                 if (fabricante == null) {
-                    fab.save(flush: true)
+                    fab.save()
+                    it.addToFabricante(fab)
                 } else {
-                    if (it.fabricante.contains(fabricante)) return
                     it.addToFabricante(fabricante)
-                    it.fabricante.remove(fab)
                 }
             }
 
             it.fornecedor.each { forn ->
                 Fornecedor fornecedor = Fornecedor.findByFantasia(forn.fantasia)
                 if (fornecedor == null) {
-                    forn.save(flush: true)
+                    forn.save()
                 } else {
                     it.addToFornecedor(fornecedor)
                     it.fornecedor.remove(forn)
