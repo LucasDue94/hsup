@@ -46,6 +46,19 @@ export class SolicitacaoService {
             });
     }
 
+    changeStatus(solicitacao: Solicitacao, action): Observable<Solicitacao> {
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        const url = this.baseUrl + `solicitacao/${action}/${solicitacao.id}`;
+        return this.http.put<Solicitacao>(url, solicitacao.id, {headers: httpOptions.headers, responseType: 'json'});
+    }
+
     save(solicitacao: Solicitacao): Observable<Solicitacao> {
         const httpOptions = {
             headers: new HttpHeaders({
@@ -65,7 +78,7 @@ export class SolicitacaoService {
         }
     }
 
-    destroy(solicitacao: Solicitacao): Observable<boolean> {
+    destroy(solicitacao:Solicitacao):Observable<boolean> {
         return this.http.delete(this.baseUrl + 'solicitacao/' + solicitacao.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });

@@ -10,7 +10,7 @@ class SolicitacaoController {
     SolicitacaoService solicitacaoService
 
     static responseFormats = ['json', 'xml']
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", cancel: "PUT", deny: "PUT"]
 
     @Secured('ROLE_SOLICITACAO_INDEX')
     def index(Integer max) {
@@ -58,16 +58,6 @@ class SolicitacaoController {
         respond solicitacao, [status: OK, view: "show"]
     }
 
-    @Secured('ROLE_SOLICITACAO_INDEX')
-    def search() {
-        List<Solicitacao> solicitacaoList = Solicitacao.withCriteria {
-            if (params.containsKey('id') && !params.id.empty)
-                ilike('id', "${params.id}")
-        }
-
-        return solicitacaoList
-    }
-
     @Secured('ROLE_SOLICITACAO_DELETE')
     def delete(Long id) {
         if (id == null) {
@@ -79,4 +69,30 @@ class SolicitacaoController {
 
         render status: NO_CONTENT
     }
+
+    @Secured('ROLE_SOLICITACAO_CANCEL')
+    def cancel(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.cancel(id)
+
+        render status: NO_CONTENT
+    }
+
+    @Secured('ROLE_SOLICITACAO_DENY')
+    def deny(Solicitacao solicitacao) {
+        if (solicitacao == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.deny(solicitacao)
+
+        render status: NO_CONTENT
+    }
+
+
 }

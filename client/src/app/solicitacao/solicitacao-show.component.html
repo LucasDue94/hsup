@@ -14,7 +14,12 @@
             </h3>
             <h3 class="title-label"> Data: <b
                     class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h3>
-            <h3 class="title-label"> Status: <b class="title-value">{{ solicitacao?.status?.nome }} </b></h3>
+            <div class="status-container">
+                <h3 class="title-label"> Status:</h3>
+                <select id="status-solicitacao" [value]="solicitacao?.status?.id" (change)="show()">
+                    <option *ngFor="let stat of status" value="{{ stat?.id }}" [disabled]="stat.nome.toUpperCase() == 'RECUSADA' || stat.nome.toUpperCase() == 'CANCELADA' || stat.nome.toUpperCase() == 'AUTORIZADA' ">{{ stat?.nome }}</option>
+                </select>
+            </div>
         </div>
     </header>
     <main class="col-11 main-content">
@@ -31,18 +36,18 @@
                     <div class="item-resumo"><b>{{i + 1}}</b> - {{ solicitacaoItem?.item?.descricao.toUpperCase() }}
                     </div>
                     <div class="item-resumo qnt-flex">
-                        {{ solicitacaoItem.quantidade + ' ' + solicitacaoItem.unidadeMedida.toUpperCase() }}
+                        {{ solicitacaoItem?.quantidade + ' ' + solicitacaoItem?.unidadeMedida.toUpperCase() }}
                     </div>
                     <div class="item-resumo container-list">
                         <perfect-scrollbar>
-                            <div class="item" *ngFor="let fa of solicitacaoItem.item.fabricante">
+                            <div class="item" *ngFor="let fa of solicitacaoItem?.item?.fabricante">
                                 {{ fa.fantasia }}
                             </div>
                         </perfect-scrollbar>
                     </div>
                     <div class="item-resumo container-list">
                         <perfect-scrollbar>
-                            <div *ngFor="let fo of solicitacaoItem.item.fornecedor">
+                            <div *ngFor="let fo of solicitacaoItem?.item?.fornecedor">
                                 {{ fo.fantasia}}
                             </div>
                         </perfect-scrollbar>
@@ -53,18 +58,30 @@
         <footer class="col-12">
             <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
             <div class="float-right">
+
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
-                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == getLocalStorage().name">-->
-                <button name="cancelar" (click)="action()" class="button button-border-all button-light-danger"> Cancelar</button>
-                <!--</ng-template>-->
 
-                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'COMPRADOR' || solicitacao?.responsavel?.name == 'GERENCIA'">-->
-                <button name="recusar" (click)="action()" class="button button-border-all button-light-danger"> Recusar</button>
-                <!--</ng-template>-->
+                <button *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL')" (click)="changeStatus('cancel')"
+                        name="cancelar" class="button button-border-all button-light-danger">
+                    Cancelar
+                </button>
 
-                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'GERENCIA'">-->
-                <button name="aprovar" (click)="action()" class="button button-success"> Aprovar</button>
-                <!--</ng-template>-->
+                <button *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
+                        (click)="changeStatus('deny')" name="recusar"
+                        class="button button-border-all button-light-danger">
+                    Recusar
+                </button>
+
+                <button *ngIf="checkPermission('ROLE_SOLICITACAO_UPDATE')" (click)="changeStatus('update')"
+                        name="alterar" class="button button-success">
+                    Alterar
+                </button>
+
+                <button *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL')" (click)="changeStatus('approval')"
+                        name="alterar" class="button button-success">
+                    Aprovar
+                </button>
+
             </div>
         </footer>
     </main>

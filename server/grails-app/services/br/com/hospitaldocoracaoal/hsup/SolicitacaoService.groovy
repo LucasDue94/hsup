@@ -2,10 +2,12 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
+import javassist.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
 @Service(Solicitacao)
+@Transactional
 abstract class SolicitacaoService {
 
     @Autowired
@@ -29,7 +31,6 @@ abstract class SolicitacaoService {
 
     abstract void delete(Serializable id)
 
-    @Transactional
     Solicitacao save(Solicitacao solicitacao) {
         if (solicitacao == null) {
             throw new IllegalArgumentException("Solicitação não pode ser nula.")
@@ -82,21 +83,12 @@ abstract class SolicitacaoService {
         solicitacao
     }
 
-    @Transactional
-    changeStatus(Solicitacao solicitacao) {
-        if (solicitacao.isDirty('status')) {
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
-    }
-
-    @Transactional
-    createHistorico(Solicitacao solicitacao) {
+    void createHistorico(Solicitacao solicitacao) {
         if (solicitacao.status) {
             def principal = springSecurityService.principal
             if (principal == null) throw new IllegalStateException('Deve ter um usuário logado.')
 
-            Usuario usuarioLogado = Usuario.get principal.id
+            Usuario usuarioLogado = Usuario.load principal.id
 
             def historico = [
                     solicitacao: solicitacao,
@@ -107,5 +99,20 @@ abstract class SolicitacaoService {
             SolicitacaoHistorico solicitacaoHistorico = SolicitacaoHistorico.findOrCreateWhere(historico)
             solicitacaoHistorico.save(flush: true)
         }
+    }
+
+    void cancel(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        def statusCancelado = StatusSolicitacao.load StatusSolicitacao.CANCELADA_ID
+        solicitacao.status = statusCancelado
+        solicitacao.save()
+        createHistorico(solicitacao)
+    }
+
+    void deny(Solicitacao solicitacao) {
+        def statusRecusado = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
+        solicitacao.status = statusRecusado
+        solicitacao.save()
+        createHistorico(solicitacao)
     }
 }

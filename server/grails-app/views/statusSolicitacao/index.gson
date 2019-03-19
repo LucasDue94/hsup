@@ -4,5 +4,8 @@ model {
 	Iterable<StatusSolicitacao> statusSolicitacaoList
 }
 
-json tmpl.statusSolicitacao(statusSolicitacaoList ?: [])
+json {
+	statusSolicitacao tmpl.statusSolicitacao(statusSolicitacaoList?: [])
+	total StatusSolicitacao.count
+}
 

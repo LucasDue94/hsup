@@ -1,3 +1,144 @@
+PUT http://localhost:8080/solicitacao/cancel/129
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
+
+###
+
+PUT http://localhost:8080/solicitacao/cancel/129
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
+
+###
+
+PUT http://localhost:8080/solicitacao/cancel/129
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
+
+###
+
+PUT http://localhost:8080/solicitacao/cancel/129
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
+
+###
+
+PUT http://localhost:8080/solicitacao/163/cancel
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031416.200.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031405.200.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031322.200.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031247.200.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031159.200.json
+
+###
+
+GET http://localhost:8080/usuario/:1
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031140.404.json
+
+###
+
+GET http://localhost:8080/item/1
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031119.404.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031100.200.json
+
+###
+
+GET http://localhost:8080/usuario/2
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031053.404.json
+
+###
+
+GET http://localhost:8080/usuario/1
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031046.404.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
+
+<> 2019-03-19T031029.200.json
+
+###
+
+GET http://localhost:8080/usuario
+Content-Type: application/json
+Cache-Control: no-cache
+X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
+
+###
+
 GET http://localhost:8080/usuario
 Content-Type: application/json
 Cache-Control: no-cache
@@ -282,159 +423,6 @@ Cache-Control: no-cache
 X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
 
 <> 2019-02-04T034913.500.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034912.500.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034908.500.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034825.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034804.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034746.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034737.500.html
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T034411.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T033849.200.json
-
-###
-
-GET http://localhost:8080/item/1
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T033818.200.json
-
-###
-
-GET http://localhost:8080/item/1
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T033701.200.json
-
-###
-
-GET http://localhost:8080/item/1
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T033658.200.json
-
-###
-
-GET http://localhost:8080/item/1
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T033625.200.json
-
-###
-
-GET http://localhost:8080/item/1
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T032822.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T032803.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T032733.200.json
-
-###
-
-GET http://localhost:8080/solicitacao/
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-01-30T123845.200.json
-
-###
-
-GET http://localhost:8080/solicitacao/
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-01-30T123447.200.json
 
 ###
 
