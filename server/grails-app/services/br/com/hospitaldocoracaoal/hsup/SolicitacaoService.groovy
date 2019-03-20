@@ -2,7 +2,6 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
-import javassist.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
@@ -109,10 +108,28 @@ abstract class SolicitacaoService {
         createHistorico(solicitacao)
     }
 
-    void deny(Solicitacao solicitacao) {
+    void deny(Serializable id) {
+        def solicitacao = Solicitacao.get id
         def statusRecusado = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
         solicitacao.status = statusRecusado
         solicitacao.save()
         createHistorico(solicitacao)
+    }
+
+    void approval(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        def statusAprovado = StatusSolicitacao.get StatusSolicitacao.APROVADA_ID
+        solicitacao.status = statusAprovado
+        solicitacao.save()
+        createHistorico(solicitacao)
+    }
+
+    void changeStatus(Solicitacao solicitacao) {
+        if (solicitacao.isDirty('status')) {
+            def status = solicitacao?.status?.id
+            if (status != StatusSolicitacao.RECUSADA_ID && status != StatusSolicitacao.CANCELADA_ID) {
+                solicitacao.save flush: true
+            }
+        }
     }
 }

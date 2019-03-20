@@ -516,13 +516,38 @@ input, select {
 }
 
 .status-container {
-  .title-label {
-    display: inline;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title-label{
+    margin-bottom: 0 !important;
   }
 
   #status-solicitacao {
     margin-left: 5px;
     font-size: 18px;
     border-radius: 5px;
+  }
+}
+.check-icon{
+  margin-left: 5px;
+  color: $green;
+  font-size: 24px;
+  cursor: pointer;
+  align-self: center;
+
+}
+.button-circle {
+  width: 29px;
+  height: 29px;
+  margin: 0 0 0 5px;
+
+  & {
+    border-radius: 5px;
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    font-size: 12px;
   }
 }

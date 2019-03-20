@@ -83,13 +83,37 @@ class SolicitacaoController {
     }
 
     @Secured('ROLE_SOLICITACAO_DENY')
-    def deny(Solicitacao solicitacao) {
+    def deny(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.deny(id)
+
+        render status: NO_CONTENT
+    }
+
+    @Secured('ROLE_SOLICITACAO_APPROVAL')
+    def approval(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.approval(id)
+
+        render status: NO_CONTENT
+    }
+
+    @Secured('ROLE_SOLICITACAO_CHANGESTATUS')
+    def changeStatus(Solicitacao solicitacao) {
         if (solicitacao == null) {
             render status: NOT_FOUND
             return
         }
 
-        solicitacaoService.deny(solicitacao)
+        solicitacaoService.changeStatus(solicitacao)
 
         render status: NO_CONTENT
     }

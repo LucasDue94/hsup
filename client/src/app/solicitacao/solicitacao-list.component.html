@@ -15,6 +15,7 @@
                 <th class="thead-default" thead-content>responsável</th>
                 <th class="thead-default" thead-content>setor</th>
                 <th class="thead-default" thead-content>prioridade</th>
+                <th class="thead-default" thead-content>status</th>
                 <th class="thead-default" thead-content>data</th>
                 <th class="thead-default" thead-content colspan="2">
                     <fa-icon [icon]="['fas', 'cog']"></fa-icon>
@@ -28,6 +29,7 @@
                 <td class="tdata-default" [ngClass]="solicitacao.urgente ? 'urgente-text' : ''">
                     {{ solicitacao.urgente ? 'Urgente' : 'Normal' }}
                 </td>
+                <td class="tdata-default">{{ solicitacao?.status?.nome}}</td>
                 <td class="tdata-default">{{ solicitacao.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/solicitacao', 'edit', solicitacao.id]">

@@ -1,6 +1,6 @@
-import { AfterContentInit, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Solicitacao } from "../core/solicitacao/solicitacao";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { FormControl, FormGroup } from "@angular/forms";
 import { StatusSolicitacaoService } from "../core/statusSolicitacao/status-solicitacao.service";
@@ -8,7 +8,7 @@ import { StatusSolicitacao } from "../core/statusSolicitacao/status-solicitacao"
 import { Authentic } from "../authentic";
 
 @Component({
-    selector: 'solicitacao-view',
+    selector: 'solicitacao-show',
     templateUrl: './solicitacao-show.component.html',
     styleUrls: ['./solicitacao.component.scss']
 })
@@ -18,9 +18,10 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     searchControl: FormControl;
     searchForm: FormGroup;
     status: StatusSolicitacao[];
+    message: string;
 
     constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService,
-                private statusSolicitacaoService: StatusSolicitacaoService) {
+                private statusSolicitacaoService: StatusSolicitacaoService, private router: Router) {
         super();
     }
 
@@ -42,18 +43,58 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         });
     }
 
-    getLocalStorage() {
-        return localStorage;
+    cancel() {
+        if (confirm(`Tem certeza que deseja cancelar esta solicitação?`)) {
+            this.solicitacaoService.cancel(this.solicitacao).subscribe(value => {
+                console.log(value);
+                let r = this.router;
+                this.message = 'Solicitação cancelada com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
+        }
     }
 
-    changeStatus(action) {
-        confirm(`Tem certeza que deseja ` + action + ` esta solicitação?`);
-        this.solicitacaoService.changeStatus(this.solicitacao, action).subscribe(value => console.log(value));
+    deny() {
+        if (confirm(`Tem certeza que deseja recusar esta solicitação?`)) {
+            this.solicitacaoService.deny(this.solicitacao).subscribe(value => {
+                console.log(value);
+                let r = this.router;
+                this.message = 'Solicitação recusada com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
+        }
     }
 
-    save() {
-
+    changeStatus() {
+        this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
+            console.log(value);
+            let r = this.router;
+            this.message = 'Status alterado com sucesso!';
+            setTimeout(function () {
+                r.navigate(['/solicitacao', 'index']);
+            }, 2000);
+        });
     }
+
+    approval() {
+        if (confirm(`Tem certeza que deseja aprovar esta solicitação?`)) {
+            this.solicitacaoService.approval(this.solicitacao).subscribe(value => {
+                console.log(value);
+                let r = this.router;
+                this.message = 'Solicitação aprovada com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
+        }
+    }
+
+    setStatus = () => this.solicitacao.status = event.target['value'];
 
     checkPermission: (permission: string) => boolean;
+
 }

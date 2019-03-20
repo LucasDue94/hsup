@@ -7,7 +7,7 @@
         </div>
 
         <div>
-            <h3 class="title-label">
+            <h3 class="title-label">Prioridade:
                 <b [ngClass]="[solicitacao?.urgente ? 'color-danger' : 'normal', 'title-value']">
                     {{ solicitacao?.urgente ? 'Urgente' : 'Normal' }}
                 </b>
@@ -16,9 +16,13 @@
                     class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h3>
             <div class="status-container">
                 <h3 class="title-label"> Status:</h3>
-                <select id="status-solicitacao" [value]="solicitacao?.status?.id" (change)="show()">
-                    <option *ngFor="let stat of status" value="{{ stat?.id }}" [disabled]="stat.nome.toUpperCase() == 'RECUSADA' || stat.nome.toUpperCase() == 'CANCELADA' || stat.nome.toUpperCase() == 'AUTORIZADA' ">{{ stat?.nome }}</option>
+                <select id="status-solicitacao" (change)="setStatus()">
+                    <option *ngFor="let stat of status" value="{{ stat?.id }}" [selected]="stat?.id == solicitacao?.status?.id">
+                        {{ stat?.nome }}
+                    </option>
                 </select>
+                <fa-icon (click)="changeStatus()" class="check-icon"
+                         [icon]="['fas','check-circle']"></fa-icon>
             </div>
         </div>
     </header>
@@ -55,30 +59,26 @@
                 </section>
             </section>
         </perfect-scrollbar>
+        <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
         <footer class="col-12">
             <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
             <div class="float-right">
 
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
-                <button *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL')" (click)="changeStatus('cancel')"
+                <button (click)="cancel()"
                         name="cancelar" class="button button-border-all button-light-danger">
                     Cancelar
                 </button>
 
-                <button *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
-                        (click)="changeStatus('deny')" name="recusar"
+                <button
+                        (click)="deny()"
                         class="button button-border-all button-light-danger">
                     Recusar
                 </button>
 
-                <button *ngIf="checkPermission('ROLE_SOLICITACAO_UPDATE')" (click)="changeStatus('update')"
-                        name="alterar" class="button button-success">
-                    Alterar
-                </button>
-
-                <button *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL')" (click)="changeStatus('approval')"
-                        name="alterar" class="button button-success">
+                <button (click)="approval()"
+                        class="button button-success">
                     Aprovar
                 </button>
 

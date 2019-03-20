@@ -19,6 +19,8 @@ import {
 } from 'ngx-perfect-scrollbar';
 import { SolicitacaoApprovalComponent } from './solicitacao-approval.component';
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { SolicitacaoShowComponent } from "./solicitacao-show.component";
+import { StatusSolicitacaoComponent } from "../status-solicitacao/status-solicitacao.component";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -28,7 +30,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     declarations: [
         SolicitacaoListComponent,
         SolicitacaoCreateComponent,
-        SolicitacaoApprovalComponent
+        SolicitacaoApprovalComponent,
+        SolicitacaoShowComponent,
+        StatusSolicitacaoComponent
     ],
     imports: [
         CommonModule,

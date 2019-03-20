@@ -46,8 +46,7 @@ export class SolicitacaoService {
             });
     }
 
-    changeStatus(solicitacao: Solicitacao, action): Observable<Solicitacao> {
-
+    changeStatus(solicitacao: Solicitacao): Observable<Solicitacao> {
         const httpOptions = {
             headers: new HttpHeaders({
                 "Content-Type": "application/json",
@@ -55,8 +54,10 @@ export class SolicitacaoService {
             })
         };
 
-        const url = this.baseUrl + `solicitacao/${action}/${solicitacao.id}`;
-        return this.http.put<Solicitacao>(url, solicitacao.id, {headers: httpOptions.headers, responseType: 'json'});
+        // TODO: arrumar uma solução para o update
+        delete solicitacao.itens;
+        const url = this.baseUrl + 'solicitacao/changeStatus/' + solicitacao.id;
+        return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
     }
 
     save(solicitacao: Solicitacao): Observable<Solicitacao> {
@@ -78,7 +79,49 @@ export class SolicitacaoService {
         }
     }
 
-    destroy(solicitacao:Solicitacao):Observable<boolean> {
+    cancel(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/cancel/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    deny(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/deny/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    approval(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/approval/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    destroy(solicitacao: Solicitacao): Observable<boolean> {
         return this.http.delete(this.baseUrl + 'solicitacao/' + solicitacao.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
