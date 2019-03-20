@@ -3,17 +3,17 @@ import { Fornecedor } from "../fornecedor/fornecedor";
 import { Produto } from "../produto/produto";
 
 export class Item {
-    id: number;
+    id: any;
     produto: Produto;
     descricao: string;
-    fornecedor: Set<Fornecedor>;
-    fabricante: Set<Fabricante>;
+    fornecedor: Fornecedor[] = [];
+    fabricante: Fabricante[] = [];
     ativo: boolean;
 
     constructor (object?: any) {
         if (this.ativo == null) this.ativo = true;
-        this.fornecedor = new Set<Fornecedor>();
-        this.fabricante = new Set<Fabricante>();
+        this.fornecedor = [];
+        this.fabricante = [];
         this.produto = new Produto();
 
         if (object) {

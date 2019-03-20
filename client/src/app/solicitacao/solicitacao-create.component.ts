@@ -69,7 +69,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
         this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) => {
             this.status = value;
-        })
+        });
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
@@ -301,12 +301,15 @@ export class SolicitacaoCreateComponent implements OnInit {
             const solicitacaoItem = new SolicitacaoItem({
                 item: item,
                 unidadeMedida: properties['unidade_medida'].value.toUpperCase(),
-                quantidade: properties['quantidade'].value
+                quantidade: properties['quantidade'].value,
+                fabricante: item['fabricante'],
+                fornecedor: item['fornecedor']
             });
 
             this.solicitacaoItems.push(solicitacaoItem);
         }
     }
+
 
     addTo(item, type) {
         const groups = this.getAllFormGroup(type);
@@ -316,8 +319,8 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (groupItem == item.id || groupItem == item.descricao) {
                 const objInstance = this.requestItemsBuilder(type, group.controls);
                 if (typeof objInstance.id == 'string') delete objInstance.id;
-                if (type == 'fabricante') item.fabricante.add(objInstance);
-                if (type == 'fornecedor') item.fornecedor.add(objInstance);
+                if (type == 'fabricante') item.fabricante.push(objInstance);
+                if (type == 'fornecedor') item.fornecedor.push(objInstance);
             }
         }
     }

@@ -38,7 +38,8 @@ abstract class SolicitacaoService {
         solicitacao.itens.item.each { it ->
             it.fabricante.each { fab ->
                 Fabricante fabricante = Fabricante.findByFantasia(fab.fantasia)
-                if (fabricante == null) {
+
+                if (fabricante == null && fab.id == null) {
                     fab.save()
                     it.addToFabricante(fab)
                 } else {

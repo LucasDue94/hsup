@@ -6,8 +6,6 @@ class SolicitacaoItem implements Serializable {
     Item item
     String unidadeMedida
     Integer quantidade
-    Set<Fabricante> fabricante
-    Set<Fornecedor> fornecedor
 
     static belongsTo = Solicitacao
     static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
