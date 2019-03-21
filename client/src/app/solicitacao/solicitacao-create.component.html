@@ -4,6 +4,7 @@
         <hcal-step [validator]="validate('item')">
             <h2 class="title-step color-gray">seleção de itens</h2>
             <h3 class="error-span container-md" *ngIf="error != null">{{ error }}</h3>
+            <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
             <section class="container-lg scroll-container bg-gray">
                 <perfect-scrollbar>
                     <div class="col-12 list-item-container" [formGroup]="controlArray" #stepItem>

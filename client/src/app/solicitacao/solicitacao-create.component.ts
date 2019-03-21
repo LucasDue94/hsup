@@ -52,7 +52,8 @@ export class SolicitacaoCreateComponent implements OnInit {
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
                 private renderer: Renderer2, private solicitacaoService: SolicitacaoService,
-                private usuarioService: UsuarioService, private statusSolicitacaoService: StatusSolicitacaoService) {
+                private usuarioService: UsuarioService, private statusSolicitacaoService: StatusSolicitacaoService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -207,7 +208,6 @@ export class SolicitacaoCreateComponent implements OnInit {
     groupIsValid(group: FormGroup, canBeEmpty: boolean) {
         const keys = Object.keys(group.value);
         const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' || group.value[key] == null ? 1 : 0), 0);
-
         return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }
 
@@ -302,8 +302,6 @@ export class SolicitacaoCreateComponent implements OnInit {
                 item: item,
                 unidadeMedida: properties['unidade_medida'].value.toUpperCase(),
                 quantidade: properties['quantidade'].value,
-                fabricante: item['fabricante'],
-                fornecedor: item['fornecedor']
             });
 
             this.solicitacaoItems.push(solicitacaoItem);
@@ -356,6 +354,11 @@ export class SolicitacaoCreateComponent implements OnInit {
 
         this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
             this.message = 'Solicitação realizada com sucesso!';
+
+            let r = this.router;
+            setTimeout( function () {
+                r.navigate(['/solicitacao']);
+            }, 3000);
         });
     }
 

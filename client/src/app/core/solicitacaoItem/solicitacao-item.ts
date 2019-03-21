@@ -8,13 +8,8 @@ export class SolicitacaoItem {
     item: Item;
     unidadeMedida: string;
     quantidade: number;
-    fabricante: Fabricante[] = [];
-    fornecedor: Fornecedor[] = [];
 
     constructor (object?: any) {
-        this.fabricante = [];
-        this.fornecedor = [];
-
         if (object) {
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];

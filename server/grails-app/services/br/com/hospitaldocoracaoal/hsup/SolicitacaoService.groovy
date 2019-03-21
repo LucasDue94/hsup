@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
 @Service(Solicitacao)
+@Transactional
 abstract class SolicitacaoService {
 
     @Autowired
@@ -29,42 +30,29 @@ abstract class SolicitacaoService {
 
     abstract void delete(Serializable id)
 
-    @Transactional
     Solicitacao save(Solicitacao solicitacao) {
         if (solicitacao == null) {
             throw new IllegalArgumentException("Solicitação não pode ser nula.")
         }
 
-        solicitacao.itens.item.each { it ->
-            it.fabricante.each { fab ->
-                Fabricante fabricante = Fabricante.findByFantasia(fab.fantasia)
 
-                if (fabricante == null && fab.id == null) {
-                    fab.save()
-                    it.addToFabricante(fab)
-                } else {
-                    it.addToFabricante(fabricante)
-                }
-            }
+        solicitacao.itens.item.each {
+            it.fabricante = it.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newFab = it.fabricante.findAll { it.id == null }
+            newFab*.save()
 
-            it.fornecedor.each { forn ->
-                Fornecedor fornecedor = Fornecedor.findByFantasia(forn.fantasia)
-                if (fornecedor == null) {
-                    forn.save()
-                } else {
-                    it.addToFornecedor(fornecedor)
-                    it.fornecedor.remove(forn)
-                }
-            }
+            it.fornecedor = it.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newForn = it.fornecedor.findAll { it.id == null }
+            newForn*.save()
 
             if (!Item.findByDescricao(it.descricao)) {
-                it.save(flush: true)
+                it.save()
             }
         }
 
         solicitacao.save()
 
-        solicitacao.itens.each { it ->
+        solicitacao.itens.each {
             it.item.each { item ->
                 if (item.fornecedor.size() > 0) {
                     it.addToFornecedor(item.fornecedor)
@@ -75,23 +63,21 @@ abstract class SolicitacaoService {
                 }
             }
 
-            it.save(flush: true)
+            it.save()
         }
 
         createHistorico(solicitacao)
         solicitacao
     }
 
-    @Transactional
-    changeStatus(Solicitacao solicitacao) {
+    void changeStatus(Solicitacao solicitacao) {
         if (solicitacao.isDirty('status')) {
             solicitacao.save()
             createHistorico(solicitacao)
         }
     }
 
-    @Transactional
-    createHistorico(Solicitacao solicitacao) {
+    void createHistorico(Solicitacao solicitacao) {
         if (solicitacao.status) {
             def principal = springSecurityService.principal
             if (principal == null) throw new IllegalStateException('Deve ter um usuário logado.')
