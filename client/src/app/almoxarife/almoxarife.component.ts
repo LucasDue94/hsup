@@ -40,7 +40,7 @@ export class AlmoxarifeComponent implements OnInit {
                 });
             }
         });
-        console.log(this.solicitacao);
+        (this.solicitacao);
     }
 
     buildForm() {
@@ -193,7 +193,7 @@ export class AlmoxarifeComponent implements OnInit {
                 delete solicitacaoItem.item.produto.descricao;
             }
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
-                console.log(solicitacaoItem);
+                (solicitacaoItem);
                 let r = this.router;
                 this.message = 'Produtos associados com sucesso!';
                 setTimeout(function () {

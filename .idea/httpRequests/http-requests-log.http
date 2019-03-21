@@ -1,3 +1,46 @@
+GET http://localhost:8080/solicitacao/303
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+
+<> 2019-03-21T054109.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/303
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+
+<> 2019-03-21T054003.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/303
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+
+<> 2019-03-21T053941.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/303
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+
+<> 2019-03-21T053909.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/303
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 1vrk4b0a1kpl515ld63450ittpbuqpet
+
+###
+
 PUT http://localhost:8080/solicitacao/changeStatus/118
 Content-Type: application/json
 Cache-Control: no-cache
@@ -390,51 +433,6 @@ GET http://localhost:8080/item
 Accept: application/json
 Cache-Control: no-cache
 X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T035544.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T035534.500.html
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T035430.200.json
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T035417.500.html
-
-###
-
-GET http://localhost:8080/item
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-02-04T035211.200.json
 
 ###
 

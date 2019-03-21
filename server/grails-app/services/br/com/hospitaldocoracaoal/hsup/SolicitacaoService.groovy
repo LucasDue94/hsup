@@ -36,20 +36,34 @@ abstract class SolicitacaoService {
         }
 
         if (solicitacao.responsavel.setor.necessitaAutorizacao) {
-            solicitacao.status = StatusSolicitacao.load
+            solicitacao.status = StatusSolicitacao.load StatusSolicitacao.AGUARDANDO_AUTORIZACAO_ID
+        } else {
+            solicitacao.status = StatusSolicitacao.load StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
         }
 
         solicitacao.itens.item.each {
             it.fabricante = it.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
             def newFab = it.fabricante.findAll { it.id == null }
-            newFab*.save()
+
+            newFab.each {
+                Fabricante fabricante = Fabricante.findByFantasia it.fantasia
+                if (fabricante == null) it.save()
+            }
 
             it.fornecedor = it.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
             def newForn = it.fornecedor.findAll { it.id == null }
-            newForn*.save()
 
-            if (!Item.findByDescricao(it.descricao)) {
-                it.save()
+            newForn.each {
+                Fornecedor fornecedor = Fornecedor.findByFantasia it.fantasia
+                if (fornecedor == null) it.save()
+            }
+
+            solicitacao.itens.item.unique { a, b -> a.descricao <=> b.descricao }
+            def newItem = solicitacao.itens.item.findAll { it.id == null }
+
+            newItem.each {
+                Item item = Item.findByDescricao it.descricao
+                if (item == null) it.save()
             }
         }
 
@@ -118,7 +132,7 @@ abstract class SolicitacaoService {
     void changeStatus(Solicitacao solicitacao) {
         if (solicitacao.isDirty('status')) {
             def status = solicitacao?.status?.id
-            if (status != StatusSolicitacao.RECUSADA_ID && status != StatusSolicitacao.CANCELADA_ID) {
+            if (status != StatusSolicitacao.RECUSADA_ID && status != StatusSolicitacao.CANCELADA_ID && StatusSolicitacao.RETIRADO_ID) {
                 solicitacao.save flush: true
             }
         }

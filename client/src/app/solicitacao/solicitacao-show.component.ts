@@ -30,7 +30,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.solicitacaoService.get(+params['id']).subscribe((solicitacao: Solicitacao) => {
                 this.solicitacao = solicitacao;
-                console.log(solicitacao);
+                (solicitacao);
             });
         });
 
@@ -43,7 +43,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
             this.status = status;
         });
         this.currentStatusId = null;
-        console.log(this.currentStatusId);
+        (this.currentStatusId);
 
     }
 
@@ -73,7 +73,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
 
     changeStatus() {
         if (this.currentStatusId != null ) this.solicitacao.status = this.currentStatusId;
-        console.log(this.solicitacao.status);
+        (this.solicitacao.status);
         this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
             let r = this.router;
             this.message = 'Status alterado com sucesso!';

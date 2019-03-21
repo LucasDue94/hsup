@@ -39,7 +39,7 @@ export class AlmoxarifeIndexComponent implements OnInit {
                 this.solicitacaoService.list(this.count, searchTerm))
             .subscribe((solicitacaoList: Solicitacao[]) => {
                 this.solicitacaoList = solicitacaoList;
-                console.log(this.solicitacaoList);
+                (this.solicitacaoList);
             });
 
         if (this.searchControl.value == "") {
@@ -74,7 +74,7 @@ export class AlmoxarifeIndexComponent implements OnInit {
                 count++;
             }
         });
-        console.log(solicitacao.urgente);
+        (solicitacao.urgente);
         return count;
     }
 

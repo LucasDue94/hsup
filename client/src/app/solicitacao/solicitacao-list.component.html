@@ -32,9 +32,6 @@
                 <td class="tdata-default">{{ solicitacao?.status?.nome}}</td>
                 <td class="tdata-default">{{ solicitacao?.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
                 <td class="tdata-default">
-                    <a class="edit" [routerLink]="['/solicitacao', 'edit', solicitacao.id]">
-                        <fa-icon [icon]="['fas', 'edit']" class="color-blue icon-config"></fa-icon>
-                    </a>|
                     <a class="edit" [routerLink]="['/solicitacao', 'show', solicitacao.id]">
                         <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
