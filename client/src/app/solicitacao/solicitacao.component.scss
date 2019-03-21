@@ -520,7 +520,7 @@ input, select {
   align-items: center;
   justify-content: center;
 
-  .title-label{
+  .title-label {
     margin-bottom: 0 !important;
   }
 
@@ -530,7 +530,8 @@ input, select {
     border-radius: 5px;
   }
 }
-.check-icon{
+
+.check-icon {
   margin-left: 5px;
   color: $green;
   font-size: 24px;
@@ -538,6 +539,7 @@ input, select {
   align-self: center;
 
 }
+
 .button-circle {
   width: 29px;
   height: 29px;

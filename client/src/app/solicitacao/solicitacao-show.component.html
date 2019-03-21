@@ -3,7 +3,7 @@
         <div>
             <h3 class="title-label">Nºda Solicitação: <b class="title-value color-danger">{{ solicitacao?.id }}</b></h3>
             <h3 class="title-label">Solicitante: <b class="title-value">{{ solicitacao?.responsavel?.name }}</b></h3>
-            <h3 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor }} </b></h3>
+            <h3 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor?.nome }} </b></h3>
         </div>
 
         <div>
@@ -12,17 +12,29 @@
                     {{ solicitacao?.urgente ? 'Urgente' : 'Normal' }}
                 </b>
             </h3>
-            <h3 class="title-label"> Data: <b
-                    class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h3>
-            <div class="status-container">
-                <h3 class="title-label"> Status:</h3>
-                <select id="status-solicitacao" (change)="setStatus()">
-                    <option *ngFor="let stat of status" value="{{ stat?.id }}" [selected]="stat?.id == solicitacao?.status?.id">
-                        {{ stat?.nome }}
-                    </option>
-                </select>
-                <fa-icon (click)="changeStatus()" class="check-icon"
-                         [icon]="['fas','check-circle']"></fa-icon>
+            <h3 class="title-label"> Data:
+                <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
+            </h3>
+            <div [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
+                <h3 *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') || isFinalStatus(solicitacao?.status?.id)"
+                    class="title-label">
+                    Status:
+                    <b>{{ solicitacao?.status?.nome }}</b>
+                </h3>
+
+                <div *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.id)"
+                     [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
+                    <h3 class="title-label"> Status:</h3>
+                    <select id="status-solicitacao" (change)="setStatus()">
+                        <option *ngFor="let stat of status" value="{{ stat?.id }}"
+                                [hidden]="stat?.id == 2 || stat?.id == 3 || stat?.id == 11"
+                                [selected]="stat?.id == solicitacao?.status?.id">
+                            {{ stat?.nome }}
+                        </option>
+                    </select>
+                    <fa-icon (click)="changeStatus()" class="check-icon" [icon]="['fas','check-circle']"></fa-icon>
+                </div>
+
             </div>
         </div>
     </header>
@@ -67,17 +79,19 @@
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
                 <button (click)="cancel()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && isOwner() && checkCancel()"
                         name="cancelar" class="button button-border-all button-light-danger">
                     Cancelar
                 </button>
 
-                <button
-                        (click)="deny()"
+                <button (click)="deny()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
                         class="button button-border-all button-light-danger">
                     Recusar
                 </button>
 
                 <button (click)="approval()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
                         class="button button-success">
                     Aprovar
                 </button>

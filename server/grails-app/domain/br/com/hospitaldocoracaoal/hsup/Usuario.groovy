@@ -16,7 +16,6 @@ class Usuario implements Serializable {
     String password
     String email
     Setor setor
-
     Perfil perfil
     boolean enabled = true
     boolean accountExpired

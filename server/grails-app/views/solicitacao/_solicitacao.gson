@@ -4,10 +4,14 @@ model {
     Solicitacao solicitacao
 }
 
-json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expand: ['setor', 'itens', 'produto','status'], resolveTemplate: false]) {
+json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expand: ['itens', 'produto', 'status'], resolveTemplate: false]) {
     responsavel {
         id solicitacao.responsavel.id
         name solicitacao.responsavel.name
-        setor solicitacao.responsavel.setor.nome
+        setor {
+            nome solicitacao.responsavel.setor.nome
+            necessitaAutorizacao solicitacao.responsavel.setor.necessitaAutorizacao
+        }
     }
+
 }
