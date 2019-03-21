@@ -67,10 +67,6 @@ export class SolicitacaoCreateComponent implements OnInit {
         this.usuarioService.get(userLoggedId).subscribe((usuario: Usuario) => {
             this.requester = usuario;
         });
-
-        this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) => {
-            this.status = value;
-        });
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
@@ -348,7 +344,6 @@ export class SolicitacaoCreateComponent implements OnInit {
             itens: this.solicitacaoItems,
             responsavel: this.requester.id,
             data: '',
-            status: this.status,
             urgente: this.urgency
         });
 
@@ -357,7 +352,7 @@ export class SolicitacaoCreateComponent implements OnInit {
 
             let r = this.router;
             setTimeout( function () {
-                r.navigate(['/solicitacao']);
+                r.navigate(['/solicitacao', 'show', solicitacao.id]);
             }, 3000);
         });
     }

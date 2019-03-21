@@ -35,6 +35,9 @@ abstract class SolicitacaoService {
             throw new IllegalArgumentException("Solicitação não pode ser nula.")
         }
 
+        if (solicitacao.responsavel.setor.necessitaAutorizacao) {
+            solicitacao.status = StatusSolicitacao.load
+        }
 
         solicitacao.itens.item.each {
             it.fabricante = it.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
@@ -70,19 +73,12 @@ abstract class SolicitacaoService {
         solicitacao
     }
 
-    void changeStatus(Solicitacao solicitacao) {
-        if (solicitacao.isDirty('status')) {
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
-    }
-
     void createHistorico(Solicitacao solicitacao) {
         if (solicitacao.status) {
             def principal = springSecurityService.principal
             if (principal == null) throw new IllegalStateException('Deve ter um usuário logado.')
 
-            Usuario usuarioLogado = Usuario.get principal.id
+            Usuario usuarioLogado = Usuario.load principal.id
 
             def historico = [
                     solicitacao: solicitacao,
@@ -92,6 +88,39 @@ abstract class SolicitacaoService {
 
             SolicitacaoHistorico solicitacaoHistorico = SolicitacaoHistorico.findOrCreateWhere(historico)
             solicitacaoHistorico.save(flush: true)
+        }
+    }
+
+    void cancel(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        def statusCancelado = StatusSolicitacao.load StatusSolicitacao.CANCELADA_ID
+        solicitacao.status = statusCancelado
+        solicitacao.save()
+        createHistorico(solicitacao)
+    }
+
+    void deny(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        def statusRecusado = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
+        solicitacao.status = statusRecusado
+        solicitacao.save()
+        createHistorico(solicitacao)
+    }
+
+    void approval(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        def statusAprovado = StatusSolicitacao.get StatusSolicitacao.APROVADA_ID
+        solicitacao.status = statusAprovado
+        solicitacao.save()
+        createHistorico(solicitacao)
+    }
+
+    void changeStatus(Solicitacao solicitacao) {
+        if (solicitacao.isDirty('status')) {
+            def status = solicitacao?.status?.id
+            if (status != StatusSolicitacao.RECUSADA_ID && status != StatusSolicitacao.CANCELADA_ID) {
+                solicitacao.save flush: true
+            }
         }
     }
 }

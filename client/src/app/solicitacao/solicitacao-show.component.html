@@ -7,14 +7,23 @@
         </div>
 
         <div>
-            <h3 class="title-label">
+            <h3 class="title-label">Prioridade:
                 <b [ngClass]="[solicitacao?.urgente ? 'color-danger' : 'normal', 'title-value']">
                     {{ solicitacao?.urgente ? 'Urgente' : 'Normal' }}
                 </b>
             </h3>
             <h3 class="title-label"> Data: <b
                     class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h3>
-            <h3 class="title-label"> Status: <b class="title-value">{{ solicitacao?.status?.nome }} </b></h3>
+            <div class="status-container">
+                <h3 class="title-label"> Status:</h3>
+                <select id="status-solicitacao" (change)="setStatus()">
+                    <option *ngFor="let stat of status" value="{{ stat?.id }}" [selected]="stat?.id == solicitacao?.status?.id">
+                        {{ stat?.nome }}
+                    </option>
+                </select>
+                <fa-icon (click)="changeStatus()" class="check-icon"
+                         [icon]="['fas','check-circle']"></fa-icon>
+            </div>
         </div>
     </header>
     <main class="col-11 main-content">
@@ -31,18 +40,18 @@
                     <div class="item-resumo"><b>{{i + 1}}</b> - {{ solicitacaoItem?.item?.descricao.toUpperCase() }}
                     </div>
                     <div class="item-resumo qnt-flex">
-                        {{ solicitacaoItem.quantidade + ' ' + solicitacaoItem.unidadeMedida.toUpperCase() }}
+                        {{ solicitacaoItem?.quantidade + ' ' + solicitacaoItem?.unidadeMedida.toUpperCase() }}
                     </div>
                     <div class="item-resumo container-list">
                         <perfect-scrollbar>
-                            <div class="item" *ngFor="let fa of solicitacaoItem.item.fabricante">
+                            <div class="item" *ngFor="let fa of solicitacaoItem?.item?.fabricante">
                                 {{ fa.fantasia }}
                             </div>
                         </perfect-scrollbar>
                     </div>
                     <div class="item-resumo container-list">
                         <perfect-scrollbar>
-                            <div *ngFor="let fo of solicitacaoItem.item.fornecedor">
+                            <div *ngFor="let fo of solicitacaoItem?.item?.fornecedor">
                                 {{ fo.fantasia}}
                             </div>
                         </perfect-scrollbar>
@@ -50,21 +59,29 @@
                 </section>
             </section>
         </perfect-scrollbar>
+        <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
         <footer class="col-12">
             <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
             <div class="float-right">
+
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
-                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == getLocalStorage().name">-->
-                <button name="cancelar" (click)="action()" class="button button-border-all button-light-danger"> Cancelar</button>
-                <!--</ng-template>-->
 
-                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'COMPRADOR' || solicitacao?.responsavel?.name == 'GERENCIA'">-->
-                <button name="recusar" (click)="action()" class="button button-border-all button-light-danger"> Recusar</button>
-                <!--</ng-template>-->
+                <button (click)="cancel()"
+                        name="cancelar" class="button button-border-all button-light-danger">
+                    Cancelar
+                </button>
 
-                <!--<ng-template [ngIf]="solicitacao?.responsavel?.name == 'GERENCIA'">-->
-                <button name="aprovar" (click)="action()" class="button button-success"> Aprovar</button>
-                <!--</ng-template>-->
+                <button
+                        (click)="deny()"
+                        class="button button-border-all button-light-danger">
+                    Recusar
+                </button>
+
+                <button (click)="approval()"
+                        class="button button-success">
+                    Aprovar
+                </button>
+
             </div>
         </footer>
     </main>

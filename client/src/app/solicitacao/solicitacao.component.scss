@@ -444,27 +444,35 @@ input, select {
 }
 
 .urgente {
-  text-transform: capitalize;
-  color: $danger;
-  font-weight: 600;
+  & {
+    text-transform: capitalize;
+    color: $danger;
+    font-weight: 600;
+  }
 }
 
 .container-view {
-  margin: 2em;
-  height: 75%;
   position: fixed;
-  font-family: "Poppins", sans-serif;
-  background-color: $white;
-  border-radius: 15px;
-  color: $brown;
-  box-shadow: 1px 1px 3px $gray;
+  height: 75%;
+  margin: 2em;
+
+  & {
+    font-family: "Poppins", sans-serif;
+    background-color: $white;
+    border-radius: 15px;
+    color: $brown;
+    box-shadow: 1px 1px 3px $gray;
+  }
 
   .content-header {
+    display: flex;
     margin: 1em auto;
     padding: 1em 0;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid $mediumGray;
+
+    & {
+      justify-content: space-between;
+      border-bottom: 1px solid $mediumGray;
+    }
 
     & > * {
       margin: 0;
@@ -503,11 +511,43 @@ input, select {
 
 }
 
-#logo {
-  width: 20%;
-  height: 20%;
-}
-
 .loading-input {
   font-family: 'Poppins', sans-serif;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title-label{
+    margin-bottom: 0 !important;
+  }
+
+  #status-solicitacao {
+    margin-left: 5px;
+    font-size: 18px;
+    border-radius: 5px;
+  }
+}
+.check-icon{
+  margin-left: 5px;
+  color: $green;
+  font-size: 24px;
+  cursor: pointer;
+  align-self: center;
+
+}
+.button-circle {
+  width: 29px;
+  height: 29px;
+  margin: 0 0 0 5px;
+
+  & {
+    border-radius: 5px;
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    font-size: 12px;
+  }
 }

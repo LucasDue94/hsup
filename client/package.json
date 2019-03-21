@@ -38,7 +38,7 @@
     "hcal": "1.5.4",
     "highcharts": "^6.1.1",
     "jqwidgets-scripts": "^6.0.6",
-    "ng2-tooltip-directive": "~2.1.8",
+    "ng2-tooltip-directive": "^2.1.8",
     "ng4-mask": "^1.0.5",
     "ngx-infinite-scroll": "^7.0.1",
     "ngx-mask": "^6.5.18",

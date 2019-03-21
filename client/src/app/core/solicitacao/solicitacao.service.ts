@@ -46,6 +46,20 @@ export class SolicitacaoService {
             });
     }
 
+    changeStatus(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        // TODO: arrumar uma solução para o update
+        delete solicitacao.itens;
+        const url = this.baseUrl + 'solicitacao/changeStatus/' + solicitacao.id;
+        return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+    }
+
     save(solicitacao: Solicitacao): Observable<Solicitacao> {
         const httpOptions = {
             headers: new HttpHeaders({
@@ -62,6 +76,48 @@ export class SolicitacaoService {
         } else {
             url = this.baseUrl + 'solicitacao';
             return this.http.post<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    cancel(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/cancel/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    deny(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/deny/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        }
+    }
+
+    approval(solicitacao: Solicitacao): Observable<Solicitacao> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
+            })
+        };
+
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/approval/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
         }
     }
 

@@ -58,7 +58,7 @@ export class SolicitacaoListComponent implements OnInit {
         this._offset = (p - 1) * 10;
         this.loading = true;
         this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
-            this.solicitacaoList = solicitacaoList
+            this.solicitacaoList = solicitacaoList;
             this.loading = false;
         });
     }
