@@ -19,6 +19,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     searchForm: FormGroup;
     status: StatusSolicitacao[];
     message: string;
+    currentStatusId;
 
     constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService,
                 private statusSolicitacaoService: StatusSolicitacaoService, private router: Router) {
@@ -41,12 +42,14 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.statusSolicitacaoService.list('', '').subscribe((status: StatusSolicitacao[]) => {
             this.status = status;
         });
+        this.currentStatusId = null;
+        console.log(this.currentStatusId);
+
     }
 
     cancel() {
         if (confirm(`Tem certeza que deseja cancelar esta solicitação?`)) {
             this.solicitacaoService.cancel(this.solicitacao).subscribe(value => {
-                console.log(value);
                 let r = this.router;
                 this.message = 'Solicitação cancelada com sucesso!';
                 setTimeout(function () {
@@ -59,7 +62,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     deny() {
         if (confirm(`Tem certeza que deseja recusar esta solicitação?`)) {
             this.solicitacaoService.deny(this.solicitacao).subscribe(value => {
-                console.log(value);
                 let r = this.router;
                 this.message = 'Solicitação recusada com sucesso!';
                 setTimeout(function () {
@@ -70,8 +72,9 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     changeStatus() {
+        if (this.currentStatusId != null ) this.solicitacao.status = this.currentStatusId;
+        console.log(this.solicitacao.status);
         this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
-            console.log(value);
             let r = this.router;
             this.message = 'Status alterado com sucesso!';
             setTimeout(function () {
@@ -83,7 +86,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     approval() {
         if (confirm(`Tem certeza que deseja aprovar esta solicitação?`)) {
             this.solicitacaoService.approval(this.solicitacao).subscribe(value => {
-                console.log(value);
                 let r = this.router;
                 this.message = 'Solicitação aprovada com sucesso!';
                 setTimeout(function () {
@@ -93,7 +95,25 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         }
     }
 
-    setStatus = () => this.solicitacao.status = event.target['value'];
+    setStatus = () => this.currentStatusId = event.target['value'];
+
+    isOwner(): boolean {
+        if (this.solicitacao != undefined && this.solicitacao.responsavel != undefined) {
+            return localStorage.getItem('name').toUpperCase() == this.solicitacao.responsavel.name.toUpperCase();
+        }
+    }
+
+    isFinalStatus(id): boolean {
+        if (id != undefined) {
+            return id == 3 || id == 10 || id == 11;
+        }
+    }
+
+    checkCancel(): boolean {
+        if (this.solicitacao != undefined && this.solicitacao.status != undefined) {
+            return this.solicitacao.status.id < 8
+        }
+    }
 
     checkPermission: (permission: string) => boolean;
 
