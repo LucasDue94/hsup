@@ -554,3 +554,7 @@ input, select {
     font-size: 12px;
   }
 }
+
+.tdata-default {
+  text-transform: revert !important;
+}

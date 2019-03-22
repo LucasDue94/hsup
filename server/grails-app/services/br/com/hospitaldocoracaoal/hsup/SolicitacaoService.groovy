@@ -1,5 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup
 
+import grails.gorm.PagedResultList
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,12 +15,27 @@ abstract class SolicitacaoService {
 
     abstract Solicitacao get(Serializable id)
 
-    List<Solicitacao> list(Map args) {
+    PagedResultList<Solicitacao> list(Map args) {
         def criteria = Solicitacao.createCriteria()
-        List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
+        def principal = springSecurityService.principal
+        Usuario usuarioLogado = Usuario.get principal.id
+
+        List<Solicitacao> solicitacaoList = criteria.list(args) {
             if (!args.containsKey('sort')) {
                 order('urgente', 'desc')
                 order('dateCreated', 'asc')
+            }
+
+            responsavel {
+                or {
+                    eq('id', usuarioLogado.id)
+
+                    setor {
+                        gestor {
+                            eq 'id', usuarioLogado.setor.gestorId
+                        }
+                    }
+                }
             }
         }
 

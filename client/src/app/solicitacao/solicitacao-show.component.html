@@ -27,7 +27,7 @@
                     <h3 class="title-label"> Status:</h3>
                     <select id="status-solicitacao" (change)="setStatus()">
                         <option *ngFor="let stat of status" value="{{ stat?.id }}"
-                                [hidden]="stat?.id == 2 || stat?.id == 3 || stat?.id == 11"
+                                [hidden]="stat?.nome == 'EM COTAÇÃO' || stat?.id == 3 || stat?.id == 11"
                                 [selected]="stat?.id == solicitacao?.status?.id">
                             {{ stat?.nome }}
                         </option>
