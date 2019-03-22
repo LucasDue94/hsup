@@ -16,19 +16,20 @@
                 <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
             </h3>
             <div [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
-                <h3 *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') || isFinalStatus(solicitacao?.status?.id)"
-                    class="title-label">
-                    Status:
+                <h3 *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') || isFinalStatus(solicitacao?.status?.nome)"
+                    class="title-label"> Status:
                     <b>{{ solicitacao?.status?.nome }}</b>
                 </h3>
 
-                <div *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.id)"
+                <div *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.nome)"
                      [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
                     <h3 class="title-label"> Status:</h3>
                     <select id="status-solicitacao" (change)="setStatus()">
                         <option *ngFor="let stat of status" value="{{ stat?.id }}"
-                                [hidden]="stat?.id == 2 || stat?.id == 3 || stat?.id == 11"
-                                [selected]="stat?.id == solicitacao?.status?.id">
+                                [hidden]="stat.nome.toUpperCase() == 'RECUSADA'
+                                || stat?.nome.toUpperCase() == 'CANCELADA'
+                                || stat?.nome.toUpperCase() == 'RETIRADO'"
+                                [selected]="stat?.nome.toUpperCase() == solicitacao?.status?.nome.toUpperCase()">
                             {{ stat?.nome }}
                         </option>
                     </select>

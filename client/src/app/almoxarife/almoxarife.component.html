@@ -8,7 +8,7 @@
         <div>
             <h4 class="title-label">Nºda Solicitação: <b class="title-value">{{ solicitacao?.id }}</b></h4>
             <h4 class="title-label">Solicitante: <b class="title-value">{{ solicitacao?.responsavel?.name }}</b></h4>
-            <h4 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor }} </b></h4>
+            <h4 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor?.nome }} </b></h4>
         </div>
         <div>
             <h4 class="title-label">Prioridade:
@@ -16,7 +16,8 @@
                     {{ solicitacao?.urgente ? 'urgente' : 'normal' }}
                 </b>
             </h4>
-            <h4 class="title-label"> Data: <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h4>
+            <h4 class="title-label"> Data: <b
+                    class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b></h4>
         </div>
     </section>
 
@@ -32,7 +33,8 @@
         </aside>
     </header>
 
-    <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message" [modalType]="'success'"></hcal-modal>
+    <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message"
+                [modalType]="errors != null || errors != undefined ? 'success' : 'danger'"></hcal-modal>
     <section class="main-content">
         <perfect-scrollbar>
             <section class="section-line col-12" [formGroup]="form" *ngFor="let item of solicitacao.itens; index as i">
@@ -88,6 +90,11 @@
     </section>
 </main>
 <div class="col-11">
-    <button (click)="save()" class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
+    <button *ngIf="solicitacao?.status?.nome.toUpperCase() == 'VALIDAÇÃO ALMOXARIFE'" (click)="save()"
+            class="float-right button button-blue btn-almoxarife col-2">Validar
+    </button>
+    <button *ngIf="checkPermission('ROLE_SOLICITACAO_COLLECT') && solicitacao?.status?.nome.toUpperCase() == 'ENTREGUE ALMOXARIFADO'"
+            (click)="finalizar()" class="float-right button button-success btn-almoxarife col-2">Finalizar
+    </button>
     <button [routerLink]="['/almoxarife']" class="float-right button btn-almoxarife col-2">Voltar</button>
 </div>

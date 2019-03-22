@@ -72,7 +72,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     changeStatus() {
-        if (this.currentStatusId != null ) this.solicitacao.status = this.currentStatusId;
+        if (this.currentStatusId != null) this.solicitacao.status = this.currentStatusId;
         console.log(this.solicitacao.status);
         this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
             let r = this.router;
@@ -103,15 +103,20 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         }
     }
 
-    isFinalStatus(id): boolean {
-        if (id != undefined) {
-            return id == 3 || id == 10 || id == 11;
+    isFinalStatus(status): boolean {
+        if (status != undefined) {
+            return status == 'RECUSADA' || status == 'RETIRADO' || status == 'CANCELADA';
         }
     }
 
     checkCancel(): boolean {
-        if (this.solicitacao != undefined && this.solicitacao.status != undefined) {
-            return this.solicitacao.status.id < 8
+        if (this.solicitacao != undefined && this.solicitacao.status.nome != undefined) {
+            let status = this.solicitacao.status.nome.toUpperCase();
+            return status == 'AGUARDANDO AUTORIZAÇÃO'
+                || status == 'VALIDAÇÃO ALMOXARIFE'
+                || status == 'PENDENTE'
+                || status == 'EM COTAÇÃO'
+                || status == 'AGUARDANDO SOLICITANTE'
         }
     }
 

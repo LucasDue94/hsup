@@ -10,17 +10,18 @@ import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { ItemService } from "../core/item/item.service";
 import { Item } from "../core/item/item";
+import { Authentic } from "../authentic";
 
 @Component({
     selector: 'almoxarife',
     templateUrl: './almoxarife.component.html',
     styleUrls: ['./almoxarife.component.scss']
 })
-export class AlmoxarifeComponent implements OnInit {
+export class AlmoxarifeComponent extends Authentic implements OnInit {
 
     wpdProducts: Produto[] = [];
     solicitacao = new Solicitacao();
-    errors: any[];
+    errors: any[] = [];
     notFoundMessage: string;
     message: string;
     offset: number = 0;
@@ -29,6 +30,7 @@ export class AlmoxarifeComponent implements OnInit {
     constructor(private almoxarifeService: AlmoxarifeService, private solicitacaoService: SolicitacaoService,
                 private itemService: ItemService, private fb: FormBuilder, private route: ActivatedRoute,
                 private router: Router, private render: Renderer2) {
+        super();
     }
 
     ngOnInit() {
@@ -194,11 +196,7 @@ export class AlmoxarifeComponent implements OnInit {
             }
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
                 console.log(solicitacaoItem);
-                let r = this.router;
-                this.message = 'Produtos associados com sucesso!';
-                setTimeout(function () {
-                    r.navigate(['/almoxarife']);
-                }, 2000);
+
             }, (res: any) => {
                 const json = res.error;
                 if (json.hasOwnProperty('message')) {
@@ -208,5 +206,28 @@ export class AlmoxarifeComponent implements OnInit {
                 }
             })
         });
+
+        if (this.errors != undefined && this.errors.length == 0) {
+            this.almoxarifeService.validaAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+                let r = this.router;
+                this.message = 'Produtos associados com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/almoxarife']);
+                }, 2000);
+            });
+        }
     }
+
+    finalizar() {
+        this.almoxarifeService.collect(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+            let r = this.router;
+            this.message = 'O solicitante retirou o produto.' + '/n' +  'Solicitação encerrada com sucesso!';
+            setTimeout(function () {
+                r.navigate(['/almoxarife']);
+            }, 2000);
+        });
+    }
+
+    checkPermission: (permission: string) => boolean;
+
 }

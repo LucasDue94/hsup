@@ -10,7 +10,7 @@ class SolicitacaoController {
     SolicitacaoService solicitacaoService
 
     static responseFormats = ['json', 'xml']
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE", cancel: "PUT", deny: "PUT"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_SOLICITACAO_INDEX')
     def index(Integer max) {
@@ -106,6 +106,30 @@ class SolicitacaoController {
         render status: NO_CONTENT
     }
 
+    @Secured('ROLE_SOLICITACAO_COLLECT')
+    def collect(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.collect(id)
+
+        render status: NO_CONTENT
+    }
+
+    @Secured('ROLE_SOLICITACAO_VALIDAALMOXARIFE')
+    def validaAlmoxarife(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.validaAlmoxarife(id)
+
+        render status: NO_CONTENT
+    }
+
     @Secured('ROLE_SOLICITACAO_CHANGESTATUS')
     def changeStatus(Solicitacao solicitacao) {
         if (solicitacao == null) {
@@ -117,6 +141,4 @@ class SolicitacaoController {
 
         render status: NO_CONTENT
     }
-
-
 }

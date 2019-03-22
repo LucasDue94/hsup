@@ -12,26 +12,19 @@
     <form name="save{className}" (ngSubmit)="save()" class="float-left form-default col-12">
         <div class="form-group position-relative col-12">
             <label for="nome" class="control-label">Nome</label>
-            <input type="text"
-                   name="nome"
-                   tooltipHcal="Campo nome do Perfil. Ex.: Solicitante."
-                   [position]="'top'"
-                   [delay]="3000"
-                   required="required"
-                   id="nome"
-                   placeholder="Digite o nome..."
-                   [(ngModel)]="perfil.name"
-                   [class]="'form-control col-12'">
+            <input type="text" name="nome"  tooltipHcal="Campo nome do Perfil. Ex.: Solicitante." [position]="'top'"
+                   [delay]="3000" required="required" id="nome" placeholder="Digite o nome..."  [(ngModel)]="perfil.name"
+                   class="form-control col-6">
         </div>
-        <div class="form-group position-relative col-5">
+        <div class="form-group position-relative col-6">
             <label for="authorities" class="control-label">Permissões</label>
-            <select name="authorities" id="authorities" [(ngModel)]="perfil.permissoes" multiple>
-                <option *ngFor="let permissao of aPermissoes" [value]="permissao.id"
+            <select class="select-default col-12" name="authorities" id="authorities" [(ngModel)]="perfil.permissoes" multiple>
+                <option class="option-default" *ngFor="let permissao of aPermissoes" [value]="permissao.id"
                         [attr.selected]="this.permissoes.includes(permissao.id)">{{ permissao.authority }}
                 </option>
             </select>
         </div>
         <div class="clearfix"></div>
-        <input type="submit" class="save button button-blue float-right col-3" [value]="create ? 'Salvar' : 'Alterar'"/>
+        <input type="submit" class="save button button-blue col-3" [value]="create ? 'Salvar' : 'Alterar'"/>
     </form>
 </main>

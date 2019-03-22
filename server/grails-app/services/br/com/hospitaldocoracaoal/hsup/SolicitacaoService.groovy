@@ -102,27 +102,47 @@ abstract class SolicitacaoService {
 
     void cancel(Serializable id) {
         def solicitacao = Solicitacao.get id
-        def statusCancelado = StatusSolicitacao.load StatusSolicitacao.CANCELADA_ID
-        solicitacao.status = statusCancelado
+        def status = StatusSolicitacao.load StatusSolicitacao.CANCELADA_ID
+        solicitacao.status = status
         solicitacao.save()
         createHistorico(solicitacao)
     }
 
     void deny(Serializable id) {
         def solicitacao = Solicitacao.get id
-        def statusRecusado = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
-        solicitacao.status = statusRecusado
+        def status = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
+        solicitacao.status = status
         solicitacao.save()
         createHistorico(solicitacao)
     }
 
     void approval(Serializable id) {
         def solicitacao = Solicitacao.get id
-        def statusAprovado = StatusSolicitacao.get StatusSolicitacao.APROVADA_ID
-        solicitacao.status = statusAprovado
+        def status = StatusSolicitacao.get StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
+        solicitacao.status = status
         solicitacao.save()
         createHistorico(solicitacao)
     }
+
+    void collect(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        def status = StatusSolicitacao.get StatusSolicitacao.RETIRADO_ID
+        solicitacao.status = status
+        solicitacao.save()
+        createHistorico(solicitacao)
+    }
+
+
+    void validaAlmoxarife(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        if (solicitacao.status.id == StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID) {
+            def status = StatusSolicitacao.get StatusSolicitacao.PENDENTE_ID
+            solicitacao.status = status
+            solicitacao.save()
+            createHistorico(solicitacao)
+        }
+    }
+
 
     void changeStatus(Solicitacao solicitacao) {
         if (solicitacao.isDirty('status')) {
