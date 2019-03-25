@@ -16,7 +16,8 @@ class SolicitacaoController {
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         List<Solicitacao> solicitacaoList = solicitacaoService.list(params)
-        respond solicitacaoList, model: [solicitacaoCount: solicitacaoList.totalCount]
+        Map modelRes = [solicitacaoList: solicitacaoList, solicitacaoCount: solicitacaoList.totalCount]
+        respond modelRes
     }
 
     @Secured('ROLE_SOLICITACAO_SHOW')

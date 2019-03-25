@@ -3,6 +3,7 @@ import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { FormControl, FormGroup } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
     selector: 'solicitacao',
@@ -37,20 +38,19 @@ export class SolicitacaoListComponent implements OnInit {
             this.count = quantity;
         });
 
-        this.searchControl.valueChanges
-            .debounceTime(1000)
-            .distinctUntilChanged()
-            .switchMap(searchTerm => {
-                this.loading = true;
-                return this.solicitacaoService.list(this.count, searchTerm)
-            })
-            .subscribe((solicitacaoList: Solicitacao[]) => {
+        if (this.searchControl.value == "") {
+            this.list(this.pageNumber);
+        } else {
+            this.searchControl.valueChanges
+                .debounceTime(1000)
+                .distinctUntilChanged()
+                .switchMap(searchTerm => {
+                    this.loading = true;
+                    return this.solicitacaoService.list(this.count, searchTerm)
+                }).subscribe((solicitacaoList: Solicitacao[]) => {
                 this.solicitacaoList = solicitacaoList;
                 this.loading = false;
             });
-
-        if (this.searchControl.value == "") {
-            this.list(this.pageNumber);
         }
     }
 
@@ -75,5 +75,4 @@ export class SolicitacaoListComponent implements OnInit {
         this._pageNumber = pageNumber;
         this.changePageData();
     }
-
 }

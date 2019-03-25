@@ -2,6 +2,7 @@ import br.com.hospitaldocoracaoal.hsup.Solicitacao
 
 model {
     Solicitacao solicitacao
+    Long solicitacaoCount
 }
 
 json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expand: ['itens', 'produto', 'status'], resolveTemplate: false]) {
@@ -13,5 +14,4 @@ json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expa
             necessitaAutorizacao solicitacao.responsavel.setor.necessitaAutorizacao
         }
     }
-
 }

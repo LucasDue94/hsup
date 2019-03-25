@@ -2,7 +2,7 @@ import br.com.hospitaldocoracaoal.hsup.Solicitacao
 
 model {
     Iterable<Solicitacao> solicitacaoList
-    Long solicitacaoCount
+    Integer solicitacaoCount
 }
 
 json {

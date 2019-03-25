@@ -12,6 +12,13 @@ export class SolicitacaoService {
 
     private baseUrl = environment.serverUrl;
     headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
+    httpOptions = {
+        headers: new HttpHeaders({
+            "Cache-Control": "no-cache",
+            "Content-Type": "application/json",
+            "X-Auth-Token": localStorage.getItem('token')
+        })
+    };
 
     constructor(private http: HttpClient) {
     }
@@ -47,77 +54,56 @@ export class SolicitacaoService {
     }
 
     changeStatus(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
-        // TODO: arrumar uma solução para o update
         delete solicitacao.itens;
         const url = this.baseUrl + 'solicitacao/changeStatus/' + solicitacao.id;
-        return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+        return this.http.put<Solicitacao>(url, solicitacao, {headers: this.httpOptions.headers, responseType: 'json'});
     }
 
     save(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
         let url;
 
         if (solicitacao.id) {
             url = this.baseUrl + 'solicitacao/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Solicitacao>(url, solicitacao, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         } else {
             url = this.baseUrl + 'solicitacao';
-            return this.http.post<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.post<Solicitacao>(url, solicitacao, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         }
     }
 
     cancel(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/cancel/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Solicitacao>(url, solicitacao, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         }
     }
 
     deny(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/deny/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Solicitacao>(url, solicitacao, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         }
     }
 
     approval(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/approval/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Solicitacao>(url, solicitacao, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         }
     }
 

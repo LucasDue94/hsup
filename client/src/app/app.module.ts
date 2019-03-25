@@ -6,7 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from './app.component';
 import { NavService } from './nav/nav.service';
 import { AppRoutingModule, routes } from "./app-routing.module";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
     CustomDualListboxModule,
@@ -40,6 +40,7 @@ import { ErrorComponent } from './error/error.component';
 import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { RequestInterceptor } from "./core/request-interceptor";
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        RequestInterceptor,
         HttpModule,
         NgxMaskModule.forRoot(),
         HcalSharedModule,

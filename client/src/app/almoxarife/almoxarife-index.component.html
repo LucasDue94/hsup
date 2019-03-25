@@ -21,8 +21,8 @@
                 </th>
             </tr>
             <tr class="trow-content"
-                *ngFor="let solicitacao of this.solicitacaoList | paginate:
-                 { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+                *ngFor="let solicitacao of solicitacaoList | paginate:
+                 { currentPage: pageNumber, itemsPerPage: 10, totalItems: count }">
                 <td class="tdata-default">{{ solicitacao.id }}</td>
                 <td class="tdata-default">{{ solicitacao?.responsavel?.name }}</td>
                 <td class="tdata-default">{{ solicitacao?.responsavel?.setor.nome }}</td>
@@ -40,12 +40,15 @@
                 </td>
             </tr>
         </table>
-        <div class="not-found" *ngIf="this.solicitacaoList.length == 0">
-            <h1 class="not-found-error">Nenhum registro encontrado</h1>
+        <div class="not-found" *ngIf="solicitacaoList.length == 0">
+            <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
+            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading ">
+                Nenhum dado encontrado
+            </h1>
         </div>
     </hcal-table>
-    <pagination-controls *ngIf="this.count > 10"
-                         (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+    <pagination-controls *ngIf="count > 10"
+                         (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
 </div>
 <div class="container-floating">

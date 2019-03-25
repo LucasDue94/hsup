@@ -29,7 +29,7 @@
                 <td class="tdata-default" [ngClass]="solicitacao.urgente ? 'urgente-text' : ''">
                     {{ solicitacao.urgente ? 'Urgente' : 'Normal' }}
                 </td>
-                <td class="tdata-default">{{ solicitacao?.status?.nome}}</td>
+                <td class="tdata-default status-td">{{ solicitacao?.status?.nome}}</td>
                 <td class="tdata-default">{{ solicitacao?.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
                 <td class="tdata-default">
                     <a class="edit" [routerLink]="['/solicitacao', 'show', solicitacao.id]">
@@ -42,9 +42,6 @@
             <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
             <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading ">
                 Nenhum dado encontrado
-            </h1>
-            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading">
-                Nenhum Fabricante encontrado com a fantasia: {{ field.value }}
             </h1>
         </div>
     </hcal-table>

@@ -1,438 +1,448 @@
-GET http://localhost:8080/solicitacao/303
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
 
-<> 2019-03-21T054109.200.json
+<> 2019-03-25T120716.200.json
 
 ###
 
-GET http://localhost:8080/solicitacao/303
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
 
-<> 2019-03-21T054003.200.json
+<> 2019-03-25T120715.200.json
 
 ###
 
-GET http://localhost:8080/solicitacao/303
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
 
-<> 2019-03-21T053941.200.json
+<> 2019-03-25T120714.200.json
 
 ###
 
-GET http://localhost:8080/solicitacao/303
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: 95aeo9ij3e4qbc5hlvkp97iuiq8gpnbh
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
 
-<> 2019-03-21T053909.200.json
+<> 2019-03-25T120713.200.json
 
 ###
 
-GET http://localhost:8080/solicitacao/303
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: 1vrk4b0a1kpl515ld63450ittpbuqpet
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-25T120712.200.json
 
 ###
 
-PUT http://localhost:8080/solicitacao/changeStatus/118
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: 8q20bi4u7muajvilfkq7fhtv237vld5i
-
-{
-  "status": {
-    "id": 1
-  }
-}
-
-###
-
-PUT http://localhost:8080/solicitacao/changeStatus/118
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: 8q20bi4u7muajvilfkq7fhtv237vld5i
-
-{
-  "status": {
-    "id": 5
-  }
-}
-
-###
-
-PUT http://localhost:8080/solicitacao/changeStatus/118
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
-
-{
-  "status": {
-    "id": 5
-  }
-}
-
-###
-
-PUT http://localhost:8080/solicitacao/cancel/129
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
-
-###
-
-PUT http://localhost:8080/solicitacao/cancel/129
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
-
-###
-
-PUT http://localhost:8080/solicitacao/cancel/129
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
-
-###
-
-PUT http://localhost:8080/solicitacao/cancel/129
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: 6r9h29i7fmf5fb2nnug7cpcs8b268kni
-
-###
-
-PUT http://localhost:8080/solicitacao/163/cancel
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031416.200.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031405.200.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031322.200.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031247.200.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031159.200.json
-
-###
-
-GET http://localhost:8080/usuario/:1
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031140.404.json
-
-###
-
-GET http://localhost:8080/item/1
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031119.404.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031100.200.json
-
-###
-
-GET http://localhost:8080/usuario/2
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031053.404.json
-
-###
-
-GET http://localhost:8080/usuario/1
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031046.404.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: fp9jv7bd3v26d3n9bsiur7215doecdcv
-
-<> 2019-03-19T031029.200.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
-
-<> 2019-03-15T043928.200.json
-
-###
-
-GET http://localhost:8080/usuario
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: bh2gs1hqmmepujbdn8ru6tmcpqbvb75h
-
-<> 2019-03-15T043851.200.json
-
-###
-
-GET http://localhost:8080/item
-Content-Type: application/json
-Cache-Control: no-cache
-X-Auth-Token: nf3vqgqsrd1p1rdsvvpffkjtvidj4uva
-
-###
-
-GET http://localhost:8080/produto
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
 
-<> 2019-03-06T031559.403.json
-
-###
-
-GET http://localhost:8080/produto?termo=cafe
-Accept: application/json
-Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
-
-<> 2019-03-06T031550.403.json
+<> 2019-03-25T120709.200.json
 
 ###
 
-GET http://localhost:8080/item
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: cjqps0l1dhbfik4pcbkhp33ks813j6p7
-
-<> 2019-03-06T031357.200.json
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
 ###
 
-GET http://localhost:8080/produto
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: cjqps0l1dhbfik4pcbkhp33ks813j6p7
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T031352.403.json
+<> 2019-03-25T110811.200.json
 
 ###
 
-GET http://localhost:8080/produto
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: cjqps0l1dhbfik4pcbkhp33ks813j6p7
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T031134.403.json
+<> 2019-03-25T110744.500.json
 
 ###
 
-GET http://localhost:8080/produto
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: cjqps0l1dhbfik4pcbkhp33ks813j6p7
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025940.403.json
+<> 2019-03-25T110735.200.json
 
 ###
 
-GET http://localhost:8080/produto
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: nf3vqgqsrd1p1rdsvvpffkjtvidj4uva
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025747.403.json
+<> 2019-03-25T110713.500.json
 
 ###
 
-GET http://localhost:8080/produto
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: nf3vqgqsrd1p1rdsvvpffkjtvidj4uva
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025737.403.json
+<> 2019-03-25T110659.500.json
 
 ###
 
-GET http://localhost:8080/produto?termo=cafe
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: nf3vqgqsrd1p1rdsvvpffkjtvidj4uva
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025704.403.json
+<> 2019-03-25T110606.200.json
 
 ###
 
-GET http://localhost:8080/produto?termo=cafe
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: 9q9qjfhk7ivhib3ssm2nkr7r7r1evepn
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025649.403.json
+<> 2019-03-25T110502.200.json
 
 ###
 
-GET http://localhost:8080/produto?termo=cafe
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: hmo9jvrln5v5dgfdpd1gd85vurjmqnet
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025620.403.json
+<> 2019-03-25T105907.200.json
 
 ###
 
-GET http://localhost:8080/produto?termo=cafe
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T025612.403.json
+<> 2019-03-25T105848.500.json
 
 ###
 
-GET http://localhost:8080/solicitacao/1
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: hmo9jvrln5v5dgfdpd1gd85vurjmqnet
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T024650.200.json
+<> 2019-03-25T105820.200.json
 
 ###
 
-GET http://localhost:8080/solicitacao/1
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: hmo9jvrln5v5dgfdpd1gd85vurjmqnet
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T024524.500.html
+<> 2019-03-25T105806.200.json
 
 ###
 
-GET http://localhost:8080/solicitacao/1
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: hmo9jvrln5v5dgfdpd1gd85vurjmqnet
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T024505.500.html
+<> 2019-03-25T105651.500.json
 
 ###
 
-GET http://localhost:8080/solictiacao/1
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: hmo9jvrln5v5dgfdpd1gd85vurjmqnet
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T024452.403.json
+<> 2019-03-25T105628.200.json
 
 ###
 
-GET http://localhost:8080/solictiacao/1
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-03-06T024425.403.json
+<> 2019-03-25T105310.200.json
 
 ###
 
-GET http://localhost:8080/produto?termo=cafe
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
 
-<> 2019-02-18T021753.403.json
+<> 2019-03-25T105259.200.json
 
 ###
 
-GET http://localhost:8080/item
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T105159.200.json
 
 ###
 
-GET http://localhost:8080/item
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101937.200.json
 
 ###
 
-GET http://localhost:8080/item
+GET http://localhost:8080/solicitacao/
 Accept: application/json
 Cache-Control: no-cache
-X-Auth-Token: tkr3ra2fib5j5pd4ro95at8nmvn0fctc
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101840.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101741.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101725.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101720.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101052.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T101008.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100941.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100926.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100859.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100648.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100632.200.html
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100551.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100421.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100342.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100306.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100146.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T100110.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-25T100105.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-25T095507.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-25T095424.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 2p7857ala84okf1gtv7r4ktu6gmi9vit
+
+<> 2019-03-25T095413.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-22T040200.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-22T040149.500.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-22T040121.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-22T040120.200.json
+
+###
+
+GET http://localhost:8080/solicitacao/
+Accept: application/json
+Cache-Control: no-cache
+X-Auth-Token: 98hp4e1gesjgsglvu351nogqgvlllrvo
+
+<> 2019-03-22T034401.200.json
 
 ###
 

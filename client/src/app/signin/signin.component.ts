@@ -40,7 +40,6 @@ export class SigninComponent implements OnInit {
                     this.router.navigate(['/index']);
                 },
                 err => {
-                    (err);
                     this.message = 'Usuário e/ou senha inválido(s).';
                 });
         } else {
