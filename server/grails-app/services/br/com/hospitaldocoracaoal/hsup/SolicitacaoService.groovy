@@ -2,7 +2,6 @@ package br.com.hospitaldocoracaoal.hsup
 
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
-import net.sf.ehcache.Status
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
@@ -103,57 +102,52 @@ abstract class SolicitacaoService {
 
     void cancel(Serializable id) {
         def solicitacao = Solicitacao.get id
-        def status = solicitacao.status.id
-        if (    status != StatusSolicitacao.RECUSADA_ID && status != StatusSolicitacao.AGUARDANDO_PRODUTO_ID &&
-                status != StatusSolicitacao.RETIRADO_ID && status != StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID) {
-            solicitacao.status = StatusSolicitacao.get StatusSolicitacao.CANCELADA_ID
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.CANCELADA_ID
+        checkStatusPermitido solicitacao, status
+
     }
 
     void deny(Serializable id) {
+
         def solicitacao = Solicitacao.get id
-        if (solicitacao.status.id == StatusSolicitacao.AGUARDANDO_AUTORIZACAO_ID) {
-            solicitacao.status = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
+        checkStatusPermitido solicitacao, status
+
     }
 
     void approval(Serializable id) {
         def solicitacao = Solicitacao.get id
-        if (solicitacao.status.id == StatusSolicitacao.AGUARDANDO_AUTORIZACAO_ID) {
-            solicitacao.status = StatusSolicitacao.get StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
+        checkStatusPermitido solicitacao, status
+
     }
 
     void finish(Serializable id) {
         def solicitacao = Solicitacao.get id
-        if (solicitacao.status.id == StatusSolicitacao.AGUARDANDO_PRODUTO_ID) {
-            solicitacao.status = StatusSolicitacao.get StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
+        checkStatusPermitido solicitacao, status
+
     }
 
     void validaAlmoxarife(Serializable id) {
         def solicitacao = Solicitacao.get id
-        if (solicitacao.status.id == StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID) {
-            solicitacao.status = StatusSolicitacao.get StatusSolicitacao.PENDENTE_ID
-            solicitacao.save()
-            createHistorico(solicitacao)
-        }
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.PENDENTE_ID
+        checkStatusPermitido solicitacao, status
     }
 
 
     void changeStatus(Solicitacao solicitacao) {
         if (solicitacao.isDirty('status')) {
-            def status = solicitacao?.status?.id
-            if (    status != StatusSolicitacao.RECUSADA_ID && status != StatusSolicitacao.CANCELADA_ID &&
-                    status != StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID) {
+            def statusSolicitacao = solicitacao?.status?.id
+            StatusSolicitacao status = StatusSolicitacao.get statusSolicitacao
+            checkStatusPermitido solicitacao, status
+        }
+    }
+
+    void checkStatusPermitido(Solicitacao solicitacao, status) {
+        solicitacao.status.statusPermitido.find {
+            if (it == status) {
+                solicitacao.status = it
                 solicitacao.save flush: true
                 createHistorico(solicitacao)
             }

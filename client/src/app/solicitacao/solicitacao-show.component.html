@@ -78,20 +78,21 @@
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
                 <button (click)="cancel()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && isOwner() && checkCancel()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && checkCancel()"
                         name="cancelar" class="button button-border-all button-light-danger">
                     Cancelar
                 </button>
 
                 <button (click)="deny()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') && solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
-                         solicitacao?.status?.nome == 'aguardando autorização'"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') &&
+                         solicitacao?.responsavel?.setor?.necessitaAutorizacao"
                         class="button button-border-all button-light-danger">
                     Recusar
                 </button>
 
                 <button (click)="approval()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') &&
+                         solicitacao?.responsavel?.setor?.necessitaAutorizacao"
                         class="button button-border-all  button-success">
                     Aprovar
                 </button>

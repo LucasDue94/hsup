@@ -14,12 +14,14 @@ class StatusSolicitacao {
     static final Long CANCELADA_ID = 10L
 
     String nome
+    static hasMany = [statusPermitido: StatusSolicitacao]
 
     static constraints = {
         nome nullable: false, blank: false
     }
 
     static mapping = {
+        statusPermitido joinTable: [name: 'status_permitidos', key: 'id']
         id generator: 'assigned'
         version false
     }
@@ -85,5 +87,38 @@ class StatusSolicitacao {
             status.id = CANCELADA_ID
             status.save()
         }
+    }
+
+    static void attachStatus() {
+
+
+        StatusSolicitacao aguardandoAutorizacao = get AGUARDANDO_AUTORIZACAO_ID
+        StatusSolicitacao recusada = get RECUSADA_ID
+        StatusSolicitacao validacaoAlmoxarife = get VALIDACAO_ALMOXARIFE_ID
+        StatusSolicitacao pendente = get PENDENTE_ID
+        StatusSolicitacao aguardandoSolicitante = get AGUARDANDO_SOLICITANTE_ID
+        StatusSolicitacao aguardandoProduto = get AGUARDANDO_PRODUTO_ID
+        StatusSolicitacao retirado = get RETIRADO_ID
+        StatusSolicitacao emCotacao = get EM_COTACAO_ID
+        StatusSolicitacao cancelada = get CANCELADA_ID
+        StatusSolicitacao recebidoAlmoxarifado = get RECEBIDO_ALMOXARIFADO_ID
+
+        aguardandoAutorizacao.addToStatusPermitido(recusada)
+        aguardandoAutorizacao.addToStatusPermitido(cancelada)
+        aguardandoAutorizacao.addToStatusPermitido(validacaoAlmoxarife)
+
+        validacaoAlmoxarife.addToStatusPermitido(cancelada)
+        validacaoAlmoxarife.addToStatusPermitido(pendente)
+
+        emCotacao.addToStatusPermitido(cancelada)
+        emCotacao.addToStatusPermitido(aguardandoAutorizacao)
+
+        aguardandoSolicitante.addToStatusPermitido(cancelada)
+        aguardandoSolicitante.addToStatusPermitido(aguardandoProduto)
+
+        aguardandoProduto.addToStatusPermitido(recebidoAlmoxarifado)
+
+        pendente.addToStatusPermitido(cancelada)
+        pendente.addToStatusPermitido(emCotacao)
     }
 }
