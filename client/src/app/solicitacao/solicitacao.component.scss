@@ -478,8 +478,12 @@ input, select {
       margin: 0;
 
       .title-label {
-        font-weight: normal;
         margin-bottom: 3px;
+
+        & {
+          text-transform: capitalize;
+          font-weight: normal;
+        }
 
         .title-value {
           font-size: 18px;

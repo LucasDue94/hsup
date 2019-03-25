@@ -106,14 +106,14 @@ class SolicitacaoController {
         render status: NO_CONTENT
     }
 
-    @Secured('ROLE_SOLICITACAO_COLLECT')
-    def collect(Long id) {
+    @Secured('ROLE_SOLICITACAO_FINISH')
+    def finish(Long id) {
         if (id == null) {
             render status: NOT_FOUND
             return
         }
 
-        solicitacaoService.collect(id)
+        solicitacaoService.finish(id)
 
         render status: NO_CONTENT
     }

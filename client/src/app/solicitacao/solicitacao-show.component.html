@@ -16,20 +16,19 @@
                 <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
             </h3>
             <div [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
-                <h3 *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') || isFinalStatus(solicitacao?.status?.nome)"
-                    class="title-label"> Status:
-                    <b>{{ solicitacao?.status?.nome }}</b>
+                <h3 *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS')
+                || isFinalStatus(solicitacao?.status?.nome) || solicitacao?.status?.nome == 'aguardando produto' "
+                    class="title-label"> Status: <b>{{ solicitacao?.status?.nome }}</b>
                 </h3>
 
-                <div *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.nome)"
+                <div *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.nome)
+                 && solicitacao?.status?.nome != 'aguardando produto'"
                      [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
                     <h3 class="title-label"> Status:</h3>
                     <select id="status-solicitacao" (change)="setStatus()">
                         <option *ngFor="let stat of status" value="{{ stat?.id }}"
-                                [hidden]="stat.nome.toUpperCase() == 'RECUSADA'
-                                || stat?.nome.toUpperCase() == 'CANCELADA'
-                                || stat?.nome.toUpperCase() == 'RETIRADO'"
-                                [selected]="stat?.nome.toUpperCase() == solicitacao?.status?.nome.toUpperCase()">
+                                [hidden]="isFinalStatus(stat?.nome)"
+                                [selected]="stat?.nome == solicitacao?.status?.nome">
                             {{ stat?.nome }}
                         </option>
                     </select>
@@ -39,6 +38,7 @@
             </div>
         </div>
     </header>
+    <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
     <main class="col-11 main-content">
         <perfect-scrollbar class="scroll">
             <section class="col-12 container-items" *ngFor="let solicitacaoItem of solicitacao?.itens; index as i">
@@ -50,10 +50,10 @@
                 </section>
 
                 <section class="items-resumo">
-                    <div class="item-resumo"><b>{{i + 1}}</b> - {{ solicitacaoItem?.item?.descricao.toUpperCase() }}
+                    <div class="item-resumo"><b>{{i + 1}}</b> - {{ solicitacaoItem?.item?.descricao?.toUpperCase() }}
                     </div>
                     <div class="item-resumo qnt-flex">
-                        {{ solicitacaoItem?.quantidade + ' ' + solicitacaoItem?.unidadeMedida.toUpperCase() }}
+                        {{ solicitacaoItem?.quantidade + ' ' + solicitacaoItem?.unidadeMedida?.toUpperCase() }}
                     </div>
                     <div class="item-resumo container-list">
                         <perfect-scrollbar>
@@ -72,11 +72,9 @@
                 </section>
             </section>
         </perfect-scrollbar>
-        <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
         <footer class="col-12">
             <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
             <div class="float-right">
-
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
                 <button (click)="cancel()"
@@ -86,17 +84,23 @@
                 </button>
 
                 <button (click)="deny()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') && solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
+                         solicitacao?.status?.nome == 'aguardando autorização'"
                         class="button button-border-all button-light-danger">
                     Recusar
                 </button>
 
                 <button (click)="approval()"
                         *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') && solicitacao?.responsavel?.setor?.necessitaAutorizacao"
-                        class="button button-success">
+                        class="button button-border-all  button-success">
                     Aprovar
                 </button>
 
+                <button (click)="finish()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') && solicitacao?.status?.nome == 'aguardando produto'"
+                        class="button button-border-all  button-success">
+                    Finalizar
+                </button>
             </div>
         </footer>
     </main>

@@ -9,7 +9,7 @@ class StatusSolicitacao {
     static final Long EM_COTACAO_ID = 5L
     static final Long AGUARDANDO_SOLICITANTE_ID = 6L
     static final Long AGUARDANDO_PRODUTO_ID = 7L
-    static final Long ENTREGUE_ALMOXARIFADO_ID = 8L
+    static final Long RECEBIDO_ALMOXARIFADO_ID = 8L
     static final Long RETIRADO_ID = 9L
     static final Long CANCELADA_ID = 10L
 
@@ -68,9 +68,9 @@ class StatusSolicitacao {
             status.save()
         }
 
-        if (!exists(ENTREGUE_ALMOXARIFADO_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'entregue almoxarifado')
-            status.id = ENTREGUE_ALMOXARIFADO_ID
+        if (!exists(RECEBIDO_ALMOXARIFADO_ID)) {
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'recebido almoxarifado')
+            status.id = RECEBIDO_ALMOXARIFADO_ID
             status.save()
         }
 

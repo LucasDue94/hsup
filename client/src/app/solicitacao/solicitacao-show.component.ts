@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
@@ -43,7 +43,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
             this.status = status;
         });
         this.currentStatusId = null;
-        console.log(this.currentStatusId);
 
     }
 
@@ -72,15 +71,16 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     changeStatus() {
-        if (this.currentStatusId != null) this.solicitacao.status = this.currentStatusId;
-        console.log(this.solicitacao.status);
-        this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
-            let r = this.router;
-            this.message = 'Status alterado com sucesso!';
-            setTimeout(function () {
-                r.navigate(['/solicitacao', 'index']);
-            }, 2000);
-        });
+        if (this.currentStatusId != null) {
+            this.solicitacao.status = this.currentStatusId;
+            this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
+                let r = this.router;
+                this.message = 'Status alterado com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
+        }
     }
 
     approval() {
@@ -88,6 +88,18 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
             this.solicitacaoService.approval(this.solicitacao).subscribe(value => {
                 let r = this.router;
                 this.message = 'Solicitação aprovada com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
+        }
+    }
+
+    finish() {
+        if (confirm(`O produto chegou? Deseja confirmar o recebimento?`)) {
+            this.solicitacaoService.finish(this.solicitacao).subscribe(value => {
+                let r = this.router;
+                this.message = 'O produto foi recebido!';
                 setTimeout(function () {
                     r.navigate(['/solicitacao', 'index']);
                 }, 2000);
@@ -105,18 +117,18 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
 
     isFinalStatus(status): boolean {
         if (status != undefined) {
-            return status == 'RECUSADA' || status == 'RETIRADO' || status == 'CANCELADA';
+            return status == 'recusada' || status == 'recebido almoxarifado' || status == 'cancelada' || status == 'retirado';
         }
     }
 
     checkCancel(): boolean {
         if (this.solicitacao != undefined && this.solicitacao.status.nome != undefined) {
-            let status = this.solicitacao.status.nome.toUpperCase();
-            return status == 'AGUARDANDO AUTORIZAÇÃO'
-                || status == 'VALIDAÇÃO ALMOXARIFE'
-                || status == 'PENDENTE'
-                || status == 'EM COTAÇÃO'
-                || status == 'AGUARDANDO SOLICITANTE'
+            let status = this.solicitacao.status.nome;
+            return status == 'aguardando autorização'
+                || status == 'validação almoxarife'
+                || status == 'pendente'
+                || status == 'em cotação'
+                || status == 'aguardando solicitante'
         }
     }
 

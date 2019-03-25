@@ -81,21 +81,4 @@ export class AlmoxarifeService {
         }
     }
 
-    collect(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
-        if (solicitacao.id) {
-            const url = this.baseUrl + 'solicitacao/collect/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
-        }
-    }
-
-
-
-
 }

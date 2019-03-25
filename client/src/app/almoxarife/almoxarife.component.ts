@@ -218,8 +218,8 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
         }
     }
 
-    finalizar() {
-        this.almoxarifeService.collect(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+    finish() {
+        this.solicitacaoService.finish(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
             let r = this.router;
             this.message = 'O solicitante retirou o produto.' + '/n' +  'Solicitação encerrada com sucesso!';
             setTimeout(function () {
