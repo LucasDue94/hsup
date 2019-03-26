@@ -52,7 +52,8 @@ export class SolicitacaoCreateComponent implements OnInit {
     constructor(private route: Router, private fb: FormBuilder, private itemService: ItemService,
                 private fabricanteService: FabricanteService, private fornecedorService: FornecedorService,
                 private renderer: Renderer2, private solicitacaoService: SolicitacaoService,
-                private usuarioService: UsuarioService, private statusSolicitacaoService: StatusSolicitacaoService) {
+                private usuarioService: UsuarioService, private statusSolicitacaoService: StatusSolicitacaoService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -66,10 +67,6 @@ export class SolicitacaoCreateComponent implements OnInit {
         this.usuarioService.get(userLoggedId).subscribe((usuario: Usuario) => {
             this.requester = usuario;
         });
-
-        this.statusSolicitacaoService.get(1).subscribe((value: StatusSolicitacao) => {
-            this.status = value;
-        })
     }
 
     cancel = () => this.route.navigate(['solicitacao']);
@@ -207,7 +204,6 @@ export class SolicitacaoCreateComponent implements OnInit {
     groupIsValid(group: FormGroup, canBeEmpty: boolean) {
         const keys = Object.keys(group.value);
         const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' || group.value[key] == null ? 1 : 0), 0);
-
         return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }
 
@@ -301,12 +297,13 @@ export class SolicitacaoCreateComponent implements OnInit {
             const solicitacaoItem = new SolicitacaoItem({
                 item: item,
                 unidadeMedida: properties['unidade_medida'].value.toUpperCase(),
-                quantidade: properties['quantidade'].value
+                quantidade: properties['quantidade'].value,
             });
 
             this.solicitacaoItems.push(solicitacaoItem);
         }
     }
+
 
     addTo(item, type) {
         const groups = this.getAllFormGroup(type);
@@ -347,12 +344,16 @@ export class SolicitacaoCreateComponent implements OnInit {
             itens: this.solicitacaoItems,
             responsavel: this.requester.id,
             data: '',
-            status: this.status,
             urgente: this.urgency
         });
 
         this.solicitacaoService.save(solicitacao).subscribe((solicitacao: Solicitacao) => {
             this.message = 'Solicitação realizada com sucesso!';
+
+            let r = this.router;
+            setTimeout( function () {
+                r.navigate(['/solicitacao', 'show', solicitacao.id]);
+            }, 3000);
         });
     }
 

@@ -17,6 +17,7 @@ export class AlmoxarifeIndexComponent implements OnInit {
     searchForm: FormGroup;
     searchControl: FormControl;
     message;
+    loading: boolean;
 
     constructor(private solicitacaoService: SolicitacaoService) {
         this._pageNumber = 0;
@@ -35,22 +36,23 @@ export class AlmoxarifeIndexComponent implements OnInit {
         this.searchControl.valueChanges
             .debounceTime(1000)
             .distinctUntilChanged()
-            .switchMap(searchTerm =>
-                this.solicitacaoService.list(this.count, searchTerm))
-            .subscribe((solicitacaoList: Solicitacao[]) => {
-                this.solicitacaoList = solicitacaoList;
-                console.log(this.solicitacaoList);
-            });
+            .switchMap(searchTerm => {
+                this.loading = true;
+                return this.solicitacaoService.list(this.count, searchTerm)
+            }).subscribe((solicitacaoList: Solicitacao[]) => {
+            this.solicitacaoList = solicitacaoList;
+            this.loading = false;
+        });
 
-        if (this.searchControl.value == "") {
-            this.list(this.pageNumber);
-        }
+        if (this.searchControl.value == "") this.list(this.pageNumber);
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
+        this.loading = true;
         this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
-            this.solicitacaoList = solicitacaoList
+            this.solicitacaoList = solicitacaoList;
+            this.loading = false;
         });
     }
 
@@ -74,12 +76,12 @@ export class AlmoxarifeIndexComponent implements OnInit {
                 count++;
             }
         });
-        console.log(solicitacao.urgente);
+
         return count;
     }
 
-    getPriority(solicitacao){
-        return solicitacao.urgente ? 'urgente':'normal';
+    getPriority(solicitacao) {
+        return solicitacao.urgente ? 'urgente' : 'normal';
     }
 
 }

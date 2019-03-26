@@ -1,5 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup
 
+import grails.gorm.PagedResultList
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,12 +15,27 @@ abstract class SolicitacaoService {
 
     abstract Solicitacao get(Serializable id)
 
-    List<Solicitacao> list(Map args) {
+    PagedResultList<Solicitacao> list(Map args) {
         def criteria = Solicitacao.createCriteria()
+        def principal = springSecurityService.principal
+        Usuario usuarioLogado = Usuario.get principal.id
+
         List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
             if (!args.containsKey('sort')) {
                 order('urgente', 'desc')
                 order('dateCreated', 'asc')
+            }
+
+            responsavel {
+                or {
+                    eq('id', usuarioLogado.id)
+
+                    setor {
+                        gestor {
+                            eq 'id', usuarioLogado.setor.gestorId
+                        }
+                    }
+                }
             }
         }
 
@@ -35,36 +51,41 @@ abstract class SolicitacaoService {
             throw new IllegalArgumentException("Solicitação não pode ser nula.")
         }
 
-        solicitacao.itens.item.each { it ->
-            it.fabricante.each { fab ->
-                Fabricante fabricante = Fabricante.findByFantasia(fab.fantasia)
-                if (fabricante == null) {
-                    fab.save(flush: true)
-                } else {
-                    if (it.fabricante.contains(fabricante)) return
-                    it.addToFabricante(fabricante)
-                    it.fabricante.remove(fab)
-                }
+        if (solicitacao.responsavel.setor.necessitaAutorizacao) {
+            solicitacao.status = StatusSolicitacao.load StatusSolicitacao.AGUARDANDO_AUTORIZACAO_ID
+        } else {
+            solicitacao.status = StatusSolicitacao.load StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
+        }
+
+        solicitacao.itens.item.each {
+            it.fabricante = it.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newFab = it.fabricante.findAll { it.id == null }
+
+            newFab.each {
+                Fabricante fabricante = Fabricante.findByFantasia it.fantasia
+                if (fabricante == null) it.save()
             }
 
-            it.fornecedor.each { forn ->
-                Fornecedor fornecedor = Fornecedor.findByFantasia(forn.fantasia)
-                if (fornecedor == null) {
-                    forn.save(flush: true)
-                } else {
-                    it.addToFornecedor(fornecedor)
-                    it.fornecedor.remove(forn)
-                }
+            it.fornecedor = it.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newForn = it.fornecedor.findAll { it.id == null }
+
+            newForn.each {
+                Fornecedor fornecedor = Fornecedor.findByFantasia it.fantasia
+                if (fornecedor == null) it.save()
             }
 
-            if (!Item.findByDescricao(it.descricao)) {
-                it.save(flush: true)
+            solicitacao.itens.item.unique { a, b -> a.descricao <=> b.descricao }
+            def newItem = solicitacao.itens.item.findAll { it.id == null }
+
+            newItem.each {
+                Item item = Item.findByDescricao it.descricao
+                if (item == null) it.save()
             }
         }
 
         solicitacao.save()
 
-        solicitacao.itens.each { it ->
+        solicitacao.itens.each {
             it.item.each { item ->
                 if (item.fornecedor.size() > 0) {
                     it.addToFornecedor(item.fornecedor)
@@ -75,7 +96,7 @@ abstract class SolicitacaoService {
                 }
             }
 
-            it.save(flush: true)
+            it.save()
         }
 
         createHistorico(solicitacao)
@@ -108,7 +129,6 @@ abstract class SolicitacaoService {
     }
 
     void deny(Serializable id) {
-
         def solicitacao = Solicitacao.get id
         StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
         checkStatusPermitido solicitacao, status

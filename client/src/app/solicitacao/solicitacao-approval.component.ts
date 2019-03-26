@@ -59,7 +59,7 @@ export class SolicitacaoApprovalComponent implements OnInit {
         this._offset = (p - 1) * 10;
         this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
             this.solicitacaoList = solicitacaoList;
-            console.log(this.solicitacaoList);
+            (this.solicitacaoList);
         });
         return this.solicitacaoList;
 

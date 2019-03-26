@@ -1,6 +1,5 @@
 export class Fabricante {
-    id: number;
-
+    id: any;
     fantasia: string;
     ativo: boolean;
 
@@ -8,7 +7,6 @@ export class Fabricante {
         if (this.ativo == null) this.ativo = true;
 
         if (object) {
-
             for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }

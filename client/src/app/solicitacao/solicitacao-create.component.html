@@ -1,4 +1,5 @@
 <h1 class="title-solicitacao color-gray">solicitação de compra</h1>
+<hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
 <section class="col-9">
     <hcal-wizard>
         <hcal-step [validator]="validate('item')">

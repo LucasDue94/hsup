@@ -1,6 +1,7 @@
 export class StatusSolicitacao {
     id: number;
     nome: string;
+    statusPermitido: StatusSolicitacao[];
 
     constructor (object?: any) {
         if (object) {

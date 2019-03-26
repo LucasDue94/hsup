@@ -3,11 +3,11 @@ import { Fornecedor } from "../fornecedor/fornecedor";
 import { Produto } from "../produto/produto";
 
 export class Item {
-    id: number;
+    id: any;
     produto: Produto;
     descricao: string;
-    fornecedor: Fornecedor[];
-    fabricante: Fabricante[];
+    fornecedor: Fornecedor[] = [];
+    fabricante: Fabricante[] = [];
     ativo: boolean;
 
     constructor (object?: any) {

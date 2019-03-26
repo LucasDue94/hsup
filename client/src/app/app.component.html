@@ -31,7 +31,8 @@
 </hcal-aside-bar>
 <hcal-main [title]="'HSUP'" *ngIf="isLogged">
     <hcal-nav [cog]="false" nav-main>
-        <fa-icon [icon]="['fas', 'sign-out-alt']" (click)="logout()" class="icon-nav"></fa-icon>
+        <span class="current-user" current-user>{{ currentUser.getItem('name') }}</span>
+        <fa-icon [icon]="['fas', 'sign-out-alt']" (click)="logout()" class="icon-nav" logout></fa-icon>
     </hcal-nav>
     <router-outlet route></router-outlet>
 </hcal-main>

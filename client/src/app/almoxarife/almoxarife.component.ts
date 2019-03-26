@@ -42,7 +42,6 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
                 });
             }
         });
-        console.log(this.solicitacao);
     }
 
     buildForm() {

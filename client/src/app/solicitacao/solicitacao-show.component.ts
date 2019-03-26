@@ -20,6 +20,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     status: StatusSolicitacao[];
     message: string;
     currentStatusId;
+    currentUser;
 
     constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService,
                 private statusSolicitacaoService: StatusSolicitacaoService, private router: Router) {
@@ -30,7 +31,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.solicitacaoService.get(+params['id']).subscribe((solicitacao: Solicitacao) => {
                 this.solicitacao = solicitacao;
-                console.log(solicitacao);
             });
         });
 
@@ -43,7 +43,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
             this.status = status;
         });
         this.currentStatusId = null;
-
+        this.currentUser = localStorage;
     }
 
     cancel() {
@@ -109,12 +109,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
 
     setStatus = () => this.currentStatusId = event.target['value'];
 
-    isOwner(): boolean {
-        if (this.solicitacao != undefined && this.solicitacao.responsavel != undefined) {
-            return localStorage.getItem('name').toUpperCase() == this.solicitacao.responsavel.name.toUpperCase();
-        }
-    }
-
     isFinalStatus(status): boolean {
         if (status != undefined) {
             return status == 'recusada' || status == 'recebido almoxarifado' || status == 'cancelada' || status == 'retirado';
@@ -122,7 +116,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     checkCancel(): boolean {
-        if (this.solicitacao != undefined && this.solicitacao.status.nome != undefined) {
+        if (this.solicitacao != undefined && this.solicitacao.status != undefined) {
             let status = this.solicitacao.status.nome;
             return status == 'aguardando autorização'
                 || status == 'validação almoxarife'

@@ -40,7 +40,7 @@
     </header>
     <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
     <main class="col-11 main-content">
-        <perfect-scrollbar class="scroll">
+        <perfect-scrollbar class="scroll scroll-solicitacao-show">
             <section class="col-12 container-items" *ngFor="let solicitacaoItem of solicitacao?.itens; index as i">
                 <section class="labels">
                     <div class="label">Item</div>
@@ -92,11 +92,11 @@
 
                 <button (click)="approval()"
                         *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') &&
-                         solicitacao?.responsavel?.setor?.necessitaAutorizacao"
+                         solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
+                         solicitacao?.responsavel?.setor?.gestor == currentUser.getItem('id')"
                         class="button button-border-all  button-success">
                     Aprovar
                 </button>
-
                 <button (click)="finish()"
                         *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') && solicitacao?.status?.nome == 'aguardando produto'"
                         class="button button-border-all  button-success">

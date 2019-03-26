@@ -10,7 +10,7 @@ class Item {
     static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
 
     static constraints = {
-        descricao nullable: false, blank: false
+        descricao nullable: false, blank: false, unique: true
         produto nullable: true
         ativo nullable: false, blank: false
     }
