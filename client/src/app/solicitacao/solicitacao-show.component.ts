@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
@@ -20,6 +20,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     status: StatusSolicitacao[];
     message: string;
     currentStatusId;
+    currentUser;
 
     constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService,
                 private statusSolicitacaoService: StatusSolicitacaoService, private router: Router) {
@@ -30,7 +31,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.solicitacaoService.get(+params['id']).subscribe((solicitacao: Solicitacao) => {
                 this.solicitacao = solicitacao;
-                (solicitacao);
             });
         });
 
@@ -43,8 +43,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
             this.status = status;
         });
         this.currentStatusId = null;
-        (this.currentStatusId);
-
+        this.currentUser = localStorage;
     }
 
     cancel() {
@@ -72,15 +71,16 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     changeStatus() {
-        if (this.currentStatusId != null ) this.solicitacao.status = this.currentStatusId;
-        (this.solicitacao.status);
-        this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
-            let r = this.router;
-            this.message = 'Status alterado com sucesso!';
-            setTimeout(function () {
-                r.navigate(['/solicitacao', 'index']);
-            }, 2000);
-        });
+        if (this.currentStatusId != null) {
+            this.solicitacao.status = this.currentStatusId;
+            this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
+                let r = this.router;
+                this.message = 'Status alterado com sucesso!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
+        }
     }
 
     approval() {
@@ -95,23 +95,34 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         }
     }
 
-    setStatus = () => this.currentStatusId = event.target['value'];
-
-    isOwner(): boolean {
-        if (this.solicitacao != undefined && this.solicitacao.responsavel != undefined) {
-            return localStorage.getItem('name').toUpperCase() == this.solicitacao.responsavel.name.toUpperCase();
+    finish() {
+        if (confirm(`O produto chegou? Deseja confirmar o recebimento?`)) {
+            this.solicitacaoService.finish(this.solicitacao).subscribe(value => {
+                let r = this.router;
+                this.message = 'O produto foi recebido!';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao', 'index']);
+                }, 2000);
+            });
         }
     }
 
-    isFinalStatus(id): boolean {
-        if (id != undefined) {
-            return id == 3 || id == 10 || id == 11;
+    setStatus = () => this.currentStatusId = event.target['value'];
+
+    isFinalStatus(status): boolean {
+        if (status != undefined) {
+            return status == 'recusada' || status == 'recebido almoxarifado' || status == 'cancelada' || status == 'retirado';
         }
     }
 
     checkCancel(): boolean {
         if (this.solicitacao != undefined && this.solicitacao.status != undefined) {
-            return this.solicitacao.status.id < 8
+            let status = this.solicitacao.status.nome;
+            return status == 'aguardando autorização'
+                || status == 'validação almoxarife'
+                || status == 'pendente'
+                || status == 'em cotação'
+                || status == 'aguardando solicitante'
         }
     }
 

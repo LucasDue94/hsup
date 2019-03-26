@@ -182,7 +182,7 @@ html, body {
 
 .form-group {
   float: left;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   position: relative;
 
   & .form-control:not(textarea) {
@@ -1185,6 +1185,7 @@ html, body {
 
 .table-default, .thead-default, .trow-content, .tdata-default {
   padding: 10px;
+  text-transform: capitalize;
 }
 
 .back-icon-link, .back-text-link {
@@ -1377,7 +1378,7 @@ html, body {
   }
 }
 
-.container-scroll{
+.container-scroll {
   border: 1px solid black;
   height: 100px;
   overflow: scroll;
@@ -1407,5 +1408,16 @@ html, body {
     text-transform: capitalize;
     font-weight: bold;
     font-family: Poppins, sans-serif;
+  }
+}
+
+.select-default {
+  background-color: $white;
+  font: 15px Poppins, sans-serif;
+  max-height: 300px;
+
+  .option-default {
+    padding: 5px;
+    border-bottom: 1px solid $gray;
   }
 }

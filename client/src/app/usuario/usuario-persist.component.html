@@ -21,7 +21,7 @@
                    id="nome"
                    placeholder="Digite o nome..."
                    [(ngModel)]="usuario.name"
-                   [class]="'form-control col-12'">
+                   class="form-control col-12">
         </div>
         <div class="form-group position-relative col-5">
             <label for="email" class="control-label">E-mail</label>
@@ -34,7 +34,7 @@
                    id="email"
                    placeholder="Digite o email..."
                    [(ngModel)]="usuario.email"
-                   [class]="'form-control col-12'">
+                   class="form-control col-12">
         </div>
         <div class="form-group position-relative col-5 offset-2">
             <label for="setor" class="control-label">Setor</label>
@@ -67,7 +67,7 @@
                    [delay]="3000"
                    required="required"
                    placeholder="Digite a senha do usuário..."
-                   [class]="'form-control col-12'"
+                   class="form-control col-12"
                    [(ngModel)]="usuario.password">
         </div>
         <div class="form-group position-relative col-5">
@@ -80,8 +80,8 @@
         </div>
         <div class="form-group position-relative col-5 offset-2">
             <label for="authorities" class="control-label">Permissões</label>
-            <select name="authorities" id="authorities" [(ngModel)]="usuario.authorities" multiple="">
-                <option *ngFor="let permissoes of aPermissoes" [value]="permissoes.id"
+            <select class="select-default" name="authorities" id="authorities" [(ngModel)]="usuario.authorities" multiple="">
+                <option class="option-default" *ngFor="let permissoes of aPermissoes" [value]="permissoes.id"
                         [selected]="usuario.authorities == permissoes.id">{{ permissoes.authority }}
                 </option>
             </select>

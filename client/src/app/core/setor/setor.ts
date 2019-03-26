@@ -1,7 +1,10 @@
+import { Usuario } from "../usuario/usuario";
+
 export class Setor {
     id: number;
     nome: string;
     necessitaAutorizacao: boolean;
+    gestor: Usuario;
 
     constructor(object?: any) {
         if (this.necessitaAutorizacao == null) this.necessitaAutorizacao = false;

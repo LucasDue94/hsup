@@ -12,6 +12,7 @@ json g.render(solicitacao, [excludes: ['responsavel', 'itens.solicitacao'], expa
         setor {
             nome solicitacao.responsavel.setor.nome
             necessitaAutorizacao solicitacao.responsavel.setor.necessitaAutorizacao
+            gestor solicitacao.responsavel.setor.gestorId
         }
     }
 }

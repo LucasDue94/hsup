@@ -49,6 +49,7 @@ class BootStrap {
         Usuario.findOrCreateWhere(user).save()
 
         StatusSolicitacao.criarStatusPadroes()
+        StatusSolicitacao.attachStatus()
         StatusMensagem.criarStatusPadroes()
     }
     def destroy = {

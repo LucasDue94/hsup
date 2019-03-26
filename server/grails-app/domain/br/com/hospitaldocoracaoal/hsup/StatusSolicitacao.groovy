@@ -3,24 +3,25 @@ package br.com.hospitaldocoracaoal.hsup
 class StatusSolicitacao {
 
     static final Long AGUARDANDO_AUTORIZACAO_ID = 1L
-    static final Long APROVADA_ID = 2L
-    static final Long RECUSADA_ID = 3L
-    static final Long VALIDACAO_ALMOXARIFE_ID = 4L
-    static final Long PENDENTE_ID = 5L
-    static final Long EM_COTACAO_ID = 6L
-    static final Long AGUARDANDO_SOLICITANTE_ID = 7L
-    static final Long AGUARDANDO_PRODUTO_ID = 8L
-    static final Long ENTREGUE_ALMOXARIFADO_ID = 9L
-    static final Long RETIRADO_ID = 10L
-    static final Long CANCELADA_ID = 11L
+    static final Long RECUSADA_ID = 2L
+    static final Long VALIDACAO_ALMOXARIFE_ID = 3L
+    static final Long PENDENTE_ID = 4L
+    static final Long EM_COTACAO_ID = 5L
+    static final Long AGUARDANDO_SOLICITANTE_ID = 6L
+    static final Long AGUARDANDO_PRODUTO_ID = 7L
+    static final Long RECEBIDO_ALMOXARIFADO_ID = 8L
+    static final Long RETIRADO_ID = 9L
+    static final Long CANCELADA_ID = 10L
 
     String nome
+    static hasMany = [statusPermitido: StatusSolicitacao]
 
     static constraints = {
         nome nullable: false, blank: false
     }
 
     static mapping = {
+        statusPermitido joinTable: [name: 'status_permitidos', key: 'id']
         id generator: 'assigned'
         version false
     }
@@ -28,69 +29,96 @@ class StatusSolicitacao {
     static void criarStatusPadroes() {
 
         if (!exists(AGUARDANDO_AUTORIZACAO_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Aguardando Autorização')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'aguardando autorização')
             status.id = AGUARDANDO_AUTORIZACAO_ID
             status.save()
         }
 
-        if (!exists(APROVADA_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Aprovada')
-            status.id = APROVADA_ID
-            status.save()
-        }
-
         if (!exists(RECUSADA_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Recusada')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'recusada')
             status.id = RECUSADA_ID
             status.save()
         }
 
         if (!exists(VALIDACAO_ALMOXARIFE_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Validação Almoxarife')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'validação almoxarife')
             status.id = VALIDACAO_ALMOXARIFE_ID
             status.save()
         }
 
         if (!exists(PENDENTE_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Pendente')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'pendente')
             status.id = PENDENTE_ID
             status.save()
         }
 
         if (!exists(EM_COTACAO_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Em Cotação')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'em cotação')
             status.id = EM_COTACAO_ID
             status.save()
         }
 
         if (!exists(AGUARDANDO_SOLICITANTE_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Aguardando Solicitante')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'aguardando solicitante')
             status.id = AGUARDANDO_SOLICITANTE_ID
             status.save()
         }
 
         if (!exists(AGUARDANDO_PRODUTO_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Aguardando Produto')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'aguardando produto')
             status.id = AGUARDANDO_PRODUTO_ID
             status.save()
         }
 
-        if (!exists(ENTREGUE_ALMOXARIFADO_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Entregue Almoxarifado')
-            status.id = ENTREGUE_ALMOXARIFADO_ID
+        if (!exists(RECEBIDO_ALMOXARIFADO_ID)) {
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'recebido almoxarifado')
+            status.id = RECEBIDO_ALMOXARIFADO_ID
             status.save()
         }
 
         if (!exists(RETIRADO_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Retirado')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'retirado')
             status.id = RETIRADO_ID
             status.save()
         }
 
         if (!exists(CANCELADA_ID)) {
-            StatusSolicitacao status = new StatusSolicitacao(nome: 'Cancelada')
+            StatusSolicitacao status = new StatusSolicitacao(nome: 'cancelada')
             status.id = CANCELADA_ID
             status.save()
         }
+    }
+
+    static void attachStatus() {
+
+
+        StatusSolicitacao aguardandoAutorizacao = get AGUARDANDO_AUTORIZACAO_ID
+        StatusSolicitacao recusada = get RECUSADA_ID
+        StatusSolicitacao validacaoAlmoxarife = get VALIDACAO_ALMOXARIFE_ID
+        StatusSolicitacao pendente = get PENDENTE_ID
+        StatusSolicitacao aguardandoSolicitante = get AGUARDANDO_SOLICITANTE_ID
+        StatusSolicitacao aguardandoProduto = get AGUARDANDO_PRODUTO_ID
+        StatusSolicitacao retirado = get RETIRADO_ID
+        StatusSolicitacao emCotacao = get EM_COTACAO_ID
+        StatusSolicitacao cancelada = get CANCELADA_ID
+        StatusSolicitacao recebidoAlmoxarifado = get RECEBIDO_ALMOXARIFADO_ID
+
+        aguardandoAutorizacao.addToStatusPermitido(recusada)
+        aguardandoAutorizacao.addToStatusPermitido(cancelada)
+        aguardandoAutorizacao.addToStatusPermitido(validacaoAlmoxarife)
+
+        validacaoAlmoxarife.addToStatusPermitido(cancelada)
+        validacaoAlmoxarife.addToStatusPermitido(pendente)
+
+        emCotacao.addToStatusPermitido(cancelada)
+        emCotacao.addToStatusPermitido(aguardandoAutorizacao)
+
+        aguardandoSolicitante.addToStatusPermitido(cancelada)
+        aguardandoSolicitante.addToStatusPermitido(aguardandoProduto)
+
+        aguardandoProduto.addToStatusPermitido(recebidoAlmoxarifado)
+
+        pendente.addToStatusPermitido(cancelada)
+        pendente.addToStatusPermitido(emCotacao)
     }
 }

@@ -481,6 +481,7 @@ input, select {
       .title-label {
         font-weight: normal;
         margin-bottom: 3px;
+        text-transform: capitalize;
 
         .title-value {
           font-size: 18px;
@@ -529,6 +530,7 @@ input, select {
     margin-left: 5px;
     font-size: 18px;
     border-radius: 5px;
+    text-transform: capitalize;
   }
 }
 
@@ -557,4 +559,8 @@ input, select {
 
 .status-td {
   text-transform: capitalize;
+}
+
+.scroll-solicitacao-show {
+  height: 400px !important;
 }
