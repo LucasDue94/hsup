@@ -32,7 +32,7 @@ abstract class SolicitacaoService {
 
                     setor {
                         gestor {
-                            eq 'id', usuarioLogado.setor.gestorId
+                            eq 'id', usuarioLogado.id
                         }
                     }
                 }
@@ -50,6 +50,13 @@ abstract class SolicitacaoService {
         if (solicitacao == null) {
             throw new IllegalArgumentException("Solicitação não pode ser nula.")
         }
+
+        def principal = springSecurityService.principal
+        if (principal == null) throw new IllegalStateException('Deve ter um usuário logado.')
+
+        Usuario usuarioLogado = Usuario.get principal.id
+
+        solicitacao.responsavel = usuarioLogado
 
         if (solicitacao.responsavel.setor.necessitaAutorizacao) {
             solicitacao.status = StatusSolicitacao.load StatusSolicitacao.AGUARDANDO_AUTORIZACAO_ID

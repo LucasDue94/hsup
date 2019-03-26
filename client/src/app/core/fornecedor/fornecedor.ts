@@ -3,7 +3,6 @@ export class Fornecedor {
     fantasia: string;
     ativo: boolean;
     telefone: string;
-    endereco: string;
     email: string;
 
     constructor (object?: any) {

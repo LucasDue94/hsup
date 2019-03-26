@@ -37,19 +37,6 @@
                    [class]="'form-control col-12'" mask="(00) 0000-0000">
         </div>
         <div class="form-group position-relative col-5 offset-2">
-            <label for="fantasia" class="control-label">Endereço</label>
-            <input type="text"
-                   name="endereco"
-                   tooltipHcal="Campo endereço do Fornecedor. Ex.: Av. Ariosvaldo Pereira Cintra, 152"
-                   [position]="'top'"
-                   [delay]="3000"
-                   required="required"
-                   id="endereco"
-                   placeholder="Digite o endereço..."
-                   [(ngModel)]="fornecedor.endereco"
-                   [class]="'form-control col-12'">
-        </div>
-        <div class="form-group position-relative col-5">
             <label for="fantasia" class="control-label">E-mail</label>
             <input type="text"
                    name="email"
@@ -62,7 +49,7 @@
                    [(ngModel)]="fornecedor.email"
                    [class]="'form-control col-12'">
         </div>
-        <div *ngIf="!create" class="form-group col-4 offset-2">
+        <div *ngIf="!create" class="form-group col-12">
             <label class="control-label">Estado</label>
             <input type="checkbox" [(ngModel)]="fornecedor.ativo" class="checkbox-filled" id="estado" name="ativo">
             <label for="estado" class="checkbox-label">Ativo</label>

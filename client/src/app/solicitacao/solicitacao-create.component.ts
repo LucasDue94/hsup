@@ -43,7 +43,6 @@ export class SolicitacaoCreateComponent implements OnInit {
     error = null;
     offset: number = 0;
     urgency: boolean = false;
-    requester;
     errors;
     message;
     solicitacaoItems: SolicitacaoItem[] = [];
@@ -61,11 +60,6 @@ export class SolicitacaoCreateComponent implements OnInit {
             item: this.fb.array([this.createFormControl('item')]),
             fabricante: this.fb.array([this.createFormControl('fabricante')]),
             fornecedor: this.fb.array([this.createFormControl('fornecedor')]),
-        });
-
-        const userLoggedId = +localStorage.getItem('id');
-        this.usuarioService.get(userLoggedId).subscribe((usuario: Usuario) => {
-            this.requester = usuario;
         });
     }
 
@@ -342,7 +336,6 @@ export class SolicitacaoCreateComponent implements OnInit {
 
         let solicitacao = new Solicitacao({
             itens: this.solicitacaoItems,
-            responsavel: this.requester.id,
             data: '',
             urgente: this.urgency
         });
