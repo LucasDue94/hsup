@@ -15,6 +15,7 @@ class UrlMappings {
         "500"(view: '/error')
         "404"(view: '/notFound')
 
+        get "/solicitacao/listAlmoxarife(.$format)?"(controller: "solicitacao", action: "listAlmoxarife")
         put "/solicitacao/cancel/$id(.$format)?"(controller: "solicitacao", action: "cancel")
         put "/solicitacao/deny/$id(.$format)?"(controller: "solicitacao", action: "deny")
         put "/solicitacao/approval/$id(.$format)?"(controller: "solicitacao", action: "approval")

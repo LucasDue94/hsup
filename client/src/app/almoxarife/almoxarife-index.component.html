@@ -7,7 +7,7 @@
                    placeholder="Buscar fabricante...">
         </form>
     </div>
-    <hcal-table tableName="Solicitações {{ count }}">
+    <hcal-table tableName="Solicitações - Quantidade {{ count }}">
         <table class="table-default">
             <tr class="trow-head">
                 <th class="thead-default" thead-content>Nº</th>
@@ -50,9 +50,4 @@
     <pagination-controls *ngIf="count > 10"
                          (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
                          [directionLinks]="true"></pagination-controls>
-</div>
-<div class="container-floating">
-    <div class="floating-button">
-        <a><p class="plus">+</p></a>
-    </div>
 </div>

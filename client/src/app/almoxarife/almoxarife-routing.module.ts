@@ -7,8 +7,8 @@ import { AlmoxarifeComponent } from "./almoxarife.component";
 const routes: Routes = [
     {
         path: 'almoxarife', canActivate: [AuthGuard], children: [
-            {path: '', component: AlmoxarifeIndexComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
-            {path: 'associar/:id', component: AlmoxarifeComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
+            {path: '', component: AlmoxarifeIndexComponent, data: {permissao: 'ROLE_SOLICITACAO_LISTALMOXARIFE'}},
+            {path: 'associar/:id', component: AlmoxarifeComponent, data: {permissao: 'ROLE_SOLICITACAO_LISTALMOXARIFE'}},
         ]
     }
 ];

@@ -28,13 +28,34 @@ abstract class SolicitacaoService {
 
             responsavel {
                 or {
-                    eq('id', usuarioLogado.id)
+                    eq 'id', usuarioLogado.id
 
                     setor {
                         gestor {
                             eq 'id', usuarioLogado.id
                         }
                     }
+                }
+            }
+        }
+
+        return solicitacaoList
+    }
+
+    PagedResultList<Solicitacao> listAlmoxarife(Map args) {
+        def criteria = Solicitacao.createCriteria()
+
+        List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
+            if (!args.containsKey('sort')) {
+                order('urgente', 'desc')
+                order('dateCreated', 'asc')
+            }
+
+            status {
+                or {
+                    eq 'id', StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
+                    eq 'id', StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
+                    eq 'id', StatusSolicitacao.AGUARDANDO_PRODUTO_ID
                 }
             }
         }
@@ -64,21 +85,31 @@ abstract class SolicitacaoService {
             solicitacao.status = StatusSolicitacao.load StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
         }
 
-        solicitacao.itens.item.each {
-            it.fabricante = it.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
-            def newFab = it.fabricante.findAll { it.id == null }
+        solicitacao.itens.item.each { i ->
+            i.fabricante = i.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newFab = i.fabricante.findAll { it.id == null }
 
             newFab.each {
                 Fabricante fabricante = Fabricante.findByFantasia it.fantasia
-                if (fabricante == null) it.save()
+                if (fabricante == null) {
+                    it.save(flush: true)
+                } else {
+                    i.fabricante.remove(it)
+                    i.fabricante.add(fabricante)
+                }
             }
 
-            it.fornecedor = it.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
-            def newForn = it.fornecedor.findAll { it.id == null }
+            i.fornecedor = i.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newForn = i.fornecedor.findAll { it.id == null }
 
             newForn.each {
                 Fornecedor fornecedor = Fornecedor.findByFantasia it.fantasia
-                if (fornecedor == null) it.save()
+                if (fornecedor == null) {
+                    it.save(flush: true)
+                } else {
+                    i.fornecedor.remove(it)
+                    i.fornecedor.add(fornecedor)
+                }
             }
 
             solicitacao.itens.item.unique { a, b -> a.descricao <=> b.descricao }
@@ -86,7 +117,7 @@ abstract class SolicitacaoService {
 
             newItem.each {
                 Item item = Item.findByDescricao it.descricao
-                if (item == null) it.save()
+                if (item == null) it.save(flush: true)
             }
         }
 
@@ -153,7 +184,6 @@ abstract class SolicitacaoService {
         def solicitacao = Solicitacao.get id
         StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
         checkStatusPermitido solicitacao, status
-
     }
 
     void validaAlmoxarife(Serializable id) {

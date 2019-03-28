@@ -20,6 +20,14 @@ class SolicitacaoController {
         respond modelRes
     }
 
+    @Secured('ROLE_SOLICITACAO_LISTALMOXARIFE')
+    def listAlmoxarife(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        List<Solicitacao> solicitacaoList = solicitacaoService.listAlmoxarife(params)
+        Map modelRes = [solicitacaoList: solicitacaoList, solicitacaoCount: solicitacaoList.totalCount]
+        respond modelRes
+    }
+
     @Secured('ROLE_SOLICITACAO_SHOW')
     def show(Long id) {
         respond solicitacaoService.get(id)

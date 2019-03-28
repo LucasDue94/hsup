@@ -51,7 +51,7 @@ export class AlmoxarifeService {
         let solicitacao;
         return this.http.get(this.baseUrl + 'solicitacao/' + id, {headers: this.headers})
             .map((r: Response) => {
-                solicitacao = new Fabricante(r);
+                solicitacao = new Solicitacao(r);
                 return solicitacao
             });
     }

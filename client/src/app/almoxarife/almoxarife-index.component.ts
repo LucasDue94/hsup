@@ -29,7 +29,7 @@ export class AlmoxarifeIndexComponent implements OnInit {
             searchControl: this.searchControl
         });
 
-        this.solicitacaoService.count().subscribe((quantity: number) => {
+        this.solicitacaoService.countAlmoxarife().subscribe((quantity: number) => {
             this.count = quantity;
         });
 
@@ -38,8 +38,9 @@ export class AlmoxarifeIndexComponent implements OnInit {
             .distinctUntilChanged()
             .switchMap(searchTerm => {
                 this.loading = true;
-                return this.solicitacaoService.list(this.count, searchTerm)
+                return this.solicitacaoService.listAlmoxarife(this.count, searchTerm)
             }).subscribe((solicitacaoList: Solicitacao[]) => {
+            console.log(solicitacaoList);
             this.solicitacaoList = solicitacaoList;
             this.loading = false;
         });
@@ -50,7 +51,7 @@ export class AlmoxarifeIndexComponent implements OnInit {
     list(p: number) {
         this._offset = (p - 1) * 10;
         this.loading = true;
-        this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
+        this.solicitacaoService.listAlmoxarife('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
             this.solicitacaoList = solicitacaoList;
             this.loading = false;
         });

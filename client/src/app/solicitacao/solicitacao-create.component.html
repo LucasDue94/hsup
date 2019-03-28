@@ -91,7 +91,7 @@
                                         <option value="">Escolha um item</option>
                                         <option *ngFor="let item of controlArray.get('item').controls"
                                                 [value]="item.get('id').value">
-                                            {{ item.get('descricao').value }}
+                                            {{ item.get('descricao').value.toUpperCase() }}
                                         </option>
                                     </select>
                                 </div>
@@ -155,7 +155,7 @@
                                         <option value="">Escolha um item</option>
                                         <option *ngFor="let item of controlArray.get('item').controls"
                                                 [value]="item.get('id').value">
-                                            {{ item.get('descricao').value }}
+                                            {{ item.get('descricao').value.toUpperCase() }}
                                         </option>
                                     </select>
                                 </div>
