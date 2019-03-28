@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins");
 html, body {
   height: 100%; }
 
@@ -139,7 +138,7 @@ html, body {
   display: block;
   margin-left: 12px; }
   .control-label {
-    font-family: Poppins, sans-serif;
+    font-family: 'poppins-regular', sans-serif;
     font-size: 1em;
     text-align: left;
     color: #2B517E; }
@@ -162,7 +161,7 @@ html, body {
     color: #2B517E; }
 
 .checkbox-label, .radio-label {
-  font-family: Poppins, sans-serif;
+  font-family: 'poppins-regular', sans-serif;
   font-size: 0.9em;
   text-align: left;
   color: #2B517E;
@@ -209,7 +208,7 @@ html, body {
     content: "";
     border: 2px solid #2B517E;
     border-radius: 2px;
-    font-family: Poppins, sans-serif;
+    font-family: 'poppins-regular', sans-serif;
     font-size: 20px;
     line-height: 0.35em;
     font-weight: bold;
@@ -283,7 +282,7 @@ html, body {
   display: block !important; }
   .record-picker ul li label {
     font-size: 1em !important;
-    font-family: Poppins, sans-serif !important;
+    font-family: 'poppins-regular', sans-serif !important;
     color: #2B517E !important; }
 
 .textarea-control {
@@ -297,7 +296,7 @@ html, body {
   height: 30px; }
   .button {
     opacity: 1;
-    font-family: Poppins, sans-serif;
+    font-family: 'poppins-regular', sans-serif;
     letter-spacing: 2px;
     font-size: 15px;
     border-radius: 5px 0 7px 0;

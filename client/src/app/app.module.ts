@@ -1,12 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from './app.component';
 import { NavService } from './nav/nav.service';
-import { AppRoutingModule, routes } from "./app-routing.module";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { AppRoutingModule } from "./app-routing.module";
+import { HttpClientModule } from "@angular/common/http";
 import {
     AsideBarModule,
     CustomDualListboxModule,
@@ -17,12 +16,12 @@ import {
     NotificationDropdownModule,
     SelectBaseModule,
     TableModule
-} from "hcal";
-import { FabricanteModule } from "./fabricante/fabricante.module";
-import { NavComponent } from "./nav/nav.component";
-import { IndexModule } from "./index/index.module";
+} from 'hcal';
+import { FabricanteModule } from './fabricante/fabricante.module';
+import { NavComponent } from './nav/nav.component';
+import { IndexModule } from './index/index.module';
 import { FabricanteService } from "./core/fabricante/fabricante.service";
-import { HttpModule } from "@angular/http";
+import { HttpModule } from '@angular/http';
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { ItemModule } from './item/item.module';
 import { NgxMaskModule } from "ngx-mask";
@@ -30,7 +29,6 @@ import { SigninModule } from "./signin/signin.module";
 import { PerfilModule } from './perfil/perfil.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { AuthGuard } from "./guards/auth.guard";
-import { RouterModule } from "@angular/router";
 import { PermissoesModule } from './permissoes/permissoes.module';
 
 import { AlmoxarifeModule } from "./almoxarife/almoxarife.module";
@@ -41,6 +39,12 @@ import { SolicitacaoModule } from "./solicitacao/solicitacao.module";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { RequestInterceptor } from "./core/request-interceptor";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+
+library.add(fas, far);
 
 @NgModule({
     declarations: [
@@ -50,14 +54,12 @@ import { RequestInterceptor } from "./core/request-interceptor";
     ],
     imports: [
         BrowserModule,
-        FormsModule,
         HttpClientModule,
         RequestInterceptor,
         HttpModule,
         NgxMaskModule.forRoot(),
         HcalSharedModule,
         IndexModule,
-        LoginModule,
         AsideBarModule,
         MainModule,
         SigninModule,
@@ -72,7 +74,6 @@ import { RequestInterceptor } from "./core/request-interceptor";
         FabricanteModule,
         AppRoutingModule,
         NgbModule.forRoot(),
-        RouterModule.forRoot(routes),
         FornecedorModule,
         ItemModule,
         PerfilModule,

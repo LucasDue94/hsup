@@ -1,12 +1,14 @@
 @import '../../color.scss';
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import '~wfk-poppins/poppins';
+@import '~roboto-fontface/css/roboto/roboto-fontface';
 
 .container-header {
   margin-bottom: 1em;
 
   & {
     color: $brown;
-    font-family: "Poppins", sans-serif;
+    font-family: "$poppins-regular", sans-serif;
   }
 
   .title-header {
@@ -44,7 +46,7 @@
 
   & {
     color: $brown;
-    font-family: "Poppins Light", sans-serif;
+    font-family: "$poppins-regular Light", sans-serif;
     background-color: $mediumGrayTransparent;
     border-radius: 20px;
   }
@@ -52,7 +54,7 @@
   .title {
     display: inline-block;
     margin-top: 0.8em;
-    font-family: "Poppins ExtraBold", sans-serif;
+    font-family: "$poppins-regular ExtraBold", sans-serif;
     text-align: center;
   }
 
@@ -113,7 +115,7 @@
   display: inline-block;
   float: left;
   margin-bottom: 10px;
-  font-family: "Poppins", sans-serif;
+  font-family: "$poppins-regular", sans-serif;
 
   .request-label {
     float: left;

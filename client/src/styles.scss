@@ -1,5 +1,7 @@
 @import 'color';
-@import url('https://fonts.googleapis.com/css?family=Poppins');
+@import '~wfk-poppins/poppins';
+@import 'fonts/roboto';
+
 
 html, body {
   height: 100%;
@@ -195,7 +197,7 @@ html, body {
   margin-left: 12px;
 
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 1em;
     text-align: left;
     color: $blue;
@@ -235,7 +237,7 @@ html, body {
 
 .checkbox-label, .radio-label {
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 0.9em;
     text-align: left;
     color: $blue;
@@ -293,7 +295,7 @@ html, body {
     content: "";
     border: 2px solid $blue;
     border-radius: 2px;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 20px;
     line-height: 0.35em;
     font-weight: bold;
@@ -405,7 +407,7 @@ html, body {
 
         & {
           font-size: 1em !important;
-          font-family: Poppins, sans-serif !important;
+          font-family: $poppins-regular, sans-serif !important;
           color: $blue !important;
         }
       }
@@ -426,7 +428,7 @@ html, body {
 
   & {
     opacity: 1;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     letter-spacing: 2px;
     font-size: 15px;
     outline: none;
@@ -1199,7 +1201,7 @@ html, body {
 }
 
 .title-back-link {
-  font-family: 'Poppins', serif;
+  font-family: '$poppins-regular', serif;
   margin-bottom: 10px;
 
   & {
@@ -1242,7 +1244,7 @@ html, body {
 }
 
 .not-found-error {
-  font-family: Poppins, serif;
+  font-family: $poppins-regular, serif;
   color: $lightDanger;
 }
 
@@ -1309,7 +1311,7 @@ html, body {
   text-align: justify;
 
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: $white;
@@ -1354,14 +1356,14 @@ html, body {
     transition: 0.1s;
 
     & {
-      font-family: Poppins, sans-serif;
+      font-family: $poppins-regular, sans-serif;
       font-size: 1em;
     }
   }
 }
 
 .error-span {
-  font-family: Poppins, sans-serif;
+  font-family: $poppins-regular, sans-serif;
   font-weight: bold;
   padding: 10px;
   border-radius: 8px;
@@ -1390,11 +1392,11 @@ html, body {
 }
 
 .loading-style {
-  font-family: Poppins, serif;
+  font-family: $poppins-regular, serif;
 }
 
 .tooltip, .tooltip-show {
-  font: bold 0.9em Poppins, sans-serif;
+  font: bold 0.9em $poppins-regular, sans-serif;
   color: $blue !important;
 }
 
@@ -1407,13 +1409,13 @@ html, body {
     font-size: 1em;
     text-transform: capitalize;
     font-weight: bold;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
   }
 }
 
 .select-default {
   background-color: $white;
-  font: 15px Poppins, sans-serif;
+  font: 15px $poppins-regular, sans-serif;
   max-height: 300px;
 
   .option-default {

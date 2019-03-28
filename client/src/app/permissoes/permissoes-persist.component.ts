@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Permissoes } from '../core/permissoes/permissoes';
 import { PermissoesService } from '../core/permissoes/permissoes.service';
-import { Response } from "@angular/http";
 
 
 @Component({
@@ -14,7 +13,7 @@ export class PermissoesPersistComponent implements OnInit {
     permissoes = new Permissoes();
     create = true;
     errors: any[];
-    private message: string;
+    message: string;
 
 
     constructor(private route: ActivatedRoute, private permissoesService: PermissoesService, private router: Router) {

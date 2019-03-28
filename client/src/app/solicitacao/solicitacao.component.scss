@@ -1,15 +1,16 @@
 @import '../../color';
-@import url('https://fonts.googleapis.com/css?family=Poppins');
+@import '~wfk-poppins/poppins';
+@import '../../fonts/roboto';
 
 input, select {
   font-size: 12px;
-  font-family: Poppins, sans-serif !important;
+  font-family: $poppins-regular, sans-serif !important;
 }
 
 .title-solicitacao {
   & {
     text-transform: uppercase;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-weight: 400;
     font-size: 2em;
     text-align: center;
@@ -36,7 +37,7 @@ input, select {
 .title-step {
   & {
     text-transform: uppercase;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-weight: bold;
     font-size: 1.5em;
     text-align: center;
@@ -47,7 +48,7 @@ input, select {
   display: flex;
 
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 1em;
     font-weight: bold;
     text-align: left;
@@ -83,7 +84,7 @@ input, select {
     border-radius: 50px;
     border: none;
     font-size: 1.1em;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-weight: bold;
     text-align: center;
   }
@@ -117,7 +118,7 @@ input, select {
     border: none;
     color: $white;
     font-size: 0.8em;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-weight: bold;
     text-align: center;
     outline: none;
@@ -138,11 +139,11 @@ input, select {
 
   & {
     color: $brown;
-    font-family: "Poppins SemiBold", sans-serif;
+    font-family: "$poppins-semi-bold SemiBold", sans-serif;
   }
 
   .label {
-    font-family: "Poppins ExtraLight", sans-serif;
+    font-family: "$poppins-light ExtraLight", sans-serif;
     margin-right: 5px;
   }
 }
@@ -154,7 +155,7 @@ input, select {
 
   & {
     color: $brown;
-    font-family: "Poppins Light", sans-serif;
+    font-family: "$poppins-light Light", sans-serif;
     background-color: $mediumGrayTransparent;
     border-radius: 8px;
   }
@@ -179,7 +180,7 @@ input, select {
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid gray;
-        font-family: "Poppins Medium", sans-serif;
+        font-family: "$poppins-medium Medium", sans-serif;
         line-height: 28px;
         color: $brown;
       }
@@ -200,7 +201,7 @@ input, select {
           background-color: $mediumGrayTransparent;
           outline: none;
           text-align: left;
-          font-family: "Poppins", sans-serif;
+          font-family: "$poppins-regular", sans-serif;
           font-weight: bold;
           color: $white;
           text-transform: uppercase;
@@ -278,7 +279,7 @@ input, select {
 
     & {
       justify-content: space-between;
-      font-family: "Poppins Medium", sans-serif;
+      font-family: "$poppins-medium Medium", sans-serif;
       font-size: 20px;
     }
 
@@ -418,7 +419,7 @@ input, select {
       content: "";
       border: 2px solid $green;
       border-radius: 2px;
-      font-family: Poppins, sans-serif;
+      font-family: $poppins-regular, sans-serif;
       font-size: 20px;
       line-height: 0.35em;
       font-weight: bold;
@@ -458,7 +459,7 @@ input, select {
   margin: 2em;
 
   & {
-    font-family: "Poppins", sans-serif;
+    font-family: "$poppins-regular", sans-serif;
     background-color: $white;
     border-radius: 15px;
     color: $brown;
@@ -514,7 +515,7 @@ input, select {
 }
 
 .loading-input {
-  font-family: 'Poppins', sans-serif;
+  font-family: '$poppins-regular', sans-serif;
 }
 
 .status-container {

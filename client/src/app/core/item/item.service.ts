@@ -7,11 +7,12 @@ import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class ItemService {
 
-    private baseUrl = 'http://localhost:8080/';
+    private baseUrl = environment.serverUrl;
     headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http?: HttpClient) {
