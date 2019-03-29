@@ -1,7 +1,5 @@
 <hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged">
     <div *ngIf="this.currentRoute != '/solicitacao/create'" main-menu>
-        <hcal-link *ngIf="checkPermission('ROLE_APPLICATION_INDEX')" [iconLink]="'home'" [routerLinkName]="'index'"
-                   [sizeLink]="'small'" [titleLink]="'Home'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_FABRICANTE_INDEX')" [iconLink]="'industry'"
                    [sizeLink]="'small'" [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'"
                    main-menu></hcal-link>

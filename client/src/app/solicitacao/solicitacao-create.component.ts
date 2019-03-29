@@ -20,11 +20,9 @@ import { Fabricante } from "../core/fabricante/fabricante";
 import { Item } from "../core/item/item";
 import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { UsuarioService } from "../core/usuario/usuario.service";
-import { Usuario } from "../core/usuario/usuario";
 import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { SolicitacaoItem } from "../core/solicitacaoItem/solicitacao-item";
 import { StatusSolicitacaoService } from "../core/statusSolicitacao/status-solicitacao.service";
-import { StatusSolicitacao } from "../core/statusSolicitacao/status-solicitacao";
 
 @Component({
     selector: 'solicitacao-create',
@@ -192,7 +190,13 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     validate(type) {
         const groups = this.controlArray.get(type).controls;
-        return groups.reduce((valid, group) => valid && this.groupIsValid(group, type != 'item'), true);
+        return groups.reduce((valid, group) => valid && type != 'fornecedor' ? this.groupIsValid(group, type != 'item') : this.fornecedorIsValid(group), true);
+    }
+
+    fornecedorIsValid(group: FormGroup) {
+        const vali = group.value['telefone'] != '' || group.value['email'] != '';
+        const validControls = group.value['fantasia'] != '' && group.value['item'] != '';
+
     }
 
     groupIsValid(group: FormGroup, canBeEmpty: boolean) {
@@ -344,7 +348,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             this.message = 'Solicitação realizada com sucesso!';
 
             let r = this.router;
-            setTimeout( function () {
+            setTimeout(function () {
                 r.navigate(['/solicitacao', 'show', solicitacao.id]);
             }, 3000);
         });

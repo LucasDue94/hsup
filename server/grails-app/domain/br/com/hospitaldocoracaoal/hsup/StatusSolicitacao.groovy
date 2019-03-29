@@ -14,6 +14,7 @@ class StatusSolicitacao {
     static final Long CANCELADA_ID = 10L
 
     String nome
+    Integer peso
     static hasMany = [statusPermitido: StatusSolicitacao]
 
     static constraints = {
