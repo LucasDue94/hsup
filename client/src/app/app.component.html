@@ -1,5 +1,8 @@
 <hcal-aside-bar [urlLogo]="'images/logo.png'" *ngIf="isLogged">
     <div *ngIf="this.currentRoute != '/solicitacao/create'" main-menu>
+        <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
+                   [sizeLink]="'small'" [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'"
+                   main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_FABRICANTE_INDEX')" [iconLink]="'industry'"
                    [sizeLink]="'small'" [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'"
                    main-menu></hcal-link>
@@ -18,13 +21,6 @@
                    [sizeLink]="'small'" [titleLink]="'Usuários'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SETOR_INDEX')" [iconLink]="'users'" [routerLinkName]="'setor'"
                    [sizeLink]="'small'" [titleLink]="'Setores'" main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
-                   [sizeLink]="'small'" [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'"
-                   main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_LISTALMOXARIFE')"
-                   [sizeLink]="'small'" [iconLink]="'box-open'" [routerLinkName]="'almoxarife'"
-                   [titleLink]="'Almoxarifado'"
-                   main-menu></hcal-link>
     </div>
 </hcal-aside-bar>
 <hcal-main [title]="'HSUP'" *ngIf="isLogged">

@@ -15,7 +15,7 @@ abstract class SolicitacaoService {
 
     abstract Solicitacao get(Serializable id)
 
-    PagedResultList<Solicitacao> list(Map args) {
+    PagedResultList<Solicitacao> list(Map args, String termo) {
         def criteria = Solicitacao.createCriteria()
         def principal = springSecurityService.principal
         Usuario usuarioLogado = Usuario.get principal.id
@@ -24,6 +24,22 @@ abstract class SolicitacaoService {
             if (!args.containsKey('sort')) {
                 order('urgente', 'desc')
                 order('dateCreated', 'asc')
+            }
+
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    if (termo.isNumber()) eq('id', termo)
+
+                    responsavel {
+                        or {
+                            ilike('name', "%${termo}%")
+
+                            setor {
+                                ilike('nome', "%${termo}%")
+                            }
+                        }
+                    }
+                }
             }
 
             responsavel {
@@ -36,6 +52,10 @@ abstract class SolicitacaoService {
                         }
                     }
                 }
+            }
+
+            status {
+                order('peso', 'desc')
             }
         }
 
@@ -57,6 +77,8 @@ abstract class SolicitacaoService {
                     eq 'id', StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
                     eq 'id', StatusSolicitacao.AGUARDANDO_PRODUTO_ID
                 }
+
+                order('peso', 'desc')
             }
         }
 

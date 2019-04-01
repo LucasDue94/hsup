@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable, Subject } from "rxjs";
 import { Solicitacao } from './solicitacao';
 import { Response } from "@angular/http";
@@ -23,7 +23,7 @@ export class SolicitacaoService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Solicitacao[]> {
+    list(max?: any, offset?: any): Observable<Solicitacao[]> {
         let subject = new Subject<Solicitacao[]>();
         this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
@@ -39,6 +39,20 @@ export class SolicitacaoService {
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['solicitacaoList'].map((solicitacao: any) => new Solicitacao(solicitacao)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'solicitacao';
+        let subject = new Subject<Solicitacao[]>();
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['solicitacao'].map((solicitacao: any) => new Solicitacao(solicitacao)))
             });
         return subject.asObservable();
     }

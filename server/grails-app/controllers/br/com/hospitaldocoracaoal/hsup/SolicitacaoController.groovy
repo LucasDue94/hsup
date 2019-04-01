@@ -13,9 +13,9 @@ class SolicitacaoController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     @Secured('ROLE_SOLICITACAO_INDEX')
-    def index(Integer max) {
+    def index(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        List<Solicitacao> solicitacaoList = solicitacaoService.list(params)
+        List<Solicitacao> solicitacaoList = solicitacaoService.list(params, termo)
         Map modelRes = [solicitacaoList: solicitacaoList, solicitacaoCount: solicitacaoList.totalCount]
         respond modelRes
     }

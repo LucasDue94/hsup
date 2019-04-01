@@ -194,9 +194,13 @@ export class SolicitacaoCreateComponent implements OnInit {
     }
 
     fornecedorIsValid(group: FormGroup) {
-        const vali = group.value['telefone'] != '' || group.value['email'] != '';
-        const validControls = group.value['fantasia'] != '' && group.value['item'] != '';
+        for (let key of Object.keys(group.value)) {
+            if (group.value['fantasia'] != '' && group.value['item'] != '') {
+                return group.value['telefone'] != '' || group.value['email'] != '';
+            }
+        }
 
+        return this.groupIsValid(group, true);
     }
 
     groupIsValid(group: FormGroup, canBeEmpty: boolean) {

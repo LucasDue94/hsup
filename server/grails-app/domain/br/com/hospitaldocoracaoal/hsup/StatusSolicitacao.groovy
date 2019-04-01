@@ -19,6 +19,7 @@ class StatusSolicitacao {
 
     static constraints = {
         nome nullable: false, blank: false
+        peso nullable: false, blank: false
     }
 
     static mapping = {
@@ -32,60 +33,70 @@ class StatusSolicitacao {
         if (!exists(AGUARDANDO_AUTORIZACAO_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'aguardando autorização')
             status.id = AGUARDANDO_AUTORIZACAO_ID
+            status.peso = 100
             status.save()
         }
 
         if (!exists(RECUSADA_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'recusada')
             status.id = RECUSADA_ID
+            status.peso = 20
             status.save()
         }
 
         if (!exists(VALIDACAO_ALMOXARIFE_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'validação almoxarife')
             status.id = VALIDACAO_ALMOXARIFE_ID
+            status.peso = 90
             status.save()
         }
 
         if (!exists(PENDENTE_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'pendente')
             status.id = PENDENTE_ID
+            status.peso = 80
             status.save()
         }
 
         if (!exists(EM_COTACAO_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'em cotação')
             status.id = EM_COTACAO_ID
+            status.peso = 70
             status.save()
         }
 
         if (!exists(AGUARDANDO_SOLICITANTE_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'aguardando solicitante')
             status.id = AGUARDANDO_SOLICITANTE_ID
+            status.peso = 60
             status.save()
         }
 
         if (!exists(AGUARDANDO_PRODUTO_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'aguardando produto')
             status.id = AGUARDANDO_PRODUTO_ID
+            status.peso = 50
             status.save()
         }
 
         if (!exists(RECEBIDO_ALMOXARIFADO_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'recebido almoxarifado')
             status.id = RECEBIDO_ALMOXARIFADO_ID
+            status.peso = 40
             status.save()
         }
 
         if (!exists(RETIRADO_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'retirado')
             status.id = RETIRADO_ID
+            status.peso = 30
             status.save()
         }
 
         if (!exists(CANCELADA_ID)) {
             StatusSolicitacao status = new StatusSolicitacao(nome: 'cancelada')
             status.id = CANCELADA_ID
+            status.peso = 10
             status.save()
         }
     }

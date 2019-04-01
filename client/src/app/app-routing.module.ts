@@ -10,15 +10,11 @@ export const routes: Routes = [
     {path: '', component: SigninComponent, outlet: 'login'},
     {
         path: 'index', canActivate: [AuthGuard], children: [
-            {path: '', component: IndexComponent, data: {permissao: 'ROLE_APPLICATION_INDEX'}},
+            {path: '', component: SolicitacaoListComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
         ]
     },
     {path: 'erro', component: ErrorComponent, canActivate: [AuthGuard]}
 ];
-
-if (localStorage.getItem('token').includes('ROLE_SOLICITACAO_LISTALMOXARIFE')) {
-
-}
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

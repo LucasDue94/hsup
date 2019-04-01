@@ -38,26 +38,28 @@ export class SolicitacaoListComponent implements OnInit {
             this.count = quantity;
         });
 
-        if (this.searchControl.value == "") {
-            this.list(this.pageNumber);
-        } else {
-            this.searchControl.valueChanges
-                .debounceTime(1000)
-                .distinctUntilChanged()
-                .switchMap(searchTerm => {
-                    this.loading = true;
-                    return this.solicitacaoService.list(this.count, searchTerm)
-                }).subscribe((solicitacaoList: Solicitacao[]) => {
+        this.searchControl.valueChanges
+            .debounceTime(1000)
+            .distinctUntilChanged()
+            .switchMap(searchTerm => {
+                this.loading = true;
+                if (searchTerm == '') return this.solicitacaoService.list('', this._offset);
+                return this.solicitacaoService.search(searchTerm, this._offset)
+            })
+            .subscribe((solicitacaoList: Solicitacao[]) => {
                 this.solicitacaoList = solicitacaoList;
                 this.loading = false;
             });
+
+        if (this.searchControl.value == "") {
+            this.list(this.pageNumber);
         }
     }
 
     list(p: number) {
         this._offset = (p - 1) * 10;
         this.loading = true;
-        this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
+        this.solicitacaoService.list('', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
             this.solicitacaoList = solicitacaoList;
             this.loading = false;
         });
