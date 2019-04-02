@@ -5,6 +5,7 @@ import { SolicitacaoListComponent } from "./solicitacao-list.component";
 import { SolicitacaoCreateComponent } from "./solicitacao-create.component";
 import { SolicitacaoApprovalComponent } from "./solicitacao-approval.component";
 import { SolicitacaoShowComponent } from "./solicitacao-show.component";
+import { AlmoxarifeComponent } from "../almoxarife/almoxarife.component";
 
 const routes: Routes = [
     {
@@ -13,7 +14,8 @@ const routes: Routes = [
             {path: 'index', component: SolicitacaoListComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
             {path: 'create', component: SolicitacaoCreateComponent, data: {permissao: 'ROLE_SOLICITACAO_CREATE'}},
             {path: 'approval', component: SolicitacaoApprovalComponent, data: {permissao: 'ROLE_SOLICITACAO_APPROVAL'}},
-            {path: 'show/:id', component: SolicitacaoShowComponent, data: {permissao: 'ROLE_SOLICITACAO_SHOW'}}
+            {path: 'show/:id', component: SolicitacaoShowComponent, data: {permissao: 'ROLE_SOLICITACAO_SHOW'}},
+            {path: 'associar/:id', component: AlmoxarifeComponent, data: {permissao: 'ROLE_SOLICITACAO_LISTALMOXARIFE'}}
         ]
     }
 ];

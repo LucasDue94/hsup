@@ -8,11 +8,8 @@ import { IndexComponent } from "./index/index.component";
 
 export const routes: Routes = [
     {path: '', component: SigninComponent, outlet: 'login'},
-    {
-        path: 'index', canActivate: [AuthGuard], children: [
-            {path: '', component: SolicitacaoListComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
-        ]
-    },
+    {path: 'index', canActivate: [AuthGuard], redirectTo: 'solicitacao'},
+    {path: 'solicitacao', component: SolicitacaoListComponent, data: {permissao: 'ROLE_SOLICITACAO_INDEX'}},
     {path: 'erro', component: ErrorComponent, canActivate: [AuthGuard]}
 ];
 

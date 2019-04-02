@@ -14,9 +14,6 @@
         <hcal-link *ngIf="checkPermission('ROLE_PERFIL_INDEX')" [iconLink]="'user-circle'"
                    [sizeLink]="'small'" [routerLinkName]="'perfil'"
                    [titleLink]="'Perfil'" main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_PERMISSOES_INDEX')" [iconLink]="'key'"
-                   [sizeLink]="'small'" [routerLinkName]="'permissoes'"
-                   [titleLink]="'Permissões'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_USUARIO_INDEX')" [iconLink]="'user'" [routerLinkName]="'usuario'"
                    [sizeLink]="'small'" [titleLink]="'Usuários'" main-menu></hcal-link>
         <hcal-link *ngIf="checkPermission('ROLE_SETOR_INDEX')" [iconLink]="'users'" [routerLinkName]="'setor'"

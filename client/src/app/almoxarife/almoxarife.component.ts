@@ -211,7 +211,7 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
                 let r = this.router;
                 this.message = 'Produtos associados com sucesso!';
                 setTimeout(function () {
-                    r.navigate(['/almoxarife']);
+                    r.navigate(['/solicitacao']);
                 }, 2000);
             });
         }
@@ -222,7 +222,7 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
             let r = this.router;
             this.message = 'O solicitante retirou o produto.' + '/n' +  'Solicitação encerrada com sucesso!';
             setTimeout(function () {
-                r.navigate(['/almoxarife']);
+                r.navigate(['/solicitacao']);
             }, 2000);
         });
     }

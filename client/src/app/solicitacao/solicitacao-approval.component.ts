@@ -31,7 +31,7 @@ export class SolicitacaoApprovalComponent implements OnInit {
         this.searchForm = new FormGroup({
             searchControl: this.searchControl
         });
-     }
+    }
 
     ngOnInit() {
         this.solicitacaoService.count().subscribe((quantity: number) => {
@@ -57,9 +57,8 @@ export class SolicitacaoApprovalComponent implements OnInit {
 
     list(p: number) {
         this._offset = (p - 1) * 10;
-        this.solicitacaoService.list('', '', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
+        this.solicitacaoService.list('', this._offset).subscribe((solicitacaoList: Solicitacao[]) => {
             this.solicitacaoList = solicitacaoList;
-            (this.solicitacaoList);
         });
         return this.solicitacaoList;
 
@@ -70,7 +69,6 @@ export class SolicitacaoApprovalComponent implements OnInit {
             if (this.solicitacao.id != null) {
                 this.message = `Solicitacao ${this.solicitacao.id} aprovada!`;
             }
-
         }, (res) => {
             const json = res.error;
             if (json.hasOwnProperty('message')) {

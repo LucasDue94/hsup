@@ -28,7 +28,10 @@ abstract class SolicitacaoService {
 
             if (termo != null && !termo.isEmpty()) {
                 or {
-                    if (termo.isNumber()) eq('id', termo)
+                    if (termo.isNumber()) {
+                        Long id = termo as Long
+                        eq('id', id)
+                    }
 
                     responsavel {
                         or {
@@ -38,6 +41,10 @@ abstract class SolicitacaoService {
                                 ilike('nome', "%${termo}%")
                             }
                         }
+                    }
+
+                    status {
+                        ilike('nome', "%${termo}%")
                     }
                 }
             }
@@ -62,7 +69,7 @@ abstract class SolicitacaoService {
         return solicitacaoList
     }
 
-    PagedResultList<Solicitacao> listAlmoxarife(Map args) {
+    PagedResultList<Solicitacao> listAlmoxarife(Map args, String termo) {
         def criteria = Solicitacao.createCriteria()
 
         List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
@@ -71,13 +78,42 @@ abstract class SolicitacaoService {
                 order('dateCreated', 'asc')
             }
 
-            status {
+            if (termo != null && !termo.isEmpty()) {
                 or {
-                    eq 'id', StatusSolicitacao.VALIDACAO_ALMOXARIFE_ID
-                    eq 'id', StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
-                    eq 'id', StatusSolicitacao.AGUARDANDO_PRODUTO_ID
-                }
+                    if (termo.isNumber()) {
+                        Long id = termo as Long
+                        eq('id', id)
+                    }
 
+                    responsavel {
+                        or {
+                            ilike('name', "%${termo}%")
+
+                            setor {
+                                ilike('nome', "%${termo}%")
+                            }
+                        }
+                    }
+
+                    status {
+                        ilike('nome', "%${termo}%")
+                    }
+                }
+            }
+
+            responsavel {
+                or {
+                    eq 'id', usuarioLogado.id
+
+                    setor {
+                        gestor {
+                            eq 'id', usuarioLogado.id
+                        }
+                    }
+                }
+            }
+
+            status {
                 order('peso', 'desc')
             }
         }
