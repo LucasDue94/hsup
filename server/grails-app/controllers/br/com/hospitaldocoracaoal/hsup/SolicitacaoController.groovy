@@ -21,9 +21,17 @@ class SolicitacaoController {
     }
 
     @Secured('ROLE_SOLICITACAO_LISTALMOXARIFE')
-    def listAlmoxarife(Integer max) {
+    def listAlmoxarife(Integer max, String termo) {
         params.max = Math.min(max ?: 10, 100)
-        List<Solicitacao> solicitacaoList = solicitacaoService.listAlmoxarife(params)
+        List<Solicitacao> solicitacaoList = solicitacaoService.list(params, termo)
+        Map modelRes = [solicitacaoList: solicitacaoList, solicitacaoCount: solicitacaoList.totalCount]
+        respond modelRes
+    }
+
+    @Secured('ROLE_SOLICITACAO_LISTCOMPRADOR')
+    def listComprador(Integer max, String termo) {
+        params.max = Math.min(max ?: 10, 100)
+        List<Solicitacao> solicitacaoList = solicitacaoService.list(params, termo)
         Map modelRes = [solicitacaoList: solicitacaoList, solicitacaoCount: solicitacaoList.totalCount]
         respond modelRes
     }

@@ -5,6 +5,6 @@
 
 export const environment = {
     production: false,
-    serverUrl: 'http://10.10.1.23:8080/hsup/',
-    serverApiUrl: 'http://10.10.1.23:8080/hsup/api/'
+    serverUrl: 'http://localhost:8080/',
+    serverApiUrl: 'http://localhost:8080/api/'
 };

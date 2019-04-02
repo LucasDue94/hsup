@@ -3,6 +3,7 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.PagedResultList
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
+import grails.web.servlet.mvc.GrailsParameterMap
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,105 +21,36 @@ abstract class SolicitacaoService {
         def principal = springSecurityService.principal
         Usuario usuarioLogado = Usuario.get principal.id
 
-        List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
-            if (!args.containsKey('sort')) {
-                order('urgente', 'desc')
-                order('dateCreated', 'asc')
-            }
+        def permission = usuarioLogado.perfil.permissoes.findAll {
+            it.authority == 'ROLE_SOLICITACAO_LISTALMOXARIFE' || it.authority == 'ROLE_SOLICITACAO_LISTCOMPRADOR'
+        }
 
-            if (termo != null && !termo.isEmpty()) {
-                or {
-                    if (termo.isNumber()) {
-                        Long id = termo as Long
-                        eq('id', id)
-                    }
+        criteria.list(args) {
+            this.listCriteria(args, criteria, termo)
+            if (usuarioLogado && permission.size() == 0) {
+                responsavel {
+                    or {
+                        eq 'id', usuarioLogado.id
 
-                    responsavel {
-                        or {
-                            ilike('name', "%${termo}%")
-
-                            setor {
-                                ilike('nome', "%${termo}%")
+                        setor {
+                            gestor {
+                                eq 'id', usuarioLogado.id
                             }
                         }
                     }
-
-                    status {
-                        ilike('nome', "%${termo}%")
-                    }
                 }
-            }
-
-            responsavel {
-                or {
-                    eq 'id', usuarioLogado.id
-
-                    setor {
-                        gestor {
-                            eq 'id', usuarioLogado.id
-                        }
-                    }
-                }
-            }
-
-            status {
-                order('peso', 'desc')
             }
         }
+    }
 
-        return solicitacaoList
+    PagedResultList<Solicitacao> listComprador(Map args, String termo) {
+        def criteria = Solicitacao.createCriteria()
+        criteria.list(args) { this.listCriteria(args, criteria, termo) }
     }
 
     PagedResultList<Solicitacao> listAlmoxarife(Map args, String termo) {
         def criteria = Solicitacao.createCriteria()
-
-        List<Solicitacao> solicitacaoList = (List<Solicitacao>) criteria.list(args) {
-            if (!args.containsKey('sort')) {
-                order('urgente', 'desc')
-                order('dateCreated', 'asc')
-            }
-
-            if (termo != null && !termo.isEmpty()) {
-                or {
-                    if (termo.isNumber()) {
-                        Long id = termo as Long
-                        eq('id', id)
-                    }
-
-                    responsavel {
-                        or {
-                            ilike('name', "%${termo}%")
-
-                            setor {
-                                ilike('nome', "%${termo}%")
-                            }
-                        }
-                    }
-
-                    status {
-                        ilike('nome', "%${termo}%")
-                    }
-                }
-            }
-
-            responsavel {
-                or {
-                    eq 'id', usuarioLogado.id
-
-                    setor {
-                        gestor {
-                            eq 'id', usuarioLogado.id
-                        }
-                    }
-                }
-            }
-
-            status {
-                order('peso', 'desc')
-            }
-        }
-
-        return solicitacaoList
+        criteria.list(args) { this.listCriteria(args, criteria, termo) }
     }
 
     abstract Long count()
@@ -266,6 +198,40 @@ abstract class SolicitacaoService {
                 solicitacao.save flush: true
                 createHistorico(solicitacao)
             }
+        }
+    }
+
+    def listCriteria = { Map args, builder, String termo ->
+        if (!args.containsKey('sort')) {
+            builder.status {
+                builder.order('peso', 'desc')
+            }
+            builder.order('urgente', 'desc')
+            builder.order('dateCreated', 'asc')
+        }
+
+        if (termo != null && !termo.isEmpty()) {
+            builder.or {
+                if (termo.isNumber()) {
+                    Long id = termo as Long
+                    builder.eq('id', id)
+                }
+
+                builder.responsavel {
+                    builder.or {
+                        builder.ilike('name', "%${termo}%")
+
+                        builder.setor {
+                            builder.ilike('nome', "%${termo}%")
+                        }
+                    }
+                }
+
+                builder.status {
+                    builder.ilike('nome', "%${termo}%")
+                }
+            }
+
         }
     }
 }

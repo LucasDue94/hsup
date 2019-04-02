@@ -77,7 +77,7 @@ export class SolicitacaoCreateComponent implements OnInit {
             case 'fabricante':
                 group = this.fb.group({
                     id: '',
-                    fantasia: new FormControl('', [Validators.required]),
+                    fantasia: '',
                     item: ''
                 });
                 break;

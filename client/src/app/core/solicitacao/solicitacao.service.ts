@@ -33,16 +33,6 @@ export class SolicitacaoService {
         return subject.asObservable();
     }
 
-    listAlmoxarife(max?: any, searchTerm?: string, offset?: any): Observable<Solicitacao[]> {
-        let subject = new Subject<Solicitacao[]>();
-        this.http.get(this.baseUrl + `solicitacao/listAlmoxarife?offset=${offset}&max=${max}`, {headers: this.headers})
-            .map((r: Response) => r)
-            .subscribe((json: any) => {
-                subject.next(json['solicitacaoList'].map((solicitacao: any) => new Solicitacao(solicitacao)))
-            });
-        return subject.asObservable();
-    }
-
     search(searchTerm, offset?: any, limit?): Observable<any[]> {
         if (searchTerm == '') return new Observable();
         const url = this.baseUrl + 'solicitacao';
