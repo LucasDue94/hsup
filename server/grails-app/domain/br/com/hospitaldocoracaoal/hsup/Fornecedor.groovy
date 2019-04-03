@@ -12,8 +12,6 @@ class Fornecedor implements Comparable<Fornecedor> {
     static constraints = {
         fantasia nullable: false, blank: false, unique: true
         ativo nullable: false, blank: false
-        telefone nullable: false, blank: false
-        email nullable: false, blank: false
     }
 
     boolean equals(o) {

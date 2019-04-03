@@ -190,22 +190,27 @@ export class SolicitacaoCreateComponent implements OnInit {
 
     validate(type) {
         const groups = this.controlArray.get(type).controls;
-        return groups.reduce((valid, group) => valid && type != 'fornecedor' ? this.groupIsValid(group, type != 'item') : this.fornecedorIsValid(group), true);
+        return groups.reduce((valid, group) => valid && this.groupIsValid(group, type != 'item', type), true);
     }
 
-    fornecedorIsValid(group: FormGroup) {
-        for (let key of Object.keys(group.value)) {
-            if (group.value['fantasia'] != '' && group.value['item'] != '') {
-                return group.value['telefone'] != '' || group.value['email'] != '';
+    groupIsValid(group: FormGroup, canBeEmpty: boolean, type) {
+        const keys = Object.keys(group.value);
+        const countEmpty = keys.reduce((count, key) => {
+            if (type != 'fornecedor') {
+                count += (group.value[key] == '' || group.value[key] == null ? 1 : 0)
+            } else {
+                if (key == 'email' || key == 'telefone') count += (group.value[key] == '' ? 1 : 0);
+                else count += (group.value[key] == '' ? 1 : 0)
             }
+
+            return count;
+        }, 0);
+
+        if (type == 'fornecedor') {
+            if (countEmpty === 1 && group.value['fantasia'] != '' && group.value['id'] != '' && group.value['item'] != '')
+                return true;
         }
 
-        return this.groupIsValid(group, true);
-    }
-
-    groupIsValid(group: FormGroup, canBeEmpty: boolean) {
-        const keys = Object.keys(group.value);
-        const countEmpty = keys.reduce((count, key) => count + (group.value[key] == '' || group.value[key] == null ? 1 : 0), 0);
         return (countEmpty === keys.length && canBeEmpty) || countEmpty == 0;
     }
 
@@ -315,8 +320,11 @@ export class SolicitacaoCreateComponent implements OnInit {
             if (groupItem == item.id || groupItem == item.descricao) {
                 const objInstance = this.requestItemsBuilder(type, group.controls);
                 if (typeof objInstance.id == 'string') delete objInstance.id;
-                if (type == 'fabricante') item.fabricante.push(objInstance);
-                if (type == 'fornecedor') item.fornecedor.push(objInstance);
+                if (typeof objInstance.id == "number") {
+                    item[type].push(objInstance.id);
+                } else {
+                    item[type].push(objInstance);
+                }
             }
         }
     }

@@ -40,7 +40,7 @@
     </header>
     <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
     <main class="col-11 main-content">
-        <perfect-scrollbar class="scroll scroll-solicitacao-show">
+        <perfect-scrollbar class="scroll-solicitacao-show">
             <section class="col-12 container-items" *ngFor="let solicitacaoItem of solicitacao?.itens; index as i">
                 <section class="labels">
                     <div class="label">Item</div>

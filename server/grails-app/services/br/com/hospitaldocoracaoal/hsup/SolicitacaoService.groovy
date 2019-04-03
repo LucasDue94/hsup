@@ -78,6 +78,15 @@ abstract class SolicitacaoService {
         solicitacao.itens.item.each { i ->
             i.fabricante = i.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
             def newFab = i.fabricante.findAll { it.id == null }
+            def fabList = i.fabricante.findAll { it.id != null }
+
+            fabList.each {
+                Fabricante fab = Fabricante.get it.id
+                if (fab != null) {
+                    i.fabricante.remove(it)
+                    i.fabricante.add(fab)
+                }
+            }
 
             newFab.each {
                 Fabricante fabricante = Fabricante.findByFantasia it.fantasia
@@ -91,6 +100,15 @@ abstract class SolicitacaoService {
 
             i.fornecedor = i.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
             def newForn = i.fornecedor.findAll { it.id == null }
+            def fornList = i.fornecedor.findAll { it.id != null }
+
+            fornList.each {
+                Fornecedor forn = Fornecedor.get it.id
+                if (forn != null) {
+                    i.fornecedor.remove(it)
+                    i.fornecedor.add(forn)
+                }
+            }
 
             newForn.each {
                 Fornecedor fornecedor = Fornecedor.findByFantasia it.fantasia
