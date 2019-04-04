@@ -226,7 +226,8 @@
             Avançar
             <fa-icon [icon]="['fas', 'chevron-right']"></fa-icon>
         </button>
-        <button *ngIf="validate('item')" class="button button-border-all button-success" finish-button>Finalizar
+        <button *ngIf="validate('item') && validate('fabricante') && validate('fornecedor')"
+                class="button button-border-all button-success" finish-button>Finalizar
         </button>
         <button class="button button-reverse button-blue" previous-button>
             <fa-icon [icon]="['fas', 'chevron-left']"></fa-icon>

@@ -1,6 +1,7 @@
 export class StatusSolicitacao {
     id: number;
     nome: string;
+    peso: number;
     statusPermitido: StatusSolicitacao[];
 
     constructor (object?: any) {

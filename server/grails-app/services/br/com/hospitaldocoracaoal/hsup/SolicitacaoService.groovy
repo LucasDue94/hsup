@@ -43,16 +43,6 @@ abstract class SolicitacaoService {
         }
     }
 
-    PagedResultList<Solicitacao> listComprador(Map args, String termo) {
-        def criteria = Solicitacao.createCriteria()
-        criteria.list(args) { this.listCriteria(args, criteria, termo) }
-    }
-
-    PagedResultList<Solicitacao> listAlmoxarife(Map args, String termo) {
-        def criteria = Solicitacao.createCriteria()
-        criteria.list(args) { this.listCriteria(args, criteria, termo) }
-    }
-
     abstract Long count()
 
     abstract void delete(Serializable id)
@@ -120,12 +110,16 @@ abstract class SolicitacaoService {
                 }
             }
 
-            solicitacao.itens.item.unique { a, b -> a.descricao <=> b.descricao }
             def newItem = solicitacao.itens.item.findAll { it.id == null }
 
             newItem.each {
                 Item item = Item.findByDescricao it.descricao
-                if (item == null) it.save(flush: true)
+                if (item == null) {
+                    it.save(flush: true)
+                } else {
+                    solicitacao.itens.item.remove(it)
+                    solicitacao.itens.item.add(item)
+                }
             }
         }
 
@@ -249,7 +243,6 @@ abstract class SolicitacaoService {
                     builder.ilike('nome', "%${termo}%")
                 }
             }
-
         }
     }
 }

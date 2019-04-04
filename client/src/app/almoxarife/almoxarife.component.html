@@ -61,10 +61,10 @@
                             <label for="{{i}}" class="request-label label-left col-6">Produto</label>
                             <input id="{{i}}" class="request-input-line-bottom col-12" type="text"
                                    formControlName="descricao" autocomplete="off"
-                                   (focus)="find($event.target)" #input>
+                                   (focus)="find($event.target)" (blur)="closeList(input)" #input>
 
                             <div id="scroll{{i}}" class="scroll" infiniteScroll [scrollWindow]="false" [hidden]="true"
-                                 (scrolled)="find(input, true)" (mouseleave)="closeList(input)">
+                                 (scrolled)="find(input, true)">
                                 <div (click)="select(wpdPro, input)" class="item"
                                      *ngFor="let wpdPro of wpdProducts">
                                     {{wpdPro.descricao}}
