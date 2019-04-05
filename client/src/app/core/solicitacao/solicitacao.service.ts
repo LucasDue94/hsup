@@ -80,8 +80,10 @@ export class SolicitacaoService {
 
     changeStatus(solicitacao: Solicitacao): Observable<Solicitacao> {
         delete solicitacao.itens;
-        const url = this.baseUrl + 'solicitacao/changeStatus/' + solicitacao.id;
-        return this.http.put<Solicitacao>(url, solicitacao, {headers: this.httpOptions.headers, responseType: 'json'});
+        const solicitacaoStatus = {id: solicitacao.id, status: +solicitacao.status};
+        const url = this.baseUrl + 'solicitacao/changeStatus/' + solicitacao.id + `/${solicitacao.status}`;
+        return this.http.put<Solicitacao>(url, solicitacaoStatus,
+            {headers: this.httpOptions.headers, responseType: 'json'});
     }
 
     save(solicitacao: Solicitacao): Observable<Solicitacao> {

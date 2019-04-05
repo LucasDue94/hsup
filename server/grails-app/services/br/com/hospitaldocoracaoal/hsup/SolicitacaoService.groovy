@@ -190,12 +190,10 @@ abstract class SolicitacaoService {
     }
 
 
-    void changeStatus(Solicitacao solicitacao) {
-        if (solicitacao.isDirty('status')) {
-            def statusSolicitacao = solicitacao?.status?.id
-            StatusSolicitacao status = StatusSolicitacao.get statusSolicitacao
-            checkStatusPermitido solicitacao, status
-        }
+    void changeStatus(Serializable solicitacaoId, Serializable newStatusId) {
+        def solicitacao = Solicitacao.get solicitacaoId
+        def statusSolicitacao = StatusSolicitacao.get newStatusId
+        checkStatusPermitido solicitacao, statusSolicitacao
     }
 
     void checkStatusPermitido(Solicitacao solicitacao, status) {

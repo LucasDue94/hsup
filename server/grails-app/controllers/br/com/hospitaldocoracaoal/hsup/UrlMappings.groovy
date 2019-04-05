@@ -20,7 +20,7 @@ class UrlMappings {
         put "/solicitacao/cancel/$id(.$format)?"(controller: "solicitacao", action: "cancel")
         put "/solicitacao/deny/$id(.$format)?"(controller: "solicitacao", action: "deny")
         put "/solicitacao/approval/$id(.$format)?"(controller: "solicitacao", action: "approval")
-        put "/solicitacao/changeStatus/$id(.$format)?"(controller: "solicitacao", action: "changeStatus")
+        put "/solicitacao/changeStatus/$id/$status(.$format)?"(controller: "solicitacao", action: "changeStatus")
         put "/solicitacao/validaAlmoxarife/$id(.$format)?"(controller: "solicitacao", action: "validaAlmoxarife")
         put "/solicitacao/finish/$id(.$format)?"(controller: "solicitacao", action: "finish")
     }

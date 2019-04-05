@@ -148,13 +148,13 @@ class SolicitacaoController {
     }
 
     @Secured('ROLE_SOLICITACAO_CHANGESTATUS')
-    def changeStatus(Solicitacao solicitacao) {
-        if (solicitacao == null) {
+    def changeStatus() {
+        if (params.id == null && params.status == null) {
             render status: NOT_FOUND
             return
         }
 
-        solicitacaoService.changeStatus(solicitacao)
+        solicitacaoService.changeStatus(params.id, params.status)
 
         render status: NO_CONTENT
     }
