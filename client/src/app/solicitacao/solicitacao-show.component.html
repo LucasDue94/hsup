@@ -15,27 +15,22 @@
             <h3 class="title-label"> Data:
                 <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
             </h3>
-            <div [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
-                <h3 *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS')
-                || isFinalStatus(solicitacao?.status?.nome) || solicitacao?.status?.nome == 'aguardando produto' "
-                    class="title-label"> Status: <b>{{ solicitacao?.status?.nome }}</b>
-                </h3>
 
-                <div *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.nome)
-                 && solicitacao?.status?.nome != 'aguardando produto'"
-                     [ngClass]="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ? 'status-container': ''">
-                    <h3 class="title-label"> Status:</h3>
-                    <select id="status-solicitacao" (change)="setStatus()">
-                        <option *ngFor="let stat of status" value="{{ stat?.id }}"
-                                [hidden]="isFinalStatus(stat?.nome)"
-                                [selected]="stat?.nome == solicitacao?.status?.nome">
-                            {{ stat?.nome }}
-                        </option>
-                    </select>
-                    <fa-icon (click)="changeStatus()" class="check-icon" [icon]="['fas','check-circle']"></fa-icon>
-                </div>
+            <section *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') || isFinalStatus(solicitacao?.status?.nome)">
+                <h3 class="title-label"> Status: <b>{{ solicitacao?.status?.nome }}</b></h3>
+            </section>
 
-            </div>
+            <section class="status-container" *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.nome)">
+                <h3 class="title-label"> Status:</h3>
+                <select id="status-solicitacao" (change)="setStatus()">
+                    <option *ngFor="let stat of status" value="{{ stat?.id }}"
+                            [selected]="stat?.nome == solicitacao?.status?.nome"
+                            [hidden]="isFinalStatus(stat?.nome)">
+                        {{ stat?.nome }}
+                    </option>
+                </select>
+                <fa-icon (click)="changeStatus()" class="check-icon" [icon]="['fas','check-circle']"></fa-icon>
+            </section>
         </div>
     </header>
     <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
@@ -78,7 +73,7 @@
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
                 <button (click)="cancel()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && checkCancel()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && solicitacao?.status?.statusPermitido.includes(solicitacao?.status)"
                         name="cancelar" class="button button-border-all button-light-danger">
                     Cancelar
                 </button>

@@ -31,6 +31,9 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.solicitacaoService.get(+params['id']).subscribe((solicitacao: Solicitacao) => {
                 this.solicitacao = solicitacao;
+                console.log(solicitacao.status);
+                this.status = solicitacao.status.statusPermitido;
+                this.status.push(solicitacao.status);
             });
         });
 
@@ -39,14 +42,11 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
             searchControl: this.searchControl
         });
 
-        this.statusSolicitacaoService.list('', '').subscribe((status: StatusSolicitacao[]) => {
-            this.status = status;
-        });
         this.currentStatusId = null;
         this.currentUser = localStorage;
     }
 
-    cancel() {
+     cancel() {
         if (confirm(`Tem certeza que deseja cancelar esta solicitação?`)) {
             this.solicitacaoService.cancel(this.solicitacao).subscribe(value => {
                 let r = this.router;
@@ -73,7 +73,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     changeStatus() {
         if (this.currentStatusId != null) {
             this.solicitacao.status = this.currentStatusId;
-            this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
+            this.solicitacaoService.changeStatus(this.solicitacao, this.currentStatusId).subscribe(value => {
                 let r = this.router;
                 this.message = 'Status alterado com sucesso!';
                 setTimeout(function () {
@@ -127,5 +127,4 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     checkPermission: (permission: string) => boolean;
-
 }
