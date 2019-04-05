@@ -38,10 +38,12 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
             if (params.hasOwnProperty('id')) {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
                     this.solicitacao = solicitacao;
+                    console.log(solicitacao.status);
                     this.buildForm();
                 });
             }
         });
+
     }
 
     buildForm() {

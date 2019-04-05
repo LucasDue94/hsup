@@ -38,7 +38,6 @@
                                 [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
                     <a class="edit"
-                       *ngIf="solicitacao.status.statusPermitido.includes(solicitacao.status.id)"
                        [routerLink]="['/solicitacao', 'associar', solicitacao.id]">
                         <fa-icon tooltip="Associar" [theme]="'light'" [placement]="'top'"
                         [show-delay]="500"

@@ -66,28 +66,6 @@ abstract class SolicitacaoService {
         }
 
         solicitacao.itens.item.each { i ->
-            i.fabricante = i.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
-            def newFab = i.fabricante.findAll { it.id == null }
-            def fabList = i.fabricante.findAll { it.id != null }
-
-            fabList.each {
-                Fabricante fab = Fabricante.get it.id
-                if (fab != null) {
-                    i.fabricante.remove(it)
-                    i.fabricante.add(fab)
-                }
-            }
-
-            newFab.each {
-                Fabricante fabricante = Fabricante.findByFantasia it.fantasia
-                if (fabricante == null) {
-                    it.save(flush: true)
-                } else {
-                    i.fabricante.remove(it)
-                    i.fabricante.add(fabricante)
-                }
-            }
-
             i.fornecedor = i.fornecedor.unique { a, b -> a.fantasia <=> b.fantasia }
             def newForn = i.fornecedor.findAll { it.id == null }
             def fornList = i.fornecedor.findAll { it.id != null }
@@ -110,16 +88,33 @@ abstract class SolicitacaoService {
                 }
             }
 
+            i.fabricante = i.fabricante.unique { a, b -> a.fantasia <=> b.fantasia }
+            def newFab = i.fabricante.findAll { it.id == null }
+            def fabList = i.fabricante.findAll { it.id != null }
+
+            fabList.each {
+                Fabricante fab = Fabricante.get it.id
+                if (fab != null) {
+                    i.fabricante.remove(it)
+                    i.fabricante.add(fab)
+                }
+            }
+
+            newFab.each {
+                Fabricante fabricante = Fabricante.findByFantasia it.fantasia
+                if (fabricante == null) {
+                    it.save()
+                } else {
+                    i.fabricante.remove(it)
+                    i.fabricante.add(fabricante)
+                }
+            }
+
             def newItem = solicitacao.itens.item.findAll { it.id == null }
 
             newItem.each {
                 Item item = Item.findByDescricao it.descricao
-                if (item == null) {
-                    it.save(flush: true)
-                } else {
-                    solicitacao.itens.item.remove(it)
-                    solicitacao.itens.item.add(item)
-                }
+                if (item == null) it.save(flush: true)
             }
         }
 
