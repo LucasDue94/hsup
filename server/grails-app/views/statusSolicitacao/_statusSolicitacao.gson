@@ -4,4 +4,4 @@ model {
 	StatusSolicitacao statusSolicitacao
 }
 
-json g.render(statusSolicitacao, [resolveTemplate: false])
+json g.render(statusSolicitacao, [expand: ['statusPermitido'],resolveTemplate: false])

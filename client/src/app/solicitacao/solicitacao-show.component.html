@@ -16,16 +16,19 @@
                 <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
             </h3>
 
-            <section *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') || isFinalStatus(solicitacao?.status?.nome)">
+            <section *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ||
+                     isStaticStatus(solicitacao?.status?.nome)">
                 <h3 class="title-label"> Status: <b>{{ solicitacao?.status?.nome }}</b></h3>
             </section>
 
-            <section class="status-container" *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') && !isFinalStatus(solicitacao?.status?.nome)">
+            <section class="status-container"
+                     *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') &&
+                      !isStaticStatus(solicitacao?.status?.nome)">
                 <h3 class="title-label"> Status:</h3>
                 <select id="status-solicitacao" (change)="setStatus()">
                     <option *ngFor="let stat of status" value="{{ stat?.id }}"
                             [selected]="stat?.nome == solicitacao?.status?.nome"
-                            [hidden]="isFinalStatus(stat?.nome)">
+                            [hidden]="isStaticStatus(stat?.nome)">
                         {{ stat?.nome }}
                     </option>
                 </select>
@@ -80,7 +83,8 @@
 
                 <button (click)="deny()"
                         *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') &&
-                         solicitacao?.responsavel?.setor?.necessitaAutorizacao"
+                         solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
+                         solicitacao?.status?.nome == 'aguardando autorização'"
                         class="button button-border-all button-light-danger">
                     Recusar
                 </button>
@@ -88,7 +92,8 @@
                 <button (click)="approval()"
                         *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') &&
                          solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
-                         solicitacao?.responsavel?.setor?.gestor == currentUser.getItem('id')"
+                         solicitacao?.responsavel?.setor?.gestor == currentUser.getItem('id') &&
+                        solicitacao?.status?.nome == 'aguardando autorização'"
                         class="button button-border-all  button-success">
                     Aprovar
                 </button>

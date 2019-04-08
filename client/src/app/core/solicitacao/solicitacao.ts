@@ -21,6 +21,6 @@ export class Solicitacao {
     }
 
     toString(): string {
-        return 'br.com.hospitaldocoracaoal.hsup.SolicitacaoItem : ' + (this.id ? this.id : '(unsaved)');
+        return 'br.com.hospitaldocoracaoal.hsup.Solicitacao : ' + (this.id ? this.id : '(unsaved)');
     }
 }

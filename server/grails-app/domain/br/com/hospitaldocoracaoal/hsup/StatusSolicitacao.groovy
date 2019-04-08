@@ -123,7 +123,7 @@ class StatusSolicitacao {
         validacaoAlmoxarife.addToStatusPermitido(pendente)
 
         emCotacao.addToStatusPermitido(cancelada)
-        emCotacao.addToStatusPermitido(aguardandoAutorizacao)
+        emCotacao.addToStatusPermitido(aguardandoProduto)
 
         aguardandoSolicitante.addToStatusPermitido(cancelada)
         aguardandoSolicitante.addToStatusPermitido(aguardandoProduto)

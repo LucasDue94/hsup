@@ -31,9 +31,9 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.solicitacaoService.get(+params['id']).subscribe((solicitacao: Solicitacao) => {
                 this.solicitacao = solicitacao;
-                console.log(solicitacao.status);
                 this.status = solicitacao.status.statusPermitido;
                 this.status.push(solicitacao.status);
+                console.log(solicitacao.status);
             });
         });
 
@@ -46,7 +46,9 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.currentUser = localStorage;
     }
 
-     cancel() {
+    comparar = (a, b) => a - b;
+
+    cancel() {
         if (confirm(`Tem certeza que deseja cancelar esta solicitação?`)) {
             this.solicitacaoService.cancel(this.solicitacao).subscribe(value => {
                 let r = this.router;
@@ -73,7 +75,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     changeStatus() {
         if (this.currentStatusId != null) {
             this.solicitacao.status = this.currentStatusId;
-            this.solicitacaoService.changeStatus(this.solicitacao, this.currentStatusId).subscribe(value => {
+            this.solicitacaoService.changeStatus(this.solicitacao).subscribe(value => {
                 let r = this.router;
                 this.message = 'Status alterado com sucesso!';
                 setTimeout(function () {
@@ -109,22 +111,10 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
 
     setStatus = () => this.currentStatusId = event.target['value'];
 
-    isFinalStatus(status): boolean {
+    isStaticStatus(status): boolean {
         if (status != undefined) {
-            return status == 'recusada' || status == 'recebido almoxarifado' || status == 'cancelada' || status == 'retirado';
+            return status == 'recusada' || status == 'recebido almoxarifado' || status == 'cancelada' || status == 'retirado' || status == 'aguardando autorização';
         }
     }
-
-    checkCancel(): boolean {
-        if (this.solicitacao != undefined && this.solicitacao.status != undefined) {
-            let status = this.solicitacao.status.nome;
-            return status == 'aguardando autorização'
-                || status == 'validação almoxarife'
-                || status == 'pendente'
-                || status == 'em cotação'
-                || status == 'aguardando solicitante'
-        }
-    }
-
     checkPermission: (permission: string) => boolean;
 }
