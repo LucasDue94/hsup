@@ -111,10 +111,22 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
 
     setStatus = () => this.currentStatusId = event.target['value'];
 
-    isStaticStatus(status): boolean {
+    isFinalStatus(status): boolean {
         if (status != undefined) {
-            return status == 'recusada' || status == 'recebido almoxarifado' || status == 'cancelada' || status == 'retirado' || status == 'aguardando autorização';
+            return status == 'recusada' || status == 'recebido almoxarifado' ||
+                status == 'cancelada' || status == 'retirado' || status == 'aguardando autorização' ||
+                status == 'validação almoxarife';
         }
     }
+
+    hasCancel = () => {
+        let check: boolean = false;
+        this.status.forEach(status => {
+            if (status.nome == 'cancelada') check = true;
+            console.log(status.nome);
+        });
+        return check;
+    };
+
     checkPermission: (permission: string) => boolean;
 }

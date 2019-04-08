@@ -17,18 +17,18 @@
             </h3>
 
             <section *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ||
-                     isStaticStatus(solicitacao?.status?.nome)">
+                     isFinalStatus(solicitacao?.status?.nome) || solicitacao?.status?.nome == 'aguardando produto'">
                 <h3 class="title-label"> Status: <b>{{ solicitacao?.status?.nome }}</b></h3>
             </section>
 
             <section class="status-container"
                      *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') &&
-                      !isStaticStatus(solicitacao?.status?.nome)">
+                      !isFinalStatus(solicitacao?.status?.nome) && solicitacao?.status?.nome != 'aguardando produto'">
                 <h3 class="title-label"> Status:</h3>
                 <select id="status-solicitacao" (change)="setStatus()">
                     <option *ngFor="let stat of status" value="{{ stat?.id }}"
                             [selected]="stat?.nome == solicitacao?.status?.nome"
-                            [hidden]="isStaticStatus(stat?.nome)">
+                            [hidden]="isFinalStatus(stat?.nome)">
                         {{ stat?.nome }}
                     </option>
                 </select>
@@ -76,7 +76,7 @@
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
                 <button (click)="cancel()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && solicitacao?.status?.statusPermitido.includes(solicitacao?.status)"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && hasCancel()"
                         name="cancelar" class="button button-border-all button-light-danger">
                     Cancelar
                 </button>
@@ -98,7 +98,8 @@
                     Aprovar
                 </button>
                 <button (click)="finish()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') && solicitacao?.status?.nome == 'aguardando produto'"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') &&
+                        solicitacao?.status?.nome == 'aguardando produto'"
                         class="button button-border-all  button-success">
                     Finalizar
                 </button>

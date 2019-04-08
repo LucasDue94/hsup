@@ -23,9 +23,9 @@ export class SolicitacaoService {
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, offset?: any): Observable<Solicitacao[]> {
+    list(max?: any, offset?: any, perfil?: any): Observable<Solicitacao[]> {
         let subject = new Subject<Solicitacao[]>();
-        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers})
+        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}&perfil=${perfil}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['solicitacao'].map((solicitacao: any) => new Solicitacao(solicitacao)))
@@ -107,7 +107,7 @@ export class SolicitacaoService {
     cancel(solicitacao: Solicitacao): Observable<Solicitacao> {
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/cancel/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
                 headers: this.httpOptions.headers,
                 responseType: 'json'
             });
@@ -117,7 +117,7 @@ export class SolicitacaoService {
     deny(solicitacao: Solicitacao): Observable<Solicitacao> {
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/deny/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
                 headers: this.httpOptions.headers,
                 responseType: 'json'
             });
@@ -127,10 +127,17 @@ export class SolicitacaoService {
     approval(solicitacao: Solicitacao): Observable<Solicitacao> {
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/approval/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
                 headers: this.httpOptions.headers,
                 responseType: 'json'
             });
+        }
+    }
+
+    finish(solicitacao: Solicitacao): Observable<Solicitacao> {
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/finish/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao.id, {headers: this.httpOptions.headers, responseType: 'json'});
         }
     }
 
@@ -139,20 +146,4 @@ export class SolicitacaoService {
             return Observable.of(false);
         });
     }
-
-    finish(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
-        if (solicitacao.id) {
-            const url = this.baseUrl + 'solicitacao/finish/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
-        }
-    }
-
-
 }

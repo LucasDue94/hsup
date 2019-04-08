@@ -124,9 +124,11 @@ class StatusSolicitacao {
 
         emCotacao.addToStatusPermitido(cancelada)
         emCotacao.addToStatusPermitido(aguardandoProduto)
+        emCotacao.addToStatusPermitido(aguardandoSolicitante)
 
         aguardandoSolicitante.addToStatusPermitido(cancelada)
         aguardandoSolicitante.addToStatusPermitido(aguardandoProduto)
+        aguardandoSolicitante.addToStatusPermitido(emCotacao)
 
         aguardandoProduto.addToStatusPermitido(recebidoAlmoxarifado)
 
