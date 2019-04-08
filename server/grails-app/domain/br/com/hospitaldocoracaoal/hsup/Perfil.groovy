@@ -14,7 +14,8 @@ class Perfil implements Serializable {
 
     String name
 
-    static hasMany = [permissoes: Permissoes]
+    static belongsTo = [StatusSolicitacao]
+    static hasMany = [permissoes: Permissoes, status: StatusSolicitacao]
 
     static constraints = {
         name nullable: false, blank: false, unique: true

@@ -15,7 +15,7 @@ class StatusSolicitacao {
 
     String nome
     Integer peso
-    static hasMany = [statusPermitido: StatusSolicitacao]
+    static hasMany = [statusPermitido: StatusSolicitacao, perfis: Perfil]
 
     static constraints = {
         nome nullable: false, blank: false
