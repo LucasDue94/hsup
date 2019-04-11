@@ -76,7 +76,7 @@
                 <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
 
                 <button (click)="cancel()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && hasCancel()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && hasCancel() && solicitacao?.status?.nome != 'cancelada'"
                         name="cancelar" class="button button-border-all button-light-danger">
                     Cancelar
                 </button>

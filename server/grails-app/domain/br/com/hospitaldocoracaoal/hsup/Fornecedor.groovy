@@ -12,7 +12,7 @@ class Fornecedor {
     static constraints = {
         fantasia nullable: false, blank: false, unique: true
         ativo nullable: false
-        telefone nullable: true, blank: false
-        email nullable: true, blank: false
+        telefone nullable: true
+        email nullable: true
     }
 }

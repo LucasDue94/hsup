@@ -18,28 +18,9 @@ abstract class SolicitacaoService {
 
     PagedResultList<Solicitacao> list(Map args, String termo) {
         def criteria = Solicitacao.createCriteria()
-        def principal = springSecurityService.principal
-        Usuario usuarioLogado = Usuario.get principal.id
-
-        def permission = usuarioLogado.perfil.permissoes.findAll {
-            it.authority == 'ROLE_SOLICITACAO_LISTALMOXARIFE' || it.authority == 'ROLE_SOLICITACAO_LISTCOMPRADOR'
-        }
 
         criteria.list(args) {
             this.listCriteria(args, criteria, termo)
-            if (usuarioLogado && permission.size() == 0) {
-                responsavel {
-                    or {
-                        eq 'id', usuarioLogado.id
-
-                        setor {
-                            gestor {
-                                eq 'id', usuarioLogado.id
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -167,7 +148,6 @@ abstract class SolicitacaoService {
         def solicitacao = Solicitacao.get id
         StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECUSADA_ID
         checkStatusPermitido solicitacao, status
-
     }
 
     void approval(Serializable id) {
@@ -207,12 +187,19 @@ abstract class SolicitacaoService {
     }
 
     def listCriteria = { Map args, builder, String termo ->
+        def principal = springSecurityService.principal
+        Usuario usuarioLogado = Usuario.get principal.id
+
         if (!args.containsKey('sort')) {
             builder.status {
                 builder.order('peso', 'desc')
             }
             builder.order('urgente', 'desc')
             builder.order('dateCreated', 'asc')
+        }
+
+        def permission = usuarioLogado.perfil.permissoes.findAll {
+            it.authority == 'ROLE_SOLICITACAO_LISTALMOXARIFE' || it.authority == 'ROLE_SOLICITACAO_LISTCOMPRADOR'
         }
 
         if (termo != null && !termo.isEmpty()) {
@@ -234,6 +221,20 @@ abstract class SolicitacaoService {
 
                 builder.status {
                     builder.ilike('nome', "%${termo}%")
+                }
+            }
+        }
+
+        if (permission.size() == 0) {
+            builder.responsavel {
+                builder.or {
+                    builder.eq 'id', usuarioLogado.id
+
+                    builder.setor {
+                        builder.gestor {
+                            builder.eq 'id', usuarioLogado.id
+                        }
+                    }
                 }
             }
         }

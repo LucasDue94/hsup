@@ -17,7 +17,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     solicitacao = new Solicitacao();
     searchControl: FormControl;
     searchForm: FormGroup;
-    status: StatusSolicitacao[];
+    status: StatusSolicitacao[] = [];
     message: string;
     currentStatusId;
     currentUser;
@@ -33,7 +33,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
                 this.solicitacao = solicitacao;
                 this.status = solicitacao.status.statusPermitido;
                 this.status.push(solicitacao.status);
-                console.log(solicitacao.status);
             });
         });
 
@@ -123,7 +122,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         let check: boolean = false;
         this.status.forEach(status => {
             if (status.nome == 'cancelada') check = true;
-            console.log(status.nome);
         });
         return check;
     };

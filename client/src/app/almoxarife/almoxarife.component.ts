@@ -38,7 +38,6 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
             if (params.hasOwnProperty('id')) {
                 this.solicitacaoService.get(params.id).subscribe((solicitacao: Solicitacao) => {
                     this.solicitacao = solicitacao;
-                    console.log(solicitacao.status);
                     this.buildForm();
                 });
             }
@@ -196,7 +195,6 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
                 delete solicitacaoItem.item.produto.descricao;
             }
             this.itemService.save(solicitacaoItem.item as Item).subscribe((item: Item) => {
-                console.log(solicitacaoItem);
 
             }, (res: any) => {
                 const json = res.error;

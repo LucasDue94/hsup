@@ -3,7 +3,6 @@ import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { Solicitacao } from "../core/solicitacao/solicitacao";
 import { FormControl, FormGroup } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
 
 @Component({
     selector: 'solicitacao',
