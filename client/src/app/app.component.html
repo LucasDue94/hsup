@@ -3,18 +3,18 @@
         <hcal-link *ngIf="checkPermission('ROLE_SOLICITACAO_INDEX')" [iconLink]="'clipboard-list'"
                    [sizeLink]="'small'" [routerLinkName]="'solicitacao'" [titleLink]="'Solicitação'"
                    main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_FABRICANTE_INDEX')" [iconLink]="'industry'"
+        <hcal-link *ngIf="currentUser.getItem('perfil') == 'ADMIN'" [iconLink]="'industry'"
                    [sizeLink]="'small'" [routerLinkName]="'fabricante'" [titleLink]="'Fabricantes'"
                    main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_FORNECEDOR_INDEX')" [iconLink]="'briefcase'"
+        <hcal-link *ngIf="currentUser.getItem('perfil') == 'ADMIN'" [iconLink]="'briefcase'"
                    [sizeLink]="'small'" [routerLinkName]="'fornecedor'" [titleLink]="'Fornecedores'"
                    main-menu></hcal-link>
-        <hcal-link  *ngIf="checkPermission('ROLE_PERFIL_INDEX')" [iconLink]="'user-circle'"
+        <hcal-link  *ngIf="currentUser.getItem('perfil') == 'ADMIN'" [iconLink]="'user-circle'"
                    [sizeLink]="'small'" [routerLinkName]="'perfil'"
                    [titleLink]="'Perfil'" main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_USUARIO_INDEX')" [iconLink]="'user'" [routerLinkName]="'usuario'"
+        <hcal-link *ngIf="currentUser.getItem('perfil') == 'ADMIN'" [iconLink]="'user'" [routerLinkName]="'usuario'"
                    [sizeLink]="'small'" [titleLink]="'Usuários'" main-menu></hcal-link>
-        <hcal-link *ngIf="checkPermission('ROLE_SETOR_INDEX')" [iconLink]="'users'" [routerLinkName]="'setor'"
+        <hcal-link *ngIf="currentUser.getItem('perfil') == 'ADMIN'" [iconLink]="'users'" [routerLinkName]="'setor'"
                    [sizeLink]="'small'" [titleLink]="'Setores'" main-menu></hcal-link>
     </div>
 </hcal-aside-bar>

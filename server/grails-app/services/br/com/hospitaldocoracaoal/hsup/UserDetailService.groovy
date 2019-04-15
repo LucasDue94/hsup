@@ -25,7 +25,7 @@ class UserDetailService implements GrailsUserDetailsService {
 
         return new UserDetail(usuario.username, usuario.password, usuario.enabled, !usuario?.accountExpired,
                 !usuario?.accountExpired, !usuario?.accountLocked, authorities ?: NO_ROLES, usuario.id,
-                usuario.name, usuario.setor?.nome)
+                usuario.name, usuario.setor?.nome, usuario.perfil?.name)
     }
 
     @Override

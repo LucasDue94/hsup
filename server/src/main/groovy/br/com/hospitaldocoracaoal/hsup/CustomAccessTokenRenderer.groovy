@@ -12,6 +12,7 @@ class CustomAccessTokenRenderer implements AccessTokenJsonRenderer {
                 id: accessToken.principal.id,
                 name: accessToken.principal.name,
                 setor: accessToken.principal.setor,
+                perfil: accessToken.principal.perfil,
                 username: accessToken.principal.username,
                 access_token: accessToken.accessToken,
                 roles: accessToken.principal.authorities.collect{ it.authority }
