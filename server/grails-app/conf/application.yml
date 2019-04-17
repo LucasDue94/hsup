@@ -63,6 +63,12 @@ grails:
     converters:
         encoding: UTF-8
 
+
+environments:
+    production:
+        grails:
+            resources:
+                pattern: /**
 ---
 grails:
     cors:

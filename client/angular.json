@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "../server/src/main/webapp",
             "baseHref": "/hsup/",
             "deployUrl": "/hsup/",
             "index": "src/index.html",
