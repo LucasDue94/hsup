@@ -3,7 +3,7 @@
     <h4 class="title-back-link">Voltar</h4>
 </a>
 <div class="clearfix"></div>
-<h3 class="title-component">{{ this.constructor.name | slice : 0:-13 }} - Visualização</h3>
+<h3 class="title-component">{{ constructor.name | slice : 0:-13 }} - Visualização</h3>
 <div class="content col-2 show-container float-left">
     <div class="width-auto float-left bg-blue show-head">
         <span class="icon-show-head">
@@ -15,12 +15,6 @@
             <span class="title-span-show">descrição</span>
             <span class="content-span-show offset-1">
                 {{ item.descricao }}
-            </span>
-        </div>
-        <div class="col-12 float-left">
-            <span class="title-span-show">un. medida</span>
-            <span class="content-span-show offset-1">
-                {{ item.unidadeMedida }}
             </span>
         </div>
         <div class="col-12 float-left">

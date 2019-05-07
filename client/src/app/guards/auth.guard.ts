@@ -9,11 +9,16 @@ export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-        if (sessionStorage.getItem('token') != null) {
-            return true;
-        } else {
+        if (localStorage.getItem('token') == null) {
             this.router.navigate(['/']);
             return false;
         }
+
+        if (route.firstChild && !this.authService.hasPermission(route.firstChild.data.permissao)) {
+            this.router.navigate(['/erro']);
+            return false;
+        }
+
+        return true;
     }
 }

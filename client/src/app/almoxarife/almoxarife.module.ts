@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlmoxarifeComponent } from "./almoxarife.component";
-import { HcalSharedModule } from "hcal";
+import { HcalSharedModule, ModalModule, TableModule } from "hcal";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AlmoxarifeComponent } from "./almoxarife.component";
 
 import {
     PERFECT_SCROLLBAR_CONFIG,
     PerfectScrollbarConfigInterface,
     PerfectScrollbarModule
 } from 'ngx-perfect-scrollbar';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -20,12 +21,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         HcalSharedModule,
         PerfectScrollbarModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TableModule,
+        InfiniteScrollModule,
+        ModalModule
     ],
     declarations: [
-        AlmoxarifeComponent
-    ],
-    exports: [
         AlmoxarifeComponent
     ],
     providers: [{
@@ -35,3 +36,5 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 })
 export class AlmoxarifeModule {
 }
+
+

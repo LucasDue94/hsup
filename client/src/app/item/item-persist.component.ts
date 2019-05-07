@@ -38,7 +38,7 @@ export class ItemPersistComponent implements OnInit {
     }
 
     fornecedorList () {
-        this.fornecedorService.list('', '', '').subscribe((fornecedorList: Fornecedor[]) => {
+        this.fornecedorService.list('', '').subscribe((fornecedorList: Fornecedor[]) => {
             fornecedorList.forEach(f => {
                 this.aFornecedores.push(f)
             });
@@ -48,7 +48,7 @@ export class ItemPersistComponent implements OnInit {
     }
 
     fabricanteList () {
-        this.fabricanteService.list('', '', '').subscribe((fabricanteList: Fabricante[]) => {
+        this.fabricanteService.list('', '').subscribe((fabricanteList: Fabricante[]) => {
             fabricanteList.forEach(f => {
                 this.aFabricantes.push(f)
             });
@@ -58,7 +58,7 @@ export class ItemPersistComponent implements OnInit {
     }
 
     save() {
-        this.itemService.save(this.item).subscribe((item: Item) => {
+        this.itemService.save(this.item).subscribe((item: any) => {
             if (this.item.id != null) {
                 this.message = `Item ${this.item.descricao} alterado com sucesso!`;
             } else {

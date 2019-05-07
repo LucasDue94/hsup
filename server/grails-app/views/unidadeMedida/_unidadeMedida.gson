@@ -1,7 +1,0 @@
-import br.com.hospitaldocoracaoal.hsup.UnidadeMedida
-
-model {
-	UnidadeMedida unidadeMedida
-}
-
-json g.render(unidadeMedida, [resolveTemplate: false])

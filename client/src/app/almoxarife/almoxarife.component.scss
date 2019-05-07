@@ -1,11 +1,14 @@
 @import '../../color.scss';
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import '~wfk-poppins/poppins';
+@import '../../fonts/roboto';
 
 .container-header {
-  margin-bottom: 5em;
+  margin-bottom: 1em;
+
   & {
     color: $brown;
-    font-family: "Poppins SemiBold", sans-serif;
+    font-family: "$poppins-regular", sans-serif;
   }
 
   .title-header {
@@ -13,31 +16,45 @@
     margin-bottom: 20px;
   }
 
-  .label {
-    display: inline;
-    font-family: "Poppins ExtraLight", sans-serif;
-    margin-right: 5px;
-  }
+  .content-header {
+    display: flex;
+    justify-content: space-between;
 
-  .label-description {
-    display: inline;
+    & > * {
+      text-transform: capitalize;
+      margin: 0;
+
+      .title-label {
+        font-weight: normal;
+        margin-bottom: 3px;
+
+        .title-value {
+          font-size: 18px;
+        }
+      }
+
+      .urgente {
+        color: $danger;
+      }
+    }
   }
 }
 
 .container-request {
-  height: 61%;
+  height: 60%;
   min-height: 420px;
 
   & {
     color: $brown;
-    font-family: "Poppins Light", sans-serif;
+    font-family: "$poppins-regular Light", sans-serif;
     background-color: $mediumGrayTransparent;
     border-radius: 20px;
   }
+
   .title {
     display: inline-block;
     margin-top: 0.8em;
-    font-family: "Poppins ExtraBold", sans-serif;
+    font-family: "$poppins-regular ExtraBold", sans-serif;
     text-align: center;
   }
 
@@ -46,10 +63,11 @@
   }
 
   .main-content {
-    padding: 10px 5px 10px 20px;
+    padding: 10px;
     height: 75%;
     min-height: 200px;
     width: 95%;
+
     & {
       background-color: rgba($lightGray, 0.7);
       border-radius: 10px;
@@ -67,13 +85,14 @@
       right: 15px;
       top: 1.2em;
 
-      @media screen and (max-width: 1024px){
+      @media screen and (max-width: 1024px) {
         font-size: 0.9em;
         top: 1.5em;
         right: 25px;
       }
     }
   }
+
   .arrows-icon {
     float: left;
     font-size: 1.5em;
@@ -96,11 +115,12 @@
   display: inline-block;
   float: left;
   margin-bottom: 10px;
-  font-family: "Poppins", sans-serif;
+  font-family: "$poppins-regular", sans-serif;
 
   .request-label {
-    position: relative;
+    float: left;
     display: block;
+
     & {
       font-size: 0.8em;
     }
@@ -109,6 +129,7 @@
   .request-item {
     position: relative;
     width: 100%;
+
     & {
       font-family: inherit;
       background-color: transparent;
@@ -118,15 +139,16 @@
       color: $brown;
     }
 
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1024px) {
       font-size: 1em;
     }
   }
 
   .request-input-line-bottom {
     position: relative;
-    padding-right: 5px;
+    //padding-right: 5px;
     width: 100%;
+
     & {
       text-align: left;
       font-size: 1.2em;
@@ -137,7 +159,8 @@
       background-color: transparent;
       border-bottom: 1px solid $mediumGray;
     }
-    @media screen and (max-width: 1024px){
+
+    @media screen and (max-width: 1024px) {
       font-size: 1em;
     }
   }
@@ -157,7 +180,6 @@
 }
 
 .item {
-  width: 100%;
   z-index: 99;
   position: relative;
   padding: 5px;
@@ -171,14 +193,59 @@
 }
 
 .scrollProducts {
-  width: 100%;
-  opacity: 0;
-  display: inline;
+  position: relative;
+  margin: 0;
+  width: 95%;
   z-index: 99;
   max-height: 200px;
+
+}
+
+.request-form-group {
+
+  perfect-scrollbar {
+    .ps {
+      width: 100%;
+    }
+
+    .ps--active-y {
+      border: 1px solid red;
+    }
+
+    .ps-content {
+      margin: 0;
+      width: 100%;
+    }
+  }
+}
+
+.prod-not-found {
+  position: relative;
+
+  & {
+    padding: 10px auto;
+    text-align: center;
+    border-radius: 0 0 6px 6px;
+    z-index: 5;
+    background: $lightDanger;
+    color: $white;
+  }
+}
+
+.scrollProducts > .ps {
+  width: unset;
 }
 
 .btn-almoxarife {
   margin-top: 10px;
   margin-left: 5px;
 }
+
+.scroll {
+  width: 100%;
+  position: relative;
+  overflow-y: scroll;
+  max-height: 200px;
+  z-index: 4;
+}
+

@@ -3,33 +3,49 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Setor } from './setor';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class SetorService {
 
-    private baseUrl = 'http://localhost:8080/';
+    private baseUrl = environment.serverUrl;
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Setor[]> {
+    list(max?: any, offset?: any): Observable<Setor[]> {
         let subject = new Subject<Setor[]>();
-        this.http.get(this.baseUrl + `setor?offset=${offset}&max=${max}`, {params: {nome: searchTerm}})
+        this.http.get(this.baseUrl + `setor?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['setor'].map((item: any) => new Setor(item)))
+                subject.next(json['setor'].map((setor: any) => new Setor(setor)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'setor';
+        let subject = new Subject<Setor[]>();
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['setor'].map((setor: any) => new Setor(setor)))
             });
         return subject.asObservable();
     }
 
     count() {
         let quantity: number;
-        return this.http.get<Setor[]>(this.baseUrl + 'setor/')
+        return this.http.get<Setor[]>(this.baseUrl + 'setor/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -40,7 +56,7 @@ export class SetorService {
 
     get(id: number): Observable<Setor> {
         let setor;
-        return this.http.get(this.baseUrl + 'setor/' + id)
+        return this.http.get(this.baseUrl + 'setor/' + id, {headers: this.headers})
             .map((r: Response) => {
                 setor = new Setor(r);
                 return setor
@@ -50,7 +66,8 @@ export class SetorService {
     save(setor: Setor): Observable<Setor> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 
@@ -66,7 +83,7 @@ export class SetorService {
     }
 
     destroy(setor: Setor): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'setor/' + setor.id).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'setor/' + setor.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

@@ -3,16 +3,27 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.services.Service
 
 @Service(Permissoes)
-interface PermissoesService {
+abstract class PermissoesService {
 
-    Permissoes get(Serializable id)
+    abstract Permissoes get(Serializable id)
 
-    List<Permissoes> list(Map args)
+    List<Permissoes> list(Map args, String termo) {
+        def criteria = Permissoes.createCriteria()
+        List<Permissoes> permissoesList = (List<Permissoes>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('authority', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return permissoesList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Permissoes save(Permissoes permissoes)
+    abstract void delete(Serializable id)
+
+    abstract Permissoes save(Permissoes permissoes)
 
 }

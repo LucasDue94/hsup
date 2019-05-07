@@ -7,10 +7,6 @@ model {
 json {
 	produto tmpl.produto(produtoList ?: [])
 	total Produto.count
-}
-
-
-model {
-	Iterable<Fornecedor> fornecedorList
+	countList produtoList?.size()
 }
 

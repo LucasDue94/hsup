@@ -1,15 +1,17 @@
 package br.com.hospitaldocoracaoal.hsup
 
-class Item {
+import br.com.hospitaldocoracaoal.hsup.integracao.Produto
 
+class Item {
     String descricao
     Boolean ativo
+    Produto produto
 
-    static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor, unidadeMedida: UnidadeMedida]
+    static hasMany = [fabricante: Fabricante, fornecedor: Fornecedor]
 
     static constraints = {
-        descricao nullable: false, blank: false
-        unidadeMedida nullable: false, blank: false
+        descricao nullable: false, blank: false, unique: true
+        produto nullable: true
         ativo nullable: false, blank: false
     }
 }

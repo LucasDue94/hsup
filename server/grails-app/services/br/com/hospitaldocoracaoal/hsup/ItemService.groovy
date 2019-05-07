@@ -3,16 +3,27 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.services.Service
 
 @Service(Item)
-interface ItemService {
+abstract class ItemService {
 
-    Item get(Serializable id)
+    abstract Item get(Serializable id)
 
-    List<Item> list(Map args)
+    List<Item> list(Map args, String termo) {
+        def criteria = Item.createCriteria()
+        List<Item> itemList = (List<Item>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('descricao', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return itemList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Item save(Item item)
+    abstract void delete(Serializable id)
+
+    abstract Item save(Item item)
 
 }

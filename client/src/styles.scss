@@ -1,5 +1,7 @@
 @import 'color';
-@import url('https://fonts.googleapis.com/css?family=Poppins');
+@import '~wfk-poppins/poppins';
+@import 'fonts/roboto';
+
 
 html, body {
   height: 100%;
@@ -182,7 +184,8 @@ html, body {
 
 .form-group {
   float: left;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+  position: relative;
 
   & .form-control:not(textarea) {
     height: 40px;
@@ -194,7 +197,7 @@ html, body {
   margin-left: 12px;
 
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 1em;
     text-align: left;
     color: $blue;
@@ -234,7 +237,7 @@ html, body {
 
 .checkbox-label, .radio-label {
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 0.9em;
     text-align: left;
     color: $blue;
@@ -292,7 +295,7 @@ html, body {
     content: "";
     border: 2px solid $blue;
     border-radius: 2px;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 20px;
     line-height: 0.35em;
     font-weight: bold;
@@ -404,7 +407,7 @@ html, body {
 
         & {
           font-size: 1em !important;
-          font-family: Poppins, sans-serif !important;
+          font-family: $poppins-regular, sans-serif !important;
           color: $blue !important;
         }
       }
@@ -418,14 +421,14 @@ html, body {
 }
 
 .button {
-  min-width: auto;
   position: relative;
   display: inline-block;
   height: 30px;
+  margin-right: 20px;
 
   & {
     opacity: 1;
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     letter-spacing: 2px;
     font-size: 15px;
     outline: none;
@@ -438,6 +441,22 @@ html, body {
     opacity: 0.7;
     transition: 0.7s;
   }
+}
+
+.button-group {
+  .button:last-child {
+    margin-right: 0;
+  }
+}
+
+.button-reverse {
+  & {
+    border-radius: 0 5px 0 7px !important;
+  }
+}
+
+.button-border-all {
+  border-radius: 4px;
 }
 
 .button-blue {
@@ -474,6 +493,14 @@ html, body {
   }
 }
 
+.button-light-danger {
+  & {
+    color: $white;
+    background-color: $lightDanger;
+    border-bottom: 3.5px solid $danger;
+  }
+}
+
 .button-warning {
   & {
     color: $white;
@@ -485,8 +512,8 @@ html, body {
 .button-success {
   & {
     color: $white;
-    background-color: $green;
-    border-bottom: 3.5px solid $lightGreen;
+    background-color: $lightGreen;
+    border-bottom: 3.5px solid $green;
   }
 }
 
@@ -504,6 +531,11 @@ html, body {
     background-color: $blue;
     border-bottom: 3.5px solid $green;
   }
+}
+
+.urgente-text {
+  color: $danger;
+  font-weight: bold;
 }
 
 .content {
@@ -633,6 +665,8 @@ html, body {
         background: rgba($white, 0.1);
         border-radius: 3px;
       }
+
+      outline: none;
     }
 
     &.pagination-next {
@@ -712,6 +746,10 @@ html, body {
   background: $blue;
 }
 
+.bg-gray {
+  background: $grayWizard;
+}
+
 .button-transparent {
   & {
     color: $white;
@@ -731,10 +769,10 @@ html, body {
   background: $lightDanger;
 }
 
-.bg-success{
+.bg-success {
   background-color: $green;
 
-  &.notification-body{
+  &.notification-body {
     background-color: $lightGreen;
   }
 }
@@ -769,6 +807,10 @@ html, body {
 
 .color-danger {
   color: $danger;
+}
+
+.color-gray {
+  color: $gray;
 }
 
 .color-success {
@@ -998,18 +1040,18 @@ html, body {
   height: 50px;
   right: 30px;
   z-index: 50;
-}
 
-.container-floating .floating-button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #00aba5;
-  position: fixed;
-  bottom: 70px;
-  right: 50px;
-  cursor: pointer;
-  box-shadow: 0 1px 4px #666;
+  .floating-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #00aba5;
+    position: fixed;
+    bottom: 70px;
+    right: 50px;
+    cursor: pointer;
+    box-shadow: 0 1px 4px #666;
+  }
 }
 
 .a-link-page {
@@ -1043,7 +1085,9 @@ html, body {
   display: none;
 }
 
-.icon-image {
+.icon-nav {
+  line-height: 2em;
+
   & {
     color: $white;
     cursor: pointer;
@@ -1143,6 +1187,7 @@ html, body {
 
 .table-default, .thead-default, .trow-content, .tdata-default {
   padding: 10px;
+  text-transform: capitalize;
 }
 
 .back-icon-link, .back-text-link {
@@ -1156,7 +1201,7 @@ html, body {
 }
 
 .title-back-link {
-  font-family: 'Poppins', serif;
+  font-family: '$poppins-regular', serif;
   margin-bottom: 10px;
 
   & {
@@ -1190,6 +1235,7 @@ html, body {
 
 .filter-control {
   transition: 0.7s;
+  border-radius: 8px;
 
   &:focus, &:hover {
     width: 100%;
@@ -1198,7 +1244,7 @@ html, body {
 }
 
 .not-found-error {
-  font-family: Poppins, serif;
+  font-family: $poppins-regular, sans-serif;
   color: $lightDanger;
 }
 
@@ -1265,7 +1311,7 @@ html, body {
   text-align: justify;
 
   & {
-    font-family: Poppins, sans-serif;
+    font-family: $poppins-regular, sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: $white;
@@ -1283,4 +1329,97 @@ html, body {
 .input-without-line {
   border: none;
   background-color: transparent;
+}
+
+.input-line-bottom {
+  outline: none;
+
+  & {
+    border: none;
+    background: transparent;
+    padding: 4px 0;
+  }
+
+  &:focus + label, &.active + label {
+    margin-top: -1%;
+    transition: 0.1s;
+
+    & {
+      font-size: 0.8em;
+    }
+  }
+
+  & + label {
+    position: absolute;
+    left: 30px;
+    cursor: default;
+    transition: 0.1s;
+
+    & {
+      font-family: $poppins-regular, sans-serif;
+      font-size: 1em;
+    }
+  }
+}
+
+.error-span {
+  font-family: $poppins-regular, sans-serif;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+
+  & {
+    background: $lightDanger;
+    color: $white;
+    transition: 0.7s;
+  }
+
+  .angry-error {
+    font-size: 20px;
+  }
+}
+
+.container-scroll {
+  border: 1px solid black;
+  height: 100px;
+  overflow: scroll;
+}
+
+
+.upper-text {
+  text-transform: uppercase !important;
+}
+
+.loading-style {
+  font-family: $poppins-regular, sans-serif;
+}
+
+.tooltip, .tooltip-show {
+  font: bold 0.9em $poppins-regular, sans-serif;
+  color: $blue !important;
+}
+
+.current-user {
+  cursor: default;
+  margin-right: 15px;
+
+  & {
+    color: $white;
+    font-size: 1em;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-family: $poppins-regular, sans-serif;
+  }
+}
+
+.select-default {
+  background-color: $white;
+  font: 15px $poppins-regular, sans-serif;
+  max-height: 300px;
+
+  .option-default {
+    padding: 5px;
+    border-bottom: 1px solid $gray;
+  }
 }

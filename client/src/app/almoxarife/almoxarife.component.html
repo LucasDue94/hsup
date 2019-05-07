@@ -1,30 +1,31 @@
-<header class="container-header col-11" #header>
+<header class="container-header col-11">
     <section class="title-header col-12">
         <h2>Associação</h2>
         <h2>Item x Produto WPD</h2>
     </section>
 
-    <aside class="float-left col-6">
-        <h4 class="label">Solicitante:</h4>
-        <h3 class="label-description">{{requestUser}}</h3>
-    </aside>
+    <section class="col-12 content-header">
+        <div>
+            <h4 class="title-label">Nºda Solicitação: <b class="title-value">{{ solicitacao?.id }}</b></h4>
+            <h4 class="title-label">Solicitante: <b class="title-value">{{ solicitacao?.responsavel?.name }}</b></h4>
+            <h4 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor?.nome }} </b></h4>
+        </div>
+        <div>
+            <h4 class="title-label">Prioridade:
+                <b [ngClass]="[solicitacao?.urgente ? 'urgente' : 'normal', 'title-value']">
+                    {{ solicitacao?.urgente ? 'urgente' : 'normal' }}
+                </b>
+            </h4>
+            <h4 class="title-label"> Data: <b
+                    class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
 
-    <aside class="float-right text-right col-6">
-        <h4 class="label">Nº da Solicitação:</h4>
-        <h3 class="label-description"> {{requestNumber}}</h3>
-    </aside>
-
-    <aside class="float-left col-6">
-        <h4 class="label">Setor:</h4>
-        <h3 class="label-description">{{sector}}</h3>
-    </aside>
-
-    <aside class="float-right text-right col-6">
-        <h4 class="label">Data:</h4>
-        <h3 class="label-description">{{date}}</h3>
-    </aside>
+            </h4>
+            <h4 class="title-label"> Status:
+                <b>{{ solicitacao?.status?.nome }}</b>
+            </h4>
+        </div>
+    </section>
 </header>
-
 <main class="container-request col-11">
     <header class="main-content-header col-12">
         <aside class="left-aside col-6">
@@ -34,64 +35,72 @@
             <h2 class="title col-12">PRODUTO WPD</h2>
         </aside>
     </header>
+
+    <hcal-modal *ngIf="this.message != null" [modalMessage]="this.message"
+                [modalType]="errors != null || errors != undefined ? 'success' : 'danger'"></hcal-modal>
     <section class="main-content">
         <perfect-scrollbar>
-            <section class="section-line col-12" *ngFor="let itemRequest of itemsRequest; index as i">
-                <aside class="float-left col-4">
-                    <div class="request-form-group col-10">
-                        <label class="request-label label-left col-6"><I></I>Item</label>
-                        <input title="Descrição do Item" class="request-item col-6" value="{{itemRequest.descricao}}"
-                               disabled>
-                    </div>
-                    <div class="request-form-group col-2">
-                        <label class="request-label label-right col-12">Qnt</label>
-                        <input title="Quantidade de Itens" class="request-item text-right  col-12"
-                               value="{{itemRequest.qnt}}"
-                               type="text">
-                    </div>
-                </aside>
-                <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
+            <section class="section-line col-12" [formGroup]="form" *ngFor="let item of solicitacao.itens; index as i">
+                <div formGroupName="{{i}}">
+                    <aside class="float-left col-4">
+                        <div class="request-form-group col-9">
+                            <label for="descItem{{i}}" class="request-label label-left col-6"><I></I>Item</label>
+                            <input id="descItem{{i}}" formControlName="descricao" class="request-item col-6" readonly>
+                        </div>
 
-                <aside class="right-aside col-7">
-                    <div class="request-form-group col-7" [formGroup]="this.formControls" #searchContainer>
-                        <label class="request-label label-left col-6">Produto</label>
-                        <input title="" (blur)="clearInputs($event.target ,i)"
-                               (focus)="find($event.target)" formControlName="searchField{{i}}"
-                               class="request-input-line-bottom col-12" type="text" #search>
-                        <perfect-scrollbar class="scrollProducts"
-                                           *ngIf="wpdProducts.length > 0 && wpdProducts != [] && search.value != '' && currentInput == search">
-                            <div class="items">
-                                <div (click)="select($event.target, search, itemWpd, i)" (mouseover)="verify(true)" (mouseout)="verify(false)" class="item"
-                                     *ngFor="let itemWpd of wpdProducts" #list>{{itemWpd.descricao}}
+                        <div class="request-form-group col-3">
+                            <label for="qntItem{{i}}" class="request-label label-left col-12">Qnt</label>
+                            <input id="qntItem{{i}}" formControlName="quantidade" class="request-item col-12"
+                                   value="{{qnt.value}}" type="text" readonly #qnt>
+                        </div>
+                    </aside>
+                    <fa-icon class="arrows-icon col-1" [icon]="['fas', 'arrows-alt-h']"></fa-icon>
+                    <aside class="right-aside col-7" formGroupName="produto">
+
+                        <div class="request-form-group col-7">
+                            <label for="{{i}}" class="request-label label-left col-6">Produto</label>
+                            <input id="{{i}}" class="request-input-line-bottom col-12" type="text"
+                                   formControlName="descricao" autocomplete="off"
+                                   (focus)="find($event.target)" (blur)="closeList(input)" #input>
+
+                            <div id="scroll{{i}}" class="scroll" infiniteScroll [scrollWindow]="false" [hidden]="true"
+                                 (scrolled)="find(input, true)">
+                                <div (click)="select(wpdPro, input)" class="item"
+                                     *ngFor="let wpdPro of wpdProducts">
+                                    {{wpdPro.descricao}}
                                 </div>
                             </div>
-                        </perfect-scrollbar>
-                    </div>
 
-                    <div class="request-form-group col-2">
-                        <label class="request-label label-right col-12">Código</label>
-                        <input title="Código" id="codPro{{i}}" class="request-item text-right col-12" value=""
-                               disabled #codPro>
-                    </div>
-                    <div class="request-form-group col-2">
-                        <label class="request-label label-right col-12">Estoque</label>
-                        <input title="Estoque WPD" id="stock{{i}}" class="request-item text-right col-12" value=""
-                               disabled #stock>
-                    </div>
-                </aside>
+                            <div class="prod-not-found col-12" [hidden]="true">
+                                {{notFoundMessage}}
+                            </div>
+                        </div>
 
-                <fa-icon *ngIf="stock.value >= itemRequest.qnt && stock.value > 0 && stock.value!= ''"
-                         class="color-success icon-status col-1" [icon]="['fas', 'check']"></fa-icon>
-                <fa-icon *ngIf="stock.value >0 && stock.value < itemRequest.qnt && stock.value!= ''"
-                         class="color-warning icon-status col-1" [icon]="['fas', 'exclamation-circle']"></fa-icon>
-                <fa-icon *ngIf="stock.value == 0 && stock.value!= ''" class="color-danger icon-status col-1"
-                         [icon]="['fas', 'times']"></fa-icon>
+                        <div class="request-form-group col-2">
+                            <label for="codPro{{i}}" class="request-label label-right col-12">Código</label>
+                            <input id="codPro{{i}}" formControlName="id" class="request-item text-right col-12"
+                                   readonly>
+                        </div>
+                        <div class="request-form-group col-2">
+                            <label for="estPro{{i}}" class="request-label label-right col-12">Estoque</label>
+                            <input id="estPro{{i}}" formControlName="estoque" class="request-item text-right col-12"
+                                   readonly>
+                        </div>
+                    </aside>
+                </div>
             </section>
         </perfect-scrollbar>
     </section>
 </main>
 <div class="col-11">
-    <button class="float-right button button-blue btn-almoxarife col-2">Finalizar</button>
-    <button class="float-right button btn-almoxarife col-2">Voltar</button>
-</div>
+    <button *ngIf="checkPermission('ROLE_SOLICITACAO_VALIDAALMOXARIFE') && solicitacao?.status?.nome == 'validação almoxarife'"
+            (click)="save()"
+            class="float-right button button-blue button-border-all btn-almoxarife col-2">Validar
+    </button>
+    <button *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') && solicitacao?.status?.nome == 'aguardando produto'"
+            (click)="finish()" class="float-right button button-success button-border-all  btn-almoxarife col-2">
+        Finalizar
+    </button>
+    <button [routerLink]="['/solicitacao']" class="float-right button btn-almoxarife col-2">Voltar</button>
 
+</div>

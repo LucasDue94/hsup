@@ -9,10 +9,10 @@ const routes: Routes = [
     {
         path: 'perfil', canActivate: [AuthGuard], children: [
             {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: 'list', component: PerfilListComponent},
-            {path: 'create', component: PerfilPersistComponent},
-            {path: 'edit/:id', component: PerfilPersistComponent},
-            {path: 'show/:id', component: PerfilShowComponent}
+            {path: 'list', component: PerfilListComponent, data: {permissao: 'ROLE_PERFIL_INDEX'}},
+            {path: 'create', component: PerfilPersistComponent, data: {permissao: 'ROLE_PERFIL_SAVE'}},
+            {path: 'edit/:id', component: PerfilPersistComponent, data: {permissao: 'ROLE_PERFIL_UPDATE'}},
+            {path: 'show/:id', component: PerfilShowComponent, data: {permissao: 'ROLE_PERFIL_SHOW'}}
         ]
     }
 ];

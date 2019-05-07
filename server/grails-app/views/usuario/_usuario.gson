@@ -4,4 +4,4 @@ model {
 	Usuario usuario
 }
 
-json g.render(usuario, [resolveTemplate: false])
+json g.render(usuario, [expand: ['usuario','setor'], resolveTemplate: false])

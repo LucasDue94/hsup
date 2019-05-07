@@ -3,15 +3,26 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.services.Service
 
 @Service(Fabricante)
-interface FabricanteService {
+abstract class FabricanteService {
 
-    Fabricante get(Serializable id)
+    abstract Fabricante get(Serializable id)
 
-    List<Fabricante> list(Map args)
+    List<Fabricante> list(Map args, String termo) {
+        def criteria = Fabricante.createCriteria()
+        List<Fabricante> fabricanteList = (List<Fabricante>) criteria.list(args) {
+            if (termo != null && !termo.isEmpty()) {
+                or {
+                    ilike('fantasia', "%${termo}%")
+                }
+            }
+        }
 
-    Long count()
+        return fabricanteList
+    }
 
-    void delete(Serializable id)
+    abstract Long count()
 
-    Fabricante save(Fabricante fabricante)
+    abstract void delete(Serializable id)
+
+    abstract Fabricante save(Fabricante fabricante)
 }

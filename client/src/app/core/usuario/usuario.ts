@@ -1,12 +1,14 @@
 import { Perfil } from '../perfil/perfil';
 import { Permissoes } from '../permissoes/permissoes';
+import { Setor } from "../setor/setor";
 
 export class Usuario {
     id: number;
-
+    setor: Setor;
     password: string;
     username: string;
     name: string;
+    email: string;
     perfil: Perfil;
     authorities: Permissoes[];
     passwordExpired: boolean;

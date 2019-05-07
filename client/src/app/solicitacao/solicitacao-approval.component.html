@@ -1,0 +1,103 @@
+<div class="col-12 float-left" role="main">
+    <div class="col-4 form-group float-right">
+        <form [formGroup]="searchForm">
+            <input type="text"
+                   formControlName="searchControl"
+                   class="form-control filter-control col-5 float-right"
+                   placeholder="Buscar fabricante..." #field>
+        </form>
+    </div>
+    <hcal-table tableName="Solicitações {{ count }}">
+        <table class="table-default">
+            <tr class="trow-head">
+                <th class="thead-default" thead-content>Nº da solicitação</th>
+                <th class="thead-default" thead-content>Setor</th>
+                <th class="thead-default" thead-content>Solicitante</th>
+                <th class="thead-default" thead-content>
+                    <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+
+                <th class="thead-default" thead-content>Aprovada</th>
+            </tr>
+            <tr class="trow-content"
+                *ngFor="let solicitacao of this.solicitacaoList | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count}">
+                <td class="tdata-default">{{ solicitacao.id}}</td>
+                <td class="tdata-default">{{ solicitacao.setor.nome}}</td>
+                <td class="tdata-default">{{ solicitacao.responsavel.name}}</td>
+                <td class="tdata-default"><a>
+                    <fa-icon [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
+                </a></td>
+                <td class="tdata-default">
+                    <div [ngClass]="{'form-group col-12': true, 'checkbox-approval-container' :true, 'checkbox-approved-container': solicitacao.aprovada==true}">
+                        <input [ngClass]="{'checkbox-filled':true ,'approved-input': solicitacao.aprovada == true}"
+                               title="Status da aprovação" (click)="changeApprovalStatus(solicitacao)"
+                               id="approval{{solicitacao.id}}" [checked]="solicitacao.aprovada == true" type="checkbox"
+                               name="approval">
+                        <label [ngClass]="{'checkbox-label':true, 'approved-label': solicitacao.aprovada == true}"
+                               for="approval{{solicitacao.id}}"> {{getApprovalLabel(solicitacao.aprovada)}}</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="not-found" *ngIf="this.solicitacaoList.length == 0">
+            <h1 class="not-found-error">Nenhum registro encontrado</h1>
+        </div>
+    </hcal-table>
+    <pagination-controls *ngIf="this.count > 10"
+                         (pageChange)="this.pageNumber = $event" previousLabel="" nextLabel=""
+                         [directionLinks]="true"></pagination-controls>
+</div>
+
+
+<!--
+<h1 class="title-solicitacao color-gray">Solicitação de compra</h1>
+<hcal-tab>
+    <hcal-step></hcal-step>
+    <hcal-step></hcal-step>
+    <hcal-step></hcal-step>
+    <hcal-step></hcal-step>
+</hcal-tab>
+
+
+<main class="container-request container-md">
+    <section class="main-content col-12">
+        <header class="col-12 header-main-content">
+            <button (click)="setUrgency()" class="btn-urgency-container" #iconContainer>
+                <span>URGENTE</span>
+                <fa-icon id="iconContent" class="icon-watch" [icon]="['fas', 'stopwatch']"></fa-icon>
+            </button>
+            <h2 class="item-header">RESUMO DA COMPRA</h2>
+            <h2 id="qnt" class="item-header">QUANTIDADE: {{solicitacaoItems.length}}</h2>
+        </header>
+        <perfect-scrollbar class="scroll col-12">
+            <section class="col-12 container-solicitacaoItems" *ngFor="let item of solicitacaoItems; index as i">
+                <section class="labels">
+                    <div class="label">Item</div>
+                    <div class="label qnt-flex">Qnt</div>
+                    <div class="label">Fabricante</div>
+                    <div class="label">Fornecedor</div>
+                </section>
+
+                <section class="solicitacaoItems">
+                    <div class="item">{{i+1}} - {{item.descricao}}</div>
+                    <div class="item qnt-flex">{{item.qnt}}</div>
+                    <div class="item container-list">
+                        <perfect-scrollbar>
+                            <div class="item" *ngFor="let fa of item.fabricante">{{ fa }}</div>
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="item container-list">
+                        <perfect-scrollbar>
+                            <div class="item" *ngFor="let fo of item.fornecedor">{{ fo }}</div>
+                        </perfect-scrollbar>
+                    </div>
+                </section>
+            </section>
+        </perfect-scrollbar>
+    </section>
+</main>
+
+<div class="container-md">
+    <button class="float-right button button-blue col-2">Finalizar</button>
+    <button class="float-right button col-2">Voltar</button>
+</div>
+-->

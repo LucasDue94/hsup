@@ -1,0 +1,109 @@
+<div class="container-view col-10">
+    <header class="content-header col-11">
+        <div>
+            <h3 class="title-label">Nºda Solicitação: <b class="title-value color-danger">{{ solicitacao?.id }}</b></h3>
+            <h3 class="title-label">Solicitante: <b class="title-value">{{ solicitacao?.responsavel?.name }}</b></h3>
+            <h3 class="title-label">Setor: <b class="title-value">{{ solicitacao?.responsavel?.setor?.nome }} </b></h3>
+        </div>
+
+        <div>
+            <h3 class="title-label">Prioridade:
+                <b [ngClass]="[solicitacao?.urgente ? 'color-danger' : 'normal', 'title-value']">
+                    {{ solicitacao?.urgente ? 'Urgente' : 'Normal' }}
+                </b>
+            </h3>
+            <h3 class="title-label"> Data:
+                <b class="title-value">{{ solicitacao?.dateCreated | date:'dd/MM/yyyy' }} </b>
+            </h3>
+
+            <section *ngIf="!checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') ||
+                     isFinalStatus(solicitacao?.status?.nome) || solicitacao?.status?.nome == 'aguardando produto'">
+                <h3 class="title-label"> Status: <b>{{ solicitacao?.status?.nome }}</b></h3>
+            </section>
+
+            <section class="status-container"
+                     *ngIf="checkPermission('ROLE_SOLICITACAO_CHANGESTATUS') &&
+                      !isFinalStatus(solicitacao?.status?.nome) && solicitacao?.status?.nome != 'aguardando produto'">
+                <h3 class="title-label"> Status:</h3>
+                <select id="status-solicitacao" (change)="setStatus()">
+                    <option *ngFor="let stat of status" value="{{ stat?.id }}"
+                            [selected]="stat?.nome == solicitacao?.status?.nome"
+                            [hidden]="isFinalStatus(stat?.nome)">
+                        {{ stat?.nome }}
+                    </option>
+                </select>
+                <fa-icon (click)="changeStatus()" class="check-icon" [icon]="['fas','check-circle']"></fa-icon>
+            </section>
+        </div>
+    </header>
+    <hcal-modal *ngIf="message != null" [modalMessage]="message" [modalType]="'success'"></hcal-modal>
+    <main class="col-11 main-content">
+        <perfect-scrollbar class="scroll-solicitacao-show">
+            <section class="col-12 container-items" *ngFor="let solicitacaoItem of solicitacao?.itens; index as i">
+                <section class="labels">
+                    <div class="label">Item</div>
+                    <div class="label qnt-flex">Qnt</div>
+                    <div class="label">Fabricante</div>
+                    <div class="label">Fornecedor</div>
+                </section>
+
+                <section class="items-resumo">
+                    <div class="item-resumo"><b>{{i + 1}}</b> - {{ solicitacaoItem?.item?.descricao?.toUpperCase() }}
+                    </div>
+                    <div class="item-resumo qnt-flex">
+                        {{ solicitacaoItem?.quantidade + ' ' + solicitacaoItem?.unidadeMedida?.toUpperCase() }}
+                    </div>
+                    <div class="item-resumo container-list">
+                        <perfect-scrollbar>
+                            <div class="item" *ngFor="let fa of solicitacaoItem?.item?.fabricante">
+                                {{ fa.fantasia }}
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="item-resumo container-list">
+                        <perfect-scrollbar>
+                            <div *ngFor="let fo of solicitacaoItem?.item?.fornecedor">
+                                {{ fo.fantasia}}
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                </section>
+            </section>
+        </perfect-scrollbar>
+        <footer class="col-12">
+            <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
+            <div class="float-right">
+                <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
+
+                <button (click)="cancel()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && hasCancel() && solicitacao?.status?.nome != 'cancelada'"
+                        name="cancelar" class="button button-border-all button-light-danger">
+                    Cancelar
+                </button>
+
+                <button (click)="deny()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_DENY') &&
+                         solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
+                         solicitacao?.status?.nome == 'aguardando autorização'"
+                        class="button button-border-all button-light-danger">
+                    Recusar
+                </button>
+
+                <button (click)="approval()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_APPROVAL') &&
+                         solicitacao?.responsavel?.setor?.necessitaAutorizacao &&
+                         solicitacao?.responsavel?.setor?.gestor == currentUser.getItem('id') &&
+                        solicitacao?.status?.nome == 'aguardando autorização'"
+                        class="button button-border-all  button-success">
+                    Aprovar
+                </button>
+                <button (click)="finish()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') &&
+                        solicitacao?.status?.nome == 'aguardando produto'"
+                        class="button button-border-all  button-success">
+                    Finalizar
+                </button>
+            </div>
+        </footer>
+    </main>
+</div>

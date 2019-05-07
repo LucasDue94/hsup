@@ -9,10 +9,10 @@ const routes: Routes = [
     {
         path: 'fornecedor', canActivate: [AuthGuard], children: [
             {path: '', redirectTo: 'list', pathMatch: 'full'},
-            {path: 'list', component: FornecedorListComponent},
-            {path: 'create', component: FornecedorPersistComponent},
-            {path: 'edit/:id', component: FornecedorPersistComponent},
-            {path: 'show/:id', component: FornecedorShowComponent}
+            {path: 'list', component: FornecedorListComponent, data: {permissao: 'ROLE_FORNECEDOR_INDEX'}},
+            {path: 'create', component: FornecedorPersistComponent, data: {permissao: 'ROLE_FORNECEDOR_SAVE'}},
+            {path: 'edit/:id', component: FornecedorPersistComponent, data: {permissao: 'ROLE_FORNECEDOR_UPDATE'}},
+            {path: 'show/:id', component: FornecedorShowComponent, data: {permissao: 'ROLE_FORNECEDOR_SHOW'}}
         ]
     }
 ];

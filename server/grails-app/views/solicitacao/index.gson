@@ -1,0 +1,12 @@
+import br.com.hospitaldocoracaoal.hsup.Solicitacao
+
+model {
+    Iterable<Solicitacao> solicitacaoList
+    Integer solicitacaoCount
+}
+
+json {
+    solicitacao tmpl.solicitacao(solicitacaoList?: [])
+    total solicitacaoCount
+}
+

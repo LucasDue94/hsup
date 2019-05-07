@@ -1,16 +1,12 @@
 package br.com.hospitaldocoracaoal.hsup.integracao
 
 class Produto implements Serializable {
-    String codigo
-    String setor
+    String id
     String descricao
-    String estoque
-    String bloqueado
+    Float estoque
 
     static mapping = {
-        id generator: 'assigned', composite: ['codigo', 'setor']
+        id generator: 'assigned'
         version false
     }
-
-
 }

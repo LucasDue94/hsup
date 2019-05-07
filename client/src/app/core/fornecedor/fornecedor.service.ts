@@ -3,33 +3,49 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Fornecedor } from './fornecedor';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import "rxjs-compat/add/operator/map";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class FornecedorService {
 
-    private baseUrl = 'http://localhost:8080/';
+    private baseUrl = environment.serverUrl;
+    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
 
     constructor(private http: HttpClient) {
     }
 
-    list(max?: any, searchTerm?: string, offset?: any): Observable<Fornecedor[]> {
+    list(max?: any, offset?: any): Observable<Fornecedor[]> {
         let subject = new Subject<Fornecedor[]>();
-        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {params: {fantasia: searchTerm}})
+        this.http.get(this.baseUrl + `fornecedor?offset=${offset}&max=${max}`, {headers: this.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
-                subject.next(json['fornecedor'].map((item: any) => new Fornecedor(item)))
+                subject.next(json['fornecedor'].map((fornecedor: any) => new Fornecedor(fornecedor)))
+            });
+        return subject.asObservable();
+    }
+
+    search(searchTerm, offset?: any, limit?): Observable<any[]> {
+        if (searchTerm == '') return new Observable();
+        const url = this.baseUrl + 'fornecedor';
+        let subject = new Subject<Fornecedor[]>();
+        this.http.get(url + `?offset=${offset}`, {
+            headers: this.headers,
+            params: {termo: searchTerm}
+        }).map((r: HttpResponse<any>) => r)
+            .subscribe((json: any) => {
+                subject.next(json['fornecedor'].map((fornecedor: any) => new Fornecedor(fornecedor)))
             });
         return subject.asObservable();
     }
 
     count() {
         let quantity: number;
-        return this.http.get<Fornecedor[]>(this.baseUrl + 'fornecedor/')
+        return this.http.get<Fornecedor[]>(this.baseUrl + 'fornecedor/', {headers: this.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -38,19 +54,20 @@ export class FornecedorService {
             );
     }
 
-    get(id: number): Observable<Fornecedor> {
+    get(id: number): Observable<any> {
         let fornecedor;
-        return this.http.get(this.baseUrl + 'fornecedor/' + id)
+        return this.http.get(this.baseUrl + 'fornecedor/' + id, {headers: this.headers})
             .map((r: Response) => {
                 fornecedor = new Fornecedor(r);
                 return fornecedor
             });
     }
 
-    save(fornecedor: Fornecedor): Observable<Fornecedor> {
+    save(fornecedor: any): Observable<any> {
         const httpOptions = {
             headers: new HttpHeaders({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "X-Auth-Token": localStorage.getItem('token')
             })
         };
 

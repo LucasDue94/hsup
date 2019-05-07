@@ -1,5 +1,5 @@
 <hcal-login [title]="'HSUP'" [urlBackground]="'images/heart.png'">
-    <span class="error-message col-11" *ngIf="this.message != null">{{ this.message }}</span>
+    <span class="error-message col-11" *ngIf="this.message != null">{{ message }}</span>
     <form [formGroup]="form" class="col-12">
         <input type="text" formControlName="username" class="form-control col-12" name="username" placeholder="Login">
         <input type="password" formControlName="password" class="form-control col-12" name="password"

@@ -1,0 +1,66 @@
+<div class="col-12 float-left" role="main">
+
+    <div class="col-4 form-group float-right">
+        <form [formGroup]="searchForm">
+            <input type="text"
+                   formControlName="searchControl"
+                   class="form-control filter-control col-5 float-right"
+                   placeholder="Busque por: Responsável, Setor, Número, Status..." #field>
+        </form>
+    </div>
+    <hcal-table tableName="Solicitações - Quantidade {{ count }}">
+        <table class="table-default">
+            <tr class="trow-head">
+                <th class="thead-default" thead-content>nº</th>
+                <th class="thead-default" thead-content>responsável</th>
+                <th class="thead-default" thead-content>setor</th>
+                <th class="thead-default" thead-content>prioridade</th>
+                <th class="thead-default" thead-content>status</th>
+                <th class="thead-default" thead-content>data</th>
+                <th class="thead-default" thead-content colspan="2">
+                    <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+                </th>
+            </tr>
+            <tr class="trow-content" *ngFor="let solicitacao of solicitacaoList
+            | paginate: { currentPage: this.pageNumber, itemsPerPage: 10, totalItems: this.count }">
+                <td class="tdata-default">{{ solicitacao?.id }}</td>
+                <td class="tdata-default">{{ solicitacao?.responsavel?.name }}</td>
+                <td class="tdata-default">{{ solicitacao?.responsavel?.setor?.nome }}</td>
+                <td class="tdata-default" [ngClass]="solicitacao.urgente ? 'urgente-text' : ''">
+                    {{ solicitacao.urgente ? 'Urgente' : 'Normal' }}
+                </td>
+                <td class="tdata-default status-td">{{ solicitacao?.status?.nome}}</td>
+                <td class="tdata-default">{{ solicitacao?.dateCreated | date: 'd/MM/yyyy hh:mm' }}</td>
+                <td class="tdata-default">
+                    <a class="edit" [routerLink]="['/solicitacao', 'show', solicitacao.id]">
+                        <fa-icon tooltip="Visualizar" [theme]="'light'" [placement]="'top'"
+                                 [show-delay]="500"
+                                [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
+                    </a>
+                    <a class="edit"
+                       [routerLink]="['/solicitacao', 'associar', solicitacao.id]">
+                        <fa-icon tooltip="Associar" [theme]="'light'" [placement]="'top'"
+                        [show-delay]="500"
+                                [icon]="['fas', 'box-open']" class="color-blue icon-config"></fa-icon>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <div class="not-found" *ngIf="solicitacaoList.length == 0">
+            <h1 class="loading-style color-blue" *ngIf="loading">Carregando...</h1>
+            <h1 class="not-found-error" *ngIf="solicitacaoList.length == 0 && !loading ">
+                Nenhum dado encontrado
+            </h1>
+        </div>
+    </hcal-table>
+    <pagination-controls *ngIf="this.count > 10" (pageChange)="pageNumber = $event" previousLabel="" nextLabel=""
+                         [directionLinks]="true"></pagination-controls>
+</div>
+<div class="container-floating">
+    <div class="floating-button" tooltip="Novo" [theme]="'light'" [placement]="'top'"
+         [show-delay]="500">
+        <a [routerLink]="['/solicitacao','create']" class="create a-link-page">
+            <p class="plus">+</p>
+        </a>
+    </div>
+</div>

@@ -6,6 +6,8 @@ import { PerfilService } from '../core/perfil/perfil.service';
 import { Perfil } from '../core/perfil/perfil';
 import { PermissoesService } from '../core/permissoes/permissoes.service';
 import { Permissoes } from '../core/permissoes/permissoes';
+import { SetorService } from "../core/setor/setor.service";
+import { Setor } from "../core/setor/setor";
 
 @Component({
     selector: 'usuario-persist',
@@ -17,15 +19,19 @@ export class UsuarioPersistComponent implements OnInit {
     create = true;
     errors: any[];
     message;
+    aSetores = [];
     aPerfis = [];
     aPermissoes = [];
 
-    constructor(private route: ActivatedRoute, private usuarioService: UsuarioService, private router: Router, private perfilService: PerfilService, private permissoesService: PermissoesService) {
+    constructor(private route: ActivatedRoute, private usuarioService: UsuarioService,
+                private setorService: SetorService, private router: Router, private perfilService: PerfilService,
+                private permissoesService: PermissoesService) {
     }
 
     ngOnInit() {
         this.perfilList();
         this.permissoesList();
+        this.setorList();
 
         this.usuario.passwordExpired = false;
         this.usuario.accountLocked = false;
@@ -42,7 +48,7 @@ export class UsuarioPersistComponent implements OnInit {
     }
 
     perfilList () {
-        this.perfilService.list('', '', '').subscribe((perfilList: Perfil[]) => {
+        this.perfilService.list('', '').subscribe((perfilList: Perfil[]) => {
             perfilList.forEach(p => {
                 this.aPerfis.push(p)
             });
@@ -52,13 +58,23 @@ export class UsuarioPersistComponent implements OnInit {
     }
 
     permissoesList () {
-        this.permissoesService.list('', '', '').subscribe((permissoesList: Permissoes[]) => {
+        this.permissoesService.list('', '').subscribe((permissoesList: Permissoes[]) => {
             permissoesList.forEach(p => {
                 this.aPermissoes.push(p)
             });
         });
 
         return this.aPermissoes;
+    }
+
+    setorList () {
+        this.setorService.list('', '').subscribe((setorList: Setor[]) => {
+            setorList.forEach(setor => {
+                this.aSetores.push(setor)
+            });
+        });
+
+        return this.aSetores;
     }
 
 
@@ -69,6 +85,7 @@ export class UsuarioPersistComponent implements OnInit {
             } else {
                 this.message = "Cadastro realizado com sucesso!";
             }
+
 
             let r = this.router;
             setTimeout(function () {

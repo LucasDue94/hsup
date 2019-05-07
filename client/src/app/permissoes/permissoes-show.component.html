@@ -3,33 +3,20 @@
     <h4 class="title-back-link">Voltar</h4>
 </a>
 <div class="clearfix"></div>
-<h3 class="title-component">{{ this.constructor.name | slice : 0:-13 }} - Visualização</h3>
+<h3 class="title-component">{{ constructor.name | slice : 0:-13 }} - Visualização</h3>
 <div class="content col-2 show-container float-left">
     <div class="width-auto float-left bg-blue show-head">
         <span class="icon-show-head">
-            <fa-icon [icon]="['fas', 'industry']" class="float-left color-white"></fa-icon>
+            <fa-icon [icon]="['fas', 'key']" class="float-left color-white"></fa-icon>
         </span>
     </div>
     <div class="float-right col-6 show-content">
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">authority</span>
-                <span class="content-span-show offset-1">
+        <div class="col-12 float-left">
+            <span class="title-span-show">descrição</span>
+            <span class="content-span-show offset-1">
                 {{ permissoes.authority }}
             </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">id</span>
-                <span class="content-span-show offset-1">
-                {{ permissoes.id }}
-            </span>
-        
-            <div class="col-12 float-left">
-                <span class="title-span-show">version</span>
-                <span class="content-span-show offset-1">
-                {{ permissoes.version }}
-            </span>
-        
+        </div>
         <div class="clearfix"></div>
         <div class="col-12 float-left">
             <div class="btn-settings-show float-right">

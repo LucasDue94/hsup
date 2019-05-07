@@ -4,17 +4,15 @@ class Fornecedor {
 
     String fantasia
     String telefone
-    String endereco
     String email
     Boolean ativo
 
     static belongsTo = Item
 
     static constraints = {
-        fantasia nullable: false, blank: false
-        ativo nullable: false, blank: false
-        telefone nullable: false, blank: false
-        endereco nullable: false, blank: false
-        email nullable: false, blank: false
+        fantasia nullable: false, blank: false, unique: true
+        ativo nullable: false
+        telefone nullable: true
+        email nullable: true
     }
 }

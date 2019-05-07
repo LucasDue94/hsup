@@ -1,13 +1,11 @@
 export class Produto {
-    id: number;
-    estoque: number;
+    id: string;
     descricao: string;
-    setor: string;
-    bloqueado: string;
+    estoque: number;
 
-    constructor (object?: any) {
+    constructor(object?: any) {
         if (object) {
-            for (var prop in object) {
+            for (const prop of Object.keys(object)) {
                 this[prop] = object[prop];
             }
         }
