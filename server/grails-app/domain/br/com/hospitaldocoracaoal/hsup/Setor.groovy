@@ -8,7 +8,7 @@ class Setor {
 
     static constraints = {
         nome nullable: false, blank: false
-        necessitaAutorizacao nullable: false
+        necessitaAutorizacao nullable: true
         gestor nullable: true
     }
 }

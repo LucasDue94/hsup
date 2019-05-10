@@ -1,124 +1,141 @@
 ---
 grails:
-    profile: angular
-    codegen:
-        defaultPackage: br.com.hospitaldocoracaoal.hsup
-    gorm:
-        reactor:
-            # Whether to translate GORM events into Reactor events
-            # Disabled by default for performance reasons
-            events: false
-        autoFlush: true
+  profile: angular
+  codegen:
+    defaultPackage: br.com.hospitaldocoracaoal.hsup
+  gorm:
+    reactor:
+      # Whether to translate GORM events into Reactor events
+      # Disabled by default for performance reasons
+      events: false
+    autoFlush: true
 info:
-    app:
-        name: '@info.app.name@'
-        version: '@info.app.version@'
-        grailsVersion: '@info.app.grailsVersion@'
+  app:
+    name: '@info.app.name@'
+    version: '@info.app.version@'
+    grailsVersion: '@info.app.grailsVersion@'
 spring:
-    main:
-        banner-mode: "off"
-    groovy:
-        template:
-            check-template-location: false
+  main:
+    banner-mode: "off"
+  groovy:
+    template:
+      check-template-location: false
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
-    enabled: false
-    jmx:
-        enabled: true
+  enabled: false
+  jmx:
+    enabled: true
 
 ---
 grails:
-    mime:
-        disable:
-            accept:
-                header:
-                    userAgents:
-                    - Gecko
-                    - WebKit
-                    - Presto
-                    - Trident
-        types:
-            json:
-            - application/json
-            - text/json
-            hal:
-            - application/hal+json
-            - application/hal+xml
-            xml:
-            - text/xml
-            - application/xml
-            atom: application/atom+xml
-            css: text/css
-            csv: text/csv
-            js: text/javascript
-            rss: application/rss+xml
-            text: text/plain
-            all: '*/*'
-    urlmapping:
-        cache:
-            maxsize: 1000
-    controllers:
-        defaultScope: singleton
-    converters:
-        encoding: UTF-8
+  mime:
+    disable:
+      accept:
+        header:
+          userAgents:
+            - Gecko
+            - WebKit
+            - Presto
+            - Trident
+    types:
+      json:
+        - application/json
+        - text/json
+      hal:
+        - application/hal+json
+        - application/hal+xml
+      xml:
+        - text/xml
+        - application/xml
+      atom: application/atom+xml
+      css: text/css
+      csv: text/csv
+      js: text/javascript
+      rss: application/rss+xml
+      text: text/plain
+      all: '*/*'
+  urlmapping:
+    cache:
+      maxsize: 1000
+  controllers:
+    defaultScope: singleton
+  converters:
+    encoding: UTF-8
 
 
 environments:
-    production:
-        grails:
-            resources:
-                pattern: /**
+  production:
+    grails:
+      resources:
+        pattern: /**
 ---
 grails:
-    cors:
-        enabled: true
+  cors:
+    enabled: true
 ---
 hibernate:
-    cache:
-        queries: false
-        use_second_level_cache: false
-        use_query_cache: false
+  cache:
+    queries: false
+    use_second_level_cache: false
+    use_query_cache: false
 dataSource:
-    pooled: true
-    jmxExport: true
-    driverClassName: org.postgresql.Driver
-    dialect: org.hibernate.dialect.PostgreSQL94Dialect
-    username: hsup
-    password: 'hsup@123-hcor'
+  pooled: true
+  jmxExport: true
+  driverClassName: org.postgresql.Driver
+  dialect: org.hibernate.dialect.PostgreSQL94Dialect
+  username: hsup
+  password: 'hsup@123-hcor'
 
 environments:
-    development:
-        dataSource:
-            dbCreate: update
-            url: jdbc:postgresql://10.10.1.23:5432/hsup_dev
-            username: hsup
-            password: 'hsup@123-hcor'
-    test:
-        dataSource:
-            dbCreate: update
-            url: jdbc:postgresql://10.10.1.23:5432/hsup_dev
-            username: hsup
-            password: 'hsup@123-hcor'
-    production:
-        dataSource:
-            dbCreate: update
-            url: jdbc:postgresql://10.10.1.23:5432/hsup_dev
-            properties:
-                jmxEnabled: true
-                initialSize: 5
-                maxActive: 50
-                minIdle: 5
-                maxIdle: 25
-                maxWait: 10000
-                maxAge: 600000
-                timeBetweenEvictionRunsMillis: 5000
-                minEvictableIdleTimeMillis: 60000
-                validationQuery: SELECT 1
-                validationQueryTimeout: 3
-                validationInterval: 15000
-                testOnBorrow: true
-                testWhileIdle: true
-                testOnReturn: false
-                jdbcInterceptors: ConnectionState
-                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+  development:
+    dataSource:
+      dbCreate: update
+      url: jdbc:postgresql://10.10.1.23:5432/hsup_dev
+      username: hsup
+      password: 'hsup@123-hcor'
+  test:
+    dataSource:
+      dbCreate: update
+      url: jdbc:postgresql://10.10.1.23:5432/hsup_dev
+      username: hsup
+      password: 'hsup@123-hcor'
+  production:
+    dataSource:
+      dbCreate: update
+      url: jdbc:postgresql://10.10.1.23:5432/hsup_dev
+      properties:
+        jmxEnabled: true
+        initialSize: 5
+        maxActive: 50
+        minIdle: 5
+        maxIdle: 25
+        maxWait: 10000
+        maxAge: 600000
+        timeBetweenEvictionRunsMillis: 5000
+        minEvictableIdleTimeMillis: 60000
+        validationQuery: SELECT 1
+        validationQueryTimeout: 3
+        validationInterval: 15000
+        testOnBorrow: true
+        testWhileIdle: true
+        testOnReturn: false
+        jdbcInterceptors: ConnectionState
+        defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+---
+grails:
+  plugin:
+    springsecurity:
+      ldap:
+        context:
+          managerDn: 'CN=Hsup,OU=SISTEMAS,OU=USUARIOS,OU=HCAL,DC=hcal,DC=lan'
+          managerPassword: 'Musicacomidatrabalhoh$up'
+          server: 'ldap://10.10.1.10'
+        authorities:
+          ignorePartialResultException: true
+        search:
+          base: 'dc=hcal,dc=lan'
+          filter: 'sAMAccountName={0}'
+          searchSubtree: true
+        auth:
+          hideUserNotFoundExceptions: false
