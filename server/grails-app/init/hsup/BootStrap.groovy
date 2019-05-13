@@ -19,7 +19,6 @@ class BootStrap {
         final String ADMIN_SETOR = 'Administração'
         final String ADMIN_NAME = 'Administrador'
         final String ADMIN_EMAIL = 'ti@hospitaldocoracao-al.com.br'
-        final String ADMIN_PASSWORD = springSecurityService.encodePassword('admin')
 
         Perfil adminPerfil = Perfil.findOrCreateByName Perfil.ROLE_ADMIN
         adminPerfil.save()
@@ -39,7 +38,6 @@ class BootStrap {
 
         def user = [
                 username: ADMIN_USERNAME,
-                password: ADMIN_PASSWORD,
                 name    : ADMIN_NAME,
                 perfil  : adminPerfil,
                 setor   : setorAdmin,

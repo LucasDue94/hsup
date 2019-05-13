@@ -21,7 +21,7 @@ abstract class SolicitacaoService {
 
         criteria.list(args) {
             this.listCriteria(args, criteria, termo)
-        }
+        } as PagedResultList<Solicitacao>
     }
 
     abstract Long count()

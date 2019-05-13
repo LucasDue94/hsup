@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "./auth.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import {PerfilService} from "../core/perfil/perfil.service";
 
 @Component({
     selector: 'signin',
@@ -16,7 +17,7 @@ export class SigninComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
-        private router: Router) {
+        private router: Router, private perfilService: PerfilService) {
     }
 
     ngOnInit() {
@@ -38,6 +39,7 @@ export class SigninComponent implements OnInit {
                         localStorage.setItem('setor', resp['setor']);
                         localStorage.setItem('perfil', resp['perfil']);
                     }
+
                     this.router.navigate(['/index']);
                 },
                 err => {
@@ -46,5 +48,14 @@ export class SigninComponent implements OnInit {
         } else {
             this.message = "É necessário preencher os usuário e senha para entrar no sistema.";
         }
+
+        /*if (localStorage.getItem('perfil') != '') {
+            this.perfilService.search(localStorage.getItem('perfil'), 0).subscribe(p => {
+                console.log(p);
+                localStorage.setItem('roles', p['roles']);
+            })
+        }*/
+
+        console.log(localStorage);
     }
 }

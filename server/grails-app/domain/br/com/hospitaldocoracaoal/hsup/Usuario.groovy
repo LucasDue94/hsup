@@ -13,7 +13,6 @@ class Usuario implements Serializable {
 
     String username
     String name
-    String password
     String email
     Setor setor
     Perfil perfil
@@ -31,14 +30,9 @@ class Usuario implements Serializable {
     static transients = ['authorities']
 
     static constraints = {
-        password nullable: false, blank: false, password: true
         username nullable: false, blank: false, unique: true
         name nullable: false, blank: false, unique: true
         perfil nullable: false, blank: false
-        email nullable: false, blank: false
-    }
-
-    static mapping = {
-	    password column: '`password`'
+        email nullable: true, blank: false
     }
 }

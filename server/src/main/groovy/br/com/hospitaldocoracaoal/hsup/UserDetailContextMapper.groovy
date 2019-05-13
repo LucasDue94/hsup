@@ -1,5 +1,6 @@
 package br.com.hospitaldocoracaoal.hsup
 
+
 import org.springframework.ldap.core.DirContextAdapter
 import org.springframework.ldap.core.DirContextOperations
 import org.springframework.security.core.GrantedAuthority
