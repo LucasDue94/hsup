@@ -35,10 +35,12 @@ class UserDetailContextMapper implements UserDetailsContextMapper {
             ]
 
             Usuario usuario = Usuario.findOrCreateWhere usuarioMap
-            usuario.save()
+            usuario.save(flush: true)
 
-            authorities = usuario.authorities.collect {
-                new SimpleGrantedAuthority(it.authority)
+            def perfilAuthorities = Perfil.findAllByName perfil.name
+
+            authorities = perfilAuthorities.permissoes.collect {
+                new SimpleGrantedAuthority(it.authority as String)
             }
 
             new UserDetail(username, '', true, true, true, true, authorities, usuario?.id, usuario?.name, setorNome, perfil.name)
