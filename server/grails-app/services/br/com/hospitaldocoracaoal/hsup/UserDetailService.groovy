@@ -23,7 +23,7 @@ class UserDetailService implements GrailsUserDetailsService {
             new SimpleGrantedAuthority(it.authority)
         }
 
-        return new UserDetail(usuario.username, usuario.password, usuario.enabled, !usuario?.accountExpired,
+        return new UserDetail(usuario.username, '', usuario.enabled, !usuario?.accountExpired,
                 !usuario?.accountExpired, !usuario?.accountLocked, authorities ?: NO_ROLES, usuario.id,
                 usuario.name, usuario.setor?.nome, usuario.perfil?.name)
     }

@@ -4,6 +4,7 @@ package br.com.hospitaldocoracaoal.hsup
 import org.springframework.ldap.core.DirContextAdapter
 import org.springframework.ldap.core.DirContextOperations
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper
 
@@ -35,6 +36,10 @@ class UserDetailContextMapper implements UserDetailsContextMapper {
 
             Usuario usuario = Usuario.findOrCreateWhere usuarioMap
             usuario.save()
+
+            authorities = usuario.authorities.collect {
+                new SimpleGrantedAuthority(it.authority)
+            }
 
             new UserDetail(username, '', true, true, true, true, authorities, usuario?.id, usuario?.name, setorNome, perfil.name)
         }

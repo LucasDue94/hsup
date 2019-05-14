@@ -1,7 +1,7 @@
-import { Component, DoCheck } from '@angular/core';
-import { Authentic } from "./authentic";
-import { Router } from "@angular/router";
-import { AuthService } from "./signin/auth.service";
+import {Component, DoCheck} from '@angular/core';
+import {Authentic} from "./authentic";
+import {Router} from "@angular/router";
+import {AuthService} from "./signin/auth.service";
 
 @Component({
     selector: 'app',

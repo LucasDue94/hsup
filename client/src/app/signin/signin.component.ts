@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from "./auth.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from "./auth.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 import {PerfilService} from "../core/perfil/perfil.service";
 
 @Component({
@@ -48,14 +48,5 @@ export class SigninComponent implements OnInit {
         } else {
             this.message = "É necessário preencher os usuário e senha para entrar no sistema.";
         }
-
-        /*if (localStorage.getItem('perfil') != '') {
-            this.perfilService.search(localStorage.getItem('perfil'), 0).subscribe(p => {
-                console.log(p);
-                localStorage.setItem('roles', p['roles']);
-            })
-        }*/
-
-        console.log(localStorage);
     }
 }
