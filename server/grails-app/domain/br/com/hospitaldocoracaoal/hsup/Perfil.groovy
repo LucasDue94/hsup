@@ -11,6 +11,10 @@ class Perfil implements Serializable {
 
     private static final long serialVersionUID = 1
     public static final String ROLE_ADMIN = 'ADMIN'
+    public static final String ROLE_SOLICITANTE = 'SOLICITANTE'
+    public static final String ROLE_COMPRADOR = 'COMPRADOR'
+    public static final String ROLE_GESTOR = 'GESTOR'
+    public static final String ROLE_ALMOXARIFE = 'ALMOXARIFE'
 
     String name
 
@@ -23,5 +27,9 @@ class Perfil implements Serializable {
 
     static mapping = {
         cache true
+    }
+
+    static void criarPerfisPadroes() {
+
     }
 }

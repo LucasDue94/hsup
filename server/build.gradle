@@ -91,7 +91,7 @@ node {
 task buildClient(type: NpmTask, dependsOn: 'npmInstall') {
     group = 'build'
     description = 'Compile client side assets for production'
-    args = ['run', 'build']
+    args = ['run', 'build-prod']
 }
 
 war.dependsOn(buildClient)
