@@ -3,9 +3,10 @@ package br.com.hospitaldocoracaoal.hsup
 import grails.gorm.PagedResultList
 import grails.gorm.services.Service
 import grails.plugin.springsecurity.SpringSecurityService
-import grails.web.servlet.mvc.GrailsParameterMap
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
+
+import javax.swing.text.html.HTML
 
 @Service(Solicitacao)
 @Transactional
@@ -13,6 +14,8 @@ abstract class SolicitacaoService {
 
     @Autowired
     SpringSecurityService springSecurityService
+
+    FollowUpService followUpService
 
     abstract Solicitacao get(Serializable id)
 
@@ -114,6 +117,10 @@ abstract class SolicitacaoService {
 
             it.save()
         }
+
+        followUpService = new FollowUpService()
+        followUpService.enviarFollowUp(solicitacao,"A solicitacao foi realizada com sucesso!\n"+ "Número da solicitação:"+solicitacao.id
+                + "\nStatus:" + solicitacao.status.nome )
 
         createHistorico(solicitacao)
         solicitacao

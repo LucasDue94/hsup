@@ -62,15 +62,14 @@ class FollowUpService {
         this.transmissor = transmissor
     }
 
-    void enviarFollowUp(Solicitacao solicitacao) {
+    void enviarFollowUp(Solicitacao solicitacao, String conteudo) {
         if (solicitacao == null || solicitacao.id == null) throw new IllegalArgumentException('Solicitação deve ser não nula')
 
         final String titulo = "Solicitação de compra ${solicitacao.id}"
-        final String conteudo = "O status da sua solicitação mudou."
 
         new Mensagem(
                 solicitacao: solicitacao,
-                usuarios: [solicitacao.responsavel],
+                usuarios: [solicitacao.responsavel, solicitacao.responsavel.setor.gestor],
                 titulo: titulo,
                 conteudo: conteudo
         ).save flush: true
