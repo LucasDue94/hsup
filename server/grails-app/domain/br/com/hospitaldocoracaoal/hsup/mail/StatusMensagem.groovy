@@ -19,25 +19,25 @@ class StatusMensagem {
     }
 
     static criarStatusPadroes() {
-        if (exists(AGENDADA_ID) == null) {
+        if (!exists(AGENDADA_ID)) {
             StatusMensagem agendada = new StatusMensagem(nome: 'Agendada')
             agendada.id = AGENDADA_ID
             agendada.save()
         }
 
-        if (exists(ENVIADA_ID) == null) {
+        if (!exists(ENVIADA_ID)) {
             StatusMensagem enviada = new StatusMensagem(nome: 'Enviada')
             enviada.id = ENVIADA_ID
             enviada.save()
         }
 
-        if (exists(FALHA_ENVIAR_ID) == null) {
+        if (!exists(FALHA_ENVIAR_ID)) {
             StatusMensagem falha = new StatusMensagem(nome: 'Falha ao enviarFollowUp')
             falha.id = FALHA_ENVIAR_ID
             falha.save()
         }
 
-        if (exists(CANCELADA_ID) == null) {
+        if (!exists(CANCELADA_ID)) {
             StatusMensagem cancelada = new StatusMensagem(nome: 'Cancelada')
             cancelada.id = CANCELADA_ID
             cancelada.save()

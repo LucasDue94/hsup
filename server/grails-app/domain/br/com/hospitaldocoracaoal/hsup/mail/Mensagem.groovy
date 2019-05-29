@@ -16,7 +16,6 @@ class Mensagem {
     static constraints = {
         titulo nullable: false, blank: false
         conteudo nullable: false, blank: false
-
         usuarios minSize: 1
     }
 
