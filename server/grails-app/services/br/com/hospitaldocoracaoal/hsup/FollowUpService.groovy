@@ -62,10 +62,11 @@ class FollowUpService {
         this.transmissor = transmissor
     }
 
-    void enviarFollowUp(Solicitacao solicitacao, String conteudo) {
+    void enviarFollowUp(Solicitacao solicitacao) {
         if (solicitacao == null || solicitacao.id == null) throw new IllegalArgumentException('Solicitação deve ser não nula')
 
         final String titulo = "Solicitação de compra ${solicitacao.id}"
+        final String conteudo = "Atualizada para o status: ${solicitacao.status.nome}"
 
         new Mensagem(
                 solicitacao: solicitacao,
@@ -79,11 +80,12 @@ class FollowUpService {
     void porcessarMensagensAgendadas() {
         List<Mensagem> mensagens = Mensagem.findAllByStatus StatusMensagem.load(StatusMensagem.AGENDADA_ID)
 
-        if (mensagens.empty) return
-        if (this.transmissor == null) this.carregarConfiguracoes()
+        if (!mensagens.empty) {
+            if (this.transmissor == null) this.carregarConfiguracoes()
 
-        mensagens.each { m ->
-            new Thread(new TarefaEmail(this.transmissor, m.id)).start()
+            mensagens.each { m ->
+                new Thread(new TarefaEmail(this.transmissor, m.id)).start()
+            }
         }
     }
 }

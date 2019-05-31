@@ -24,4 +24,8 @@ class Mensagem {
             this.status = StatusMensagem.load StatusMensagem.AGENDADA_ID
         }
     }
+
+    void setStatus(StatusMensagem status) {
+        this.status = status
+    }
 }

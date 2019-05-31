@@ -119,8 +119,7 @@ abstract class SolicitacaoService {
         }
 
         followUpService = new FollowUpService()
-        followUpService.enviarFollowUp(solicitacao,"A solicitacao foi realizada com sucesso!\n"+ "Número da solicitação:"+solicitacao.id
-                + "\nStatus:" + solicitacao.status.nome )
+        followUpService.enviarFollowUp(solicitacao)
 
         createHistorico(solicitacao)
         solicitacao
