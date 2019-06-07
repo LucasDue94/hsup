@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { ActivatedRoute, Router } from '@angular/router';
-import { Solicitacao } from "../core/solicitacao/solicitacao";
-import { FormControl, FormGroup } from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Solicitacao} from "../core/solicitacao/solicitacao";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Authentic} from "../authentic";
+import {StatusSolicitacao} from "../core/statusSolicitacao/status-solicitacao";
 
 @Component({
     selector: 'solicitacao',
     templateUrl: './solicitacao-list.component.html',
     styleUrls: ['./solicitacao.component.scss']
 })
-export class SolicitacaoListComponent implements OnInit {
+export class SolicitacaoListComponent extends Authentic implements OnInit {
 
     solicitacaoList: Solicitacao[] = [];
 
@@ -24,6 +26,7 @@ export class SolicitacaoListComponent implements OnInit {
     loading: boolean;
 
     constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private router: Router) {
+        super();
         this._pageNumber = 0;
     }
 
@@ -75,5 +78,11 @@ export class SolicitacaoListComponent implements OnInit {
     set pageNumber(pageNumber: number) {
         this._pageNumber = pageNumber;
         this.changePageData();
+    }
+
+    checkPermission: (permission: string) => boolean;
+
+    checkStatus(solicitacao): boolean {
+        return (solicitacao.status.nome == "validação almoxarife" || solicitacao.status.nome == "aguardando produto" ||  solicitacao.status.nome == "recebido almoxarifado")
     }
 }

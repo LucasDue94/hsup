@@ -68,7 +68,7 @@ class TarefaEmail implements Runnable {
                             <td>${solicitacao.responsavel.name}</td>
                         </tr>
                         <tr>
-                            <td><b>Solicitada em:</b></td> +
+                            <td><b>Solicitada em:</b></td>
                             <td>${solicitacao.dateCreated.format('dd-MM-YYYY')}</td>
                         </tr>
                     </table>"""

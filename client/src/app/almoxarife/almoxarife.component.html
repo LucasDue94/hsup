@@ -97,10 +97,14 @@
             (click)="save()"
             class="float-right button button-blue button-border-all btn-almoxarife col-2">Validar
     </button>
-    <button *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') && solicitacao?.status?.nome == 'aguardando produto'"
-            (click)="finish()" class="float-right button button-success button-border-all  btn-almoxarife col-2">
-        Finalizar
+    <button *ngIf="checkPermission('ROLE_SOLICITACAO_RECEBIDOALMOXARIFE') && solicitacao?.status?.nome == 'aguardando produto'"
+            (click)="recebidoAlmoxarife()" class="float-right button button-success button-border-all  btn-almoxarife col-2">
+        Recebido
     </button>
-    <button [routerLink]="['/solicitacao']" class="float-right button btn-almoxarife col-2">Voltar</button>
+    <button *ngIf="checkPermission('ROLE_SOLICITACAO_RETIRADOALMOXARIFE') && solicitacao?.status?.nome == 'recebido almoxarifado'"
+            (click)="retiradoAlmoxarife()" class="float-right button button-success button-border-all  btn-almoxarife col-2">
+        Retirado
+    </button>
+    <button [routerLink]="['/solicitacao']" class="float-right button btn-almoxarife button-reverse button-back col-1">Voltar</button>
 
 </div>

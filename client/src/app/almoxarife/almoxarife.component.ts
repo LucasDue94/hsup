@@ -1,16 +1,16 @@
-import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormControl } from "@angular/forms";
+import {Component, HostListener, OnInit, Renderer2} from '@angular/core';
+import {FormBuilder, FormControl} from "@angular/forms";
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { AlmoxarifeService } from "../core/almoxarife/almoxarife.service";
-import { Produto } from "../core/produto/produto";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Solicitacao } from "../core/solicitacao/solicitacao";
-import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { ItemService } from "../core/item/item.service";
-import { Item } from "../core/item/item";
-import { Authentic } from "../authentic";
+import {AlmoxarifeService} from "../core/almoxarife/almoxarife.service";
+import {Produto} from "../core/produto/produto";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {Solicitacao} from "../core/solicitacao/solicitacao";
+import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
+import {ItemService} from "../core/item/item.service";
+import {Item} from "../core/item/item";
+import {Authentic} from "../authentic";
 
 @Component({
     selector: 'almoxarife',
@@ -217,15 +217,27 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
         }
     }
 
-    finish() {
-        this.solicitacaoService.finish(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+    retiradoAlmoxarife() {
+        this.solicitacaoService.retiradoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
             let r = this.router;
-            this.message = 'O solicitante retirou o produto.' + '/n' +  'Solicitação encerrada com sucesso!';
+            let br = '<br>';
+            this.message = "O produto foi retirado. Solicitação encerrada com sucesso!";
             setTimeout(function () {
                 r.navigate(['/solicitacao']);
             }, 2000);
         });
     }
+
+    recebidoAlmoxarife() {
+        this.solicitacaoService.recebidoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+            let r = this.router;
+            this.message = 'Seu produto chegou! Você já pode ir buscar no almoxarifado.';
+            setTimeout(function () {
+                r.navigate(['/solicitacao']);
+            }, 2000);
+        });
+    }
+
 
     checkPermission: (permission: string) => boolean;
 

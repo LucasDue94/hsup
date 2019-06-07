@@ -131,6 +131,7 @@ class StatusSolicitacao {
         aguardandoSolicitante.addToStatusPermitido(emCotacao)
 
         aguardandoProduto.addToStatusPermitido(recebidoAlmoxarifado)
+        recebidoAlmoxarifado.addToStatusPermitido(retirado)
 
         pendente.addToStatusPermitido(cancelada)
         pendente.addToStatusPermitido(emCotacao)

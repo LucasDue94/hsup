@@ -6,8 +6,6 @@ import grails.plugin.springsecurity.SpringSecurityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
-import javax.swing.text.html.HTML
-
 @Service(Solicitacao)
 @Transactional
 abstract class SolicitacaoService {
@@ -163,18 +161,23 @@ abstract class SolicitacaoService {
 
     }
 
-    void finish(Serializable id) {
-        def solicitacao = Solicitacao.get id
-        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
-        checkStatusPermitido solicitacao, status
-    }
-
     void validaAlmoxarife(Serializable id) {
         def solicitacao = Solicitacao.get id
         StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.PENDENTE_ID
         checkStatusPermitido solicitacao, status
     }
 
+     void recebidoAlmoxarife(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RECEBIDO_ALMOXARIFADO_ID
+        checkStatusPermitido solicitacao, status
+    }
+
+    void retiradoAlmoxarife(Serializable id) {
+        def solicitacao = Solicitacao.get id
+        StatusSolicitacao status = StatusSolicitacao.get StatusSolicitacao.RETIRADO_ID
+        checkStatusPermitido solicitacao, status
+    }
 
     void changeStatus(Serializable solicitacaoId, Serializable newStatusId) {
         def solicitacao = Solicitacao.get solicitacaoId
@@ -187,6 +190,8 @@ abstract class SolicitacaoService {
             if (it == status) {
                 solicitacao.status = it
                 solicitacao.save flush: true
+                followUpService = new FollowUpService()
+                followUpService.enviarFollowUp(solicitacao)
                 createHistorico(solicitacao)
             }
         }

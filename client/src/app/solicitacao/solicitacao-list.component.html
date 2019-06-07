@@ -35,13 +35,14 @@
                     <a class="edit" [routerLink]="['/solicitacao', 'show', solicitacao.id]">
                         <fa-icon tooltip="Visualizar" [theme]="'light'" [placement]="'top'"
                                  [show-delay]="500"
-                                [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
+                                 [icon]="['fas', 'eye']" class="color-blue icon-config"></fa-icon>
                     </a>
                     <a class="edit"
+                       *ngIf="checkPermission('ROLE_SOLICITACAO_VALIDAALMOXARIFE') && checkStatus(solicitacao)"
                        [routerLink]="['/solicitacao', 'associar', solicitacao.id]">
                         <fa-icon tooltip="Associar" [theme]="'light'" [placement]="'top'"
-                        [show-delay]="500"
-                                [icon]="['fas', 'box-open']" class="color-blue icon-config"></fa-icon>
+                                 [show-delay]="500"
+                                 [icon]="['fas', 'box-open']" class="color-blue icon-config"></fa-icon>
                     </a>
                 </td>
             </tr>

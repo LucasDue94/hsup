@@ -9,20 +9,20 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
-import { Router } from "@angular/router";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {Router} from "@angular/router";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
-import { ItemService } from "../core/item/item.service";
-import { FabricanteService } from "../core/fabricante/fabricante.service";
-import { FornecedorService } from "../core/fornecedor/fornecedor.service";
-import { Fornecedor } from "../core/fornecedor/fornecedor";
-import { Fabricante } from "../core/fabricante/fabricante";
-import { Item } from "../core/item/item";
-import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { UsuarioService } from "../core/usuario/usuario.service";
-import { Solicitacao } from "../core/solicitacao/solicitacao";
-import { SolicitacaoItem } from "../core/solicitacaoItem/solicitacao-item";
-import { StatusSolicitacaoService } from "../core/statusSolicitacao/status-solicitacao.service";
+import {ItemService} from "../core/item/item.service";
+import {FabricanteService} from "../core/fabricante/fabricante.service";
+import {FornecedorService} from "../core/fornecedor/fornecedor.service";
+import {Fornecedor} from "../core/fornecedor/fornecedor";
+import {Fabricante} from "../core/fabricante/fabricante";
+import {Item} from "../core/item/item";
+import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
+import {UsuarioService} from "../core/usuario/usuario.service";
+import {Solicitacao} from "../core/solicitacao/solicitacao";
+import {SolicitacaoItem} from "../core/solicitacaoItem/solicitacao-item";
+import {StatusSolicitacaoService} from "../core/statusSolicitacao/status-solicitacao.service";
 
 @Component({
     selector: 'solicitacao-create',
@@ -106,6 +106,9 @@ export class SolicitacaoCreateComponent implements OnInit {
     @HostListener('document:keydown', ['$event']) onKeydownHandler(e: KeyboardEvent) {
         if (e.key === 'F5' && !confirm('Você tem certeza que deseja atualizar a página? Seus dados serão apagados.'))
             return false;
+        if (e.key === 'Tab')
+            this.clearList(e)
+
     }
 
     @HostListener('document:click', ['$event']) removeField(event) {
@@ -115,12 +118,14 @@ export class SolicitacaoCreateComponent implements OnInit {
             let nextLength = 0;
             let nextSibling;
 
-            if (event.target.parentNode.previousSibling != null)
-                previousLength = event.target.parentNode.previousSibling.childNodes.length;
+            if (inputs.previousSibling != null)
+                previousLength = inputs.previousSibling.childNodes.length;
 
-            if (event.target.parentNode.nextSibling != null) nextSibling = event.target.parentNode.nextSibling.childNodes;
+            if (inputs.nextSibling != null) nextSibling = inputs.nextSibling.childNodes;
 
-            if (nextSibling != undefined && nextSibling.item(0).childNodes.length > 0) nextLength = nextSibling.length;
+            if (nextSibling != undefined && nextSibling.item(0) != null) {
+                if (nextSibling.item(0).childNodes.length > 0 && inputs.lenght > 1) nextLength = nextSibling.length;
+            }
 
             if (previousLength > 0 || nextLength > 0) {
                 this.removeFormGroup(inputs.getAttribute('ng-reflect-name'), +inputs.id.slice(-1));
@@ -132,7 +137,6 @@ export class SolicitacaoCreateComponent implements OnInit {
         const controlName = event.getAttribute('ng-reflect-name');
         const group = this.getFormGroup(event, type);
         const currentInput = this.getFormControl(group, controlName);
-
         if (currentInput == undefined) return false;
 
         let service = this.getService(type);
@@ -147,6 +151,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         } else {
             this.searchItems(currentInput, type, event);
         }
+
     }
 
     getService(name) {
@@ -160,7 +165,7 @@ export class SolicitacaoCreateComponent implements OnInit {
         }
     }
 
-    clearList() {
+    clearList(event) {
         this.findList.length = 0;
         const container = this.renderer.nextSibling(event.target);
         if (container != undefined) this.renderer.setProperty(container, 'hidden', true);
@@ -202,7 +207,6 @@ export class SolicitacaoCreateComponent implements OnInit {
                 if (key == 'email' || key == 'telefone') count += (group.value[key] == '' ? 1 : 0);
                 else count += (group.value[key] == '' ? 1 : 0)
             }
-
             return count;
         }, 0);
 
@@ -365,5 +369,4 @@ export class SolicitacaoCreateComponent implements OnInit {
             }, 3000);
         });
     }
-
 }

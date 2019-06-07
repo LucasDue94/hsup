@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Solicitacao } from "../core/solicitacao/solicitacao";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { SolicitacaoService } from "../core/solicitacao/solicitacao.service";
-import { FormControl, FormGroup } from "@angular/forms";
-import { StatusSolicitacaoService } from "../core/statusSolicitacao/status-solicitacao.service";
-import { StatusSolicitacao } from "../core/statusSolicitacao/status-solicitacao";
-import { Authentic } from "../authentic";
+import {Component, OnInit} from '@angular/core';
+import {Solicitacao} from "../core/solicitacao/solicitacao";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {SolicitacaoService} from "../core/solicitacao/solicitacao.service";
+import {FormControl, FormGroup} from "@angular/forms";
+import {StatusSolicitacaoService} from "../core/statusSolicitacao/status-solicitacao.service";
+import {StatusSolicitacao} from "../core/statusSolicitacao/status-solicitacao";
+import {Authentic} from "../authentic";
 
 @Component({
     selector: 'solicitacao-show',
@@ -44,8 +44,6 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         this.currentStatusId = null;
         this.currentUser = localStorage;
     }
-
-    comparar = (a, b) => a - b;
 
     cancel() {
         if (confirm(`Tem certeza que deseja cancelar esta solicitação?`)) {
@@ -96,16 +94,14 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
         }
     }
 
-    finish() {
-        if (confirm(`O produto chegou? Deseja confirmar o recebimento?`)) {
-            this.solicitacaoService.finish(this.solicitacao).subscribe(value => {
-                let r = this.router;
-                this.message = 'O produto foi recebido!';
-                setTimeout(function () {
-                    r.navigate(['/solicitacao', 'index']);
-                }, 2000);
-            });
-        }
+    retiradoAlmoxarife() {
+        this.solicitacaoService.retiradoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+            let r = this.router;
+            this.message = 'O solicitante retirou o produto.' + '\\/n' + 'Solicitação encerrada com sucesso!';
+            setTimeout(function () {
+                r.navigate(['/solicitacao']);
+            }, 2000);
+        });
     }
 
     setStatus = () => this.currentStatusId = event.target['value'];

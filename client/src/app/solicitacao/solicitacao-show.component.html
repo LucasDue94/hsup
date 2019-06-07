@@ -73,7 +73,7 @@
         <footer class="col-12">
             <div class="total-items float-left">Total de itens: <b>{{solicitacao?.itens?.length}}</b></div>
             <div class="float-right">
-                <button [routerLink]="['/solicitacao']" class="button button-blue button-reverse"> < Voltar</button>
+                <button [routerLink]="['/solicitacao']" class="button button-back">Voltar</button>
 
                 <button (click)="cancel()"
                         *ngIf="checkPermission('ROLE_SOLICITACAO_CANCEL') && hasCancel() && solicitacao?.status?.nome != 'cancelada'"
@@ -97,9 +97,9 @@
                         class="button button-border-all  button-success">
                     Aprovar
                 </button>
-                <button (click)="finish()"
-                        *ngIf="checkPermission('ROLE_SOLICITACAO_FINISH') &&
-                        solicitacao?.status?.nome == 'aguardando produto'"
+                <button (click)="retiradoAlmoxarife()"
+                        *ngIf="checkPermission('ROLE_SOLICITACAO_RETIRADOALMOXARIFE') &&
+                        solicitacao?.status?.nome == 'recebido'"
                         class="button button-border-all  button-success">
                     Finalizar
                 </button>

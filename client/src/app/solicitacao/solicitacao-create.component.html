@@ -15,7 +15,7 @@
                                 <div class="form-group col-7">
                                     <label class="request-label color-gray" for="descricao{{i}}">Descrição</label>
                                     <input autocomplete="off" type="text" id="descricao{{i}}"
-                                           (blur)="clearList($event.target)"
+                                           (blur)="clearList($event)"
                                            (focus)="find($event.target, 'item')"
                                            formControlName="descricao" name="descricao"
                                            class="col-12 request-input-line-bottom upper-text">
@@ -45,10 +45,10 @@
                                            class="col-12 request-input-line-bottom">
                                 </div>
                             </div>
-                            <button class="button-cancel" name="button-cancel">-</button>
+                            <button class="button-cancel" name="button-cancel"></button>
                         </section>
                         <button (click)="addField('item')" [name]="'add-button'"
-                                class="float-button-plus bg-blue color-white">+
+                                class="float-button-plus bg-blue color-white">
                         </button>
                     </div>
                 </perfect-scrollbar>
@@ -67,7 +67,7 @@
                                 <div class="form-group col-8">
                                     <label class="request-label color-gray" for="fantasia{{i}}">Fantasia</label>
                                     <input autocomplete="off" type="text" id="fantasia{{i}}"
-                                           (blur)="clearList($event.target)"
+                                           (blur)="clearList($event)"
                                            (focus)="find($event.target, 'fabricante')"
                                            formControlName="fantasia" name="fantasia"
                                            class="col-12 request-input-line-bottom upper-text">
@@ -96,10 +96,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <button class="button-cancel" name="button-cancel">-</button>
+                            <button class="button-cancel" name="button-cancel"></button>
                         </section>
                         <button (click)="addField('fabricante')" [name]="'add-button'"
-                                class="float-button-plus bg-blue color-white">+
+                                class="float-button-plus bg-blue color-white">
                         </button>
                     </div>
                 </perfect-scrollbar>
@@ -118,7 +118,7 @@
                                     <label class="request-label color-gray"
                                            for="fantasia_fornecedor{{i}}">Fantasia</label>
                                     <input autocomplete="off" type="text" id="fantasia_fornecedor{{i}}"
-                                           (blur)="clearList($event.target)"
+                                           (blur)="clearList($event)"
                                            (focus)="find($event.target, 'fornecedor')"
                                            formControlName="fantasia" name="fantasia_fornecedor"
                                            class="col-12 request-input-line-bottom upper-text">
@@ -160,9 +160,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <button class="button-cancel" name="button-cancel">-</button>
+                            <button class="button-cancel" name="button-cancel"></button>
                         </section>
-                        <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">+
+                        <button (click)="addField('fornecedor')" class="float-button-plus bg-blue color-white">
                         </button>
                     </div>
                 </perfect-scrollbar>

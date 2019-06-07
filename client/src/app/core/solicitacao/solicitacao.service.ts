@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
-import { Observable, Subject } from "rxjs";
-import { Solicitacao } from './solicitacao';
-import { Response } from "@angular/http";
+import {Injectable} from '@angular/core';
+import {environment} from '../../../environments/environment';
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {Observable, Subject} from "rxjs";
+import {Solicitacao} from './solicitacao';
+import {Response} from "@angular/http";
 
 @Injectable({
     providedIn: 'root'
@@ -134,10 +134,23 @@ export class SolicitacaoService {
         }
     }
 
-    finish(solicitacao: Solicitacao): Observable<Solicitacao> {
+    retiradoAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
         if (solicitacao.id) {
-            const url = this.baseUrl + 'solicitacao/finish/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao.id, {headers: this.httpOptions.headers, responseType: 'json'});
+            const url = this.baseUrl + 'solicitacao/retiradoAlmoxarife/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
+        }
+    }
+
+    recebidoAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/recebidoAlmoxarife/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         }
     }
 

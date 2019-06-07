@@ -41,8 +41,8 @@
 }
 
 .container-request {
-  height: 60%;
-  min-height: 420px;
+  height: 65%;
+  min-height: 350px;
 
   & {
     color: $brown;
@@ -239,6 +239,11 @@
 .btn-almoxarife {
   margin-top: 10px;
   margin-left: 5px;
+}
+
+.btn-voltar{
+  background-color: $mediumGray;
+  color: $white;
 }
 
 .scroll {

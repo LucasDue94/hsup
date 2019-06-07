@@ -130,7 +130,7 @@ class SolicitacaoController {
             return
         }
 
-        solicitacaoService.finish(id)
+        solicitacaoService.retiradoAlmoxarife(id)
 
         render status: NO_CONTENT
     }
@@ -146,6 +146,31 @@ class SolicitacaoController {
 
         render status: NO_CONTENT
     }
+
+    @Secured('ROLE_SOLICITACAO_RECEBIDOALMOXARIFE')
+    def recebidoAlmoxarife(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.recebidoAlmoxarife(id)
+
+        render status: NO_CONTENT
+    }
+
+    @Secured('ROLE_SOLICITACAO_RETIRADOALMOXARIFE')
+    def retiradoAlmoxarife(Long id) {
+        if (id == null) {
+            render status: NOT_FOUND
+            return
+        }
+
+        solicitacaoService.retiradoAlmoxarife(id)
+
+        render status: NO_CONTENT
+    }
+
 
     @Secured('ROLE_SOLICITACAO_CHANGESTATUS')
     def changeStatus() {
