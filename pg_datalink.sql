@@ -1,7 +1,7 @@
 CREATE EXTENSION oracle_fdw;
 CREATE SERVER wpd FOREIGN DATA WRAPPER oracle_fdw OPTIONS (dbserver '//HCOR-BD01.HCOR.LOCAL/PROD');
 GRANT USAGE ON FOREIGN SERVER wpd TO hsup;
-CREATE USER MAPPING FOR hsup SERVER wpd OPTIONS (user 'financeiro', password 'financeiro')
+CREATE USER MAPPING FOR hsup SERVER wpd OPTIONS (user 'financeiro', password 'financeiro');
 
 DROP FOREIGN TABLE IF EXISTS produto;
 CREATE FOREIGN TABLE produto (

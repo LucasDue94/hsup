@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
-import { Produto } from "../produto/produto";
-import { Observable, Subject } from "rxjs";
-import { Fabricante } from "../fabricante/fabricante";
-import { Response } from "@angular/http";
-import { Solicitacao } from "../solicitacao/solicitacao";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {Produto} from "../produto/produto";
+import {Observable, Subject} from "rxjs";
+import {Fabricante} from "../fabricante/fabricante";
+import {Response} from "@angular/http";
+import {Solicitacao} from "../solicitacao/solicitacao";
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,13 @@ export class AlmoxarifeService {
     constructor(private http: HttpClient) {
     }
 
-    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
+    httpOptions = {
+        headers: new HttpHeaders({
+            "Cache-Control": "no-cache",
+            "Content-Type": "application/json",
+            "X-Auth-Token": localStorage.getItem('token')
+        })
+    };
 
     private baseUrl = environment.serverUrl;
 
@@ -24,7 +30,7 @@ export class AlmoxarifeService {
         let subject = new Subject<Produto[]>();
         const url = this.baseUrl + 'produto';
         this.http.get(url + `?offset=${offset}`, {
-            headers: this.headers,
+            headers: this.httpOptions.headers,
             params: {termo: produtoWpd}
         }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
@@ -36,7 +42,7 @@ export class AlmoxarifeService {
     countList(value, max?) {
         let count: number;
         return this.http.get<Produto[]>(this.baseUrl + `produto?max=${max}`, {
-            headers: this.headers,
+            headers: this.httpOptions.headers,
             params: {termo: value}
         })
             .map(
@@ -49,7 +55,7 @@ export class AlmoxarifeService {
 
     get(id: number): Observable<Solicitacao> {
         let solicitacao;
-        return this.http.get(this.baseUrl + 'solicitacao/' + id, {headers: this.headers})
+        return this.http.get(this.baseUrl + 'solicitacao/' + id, {headers: this.httpOptions.headers})
             .map((r: Response) => {
                 solicitacao = new Solicitacao(r);
                 return solicitacao
@@ -58,7 +64,7 @@ export class AlmoxarifeService {
 
     count() {
         let count: number;
-        return this.http.get<Produto[]>(this.baseUrl + 'produto/', {headers: this.headers})
+        return this.http.get<Produto[]>(this.baseUrl + 'produto/', {headers: this.httpOptions.headers})
             .map(
                 data => {
                     count = data['total'];
@@ -68,16 +74,32 @@ export class AlmoxarifeService {
     }
 
     validaAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "X-Auth-Token": localStorage.getItem('token')
-            })
-        };
-
         if (solicitacao.id) {
             const url = this.baseUrl + 'solicitacao/validaAlmoxarife/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao, {headers: httpOptions.headers, responseType: 'json'});
+            return this.http.put<Solicitacao>(url, solicitacao, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
+        }
+    }
+
+    retiradoAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/retiradoAlmoxarife/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
+        }
+    }
+
+    recebidoAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
+        if (solicitacao.id) {
+            const url = this.baseUrl + 'solicitacao/recebidoAlmoxarife/' + solicitacao.id;
+            return this.http.put<Solicitacao>(url, solicitacao.id, {
+                headers: this.httpOptions.headers,
+                responseType: 'json'
+            });
         }
     }
 

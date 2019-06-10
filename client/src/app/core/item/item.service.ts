@@ -81,7 +81,8 @@ export class ItemService {
     }
 
     destroy(item: Item): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'item/' + item.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'item/' + item.id, {headers: this.headers}).map((res: Response) => res.ok).catch(
+            () => {
             return Observable.of(false);
         });
     }

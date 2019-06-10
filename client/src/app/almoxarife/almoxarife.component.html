@@ -94,7 +94,7 @@
 </main>
 <div class="col-11">
     <button *ngIf="checkPermission('ROLE_SOLICITACAO_VALIDAALMOXARIFE') && solicitacao?.status?.nome == 'validação almoxarife'"
-            (click)="save()"
+            (click)="validaAlmoxarife()"
             class="float-right button button-blue button-border-all btn-almoxarife col-2">Validar
     </button>
     <button *ngIf="checkPermission('ROLE_SOLICITACAO_RECEBIDOALMOXARIFE') && solicitacao?.status?.nome == 'aguardando produto'"

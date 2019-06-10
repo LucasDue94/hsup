@@ -205,7 +205,10 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
                 }
             })
         });
+    }
 
+    validaAlmoxarife() {
+        this.save();
         if (this.errors != undefined && this.errors.length == 0) {
             this.almoxarifeService.validaAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
                 let r = this.router;
@@ -218,27 +221,30 @@ export class AlmoxarifeComponent extends Authentic implements OnInit {
     }
 
     retiradoAlmoxarife() {
-        this.solicitacaoService.retiradoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
-            let r = this.router;
-            let br = '<br>';
-            this.message = "O produto foi retirado. Solicitação encerrada com sucesso!";
-            setTimeout(function () {
-                r.navigate(['/solicitacao']);
-            }, 2000);
-        });
+        this.save();
+        if (this.errors != undefined && this.errors.length == 0) {
+            this.almoxarifeService.retiradoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+                let r = this.router;
+                this.message = "O produto foi retirado. Solicitação encerrada com sucesso!";
+                setTimeout(function () {
+                    r.navigate(['/solicitacao']);
+                }, 2000);
+            });
+        }
     }
 
     recebidoAlmoxarife() {
-        this.solicitacaoService.recebidoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
-            let r = this.router;
-            this.message = 'Seu produto chegou! Você já pode ir buscar no almoxarifado.';
-            setTimeout(function () {
-                r.navigate(['/solicitacao']);
-            }, 2000);
-        });
+        this.save();
+        if (this.errors != undefined && this.errors.length == 0) {
+            this.almoxarifeService.recebidoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+                let r = this.router;
+                this.message = 'Seu produto chegou! Você já pode ir buscar no almoxarifado.';
+                setTimeout(function () {
+                    r.navigate(['/solicitacao']);
+                }, 2000);
+            });
+        }
     }
 
-
     checkPermission: (permission: string) => boolean;
-
 }

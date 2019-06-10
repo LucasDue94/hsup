@@ -11,7 +11,6 @@ import {Response} from "@angular/http";
 export class SolicitacaoService {
 
     private baseUrl = environment.serverUrl;
-    headers = new HttpHeaders({'X-Auth-Token': localStorage.getItem('token')});
     httpOptions = {
         headers: new HttpHeaders({
             "Cache-Control": "no-cache",
@@ -25,7 +24,7 @@ export class SolicitacaoService {
 
     list(max?: any, offset?: any): Observable<Solicitacao[]> {
         let subject = new Subject<Solicitacao[]>();
-        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.headers})
+        this.http.get(this.baseUrl + `solicitacao?offset=${offset}&max=${max}`, {headers: this.httpOptions.headers})
             .map((r: Response) => r)
             .subscribe((json: any) => {
                 subject.next(json['solicitacao'].map((solicitacao: any) => new Solicitacao(solicitacao)))
@@ -38,7 +37,7 @@ export class SolicitacaoService {
         const url = this.baseUrl + 'solicitacao';
         let subject = new Subject<Solicitacao[]>();
         this.http.get(url + `?offset=${offset}`, {
-            headers: this.headers,
+            headers: this.httpOptions.headers,
             params: {termo: searchTerm}
         }).map((r: HttpResponse<any>) => r)
             .subscribe((json: any) => {
@@ -49,7 +48,7 @@ export class SolicitacaoService {
 
     count() {
         let quantity: number;
-        return this.http.get<Solicitacao[]>(this.baseUrl + 'solicitacao/', {headers: this.headers})
+        return this.http.get<Solicitacao[]>(this.baseUrl + 'solicitacao/', {headers: this.httpOptions.headers})
             .map(
                 data => {
                     quantity = data['total'];
@@ -60,7 +59,7 @@ export class SolicitacaoService {
 
     countAlmoxarife() {
         let quantity: number;
-        return this.http.get<Solicitacao[]>(this.baseUrl + 'solicitacao/listAlmoxarife/', {headers: this.headers})
+        return this.http.get<Solicitacao[]>(this.baseUrl + 'solicitacao/listAlmoxarife/', {headers: this.httpOptions.headers})
             .map(
                 data => {
                     quantity = data['solicitacaoCount'];
@@ -71,7 +70,7 @@ export class SolicitacaoService {
 
     get(id: number): Observable<Solicitacao> {
         let solicitacao;
-        return this.http.get(this.baseUrl + 'solicitacao/' + id, {headers: this.headers})
+        return this.http.get(this.baseUrl + 'solicitacao/' + id, {headers: this.httpOptions.headers})
             .map((r: Response) => {
                 solicitacao = new Solicitacao(r);
                 return solicitacao
@@ -134,28 +133,9 @@ export class SolicitacaoService {
         }
     }
 
-    retiradoAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
-        if (solicitacao.id) {
-            const url = this.baseUrl + 'solicitacao/retiradoAlmoxarife/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao.id, {
-                headers: this.httpOptions.headers,
-                responseType: 'json'
-            });
-        }
-    }
-
-    recebidoAlmoxarife(solicitacao: Solicitacao): Observable<Solicitacao> {
-        if (solicitacao.id) {
-            const url = this.baseUrl + 'solicitacao/recebidoAlmoxarife/' + solicitacao.id;
-            return this.http.put<Solicitacao>(url, solicitacao.id, {
-                headers: this.httpOptions.headers,
-                responseType: 'json'
-            });
-        }
-    }
 
     destroy(solicitacao: Solicitacao): Observable<boolean> {
-        return this.http.delete(this.baseUrl + 'solicitacao/' + solicitacao.id, {headers: this.headers}).map((res: Response) => res.ok).catch(() => {
+        return this.http.delete(this.baseUrl + 'solicitacao/' + solicitacao.id, {headers: this.httpOptions.headers}).map((res: Response) => res.ok).catch(() => {
             return Observable.of(false);
         });
     }

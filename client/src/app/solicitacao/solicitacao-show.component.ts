@@ -6,6 +6,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {StatusSolicitacaoService} from "../core/statusSolicitacao/status-solicitacao.service";
 import {StatusSolicitacao} from "../core/statusSolicitacao/status-solicitacao";
 import {Authentic} from "../authentic";
+import {AlmoxarifeService} from "../core/almoxarife/almoxarife.service";
 
 @Component({
     selector: 'solicitacao-show',
@@ -22,7 +23,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     currentStatusId;
     currentUser;
 
-    constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService,
+    constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private almoxarifeService: AlmoxarifeService,
                 private statusSolicitacaoService: StatusSolicitacaoService, private router: Router) {
         super();
     }
@@ -95,7 +96,7 @@ export class SolicitacaoShowComponent extends Authentic implements OnInit {
     }
 
     retiradoAlmoxarife() {
-        this.solicitacaoService.retiradoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
+        this.almoxarifeService.retiradoAlmoxarife(this.solicitacao).subscribe((solicitacao: Solicitacao) => {
             let r = this.router;
             this.message = 'O solicitante retirou o produto.' + '\\/n' + 'Solicitação encerrada com sucesso!';
             setTimeout(function () {
